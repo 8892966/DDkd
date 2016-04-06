@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-        <activity android:name=".ZhuCe1Activity" >
+        <activity android:name=".MainActivity_main" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,6 +23,18 @@
         <activity android:name=".ZhuCe2Activity"/>
         <activity android:name=".ZhuCe3Activity"/>
         <activity android:name=".ZhuCe4Activity"/>
+        <activity
+            android:name=".details"/>
+        <activity
+            android:name=".MainActivity_setting"/>
+        <activity
+            android:name=".MainActivity_userinfo"/>
+        <activity
+            android:name=".MainActivity_getmoney"/>
+        <activity
+            android:name=".MainActivity_balance"/>
+        <activity android:name=".ZhuCe1Activity"/>
+
     </application>
 
 </manifest>

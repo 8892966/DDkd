@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<RelativeLayout
+    android:id="@+id/rl_head"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:background="@color/head"
+    >
+    <TextView
+        style="@style/head_button_back"
+        android:id="@+id/tv_head_fanghui"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    <TextView
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="注册"
+        android:textSize="20sp"
+        />
+</RelativeLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/ll_dian"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_head"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/round_un_choosed" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/round_choosed" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/round_choosed" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/round_choosed" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:layout_below="@id/ll_dian"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/biankuan" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_dian"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            style="@style/zhuche_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="验证手机"
+            android:textSize="12sp" />
+
+        <TextView
+            style="@style/zhuche_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设置密码" />
+
+        <TextView
+            style="@style/zhuche_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="基本信息" />
+
+        <TextView
+            style="@style/zhuche_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="上传资料" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_shuru"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:padding="15dp">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/biankuan" />
+
+        <LinearLayout
+            android:id="@+id/ll_phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_phone_number"
+                style="@style/zhuche1_text_shuru"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="手机号" />
+
+            <EditText
+                android:inputType="phone"
+                android:id="@+id/et_phone_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="请输入手机号码"
+                android:singleLine="true" />
+
+            <TextView
+                android:id="@+id/tv_button_yanzhengma"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/dingdang_item_button"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="5dp"
+                android:text="验证码"
+                android:textColor="#ffffff" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_centerInParent="true"
+            android:background="@color/biankuan" />
+
+        <LinearLayout
+            android:id="@+id/ll_yanzhengma"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_phone_number"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_yanzhengma"
+                style="@style/zhuche1_text_shuru"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="验证码" />
+
+            <EditText
+                android:id="@+id/et_yanzhengma"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="请输入短信验证码"
+                android:singleLine="true"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/ll_yanzhengma"
+            android:background="@color/biankuan" />
+    </RelativeLayout>
+
+    <CheckBox
+        android:checked="true"
+        android:id="@+id/cb_xieyi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_shuru"
+        android:layout_margin="10dp"
+        android:text="我同意《DD快递服务协议》" />
+    <TextView
+        android:clickable="true"
+        android:focusable="true"
+        android:id="@+id/tv_button_yuedu"
+        android:layout_marginBottom="10dp"
+        android:layout_alignBottom="@id/cb_xieyi"
+        android:layout_toRightOf="@id/cb_xieyi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dingdang_item_button"
+        android:text="阅读协议"
+        />
+
+    <TextView
+        style="@style/zhuce_button_next"
+        android:id="@+id/tv_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="下一步"
+        android:textColor="#ffffff" />
+</RelativeLayout>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/gradient_box_pre">
+    <TextView
+        android:id="@+id/tv_dingdang_id"
+        style="@style/textstyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="订单：1110446" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dip"
+        android:layout_below="@id/tv_dingdang_id"
+        android:background="@color/biankuan" />
+
+    <TextView
+        android:id="@+id/tv_dingdang_kuaidi_dizhi"
+        style="@style/textstyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_dingdang_id"
+        android:text="工业楼   圆通快递" />
+
+    <TextView
+        android:id="@+id/tv_dingdang_kehu"
+        style="@style/textstyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_dingdang_kuaidi_dizhi"
+        android:text="郑浩勇   13750506897" />
+
+    <TextView
+        android:id="@+id/tv_dingdang_nudi_dizhi"
+        style="@style/textstyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_dingdang_kehu"
+        android:text="南区教师公寓6栋201" />
+
+    <TextView
+        android:id="@+id/tv_dingdang_liuyan"
+        style="@style/textstyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_dingdang_nudi_dizhi"
+        android:text="留言：" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dip"
+        android:layout_below="@id/tv_dingdang_liuyan"
+        android:background="@color/biankuan" />
+
+    <RelativeLayout
+        android:id="@+id/rl_dingdang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_dingdang_liuyan"
+        android:gravity="center_vertical"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/tv_dingdang_shijain"
+            style="@style/textstyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="04月01日    17:00"
+            android:textSize="12dp" />
+
+        <TextView
+            style="@style/dingdang_item_buttonstyle"
+            android:id="@+id/tv_dingdang_tuidang"
+            android:layout_width="60dip"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:text="退单" />
+
+        <TextView
+            style="@style/dingdang_item_buttonstyle"
+            android:id="@+id/tv_dingdang_yina"
+            android:layout_width="60dip"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@id/tv_dingdang_tuidang"
+            android:text="已拿件" />
+    </RelativeLayout>
+</RelativeLayout>

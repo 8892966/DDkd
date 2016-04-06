@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_head"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/head">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/head_fanghui" />
+
+        <TextView
+            android:clickable="true"
+            android:focusable="true"
+            android:id="@+id/tv_to_dingdang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/head_fanghui" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="DD快递"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_xianshi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_head"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/jiedanxianshi_bg"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/tv_xiuxi_huodong_now_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="接单：18单"
+            android:textColor="#000000"
+            android:textSize="15sp" />
+
+        <RatingBar
+            android:rating="3"
+            android:id="@+id/pb_star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/tv_xiuxi_huodong_now_number" />
+        <TextView
+            android:id="@+id/tv_star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/pb_star"
+            android:text="4.0"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/tv_sum_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/tv_star"
+            android:text="107单"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/tv_xiuxi_huodong_yesterday_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_xiuxi_huodong_now_number"
+            android:layout_marginTop="10dp"
+            android:text="昨天订单：10单"
+            android:textColor="#000000"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/tv_xiuxi_huodong_yesterday_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_xiuxi_huodong_now_number"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/tv_xiuxi_huodong_yesterday_number"
+            android:text="昨天营业额：987元"
+            android:textColor="#000000"
+            android:textSize="10sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_jiedang"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_xianshi"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="2dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_ddzhinang"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/jiedang_button"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="DD指南" />
+
+        <TextView
+            android:id="@+id/tv_jianlihuodong"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/jiedang_button"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="奖励活动" />
+    </LinearLayout>
+
+    <TextView
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:background="@drawable/yuan_color_gray"
+        android:id="@+id/but_jiedang"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="45dp"
+        android:text="听单" />
+
+    <ListView
+        android:id="@+id/lv_jiedang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/but_jiedang"
+        android:layout_below="@id/ll_jiedang"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"></ListView>
+</RelativeLayout>

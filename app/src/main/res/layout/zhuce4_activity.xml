@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_head"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/head"
+        >
+        <TextView
+            style="@style/head_button_back"
+            android:id="@+id/tv_head_fanghui"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="注册"
+            android:textSize="20sp"
+            />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/ll_dian"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_head"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/round_choosed" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/round_choosed" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/round_choosed" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/round_un_choosed" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:layout_below="@id/ll_dian"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/biankuan" />
+
+    <LinearLayout
+        android:id="@+id/ll_4text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_dian"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            style="@style/zhuche_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="验证手机"
+            android:textSize="12dp" />
+
+        <TextView
+            style="@style/zhuche_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设置密码" />
+
+        <TextView
+            style="@style/zhuche_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="基本信息" />
+
+        <TextView
+            style="@style/zhuche_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="上传资料" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_button_next"
+        style="@style/zhuce_button_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="提交审核"
+        android:textColor="#ffffff" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/tv_button_next"
+        android:layout_below="@id/ll_4text"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/jiedang_button_normal">
+
+                <TextView
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:id="@+id/tv_button1_paizhao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="100dp"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="点击上传\n身份证\n正面" />
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/biankuan" />
+
+                <ImageView
+                    android:id="@+id/iv_zhuce4_zhaopian1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/jiedang_button_normal">
+
+                <TextView
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:id="@+id/tv_button2_paizhao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="100dp"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="点击上传\n身份证\n反面" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/biankuan" />
+
+                <ImageView
+                    android:id="@+id/iv_zhuce4_zhaopian2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/jiedang_button_normal">
+                <TextView
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:id="@+id/tv_button3_paizhao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="100dp"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="点击上传\n学生证\n或一卡通" />
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/biankuan" />
+                <ImageView
+                    android:id="@+id/iv_zhuce4_zhaopian3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

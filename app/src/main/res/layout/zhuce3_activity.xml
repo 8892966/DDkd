@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_head"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/head"
+        >
+        <TextView
+            style="@style/head_button_back"
+            android:id="@+id/tv_head_fanghui"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="注册"
+            android:textSize="20sp"
+            />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/ll_dian"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_head"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/round_choosed" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/round_choosed" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/round_un_choosed" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/round_choosed" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:layout_below="@id/ll_dian"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/biankuan" />
+
+    <LinearLayout
+        android:id="@+id/ll_4text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_dian"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            style="@style/zhuche_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="验证手机"
+            android:textSize="12dp" />
+
+        <TextView
+            style="@style/zhuche_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设置密码" />
+
+        <TextView
+            style="@style/zhuche_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="基本信息" />
+
+        <TextView
+            style="@style/zhuche_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="上传资料" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_button_next"
+        style="@style/zhuce_button_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="下一步"
+        android:textColor="#ffffff" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/tv_button_next"
+        android:layout_below="@id/ll_4text"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="5dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_touxiang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_contact_picture" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/iv_touxiang"
+                android:layout_alignLeft="@id/iv_touxiang"
+                android:layout_alignRight="@id/iv_touxiang"
+                android:background="#55000000"
+                android:gravity="center"
+                android:text="点击上传"
+                android:textSize="17dp" />
+
+            <LinearLayout
+                android:id="@+id/ll_zhuce3_item1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_touxiang"
+                android:orientation="horizontal"
+                android:weightSum="1">
+                <EditText
+                    android:id="@+id/et_name"
+                    android:singleLine="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="姓名"
+                    android:layout_weight="1" />
+
+                <EditText
+                    android:id="@+id/et_sex"
+                    android:singleLine="true"
+                    android:layout_width="140dp"
+                    android:layout_height="wrap_content"
+                    android:hint="性别" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:layout_above="@id/ll_zhuce3_item1"
+                android:background="@color/biankuan" />
+            <LinearLayout
+                android:id="@+id/ll_zhuce3_item2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ll_zhuce3_item1"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/et_xueyuan"
+                    android:singleLine="true"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:hint="学院" />
+
+                <EditText
+                    android:id="@+id/et_class"
+                    android:singleLine="true"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:hint="班级" />
+
+                <EditText
+                    android:id="@+id/et_phone"
+                    android:inputType="phone"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="手机短号" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:layout_above="@id/ll_zhuce3_item2"
+                android:background="@color/biankuan" />
+            <LinearLayout
+                android:id="@+id/ll_zhuce3_item3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ll_zhuce3_item2"
+                android:orientation="horizontal">
+                <Spinner
+                    android:id="@+id/sp_diqu"
+                    android:singleLine="true"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/spingarr"
+                    />
+
+                <Spinner
+                    android:id="@+id/sp_loudong"
+                    android:singleLine="true"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/loudong"
+                    />
+
+                <EditText
+                    android:id="@+id/room_number"
+                    android:inputType="number"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="房号" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:layout_above="@id/ll_zhuce3_item3"
+                android:background="@color/biankuan" />
+            <LinearLayout
+                android:id="@+id/ll_zhuce3_item4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ll_zhuce3_item3"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/et_id"
+                    android:singleLine="true"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:hint="身份证号" />
+                <EditText
+                    android:id="@+id/et_xuehao"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="学号" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:layout_above="@id/ll_zhuce3_item4"
+                android:background="@color/biankuan" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:layout_below="@id/ll_zhuce3_item4"
+                android:background="@color/biankuan" />
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

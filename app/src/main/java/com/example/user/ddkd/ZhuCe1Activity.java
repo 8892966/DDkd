@@ -68,6 +68,7 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
                 msg.delete(5,msg.length());
                 break;
             case R.id.tv_button_yuedu:
+                ///
                 Intent intent=new Intent(this,WebActivity.class);
                 intent.putExtra("title","DD快递服务协议");
                 intent.putExtra("url","http://www.baidu.com");

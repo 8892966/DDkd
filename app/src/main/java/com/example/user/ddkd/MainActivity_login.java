@@ -1,6 +1,7 @@
 package com.example.user.ddkd;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -34,15 +35,20 @@ public class MainActivity_login extends Activity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        if(v==button){
-            Toast.makeText(this,"您选择了登录",Toast.LENGTH_SHORT).show();
-        }
-        if(v==insert){
-            Toast.makeText(this,"您选择了注册",Toast.LENGTH_SHORT).show();
-        }
-        if(v==forget){
-            Toast.makeText(this,"您选择了修改",Toast.LENGTH_SHORT).show();
-        }
-
+        Intent intent;
+       switch (v.getId()){
+           case R.id.login:
+               intent=new Intent(this,JieDangActivity.class);
+               startActivity(intent);
+               break;
+           case R.id.insert:
+               intent=new Intent(this,ZhuCe1Activity.class);
+               startActivity(intent);
+               break;
+           case R.id.forget:
+               intent=new Intent(this,MainActivity_forget.class);
+               startActivity(intent);
+               break;
+       }
     }
 }

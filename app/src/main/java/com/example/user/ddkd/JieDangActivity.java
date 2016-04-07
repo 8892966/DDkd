@@ -30,6 +30,9 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.jiedang_activity);
+        TextView textView=(TextView)findViewById(R.id.personinfo);
+        textView.setOnClickListener(this);
+
         listView = (ListView) findViewById(R.id.lv_jiedang);
 
         tv_ddzhinang= (TextView) findViewById(R.id.tv_ddzhinang);
@@ -77,6 +80,10 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                     but_jiedang.setText("听单");
                     but_jiedang.setBackgroundResource(R.drawable.yuan_color_gray);
                 }
+                break;
+            case R.id.personinfo://进入用户信息界面
+                intent=new Intent(this,MainActivity_main.class);
+                startActivity(intent);
                 break;
         }
     }

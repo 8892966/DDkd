@@ -24,6 +24,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
     private ImageView iv_zhuce4_zhaopian1;
     private ImageView iv_zhuce4_zhaopian2;
     private ImageView iv_zhuce4_zhaopian3;
+    private TextView textView;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,9 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
         TextView tv_button1_paizhao = (TextView) findViewById(R.id.tv_button1_paizhao);
         TextView tv_button2_paizhao = (TextView) findViewById(R.id.tv_button2_paizhao);
         TextView tv_button3_paizhao = (TextView) findViewById(R.id.tv_button3_paizhao);
+
+        textView=(TextView)findViewById(R.id.tv_button_next);
+        textView.setOnClickListener(this);
 
         //放照片的地方
         iv_zhuce4_zhaopian1= (ImageView) findViewById(R.id.iv_zhuce4_zhaopian1);
@@ -47,6 +51,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
         TextView tv_head_fanghui = (TextView) findViewById(R.id.tv_head_fanghui);
         tv_head_fanghui.setOnClickListener(this);
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -63,6 +68,11 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 break;
             case R.id.tv_button3_paizhao:
                 paizhao(103);
+                break;
+            case R.id.tv_button_next:
+                Toast.makeText(this,"注册成功，请登录",Toast.LENGTH_SHORT).show();
+                Intent intent1=new Intent(ZhuCe4Activity.this,MainActivity_login.class);
+                startActivity(intent1);
                 break;
         }
     }

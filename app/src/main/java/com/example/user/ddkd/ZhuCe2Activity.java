@@ -26,7 +26,6 @@ public class ZhuCe2Activity extends Activity implements View.OnClickListener {
 
         et_password= (EditText) findViewById(R.id.et_password);
         et_password2= (EditText) findViewById(R.id.et_password2);
-
         TextView tv_head_fanghui= (TextView) findViewById(R.id.tv_head_fanghui);
         tv_head_fanghui.setOnClickListener(this);
     }

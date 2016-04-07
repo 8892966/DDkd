@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent">
+    <TextView
+        android:text="设置"
+        android:textSize="25sp"
+        android:gravity="center"
+        android:background="#00ccff"
+        android:layout_width="match_parent"
+        android:layout_height="45dip" />
+    <TextView
+        android:layout_marginLeft="10dip"
+        android:background="@drawable/clickview"
+        android:clickable="true"
+        android:focusable="true"
+        android:textSize="20sp"
+        android:text="消息提醒"
+        android:padding="5dip"
+        android:layout_width="match_parent"
+        android:layout_height="40dip" />
+    <TextView
+        android:layout_marginLeft="10dip"
+        android:background="@drawable/clickview"
+        android:clickable="true"
+        android:focusable="true"
+        android:textSize="20sp"
+        android:text="字体大小"
+        android:padding="5dip"
+        android:layout_width="match_parent"
+        android:layout_height="40dip" />
+    <TextView
+        android:layout_marginLeft="10dip"
+        android:background="@drawable/clickview"
+        android:clickable="true"
+        android:focusable="true"
+        android:textSize="20sp"
+        android:text="意见反馈"
+        android:padding="5dip"
+        android:layout_width="match_parent"
+        android:layout_height="40dip" />
+    <TextView
+        android:layout_marginLeft="10dip"
+        android:background="@drawable/clickview"
+        android:clickable="true"
+        android:focusable="true"
+        android:textSize="20sp"
+        android:text="检查更新"
+        android:padding="5dip"
+        android:layout_width="match_parent"
+        android:layout_height="40dip" />
+    <TextView
+        android:layout_marginLeft="10dip"
+        android:background="@drawable/clickview"
+        android:clickable="true"
+        android:focusable="true"
+        android:textSize="20sp"
+        android:text="关于我们"
+        android:padding="5dip"
+        android:layout_width="match_parent"
+        android:layout_height="40dip" />
+</LinearLayout>

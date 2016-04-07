@@ -160,5 +160,6 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="10dp"
-        android:padding="5dp"></ListView>
+        android:padding="5dp">
+    </ListView>
 </RelativeLayout>

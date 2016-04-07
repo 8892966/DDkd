@@ -35,6 +35,7 @@
             android:name=".MainActivity_balance"/>
         <activity android:name=".ZhuCe1Activity"/>
         <activity android:name=".MainActivity_main"/>
+        <activity android:name=".MainActivity_forget"/>
 
     </application>
 

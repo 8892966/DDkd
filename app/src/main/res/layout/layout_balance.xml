@@ -23,7 +23,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="100dip"
+            android:layout_margin="20dip"
+            android:layout_centerInParent="true"
             android:text="1234.45"
             android:textSize="25sp" />
 
@@ -32,7 +33,6 @@
             android:layout_width="70dip"
             android:layout_height="70dip"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="50dip"
             android:layout_toRightOf="@id/yue"
             android:background="@drawable/radio"
             android:gravity="center"

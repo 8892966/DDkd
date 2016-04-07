@@ -17,28 +17,34 @@
         android:background="@color/biankuan" />
 
     <TextView
+        android:layout_marginLeft="15dp"
+        android:drawableLeft="@drawable/map"
         android:id="@+id/tv_dingdang_kuaidi_dizhi"
         style="@style/textstyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_dingdang_id"
-        android:text="工业楼   圆通快递" />
+        android:text="   工业楼   圆通快递" />
 
     <TextView
+        android:layout_marginLeft="15dp"
+        android:drawableLeft="@drawable/telephone"
         android:id="@+id/tv_dingdang_kehu"
         style="@style/textstyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_dingdang_kuaidi_dizhi"
-        android:text="郑浩勇   13750506897" />
+        android:text="   郑浩勇   13750506897" />
 
     <TextView
+        android:layout_marginLeft="15dp"
+        android:drawableLeft="@drawable/dizhi"
         android:id="@+id/tv_dingdang_nudi_dizhi"
         style="@style/textstyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_dingdang_kehu"
-        android:text="南区教师公寓6栋201" />
+        android:text="    南区教师公寓6栋201" />
 
     <TextView
         android:id="@+id/tv_dingdang_liuyan"

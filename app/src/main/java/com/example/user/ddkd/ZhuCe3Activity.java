@@ -24,9 +24,7 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener{
     private EditText et_id;
     private EditText et_xuehao;
     private EditText room_number;
-
     private ImageView iv_touxiang;
-
     private Spinner sp_diqu;
     private Spinner sp_loudong;
     @Override
@@ -47,7 +45,8 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener{
         room_number= (EditText) findViewById(R.id.room_number);//房号
         et_id= (EditText) findViewById(R.id.et_id);//身份证
         et_xuehao= (EditText) findViewById(R.id.et_xuehao);//学号
-//**********************
+
+     //**********************
         //下拉列表实现
         //地区
         String[] mItems ={"中区","南区","东区"};
@@ -66,6 +65,8 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener{
         tv_head_fanghui.setOnClickListener(this);
     }
     public void next(View v){
+        Toast.makeText(this,sp_diqu.getSelectedItem().toString(),Toast.LENGTH_LONG).show();
+
         Intent intent=new Intent(ZhuCe3Activity.this,ZhuCe4Activity.class);
         startActivity(intent);
     }
@@ -74,7 +75,6 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener{
         Intent intent;
         switch (v.getId()){
             case R.id.tv_head_fanghui:
-
                 intent=new Intent(ZhuCe3Activity.this,ZhuCe2Activity.class);
                 startActivity(intent);
                 finish();
@@ -105,6 +105,5 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener{
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
-
     }
 }

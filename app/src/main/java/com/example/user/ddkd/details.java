@@ -18,12 +18,6 @@ import java.util.List;
  */
 public class details extends Activity{
     private List<DetailsInfo> list;
-//    private TextView orderid;
-//    private TextView orderprice;
-//    private TextView username;
-//    private TextView courier;
-//    private TextView telephone;
-//    private TextView addr;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

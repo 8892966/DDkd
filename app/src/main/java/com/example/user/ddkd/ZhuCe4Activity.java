@@ -2,6 +2,7 @@ package com.example.user.ddkd;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -77,44 +78,42 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
         }
     }
     private void paizhao(int code) {
-        Intent intent = new Intent();
-        // 指定拍照的意图。
-        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-        file = new File(Environment.getExternalStorageDirectory(),"a"+System.currentTimeMillis() + ".jpg");
-        intent.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(file)); // 指定保存文件的路径
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+        intent.putExtra("return-data", true);
         startActivityForResult(intent,code);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 100) {
-            if(resultCode == RESULT_OK){
-                iv_zhuce4_zhaopian1.setImageURI(Uri.fromFile(file));
-            }else if(resultCode ==RESULT_CANCELED){
-                Toast.makeText(this,"拍照取消",Toast.LENGTH_LONG).show();
-            }else {
-                Toast.makeText(this,"拍照失败",Toast.LENGTH_LONG).show();
+            if (data != null) {
+                Bitmap cameraBitmap = (Bitmap) data.getExtras().get("data");
+                if (cameraBitmap != null) {
+                    iv_zhuce4_zhaopian1.setImageBitmap(cameraBitmap);
+                } else {
+                    Toast.makeText(ZhuCe4Activity.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
+                }
             }
-
-        }else if (requestCode == 102) {
-            if(resultCode == RESULT_OK){
-                iv_zhuce4_zhaopian2.setImageURI(Uri.fromFile(file));
-            }else if(resultCode ==RESULT_CANCELED){
-                Toast.makeText(this,"拍照取消",Toast.LENGTH_LONG).show();
-            }else {
-                Toast.makeText(this,"拍照失败",Toast.LENGTH_LONG).show();
+        }else if (requestCode == 102){
+            if (data != null){
+                Bitmap cameraBitmap = (Bitmap) data.getExtras().get("data");
+                if (cameraBitmap != null){
+                    iv_zhuce4_zhaopian2.setImageBitmap(cameraBitmap);
+                }else {
+                    Toast.makeText(ZhuCe4Activity.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
+                }
             }
-
         }else if (requestCode == 103) {
-            if(resultCode == RESULT_OK){
-                iv_zhuce4_zhaopian3.setImageURI(Uri.fromFile(file));
-            }else if(resultCode ==RESULT_CANCELED){
-                Toast.makeText(this,"拍照取消",Toast.LENGTH_LONG).show();
-            }else {
-                Toast.makeText(this,"拍照失败",Toast.LENGTH_LONG).show();
+            if (data != null) {
+                Bitmap cameraBitmap = (Bitmap) data.getExtras().get("data");
+                if (cameraBitmap != null) {
+                    iv_zhuce4_zhaopian3.setImageBitmap(cameraBitmap);
+                } else {
+                    Toast.makeText(ZhuCe4Activity.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
+                }
             }
-
         }
-//        super.onActivityResult(requestCode, resultCode, data);
     }
 }

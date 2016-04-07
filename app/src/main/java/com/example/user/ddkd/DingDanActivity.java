@@ -1,6 +1,6 @@
 package com.example.user.ddkd;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,11 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class DingDanActivity extends AppCompatActivity implements View.OnClickListener {
+public class DingDanActivity extends Activity implements View.OnClickListener {
     //放订单列表
     private ListView listView;
     private MyBaseAdapter baseAdapter;
-
     private TextView tv_button_yijie;
     private TextView tv_button_daisong;
     private TextView tv_button_wangchen;

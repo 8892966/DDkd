@@ -20,7 +20,6 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
         textView=(TextView)findViewById(R.id.tv_head_fanghui);
         textView.setOnClickListener(this);
     }
-
     @Override
     public void onClick(View v) {
         Intent intent;

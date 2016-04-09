@@ -31,7 +31,6 @@ public class details extends Activity implements View.OnClickListener {
         exit_button=(TextView)findViewById(R.id.tv_head_fanghui);
         exit_button.setOnClickListener(this);
 
-
         detailsinfo.setDetailsid(131110191);
         detailsinfo.setDetailsMoney("2.5元");
         detailsinfo.setUsername("刘嘉文");

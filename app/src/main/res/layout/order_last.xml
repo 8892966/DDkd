@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <TextView
+        android:textSize="15sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#0000ff"
+        android:text="说明：姓名手机为快递单上的姓名手机，地址为收货地址\n订单排序以时间排序，新订单在后，老订单在前"/>
+</LinearLayout>

@@ -34,6 +34,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
 
         xuanzhe=1;
 
+        listView.addFooterView(View.inflate(this,R.layout.order_last,null));
         tv_button_yijie.setOnClickListener(this);
         tv_button_daisong.setOnClickListener(this);
         tv_button_wangchen.setOnClickListener(this);

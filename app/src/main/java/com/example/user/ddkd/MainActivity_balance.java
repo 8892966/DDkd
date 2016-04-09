@@ -25,6 +25,8 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_balance);
+        TextView exit=(TextView)findViewById(R.id.tv_head_fanghui);
+        exit.setOnClickListener(this);
 
         textView=(TextView)findViewById(R.id.TX);
         textView.setOnClickListener(this);
@@ -46,10 +48,14 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
+        Intent intent;
         switch (v.getId()){
             case R.id.TX:
-                Intent intent=new Intent(this,MainActivity_getmoney.class);
+                intent=new Intent(this,MainActivity_getmoney.class);
                 startActivity(intent);
+                break;
+            case R.id.tv_head_fanghui:
+                finish();
                 break;
         }
     }

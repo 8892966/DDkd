@@ -2,9 +2,11 @@ package com.example.user.ddkd;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +18,8 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_setting);
+        ImageView imageView=(ImageView)findViewById(R.id.setExit);
+        imageView.setOnClickListener(this);
 
         TextView exit=(TextView)findViewById(R.id.exit);
         exit.setOnClickListener(this);
@@ -23,11 +27,15 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
+        Intent intent;
         switch (v.getId()){
             case R.id.exit:
-                Intent intent=new Intent(this,MainActivity_login.class);
+                intent=new Intent(this,MainActivity_login.class);
                 startActivity(intent);
                 Toast.makeText(this,"退出成功",Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.setExit:
+                finish();
                 break;
         }
 

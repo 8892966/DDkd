@@ -6,23 +6,22 @@
     <RelativeLayout
         android:background="#00ccff"
         android:layout_width="match_parent"
-        android:layout_height="45dip"
-        android:orientation="horizontal">
+        android:layout_height="45dip">
         <ImageView
-            android:id="@+id/image1"
+            android:id="@+id/exituserinfo"
             android:layout_marginLeft="10dip"
             android:layout_centerVertical="true"
-            android:src="@drawable/personinfo1"
+            android:src="@drawable/head_fanghui"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            android:layout_marginLeft="10dip"
-            android:layout_toRightOf="@+id/image1"
+            android:layout_marginLeft="5dip"
             android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/exituserinfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="个人信息"
-            android:textSize="20sp" />
+            android:textSize="25sp" />
         <ImageView
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
@@ -91,7 +90,7 @@
     <TextView
         android:background="#666666"
         android:layout_width="match_parent"
-        android:layout_height="6sp" />
+        android:layout_height="4sp" />
     <!--我的订单-->
     <LinearLayout
         android:id="@+id/details"

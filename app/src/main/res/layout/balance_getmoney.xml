@@ -103,6 +103,7 @@
             android:clickable="true"
             android:layout_height="35dip" />
         <TextView
+            android:id="@+id/exitgetmoney"
             android:layout_alignParentRight="true"
             android:gravity="center"
             android:focusable="true"

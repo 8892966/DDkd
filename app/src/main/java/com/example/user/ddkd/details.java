@@ -1,6 +1,7 @@
 package com.example.user.ddkd;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,14 +19,18 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/4/4.
  */
-public class details extends Activity{
+public class details extends Activity implements View.OnClickListener {
     private List<DetailsInfo> list;
+    private TextView exit_button;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_details);
         ListView listView=(ListView)findViewById(R.id.listviewdetails);
         DetailsInfo detailsinfo=new DetailsInfo();
+        exit_button=(TextView)findViewById(R.id.tv_head_fanghui);
+        exit_button.setOnClickListener(this);
+
 
         detailsinfo.setDetailsid(131110191);
         detailsinfo.setDetailsMoney("2.5元");
@@ -37,6 +42,17 @@ public class details extends Activity{
         list.add(detailsinfo);
         listView.setAdapter(new MyAdater());
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.tv_head_fanghui:
+                finish();
+                break;
+        }
+
+    }
+
     class MyAdater extends BaseAdapter{
         @Override
         public int getCount() {
@@ -67,12 +83,7 @@ public class details extends Activity{
             TextView addr=(TextView)view.findViewById(R.id.addr);
 
             DetailsInfo detailsInfo=list.get(position);
-            if(orderid==null){
-                Log.i("dfsf","fdsff");
-            }else {
-                orderid.setText(detailsInfo.getDetailsid()+"");
-            }
-
+            orderid.setText(detailsInfo.getDetailsid()+"");
             orderprice.setText(detailsInfo.getDetailsMoney());
             username.setText(detailsInfo.getUsername());
             courier.setText(detailsInfo.getCourier());

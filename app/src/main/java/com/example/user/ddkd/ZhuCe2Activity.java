@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.user.ddkd.R;
+import com.example.user.ddkd.utils.PasswordUtil;
 
 /**
  * Created by User on 2016-04-03.
@@ -32,19 +33,9 @@ public class ZhuCe2Activity extends Activity implements View.OnClickListener {
     public void next(View v){
         String password1 = et_password.getText().toString();
         String password2 = et_password2.getText().toString();
-        if(!TextUtils.isEmpty(password1)){
-            if (password1.length()>=6&&password1.length()<=32) {
-                if (password1.equals(password2)) {
-                    Intent intent = new Intent(ZhuCe2Activity.this, ZhuCe3Activity.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(ZhuCe2Activity.this, "确认密码不相同", Toast.LENGTH_SHORT).show();
-                }
-            }else {
-                Toast.makeText(ZhuCe2Activity.this,"密码不能低于六位或高于32位",Toast.LENGTH_SHORT).show();
-            }
-        }else{
-            Toast.makeText(ZhuCe2Activity.this,"请输入密码",Toast.LENGTH_SHORT).show();
+        if(PasswordUtil.isSame(ZhuCe2Activity.this,password1,password2)){
+            Intent intent = new Intent(ZhuCe2Activity.this, ZhuCe3Activity.class);
+            startActivity(intent);
         }
     }
     @Override

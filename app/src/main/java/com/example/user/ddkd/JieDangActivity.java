@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -15,9 +16,9 @@ import android.widget.TextView;
 public class JieDangActivity extends Activity implements View.OnClickListener {
     private ListView listView;
 
-    private TextView tv_ddzhinang;
+    private LinearLayout ll_ddzhinang;
 
-    private TextView tv_jianlihuodong;
+    private LinearLayout ll_jianlihuodong;
 
     private TextView tv_to_dingdang;
 
@@ -35,13 +36,13 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 
         listView = (ListView) findViewById(R.id.lv_jiedang);
 
-        tv_ddzhinang= (TextView) findViewById(R.id.tv_ddzhinang);
-        tv_jianlihuodong= (TextView) findViewById(R.id.tv_jianlihuodong);
+        ll_ddzhinang= (LinearLayout) findViewById(R.id.ll_ddzhinang);
+        ll_jianlihuodong= (LinearLayout) findViewById(R.id.ll_jianlihuodong);
         tv_to_dingdang= (TextView) findViewById(R.id.tv_to_dingdang);
         but_jiedang= (TextView) findViewById(R.id.but_jiedang);
 
-        tv_ddzhinang.setOnClickListener(this);
-        tv_jianlihuodong.setOnClickListener(this);
+        ll_ddzhinang.setOnClickListener(this);
+        ll_jianlihuodong.setOnClickListener(this);
         tv_to_dingdang.setOnClickListener(this);
         but_jiedang.setOnClickListener(this);
 
@@ -52,13 +53,13 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         Intent intent;
         switch (v.getId()){
-            case R.id.tv_ddzhinang:
+            case R.id.ll_ddzhinang:
                 intent=new Intent(this,WebActivity.class);
                 intent.putExtra("title","DD指南");
                 intent.putExtra("url","http://www.baidu.com");
                 startActivity(intent);
                 break;
-            case R.id.tv_jianlihuodong:
+            case R.id.ll_jianlihuodong:
                 intent=new Intent(this,WebActivity.class);
                 intent.putExtra("title","奖励活动");
                 intent.putExtra("url","http://www.baidu.com");

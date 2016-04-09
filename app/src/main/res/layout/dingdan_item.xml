@@ -3,12 +3,32 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/gradient_box_pre">
+
     <TextView
         android:id="@+id/tv_dingdang_id"
         style="@style/textstyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="订单：1110446" />
+    <TextView
+        android:layout_marginLeft="40dp"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:drawableLeft="@drawable/money"
+        style="@style/textstyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2.5元"
+        android:layout_toRightOf="@id/tv_dingdang_id"
+        />
+
+    <ImageView
+        android:layout_marginRight="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_width="25dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/phone_call"
+        />
 
     <View
         android:layout_width="match_parent"

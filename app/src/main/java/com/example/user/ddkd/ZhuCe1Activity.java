@@ -53,15 +53,13 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.zhuce1_activity);
+
         et_phone_number = (EditText) findViewById(R.id.et_phone_number);//手机号
         et_yanzhengma = (EditText) findViewById(R.id.et_yanzhengma);//验证码
         cb_xieyi = (CheckBox) findViewById(R.id.cb_xieyi);//协议
         tv_button_yuedu = (TextView) findViewById(R.id.tv_button_yuedu);//阅读协议
         tv_button_yanzhengma = (TextView) findViewById(R.id.tv_button_yanzhengma);//获取验证码
         tv_next = (TextView) findViewById(R.id.tv_next);//下一步按钮
-
-        TextView textView=(TextView)findViewById(R.id.tv_head_fanghui);
-        textView.setOnClickListener(this);
 
         tv_button_yuedu.setOnClickListener(this);
         tv_button_yanzhengma.setOnClickListener(this);
@@ -112,9 +110,6 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
                             Toast.makeText(this, "验证码不正确", Toast.LENGTH_LONG).show();
                         }
                 }
-                break;
-            case R.id.tv_head_fanghui:
-                finish();
                 break;
         }
     }

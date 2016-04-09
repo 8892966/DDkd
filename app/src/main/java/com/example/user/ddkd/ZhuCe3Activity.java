@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.method.CharacterPickerDialog;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,6 +30,11 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
     private Spinner sp_diqu;
     private Spinner sp_loudong;
 
+    //地区
+    private String[] mItems = {"中区", "南区", "东区"};
+    //楼栋
+    private String[][] mItems2 = {{"1","2","3"},{"4","5","6"},{"7","8","9"}};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,18 +54,27 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
         et_xuehao = (EditText) findViewById(R.id.et_xuehao);//学号
         //**********************
         //下拉列表实现
-        //地区
-        String[] mItems = {"中区", "南区", "东区"};
         // 建立Adapter并且绑定数据源
         ArrayAdapter<String> _Adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mItems);
         //绑定 Adapter到控件
         sp_diqu.setAdapter(_Adapter);
-        //楼栋
-        String[] mItems2 = {"1", "2", "3"};
-        // 建立Adapter并且绑定数据源
-        ArrayAdapter<String> _Adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mItems);
-        //绑定 Adapter到控件
-        sp_loudong.setAdapter(_Adapter2);
+        sp_diqu.setPrompt("地区");
+        sp_diqu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // 建立Adapter并且绑定数据源
+                ArrayAdapter<String> _Adapter2 = new ArrayAdapter<String>(ZhuCe3Activity.this, android.R.layout.simple_spinner_item, mItems2[position]);
+                //绑定 Adapter到控件
+                sp_loudong.setAdapter(_Adapter2);
+                sp_loudong.setPrompt("楼栋");
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 //****************************
         TextView tv_head_fanghui = (TextView) findViewById(R.id.tv_head_fanghui);
         tv_head_fanghui.setOnClickListener(this);
@@ -97,11 +113,11 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         System.out.println(resultCode);
-        if (data != null) {
+        if (data != null){
             Bitmap cameraBitmap = (Bitmap) data.getExtras().get("data");
             if (cameraBitmap != null) {
                 iv_touxiang.setImageBitmap(cameraBitmap);
-            } else {
+            }else {
                 Toast.makeText(ZhuCe3Activity.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
             }
         }

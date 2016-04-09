@@ -18,15 +18,18 @@
             android:background="@drawable/personinfo" />
 
         <TextView
+            android:drawableTop="@drawable/bell"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            android:text="订单"
             android:clickable="true"
             android:focusable="true"
-            android:layout_margin="7dip"
+            android:layout_marginRight="7dip"
             android:id="@+id/tv_to_dingdang"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/details" />
+            android:layout_centerVertical="true" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -114,29 +117,51 @@
         android:layout_marginTop="2dp"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tv_ddzhinang"
+        <LinearLayout
+            android:id="@+id/ll_ddzhinang"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:background="@drawable/jiedang_button"
+            android:layout_marginRight="5dp"
             android:clickable="true"
             android:focusable="true"
+            android:background="@drawable/jiedang_button"
+            android:gravity="center"
+            >
+            <ImageView
+                android:layout_margin="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/details"
+                />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="center"
             android:text="DD指南" />
-
-        <TextView
-            android:id="@+id/tv_jianlihuodong"
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_jianlihuodong"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_weight="1"
+        android:layout_marginLeft="5dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/jiedang_button"
+        android:gravity="center">
+        <ImageView
+            android:layout_margin="10dp"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/jiedang_button"
-            android:clickable="true"
-            android:focusable="true"
+            android:layout_height="wrap_content"
+            android:src="@drawable/gift"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="center"
             android:text="奖励活动" />
+    </LinearLayout>
     </LinearLayout>
 
     <TextView

@@ -117,7 +117,6 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
                 break;
         }
     }
-
     private void volley_Post(int mobile_code, final String phone) {
         Log.i("my", "user volley Post");
 //        参数一：方法 参数二：地址 参数三：成功回调 参数四：错误回调 。重写getParams 以post参数
@@ -136,7 +135,6 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
                                 if (parser.getName().equals("code")) {
                                     eventType=parser.next();
                                     String code = parser.getText();
-                                    Toast.makeText(ZhuCe1Activity.this,code,Toast.LENGTH_SHORT).show();
                                     if ("2".equals(code)) {
                                         Log.i("ZhuCe1Activity", "请留意您的短信");
                                         Toast.makeText(ZhuCe1Activity.this, "请留意您的短信", Toast.LENGTH_SHORT).show();

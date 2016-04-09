@@ -46,7 +46,6 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
     private TextView tv_button_yuedu;
     private TextView tv_next;
     private TextView tv_head_fanghui;
-
     private String yanzhengma;
 
 

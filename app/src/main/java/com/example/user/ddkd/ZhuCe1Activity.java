@@ -22,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.user.ddkd.utils.YanZhenMaUtil;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -69,25 +70,12 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
         tv_head_fanghui.setOnClickListener(this);
     }
 
-    public void next(View v) {
-
-    }
-
     @Override
     public void onClick(View v) {
         Intent intent;
         switch (v.getId()) {
             case R.id.tv_button_yanzhengma:
-                final int mobile_code = (int) ((Math.random() * 9 + 1) * 100000);
-                yanzhengma = mobile_code+"";
-                Log.i("ZhuCe1Activity", mobile_code + "");
-                String number = et_phone_number.getText().toString();
-                Log.i("ZhuCe1Activity", number);
-                if (!TextUtils.isEmpty(number)) {
-                    volley_Post(mobile_code, number);
-                } else {
-                    Toast.makeText(ZhuCe1Activity.this, "请填入您的手机号码", Toast.LENGTH_SHORT).show();
-                }
+                YanZhenMaUtil.sendYZM(this,et_phone_number);
                 break;
             case R.id.tv_button_yuedu:
                 intent = new Intent(this, WebActivity.class);
@@ -103,15 +91,9 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
                 }
                 break;
             case R.id.tv_next:
-                if (yanzhengma == null) {
-                    Toast.makeText(this, "请输入您的手机号并验证", Toast.LENGTH_LONG).show();
-                } else {
-                        if(yanzhengma.equals(et_yanzhengma.getText().toString())){
-                            intent=new Intent(this,ZhuCe2Activity.class);
-                            startActivity(intent);
-                        }else{
-                            Toast.makeText(this, "验证码不正确", Toast.LENGTH_LONG).show();
-                        }
+                if(YanZhenMaUtil.isYZM(this,et_yanzhengma)){
+                    intent=new Intent(this,ZhuCe2Activity.class);
+                    startActivity(intent);
                 }
                 break;
             case R.id.tv_head_fanghui:
@@ -119,63 +101,5 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
                 startActivity(intent);
                 break;
         }
-    }
-
-    private void volley_Post(int mobile_code, final String phone) {
-        Log.i("my", "user volley Post");
-//        参数一：方法 参数二：地址 参数三：成功回调 参数四：错误回调 。重写getParams 以post参数
-        final String content = new String("您的验证码是：" + mobile_code + "。请不要把验证码泄露给其他人。");
-        StringRequest request_post = new StringRequest(Request.Method.POST, "http://106.ihuyi.cn/webservice/sms.php?method=Submit", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                try {
-                    InputStream is = new ByteArrayInputStream(s.getBytes("utf-8"));
-                    XmlPullParser parser = Xml.newPullParser();
-                    parser.setInput(is, "UTF-8");
-                    int eventType = parser.getEventType();
-                    while (eventType != XmlPullParser.END_DOCUMENT) {
-                        switch (eventType) {
-                            case XmlPullParser.START_TAG:
-                                if (parser.getName().equals("code")) {
-                                    eventType=parser.next();
-                                    String code = parser.getText();
-                                    Toast.makeText(ZhuCe1Activity.this,code,Toast.LENGTH_SHORT).show();
-                                    if ("2".equals(code)) {
-                                        Log.i("ZhuCe1Activity", "请留意您的短信");
-                                        Toast.makeText(ZhuCe1Activity.this, "请留意您的短信", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Toast.makeText(ZhuCe1Activity.this, "获取验证码失败", Toast.LENGTH_SHORT).show();
-                                        Log.i("ZhuCe1Activity", "获取验证码失败");
-                                    }
-                                }
-                                break;
-                        }
-                            eventType = parser.next();
-                    }
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                } catch (XmlPullParserException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> map = new HashMap<>();
-                map.put("account", "cf_louxiago");
-                map.put("password", "louxiago123");
-                map.put("mobile", phone);
-                map.put("content", content);
-                return map;
-            }
-        };
-        MyApplication.getQueue().add(request_post);
     }
 }

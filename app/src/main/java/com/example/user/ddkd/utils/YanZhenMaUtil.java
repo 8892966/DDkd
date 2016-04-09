@@ -73,7 +73,6 @@ public class YanZhenMaUtil {
                                 if (parser.getName().equals("code")) {
                                     eventType=parser.next();
                                     String code = parser.getText();
-                                    Toast.makeText(context,code,Toast.LENGTH_SHORT).show();
                                     if ("2".equals(code)) {
                                         Log.i("ZhuCe1Activity", "请留意您的短信");
                                         Toast.makeText(context, "请留意您的短信", Toast.LENGTH_SHORT).show();

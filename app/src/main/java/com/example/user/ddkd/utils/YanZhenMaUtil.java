@@ -93,7 +93,6 @@ public class YanZhenMaUtil {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
             }
         }, new Response.ErrorListener() {
             @Override

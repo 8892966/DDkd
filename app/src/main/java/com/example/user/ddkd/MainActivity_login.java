@@ -27,6 +27,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        XGPushConfig.enableDebug(this, true);
         setContentView(R.layout.layout_login);
 
         button=(TextView)findViewById(R.id.login);
@@ -40,7 +41,6 @@ public class MainActivity_login extends Activity implements View.OnClickListener
         forget.setOnClickListener(this);
 
         // 开启logcat输出，方便debug，发布时请关闭
-        XGPushConfig.enableDebug(this, true);
 // 如果需要知道注册是否成功，请使用eregisterPush(getApplicationContxt(), XGIOperateCallback)带callback版本
 // 如果需要绑定账号，请使用registerPush(getApplicationContext(),account)版本
 // 具体可参考详细的开发指南

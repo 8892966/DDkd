@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.user.ddkd.R;
+import com.example.user.ddkd.utils.PasswordUtil;
 
 /**
  * Created by User on 2016-04-03.
@@ -32,6 +33,10 @@ public class ZhuCe2Activity extends Activity implements View.OnClickListener {
     public void next(View v){
         String password1 = et_password.getText().toString();
         String password2 = et_password2.getText().toString();
+        if(PasswordUtil.isSame(ZhuCe2Activity.this,password1,password2)){
+            Intent intent = new Intent(ZhuCe2Activity.this, ZhuCe3Activity.class);
+            startActivity(intent);
+        }
     }
     @Override
     public void onClick(View v) {

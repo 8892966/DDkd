@@ -1,14 +1,20 @@
 package com.example.user.ddkd;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.tencent.android.tpush.XGIOperateCallback;
+import com.tencent.android.tpush.XGPushManager;
+import com.tencent.android.tpush.service.XGPushService;
 
 /**
  * Created by User on 2016-04-02.
@@ -75,11 +81,33 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                     listView.setVisibility(View.VISIBLE);
                     but_jiedang.setText("休息");
                     but_jiedang.setBackgroundResource(R.drawable.yuan_selected);
+
+                    // 开启logcat输出，方便debug，发布时请关闭
+// 如果需要知道注册是否成功，请使用eregisterPush(getApplicationContxt(), XGIOperateCallback)带callback版本
+// 如果需要绑定账号，请使用registerPush(getApplicationContext(),account)版本
+// 具体可参考详细的开发指南
+// 传递的参数为ApplicationContext
+                    Context context = getApplicationContext();
+                    XGPushManager.registerPush(this, new XGIOperateCallback() {
+                        @Override
+                        public void onSuccess(Object data, int flag) {
+                            Log.d("TPush", "注册成功，设备token为：" + data);
+                        }
+                        @Override
+                        public void onFail(Object data, int errCode, String msg) {
+                            Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
+                        }
+                    });
+// 2.36（不包括）之前的版本需要调用以下2行代码
+                    Intent service = new Intent(context, XGPushService.class);
+                    context.startService(service);
+
                 } else {
                     i=true;
                     listView.setVisibility(View.GONE);
                     but_jiedang.setText("听单");
                     but_jiedang.setBackgroundResource(R.drawable.yuan_color_gray);
+                    XGPushManager.unregisterPush(this);
                 }
                 break;
             case R.id.personinfo://进入用户信息界面

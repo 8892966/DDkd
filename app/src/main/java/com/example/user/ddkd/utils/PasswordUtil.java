@@ -10,7 +10,7 @@ import com.example.user.ddkd.ZhuCe3Activity;
 /**
  * Created by User on 2016-04-09.
  */
-public class PaswordUtil {
+public class PasswordUtil {
 
     public static boolean isSame(Context context, String password1,String password2){
         if(!TextUtils.isEmpty(password1)){

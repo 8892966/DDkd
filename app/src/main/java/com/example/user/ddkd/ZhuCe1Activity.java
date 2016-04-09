@@ -112,7 +112,7 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
                 }
                 break;
             case R.id.tv_head_fanghui:
-                intent=new Intent(this,MainActivity_main.class);
+                intent=new Intent(this,MainActivity_login.class);
                 startActivity(intent);
                 break;
         }

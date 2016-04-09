@@ -32,32 +32,27 @@
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:layout_marginTop="20dp">
-
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:src="@drawable/round_un_choosed" />
-
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:src="@drawable/round_choosed" />
-
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:src="@drawable/round_choosed" />
-
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:src="@drawable/round_choosed" />
     </LinearLayout>
-
     <View
         android:layout_width="match_parent"
         android:layout_height="0.2dp"
@@ -66,7 +61,6 @@
         android:layout_marginRight="50dp"
         android:layout_marginTop="1dp"
         android:background="@color/biankuan" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

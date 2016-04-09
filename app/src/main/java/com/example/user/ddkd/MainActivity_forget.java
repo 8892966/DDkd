@@ -52,12 +52,14 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
                         Toast.makeText(this, "密码修改成功，请重新登录", Toast.LENGTH_SHORT).show();
                         intent = new Intent(this, MainActivity_login.class);
                         startActivity(intent);
+                        finish();
                     }
                 }
                 break;
             case R.id.tv_head_fanghui:
                 intent=new Intent(this,MainActivity_login.class);
                 startActivity(intent);
+                finish();
                 break;
             case R.id.tv_button_yanzhengma:
                 YanZhenMaUtil.sendYZM(this, et_phone_number);

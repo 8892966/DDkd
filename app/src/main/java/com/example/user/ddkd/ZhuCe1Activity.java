@@ -45,6 +45,7 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
     private TextView tv_button_yanzhengma;
     private TextView tv_button_yuedu;
     private TextView tv_next;
+    private TextView tv_head_fanghui;
 
     private String yanzhengma;
 
@@ -60,19 +61,18 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
         tv_button_yuedu = (TextView) findViewById(R.id.tv_button_yuedu);//阅读协议
         tv_button_yanzhengma = (TextView) findViewById(R.id.tv_button_yanzhengma);//获取验证码
         tv_next = (TextView) findViewById(R.id.tv_next);//下一步按钮
+        tv_head_fanghui= (TextView) findViewById(R.id.tv_head_fanghui);//返回
 
         tv_button_yuedu.setOnClickListener(this);
         tv_button_yanzhengma.setOnClickListener(this);
         cb_xieyi.setOnClickListener(this);
         tv_next.setOnClickListener(this);
-    }
-
-    public void next(View v) {
-
+        tv_head_fanghui.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
+        Intent intent;
         switch (v.getId()) {
             case R.id.tv_button_yanzhengma:
                 final int mobile_code = (int) ((Math.random() * 9 + 1) * 100000);
@@ -87,7 +87,7 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
                 }
                 break;
             case R.id.tv_button_yuedu:
-                Intent intent = new Intent(this, WebActivity.class);
+                intent = new Intent(this, WebActivity.class);
                 intent.putExtra("title", "DD快递服务协议");
                 intent.putExtra("url", "http://www.baidu.com");
                 startActivity(intent);
@@ -110,6 +110,10 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
                             Toast.makeText(this, "验证码不正确", Toast.LENGTH_LONG).show();
                         }
                 }
+                break;
+            case R.id.tv_head_fanghui:
+                intent=new Intent(this,MainActivity_main.class);
+                startActivity(intent);
                 break;
         }
     }

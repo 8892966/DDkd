@@ -3,8 +3,11 @@ package com.example.user.ddkd;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
 /**
  * Created by Administrator on 2016/4/4.
  */
@@ -24,6 +27,7 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
             case R.id.exit:
                 Intent intent=new Intent(this,MainActivity_login.class);
                 startActivity(intent);
+                Toast.makeText(this,"退出成功",Toast.LENGTH_SHORT).show();
                 break;
         }
 

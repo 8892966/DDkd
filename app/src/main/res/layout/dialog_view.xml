@@ -18,12 +18,14 @@
             android:orientation="vertical"
             android:padding="10dp">
             <TextView
+                android:id="@+id/tv_item_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="南区 共2.6元（含小费1.5元）"
                 android:textColor="#ffff8800"
                 android:textSize="18sp" />
             <TextView
+                android:id="@+id/tv_item_jianli"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -31,11 +33,13 @@
                 android:textColor="@color/text" />
         </LinearLayout>
         <TextView
+            android:id="@+id/tv_class"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="圆通快件  小件" />
         <TextView
+            android:id="@+id/tv_addr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"

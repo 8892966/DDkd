@@ -23,6 +23,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -127,18 +128,18 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
                 try {
                     InputStream is = new ByteArrayInputStream(s.getBytes("utf-8"));
                     XmlPullParser parser = Xml.newPullParser();
-                    parser.setInput(is, "UTF-8");
+                    parser.setInput(is,"UTF-8");
                     int eventType = parser.getEventType();
                     while (eventType != XmlPullParser.END_DOCUMENT) {
                         switch (eventType) {
                             case XmlPullParser.START_TAG:
-                                if (parser.getName().equals("code")) {
+                                if(parser.getName().equals("code")){
                                     eventType=parser.next();
                                     String code = parser.getText();
-                                    if ("2".equals(code)) {
+                                    if ("2".equals(code)){
                                         Log.i("ZhuCe1Activity", "请留意您的短信");
                                         Toast.makeText(ZhuCe1Activity.this, "请留意您的短信", Toast.LENGTH_SHORT).show();
-                                    } else {
+                                    }else{
                                         Toast.makeText(ZhuCe1Activity.this, "获取验证码失败", Toast.LENGTH_SHORT).show();
                                         Log.i("ZhuCe1Activity", "获取验证码失败");
                                     }
@@ -154,18 +155,17 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
             }
-        }) {
+        }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map = new HashMap<>();
                 map.put("account", "cf_louxiago");
-                map.put("password", "louxiago123");
+                map.put("password", DigestUtils.md5Hex("louxiago123"));
                 map.put("mobile", phone);
                 map.put("content", content);
                 return map;

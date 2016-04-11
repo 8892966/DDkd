@@ -28,7 +28,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 
     private TextView tv_to_dingdang;
 
-    private  TextView but_jiedang;
+    private TextView but_jiedang;
 
     //测试用的
     boolean i = true;
@@ -37,15 +37,15 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.jiedang_activity);
-        TextView textView=(TextView)findViewById(R.id.personinfo);
+        TextView textView = (TextView) findViewById(R.id.personinfo);
         textView.setOnClickListener(this);
 
         listView = (ListView) findViewById(R.id.lv_jiedang);
 
-        ll_ddzhinang= (LinearLayout) findViewById(R.id.ll_ddzhinang);
-        ll_jianlihuodong= (LinearLayout) findViewById(R.id.ll_jianlihuodong);
-        tv_to_dingdang= (TextView) findViewById(R.id.tv_to_dingdang);
-        but_jiedang= (TextView) findViewById(R.id.but_jiedang);
+        ll_ddzhinang = (LinearLayout) findViewById(R.id.ll_ddzhinang);
+        ll_jianlihuodong = (LinearLayout) findViewById(R.id.ll_jianlihuodong);
+        tv_to_dingdang = (TextView) findViewById(R.id.tv_to_dingdang);
+        but_jiedang = (TextView) findViewById(R.id.but_jiedang);
 
         ll_ddzhinang.setOnClickListener(this);
         ll_jianlihuodong.setOnClickListener(this);
@@ -55,29 +55,30 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         listView.setVisibility(View.GONE);
         listView.setAdapter(new MyBaseAdapter());
     }
+
     @Override
     public void onClick(View v) {
         Intent intent;
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ll_ddzhinang:
-                intent=new Intent(this,WebActivity.class);
-                intent.putExtra("title","DD指南");
-                intent.putExtra("url","http://www.baidu.com");
+                intent = new Intent(this, WebActivity.class);
+                intent.putExtra("title", "DD指南");
+                intent.putExtra("url", "http://www.baidu.com");
                 startActivity(intent);
                 break;
             case R.id.ll_jianlihuodong:
-                intent=new Intent(this,WebActivity.class);
-                intent.putExtra("title","奖励活动");
-                intent.putExtra("url","http://www.baidu.com");
+                intent = new Intent(this, WebActivity.class);
+                intent.putExtra("title", "奖励活动");
+                intent.putExtra("url", "http://www.baidu.com");
                 startActivity(intent);
                 break;
             case R.id.tv_to_dingdang:
-                intent=new Intent(this,DingDanActivity.class);
+                intent = new Intent(this, DingDanActivity.class);
                 startActivity(intent);
                 break;
             case R.id.but_jiedang:
                 if (i) {
-                    i=false;
+                    i = false;
                     listView.setVisibility(View.VISIBLE);
                     but_jiedang.setText("休息");
                     but_jiedang.setBackgroundResource(R.drawable.yuan_selected);
@@ -93,6 +94,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                         public void onSuccess(Object data, int flag) {
                             Log.d("TPush", "注册成功，设备token为：" + data);
                         }
+
                         @Override
                         public void onFail(Object data, int errCode, String msg) {
                             Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
@@ -101,9 +103,8 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 // 2.36（不包括）之前的版本需要调用以下2行代码
                     Intent service = new Intent(context, XGPushService.class);
                     context.startService(service);
-
                 } else {
-                    i=true;
+                    i = true;
                     listView.setVisibility(View.GONE);
                     but_jiedang.setText("听单");
                     but_jiedang.setBackgroundResource(R.drawable.yuan_color_gray);
@@ -111,11 +112,12 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 }
                 break;
             case R.id.personinfo://进入用户信息界面
-                intent=new Intent(this,MainActivity_main.class);
+                intent = new Intent(this, MainActivity_main.class);
                 startActivity(intent);
                 break;
         }
     }
+
     class MyBaseAdapter extends BaseAdapter {
 
         @Override
@@ -135,13 +137,27 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            View v;
+            View view;
+            ViewInfo viewInfo;
             if (convertView != null) {
-                v=convertView;
-            }else {
-                v=View.inflate(JieDangActivity.this,R.layout.dialog_view, null);
+                view = convertView;
+                viewInfo = (ViewInfo) convertView.getTag();
+            } else {
+                viewInfo = new ViewInfo();
+                view = View.inflate(JieDangActivity.this, R.layout.dialog_view, null);
+                viewInfo.tv_item_jianli= (TextView) view.findViewById(R.id.tv_item_jianli);
+                viewInfo.tv_addr= (TextView) view.findViewById(R.id.tv_addr);
+                viewInfo.tv_class= (TextView) view.findViewById(R.id.tv_class);
+                viewInfo.tv_item_title = (TextView) view.findViewById(R.id.tv_item_title);
             }
-            return v;
+            return view;
+        }
+
+        class ViewInfo {
+            TextView tv_item_title;
+            TextView tv_item_jianli;
+            TextView tv_class;
+            TextView tv_addr;
         }
     }
 

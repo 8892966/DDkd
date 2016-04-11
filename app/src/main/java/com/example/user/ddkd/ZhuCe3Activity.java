@@ -3,7 +3,10 @@ package com.example.user.ddkd;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Parcelable;
 import android.text.method.CharacterPickerDialog;
 import android.view.View;
 import android.widget.AdapterView;
@@ -54,6 +57,13 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
         room_number = (EditText) findViewById(R.id.room_number);//房号
         et_id = (EditText) findViewById(R.id.et_id);//身份证
         et_xuehao = (EditText) findViewById(R.id.et_xuehao);//学号
+
+        //**************************判断是否是在注册页面4返回回来的，如果是回显数据
+        ZhuCeInfo zhuCeInfo= (ZhuCeInfo) getIntent().getSerializableExtra("zhuCeInfo");
+        zhuCeInfo.getUsername();
+        zhuCeInfo.getNumber();
+        zhuCeInfo.getCollege();
+        //*******************
         //**********************
         //下拉列表实现
         // 建立Adapter并且绑定数据源
@@ -104,18 +114,26 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
                 finish();
                 break;
             case R.id.iv_touxiang:
-                intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("image/*");
-                intent.putExtra("crop", "true");
-                intent.putExtra("aspectX", 1);
-                intent.putExtra("aspectY", 1);
-                intent.putExtra("outputX", 80);
-                intent.putExtra("outputY", 80);
-                intent.putExtra("return-data", true);
-                startActivityForResult(intent, 0);
+                Uri uri=Uri.parse(Environment.getDataDirectory().getPath()+"/123.png");
+                crop(uri);
                 break;
         }
+    }
+
+    private void crop(Uri uri){
+        Intent intent;
+        intent = new Intent("com.android.camera.action.CROP");
+//                intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setDataAndType(uri, "image/*");
+        intent.putExtra("crop", "true");
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        intent.putExtra("outputX", 250);
+        intent.putExtra("outputY", 250);
+//        intent.putExtra("data"，);
+
+        intent.putExtra("return-data", true);
+        startActivityForResult(intent, 0);
     }
 
     @Override

@@ -1,15 +1,18 @@
 package com.example.user.ddkd;
 
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Xml;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -170,8 +173,8 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
                                     eventType = parser.next();
                                     String code = parser.getText();
                                     if ("2".equals(code)) {
-                                        Log.i("ZhuCe1Activity", "请留意您的短信");
-                                        Toast.makeText(ZhuCe1Activity.this, "请留意您的短信", Toast.LENGTH_SHORT).show();
+                                        Log.i("ZhuCe1Activity", "请留意您的短信,3分钟内有效");
+                                        Toast.makeText(ZhuCe1Activity.this, "请留意您的短信,3分钟内有效", Toast.LENGTH_SHORT).show();
                                     } else {
                                         Toast.makeText(ZhuCe1Activity.this, "获取验证码失败", Toast.LENGTH_SHORT).show();
                                         Log.i("ZhuCe1Activity", "获取验证码失败");
@@ -206,4 +209,5 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
         };
         MyApplication.getQueue().add(request_post);
     }
+
 }

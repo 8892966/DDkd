@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.tencent.android.tpush.XGPushConfig;
 
 /**
  * Created by Administrator on 2016/4/2.
@@ -21,7 +20,6 @@ public class MainActivity_login extends Activity implements View.OnClickListener
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        XGPushConfig.enableDebug(this, true);
         setContentView(R.layout.layout_login);
 
         button=(TextView)findViewById(R.id.login);

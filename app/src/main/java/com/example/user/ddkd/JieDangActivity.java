@@ -11,8 +11,10 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tencent.android.tpush.XGIOperateCallback;
+import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
 import com.tencent.android.tpush.service.XGPushService;
 
@@ -51,7 +53,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         ll_jianlihuodong.setOnClickListener(this);
         tv_to_dingdang.setOnClickListener(this);
         but_jiedang.setOnClickListener(this);
-
+        //listView.notifyDataSetChanged();//刷新数据库
         listView.setVisibility(View.GONE);
         listView.setAdapter(new MyBaseAdapter());
     }
@@ -84,9 +86,10 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                     but_jiedang.setBackgroundResource(R.drawable.yuan_selected);
 
                     // 开启logcat输出，方便debug，发布时请关闭
-// 如果需要知道注册是否成功，请使用eregisterPush(getApplicationContxt(), XGIOperateCallback)带callback版本
-// 如果需要绑定账号，请使用registerPush(getApplicationContext(),account)版本
-// 具体可参考详细的开发指南
+                    XGPushConfig.enableDebug(this, true);
+                    // 如果需要知道注册是否成功，请使用eregisterPush(getApplicationContxt(), XGIOperateCallback)带callback版本
+                    // 如果需要绑定账号，请使用registerPush(getApplicationContext(),account)版本
+                    // 具体可参考详细的开发指南
 // 传递的参数为ApplicationContext
                     Context context = getApplicationContext();
                     XGPushManager.registerPush(this, new XGIOperateCallback() {
@@ -94,15 +97,14 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                         public void onSuccess(Object data, int flag) {
                             Log.d("TPush", "注册成功，设备token为：" + data);
                         }
-
                         @Override
                         public void onFail(Object data, int errCode, String msg) {
                             Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
                         }
                     });
-// 2.36（不包括）之前的版本需要调用以下2行代码
-                    Intent service = new Intent(context, XGPushService.class);
-                    context.startService(service);
+//// 2.36（不包括）之前的版本需要调用以下2行代码
+//                    Intent service = new Intent(context, XGPushService.class);
+//                    context.startService(service);
                 } else {
                     i = true;
                     listView.setVisibility(View.GONE);
@@ -149,6 +151,14 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 viewInfo.tv_addr = (TextView) view.findViewById(R.id.tv_addr);
                 viewInfo.tv_class = (TextView) view.findViewById(R.id.tv_class);
                 viewInfo.tv_item_title = (TextView) view.findViewById(R.id.tv_item_title);
+                viewInfo.tv_qiangdan_button = (TextView) view.findViewById(R.id.tv_qiangdan_button);
+                final int i = position;
+                viewInfo.tv_qiangdan_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(JieDangActivity.this, i + "", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
             //处理数据，填写数据
             return view;
@@ -159,7 +169,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             TextView tv_item_jianli;
             TextView tv_class;
             TextView tv_addr;
+            TextView tv_qiangdan_button;
         }
     }
-
 }

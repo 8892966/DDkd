@@ -45,6 +45,7 @@
             android:layout_marginLeft="10dp"
             android:text="南区学生宿舍南8栋701" />
         <TextView
+            android:id="@+id/tv_qiangdan_button"
             android:layout_marginTop="5dp"
             android:clickable="true"
             android:focusable="true"

@@ -13,6 +13,7 @@ import com.tencent.android.tpush.XGPushTextMessage;
  * Created by User on 2016-04-09.
  */
 public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
+
     @Override
     public void onRegisterResult(Context context, int i, XGPushRegisterResult xgPushRegisterResult) {
         //注册结果
@@ -39,6 +40,7 @@ public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
         Log.i("MyXGPushBaseReceiver", xgPushTextMessage.getContent());
         Log.i("MyXGPushBaseReceiver", xgPushTextMessage.getTitle());
         Log.i("MyXGPushBaseReceiver", xgPushTextMessage.getCustomContent());
+
     }
     @Override
     public void onNotifactionClickedResult(Context context, XGPushClickedResult xgPushClickedResult) {

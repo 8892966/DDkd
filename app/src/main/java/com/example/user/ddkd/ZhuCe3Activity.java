@@ -70,7 +70,6 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
                 sp_loudong.setAdapter(_Adapter2);
                 sp_loudong.setPrompt("楼栋");
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -92,6 +91,7 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
         Intent intent = new Intent(ZhuCe3Activity.this, ZhuCe4Activity.class);
         intent.putExtra("zhuCeInfo",zhuCeInfo);//传递注册信息
         startActivity(intent);
+        finish();
     }
 
     @Override
@@ -99,7 +99,7 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
         Intent intent;
         switch (v.getId()) {
             case R.id.tv_head_fanghui:
-                intent = new Intent(ZhuCe3Activity.this, ZhuCe2Activity.class);
+                intent = new Intent(ZhuCe3Activity.this, MainActivity_login.class);
                 startActivity(intent);
                 finish();
                 break;

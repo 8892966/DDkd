@@ -61,6 +61,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
         switch (v.getId()){
             case R.id.tv_head_fanghui:
                 Intent intent = new Intent(ZhuCe4Activity.this, ZhuCe3Activity.class);
+                intent.putExtra("zhuCeInfo",getIntent().getSerializableExtra("zhuCeInfo"));
                 startActivity(intent);
                 finish();
                 break;
@@ -79,6 +80,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 Toast.makeText(this,"注册成功，请登录",Toast.LENGTH_SHORT).show();
                 Intent intent1=new Intent(ZhuCe4Activity.this,MainActivity_login.class);
                 startActivity(intent1);
+                finish();
                 break;
         }
     }

@@ -15,21 +15,21 @@ import com.tencent.android.tpush.XGPushTextMessage;
 public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
     @Override
     public void onRegisterResult(Context context, int i, XGPushRegisterResult xgPushRegisterResult) {
-
+        //注册结果
     }
     @Override
     public void onUnregisterResult(Context context, int i) {
-
+//反注册结果
     }
 
     @Override
     public void onSetTagResult(Context context, int i, String s) {
-
+//设置标签结果
     }
 
     @Override
     public void onDeleteTagResult(Context context, int i, String s) {
-
+//删除标签结果
     }
 
     @Override
@@ -42,10 +42,10 @@ public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
     }
     @Override
     public void onNotifactionClickedResult(Context context, XGPushClickedResult xgPushClickedResult) {
-
+//  通知被打开触发的结果
     }
     @Override
     public void onNotifactionShowedResult(Context context, XGPushShowedResult xgPushShowedResult) {
-
+      //通知被展示触发的结果，可以在此保存APP收到的通知
     }
 }

@@ -145,11 +145,12 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             } else {
                 viewInfo = new ViewInfo();
                 view = View.inflate(JieDangActivity.this, R.layout.dialog_view, null);
-                viewInfo.tv_item_jianli= (TextView) view.findViewById(R.id.tv_item_jianli);
-                viewInfo.tv_addr= (TextView) view.findViewById(R.id.tv_addr);
-                viewInfo.tv_class= (TextView) view.findViewById(R.id.tv_class);
+                viewInfo.tv_item_jianli = (TextView) view.findViewById(R.id.tv_item_jianli);
+                viewInfo.tv_addr = (TextView) view.findViewById(R.id.tv_addr);
+                viewInfo.tv_class = (TextView) view.findViewById(R.id.tv_class);
                 viewInfo.tv_item_title = (TextView) view.findViewById(R.id.tv_item_title);
             }
+            //处理数据，填写数据
             return view;
         }
 

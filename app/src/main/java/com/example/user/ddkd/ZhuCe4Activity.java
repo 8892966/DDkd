@@ -8,10 +8,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.user.ddkd.beam.ZhuCeInfo;
 
 import java.io.File;
 
@@ -71,6 +74,8 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 paizhao(103);
                 break;
             case R.id.tv_button_next:
+                ZhuCeInfo zhuCeInfo= (ZhuCeInfo) getIntent().getSerializableExtra("zhuCeInfo");
+                Log.i("ZhuCe4Activity",zhuCeInfo.toString());
                 Toast.makeText(this,"注册成功，请登录",Toast.LENGTH_SHORT).show();
                 Intent intent1=new Intent(ZhuCe4Activity.this,MainActivity_login.class);
                 startActivity(intent1);

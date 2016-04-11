@@ -22,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.user.ddkd.beam.ZhuCeInfo;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.xmlpull.v1.XmlPullParser;
@@ -47,6 +48,8 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
     private TextView tv_button_yuedu;
     private TextView tv_next;
     private TextView tv_head_fanghui;
+
+    private String number;//获取验证码后的手机号码
 
     private String yanzhengma;
 
@@ -79,7 +82,7 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
                 final int mobile_code = (int) ((Math.random() * 9 + 1) * 100000);
                 yanzhengma = mobile_code+"";
                 Log.i("ZhuCe1Activity", mobile_code + "");
-                String number = et_phone_number.getText().toString();
+                number = et_phone_number.getText().toString();
                 Log.i("ZhuCe1Activity", number);
                 if (!TextUtils.isEmpty(number)) {
                     volley_Post(mobile_code, number);
@@ -105,7 +108,11 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
                     Toast.makeText(this, "请输入您的手机号并验证", Toast.LENGTH_LONG).show();
                 } else {
                         if(yanzhengma.equals(et_yanzhengma.getText().toString())){
+                            //注册信息
+                            ZhuCeInfo zhuCeInfo=new ZhuCeInfo();
+                            zhuCeInfo.setPhone(number);
                             Intent intent2=new Intent(this,ZhuCe2Activity.class);
+                            intent2.putExtra("zhuCeInfo",zhuCeInfo);//传递注册信息
                             startActivity(intent2);
                         }else{
                             Toast.makeText(this, "验证码不正确", Toast.LENGTH_LONG).show();

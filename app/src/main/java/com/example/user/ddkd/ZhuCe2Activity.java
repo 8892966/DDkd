@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.user.ddkd.R;
+import com.example.user.ddkd.beam.ZhuCeInfo;
 import com.example.user.ddkd.utils.PasswordUtil;
 
 /**
@@ -25,24 +26,30 @@ public class ZhuCe2Activity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.zhuce2_activity);
 
-        et_password= (EditText) findViewById(R.id.et_password);
-        et_password2= (EditText) findViewById(R.id.et_password2);
-        TextView tv_head_fanghui= (TextView) findViewById(R.id.tv_head_fanghui);
+        et_password = (EditText) findViewById(R.id.et_password);
+        et_password2 = (EditText) findViewById(R.id.et_password2);
+        TextView tv_head_fanghui = (TextView) findViewById(R.id.tv_head_fanghui);
         tv_head_fanghui.setOnClickListener(this);
     }
-    public void next(View v){
+
+    public void next(View v) {
         String password1 = et_password.getText().toString();
         String password2 = et_password2.getText().toString();
-        if(PasswordUtil.isSame(ZhuCe2Activity.this,password1,password2)){
+        if (PasswordUtil.isSame(ZhuCe2Activity.this, password1, password2)) {
+            //注册信息
+            ZhuCeInfo zhuCeInfo= (ZhuCeInfo) getIntent().getSerializableExtra("zhuCeInfo");
+            zhuCeInfo.setPassword(password1);
             Intent intent = new Intent(ZhuCe2Activity.this, ZhuCe3Activity.class);
+            intent.putExtra("zhuCeInfo",zhuCeInfo);//传递注册信息
             startActivity(intent);
         }
     }
+
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tv_head_fanghui:
-                Intent intent=new Intent(ZhuCe2Activity.this,ZhuCe1Activity.class);
+                Intent intent = new Intent(ZhuCe2Activity.this, ZhuCe1Activity.class);
                 startActivity(intent);
                 finish();
                 break;

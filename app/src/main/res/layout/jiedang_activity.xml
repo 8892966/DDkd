@@ -176,7 +176,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="45dp"
         android:text="听单" />
-
     <ListView
         android:id="@+id/lv_jiedang"
         android:layout_width="wrap_content"

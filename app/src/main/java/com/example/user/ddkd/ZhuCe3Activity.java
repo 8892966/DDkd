@@ -14,6 +14,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.user.ddkd.beam.ZhuCeInfo;
+
 /**
  * Created by User on 2016-04-03.
  */
@@ -81,8 +83,14 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
     }
 
     public void next(View v) {
-        Toast.makeText(this, sp_diqu.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, sp_diqu.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
+        //注册信息
+        ZhuCeInfo zhuCeInfo= (ZhuCeInfo) getIntent().getSerializableExtra("zhuCeInfo");
+        zhuCeInfo.setCollege(et_xueyuan.getText().toString());
+        zhuCeInfo.setUsername(et_name.getText().toString());
+        zhuCeInfo.setNumber(et_xuehao.getText().toString());
         Intent intent = new Intent(ZhuCe3Activity.this, ZhuCe4Activity.class);
+        intent.putExtra("zhuCeInfo",zhuCeInfo);//传递注册信息
         startActivity(intent);
     }
 

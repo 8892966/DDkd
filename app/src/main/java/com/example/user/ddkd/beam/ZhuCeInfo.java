@@ -11,17 +11,8 @@ public class ZhuCeInfo implements Serializable {
     private String username;
     private String college;
     private String number;
-
-    @Override
-    public String toString() {
-        return "ZhuCeInfo{" +
-                "phone='" + phone + '\'' +
-                ", password='" + password + '\'' +
-                ", username='" + username + '\'' +
-                ", college='" + college + '\'' +
-                ", number='" + number + '\'' +
-                '}';
-    }
+    private String sex;
+//    private String
 
     public String getPassword() {
         return password;

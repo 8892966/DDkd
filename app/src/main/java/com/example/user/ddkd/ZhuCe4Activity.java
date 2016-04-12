@@ -17,6 +17,9 @@ import android.widget.Toast;
 import com.example.user.ddkd.beam.ZhuCeInfo;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * Created by User on 2016-04-03.
@@ -29,6 +32,12 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
     private ImageView iv_zhuce4_zhaopian2;
     private ImageView iv_zhuce4_zhaopian3;
     private TextView textView;
+
+
+    private File tempFile;
+    private Uri uri1;
+    private Uri uri2;
+    private Uri uri3;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +71,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
             case R.id.tv_head_fanghui:
                 Intent intent = new Intent(ZhuCe4Activity.this, ZhuCe3Activity.class);
                 intent.putExtra("zhuCeInfo",getIntent().getSerializableExtra("zhuCeInfo"));
+                intent.putExtra("picture",getIntent().getSerializableExtra("picture"));
                 startActivity(intent);
                 finish();
                 break;
@@ -76,8 +86,14 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 break;
             case R.id.tv_button_next:
                 ZhuCeInfo zhuCeInfo= (ZhuCeInfo) getIntent().getSerializableExtra("zhuCeInfo");
+                File file1=new File(uri1.getPath());
+                file1.delete();
+                File file2=new File(uri2.getPath());
+                file2.delete();
+                File file3=new File(uri3.getPath());
+                file3.delete();
                 Log.i("ZhuCe4Activity",zhuCeInfo.toString());
-                Toast.makeText(this,"注册成功，请登录",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"提交成功，请登录",Toast.LENGTH_SHORT).show();
                 Intent intent1=new Intent(ZhuCe4Activity.this,MainActivity_login.class);
                 startActivity(intent1);
                 finish();
@@ -99,6 +115,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 Bitmap cameraBitmap = (Bitmap) data.getExtras().get("data");
                 if (cameraBitmap != null) {
                     iv_zhuce4_zhaopian1.setImageBitmap(cameraBitmap);
+                    uri1=saveBitmap(cameraBitmap);
                 } else {
                     Toast.makeText(ZhuCe4Activity.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
                 }
@@ -108,6 +125,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 Bitmap cameraBitmap = (Bitmap) data.getExtras().get("data");
                 if (cameraBitmap != null){
                     iv_zhuce4_zhaopian2.setImageBitmap(cameraBitmap);
+                    uri2=saveBitmap(cameraBitmap);
                 }else {
                     Toast.makeText(ZhuCe4Activity.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
                 }
@@ -117,10 +135,31 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 Bitmap cameraBitmap = (Bitmap) data.getExtras().get("data");
                 if (cameraBitmap != null) {
                     iv_zhuce4_zhaopian3.setImageBitmap(cameraBitmap);
+                    uri3=saveBitmap(cameraBitmap);
                 } else {
                     Toast.makeText(ZhuCe4Activity.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
                 }
             }
+        }
+    }
+    private Uri saveBitmap(Bitmap bm){
+        File tmpDir = new File(Environment.getExternalStorageDirectory()+"/photo");
+        if(!tmpDir.exists()){
+            tmpDir.mkdir();
+        }
+        tempFile = new File(tmpDir,System.currentTimeMillis()+".png");
+        try{
+            FileOutputStream fos = new FileOutputStream(tempFile);
+            bm.compress(Bitmap.CompressFormat.PNG, 85, fos);
+            fos.flush();
+            fos.close();
+            return Uri.fromFile(tempFile);
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

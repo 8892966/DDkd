@@ -130,21 +130,21 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
                 }
                 break;
             case R.id.tv_next:
-                if (yanzhengma == null) {
-                    Toast.makeText(this, "请输入您的手机号并验证", Toast.LENGTH_LONG).show();
-                } else {
-                    if (yanzhengma.equals(et_yanzhengma.getText().toString()) && number.equals(et_phone_number.getText().toString())) {
-                        //注册信息
+//                if (yanzhengma == null) {
+//                    Toast.makeText(this, "请输入您的手机号并验证", Toast.LENGTH_LONG).show();
+//                } else {
+//                    if (yanzhengma.equals(et_yanzhengma.getText().toString()) && number.equals(et_phone_number.getText().toString())) {
+//                        //注册信息
                         ZhuCeInfo zhuCeInfo = new ZhuCeInfo();
                         zhuCeInfo.setPhone(number);
                         Intent intent2 = new Intent(this, ZhuCe2Activity.class);
                         intent2.putExtra("zhuCeInfo", zhuCeInfo);//传递注册信息
                         startActivity(intent2);
                         finish();
-                    } else {
-                        Toast.makeText(this, "验证码不正确", Toast.LENGTH_LONG).show();
-                    }
-                }
+//                    } else {
+//                        Toast.makeText(this, "验证码不正确", Toast.LENGTH_LONG).show();
+//                    }
+//                }
                 break;
             case R.id.tv_head_fanghui:
                 intent = new Intent(this, MainActivity_login.class);

@@ -24,6 +24,9 @@ import com.example.user.ddkd.beam.ZhuCeInfo;
 import com.example.user.ddkd.utils.DensityUtil;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.logging.Logger;
 
 /**
@@ -54,7 +57,6 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.zhuce3_activity);
         initFile();
-
         iv_touxiang = (ImageView) findViewById(R.id.iv_touxiang);
         iv_touxiang.setOnClickListener(this);
         et_name = (EditText) findViewById(R.id.et_name);//姓名
@@ -69,16 +71,17 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
         et_xuehao = (EditText) findViewById(R.id.et_xuehao);//学号
         //**************************判断是否是在注册页面4返回回来的，如果是回显数据
         ZhuCeInfo zhuCeInfo = (ZhuCeInfo) getIntent().getSerializableExtra("zhuCeInfo");
-        if (zhuCeInfo != null) {
-            fileName=getIntent().getStringExtra("picture");
-            et_name.setText(zhuCeInfo.getUsername());
-            et_phone.setText(zhuCeInfo.getNumber());
-            et_xueyuan.setText(zhuCeInfo.getCollege());
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = 2;
-            Bitmap cameraBitmap = BitmapFactory.decodeFile(fileName, options);
-            iv_touxiang.setImageBitmap(cameraBitmap);
-        }
+            if(zhuCeInfo.getUsername()!=null) {
+                et_name.setText(zhuCeInfo.getUsername());
+                et_phone.setText(zhuCeInfo.getNumber());
+                et_xueyuan.setText(zhuCeInfo.getCollege());
+                fileName=getIntent().getStringExtra("picture");
+                tempFile=new File(fileName);
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = 2;
+                Bitmap cameraBitmap = BitmapFactory.decodeFile(tempFile.getPath(), options);
+                iv_touxiang.setImageBitmap(cameraBitmap);
+            }
         //*******************
         //**********************
         //下拉列表实现
@@ -87,7 +90,6 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
         //绑定 Adapter到控件
         sp_diqu.setPrompt("地区");
         sp_diqu.setAdapter(_Adapter);
-
         sp_diqu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -96,16 +98,14 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
                 //绑定 Adapter到控件
                 sp_loudong.setPrompt("楼栋");
                 sp_loudong.setAdapter(_Adapter2);
-
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 
 //****************************
+        //标题头的返回按钮
         TextView tv_head_fanghui = (TextView) findViewById(R.id.tv_head_fanghui);
         tv_head_fanghui.setOnClickListener(this);
     }
@@ -140,18 +140,19 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
                 break;
         }
     }
-
     private void getPhoto() {
         Intent intent = new Intent(Intent.ACTION_PICK);// 打开相册
         intent.setDataAndType(MediaStore.Images.Media.INTERNAL_CONTENT_URI, "image/*");
-        intent.putExtra("output",Uri.fromFile(tempFile));
+        Log.e("ZhuCe3Activity", Uri.fromFile(tempFile).toString());
+        intent.putExtra("output", Uri.fromFile(tempFile));
         startActivityForResult(intent,11);
     }
 
     private void crop(Uri uri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
-        intent.putExtra("output", Uri.fromFile(tempFile));
+        Log.e("crop",Uri.fromFile(tempFile).getPath());
+        intent.putExtra("output",Uri.fromFile(tempFile));
         intent.putExtra("crop", true);
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
@@ -159,7 +160,6 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
         intent.putExtra("outputY", 250);
         startActivityForResult(intent, 10);
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        System.out.println(resultCode);
@@ -167,32 +167,33 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
             if (data != null) {
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inSampleSize = 2;
-                Bitmap cameraBitmap = BitmapFactory.decodeFile(fileName, options);
+                Bitmap cameraBitmap = BitmapFactory.decodeFile(tempFile.getPath(), options);
 //                Bitmap cameraBitmap = (Bitmap) data.getExtras().get("data");
-                if (cameraBitmap != null) {
+                if (cameraBitmap != null){
                     iv_touxiang.setImageBitmap(cameraBitmap);
                 } else {
                     Toast.makeText(ZhuCe3Activity.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
                 }
             }
         }else if(requestCode==11){
-            if(data!=null) {
-                Uri uri = data.getData();
-                Log.e("uri", uri.toString());
+            if(data!=null){
+                Uri uri =data.getData();
+                Log.e("uri",uri.toString());
                 crop(uri);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-    public void initFile() {
-        if(fileName.equals("")) {
+
+    public void initFile(){
+        if(fileName.equals("")){
             boolean sdCardExist = Environment.getExternalStorageState()
                     .equals(android.os.Environment.MEDIA_MOUNTED);
             if(sdCardExist) {
                 String path = Environment.getExternalStorageDirectory().getPath();
 //                FileUtil.mkdir(path);
 //                Logger.i("path:" + path);
-                fileName = path + "/user_head_photo.jpg";
+                fileName = path + "/user1_head_photo.jpg";
                 tempFile = new File(fileName);
             } else {
                 Toast.makeText(this,"请插入SD卡",Toast.LENGTH_SHORT).show();

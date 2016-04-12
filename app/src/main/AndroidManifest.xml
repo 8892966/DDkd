@@ -4,6 +4,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -11,7 +12,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-        <activity android:name=".ZhuCe3Activity" >
+        <activity android:name=".MainActivity_login" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -21,7 +22,7 @@
         <activity android:name=".WebActivity" />
         <activity android:name=".JieDangActivity"/>
         <activity android:name=".ZhuCe1Activity"/>
-        <activity android:name=".MainActivity_login"/>
+        <activity android:name=".ZhuCe3Activity"/>
         <activity android:name=".ZhuCe4Activity"/>
         <activity android:name=".details"/>
         <activity android:name=".MainActivity_setting"/>

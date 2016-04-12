@@ -174,8 +174,8 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
                                     eventType = parser.next();
                                     String code = parser.getText();
                                     if ("2".equals(code)) {
-                                        Log.i("ZhuCe1Activity", "请留意您的短信");
-                                        Toast.makeText(ZhuCe1Activity.this, "请留意您的短信", Toast.LENGTH_SHORT).show();
+                                            Log.i("ZhuCe1Activity", "请留意您的短信");
+                                            Toast.makeText(ZhuCe1Activity.this, "请留意您的短信", Toast.LENGTH_SHORT).show();
                                     } else {
                                         Toast.makeText(ZhuCe1Activity.this, "获取验证码失败", Toast.LENGTH_SHORT).show();
                                         Log.i("ZhuCe1Activity", "获取验证码失败");

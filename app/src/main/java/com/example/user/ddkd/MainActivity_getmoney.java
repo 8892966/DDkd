@@ -22,11 +22,9 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
     }
     @Override
     public void onClick(View v) {
-        Intent intent;
         switch (v.getId()){
             case R.id.tv_head_fanghui:
-                intent=new Intent(MainActivity_getmoney.this,MainActivity_balance.class);
-                startActivity(intent);
+                finish();
                 break;
             case R.id.exitgetmoney:
                 finish();

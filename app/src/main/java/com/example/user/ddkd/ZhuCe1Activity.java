@@ -105,6 +105,7 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
         Intent intent;
         switch (v.getId()) {
             case R.id.tv_button_yanzhengma:
+                countDown();
                 final int mobile_code = (int) ((Math.random() * 9 + 1) * 100000);
                 yanzhengma = mobile_code + "";
                 Log.i("ZhuCe1Activity", mobile_code + "");
@@ -173,8 +174,8 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
                                     eventType = parser.next();
                                     String code = parser.getText();
                                     if ("2".equals(code)) {
-                                        Log.i("ZhuCe1Activity", "请留意您的短信,3分钟内有效");
-                                        Toast.makeText(ZhuCe1Activity.this, "请留意您的短信,3分钟内有效", Toast.LENGTH_SHORT).show();
+                                        Log.i("ZhuCe1Activity", "请留意您的短信");
+                                        Toast.makeText(ZhuCe1Activity.this, "请留意您的短信", Toast.LENGTH_SHORT).show();
                                     } else {
                                         Toast.makeText(ZhuCe1Activity.this, "获取验证码失败", Toast.LENGTH_SHORT).show();
                                         Log.i("ZhuCe1Activity", "获取验证码失败");
@@ -208,6 +209,28 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
             }
         };
         MyApplication.getQueue().add(request_post);
+    }
+    private void countDown() {
+//        tv_bt_verify你要设置动画的view
+        ValueAnimator valueAnimator=ValueAnimator.ofInt(0,60);//从0到30计时
+        valueAnimator.setDuration(60000);//持续时间为60s
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                Integer value = (Integer) animation.getAnimatedValue();
+                tv_button_yanzhengma.setText("剩余（"+String.valueOf(60-value)+"s）");
+                if (value==60){
+                    //tv_bt_verify.setBackgroundResource(R.drawable.ret_orange);//30s后的背景
+                    tv_button_yanzhengma.setEnabled(true);//30s后设置可以点击
+                    tv_button_yanzhengma.setText("获取验证码");
+                }else {
+                    tv_button_yanzhengma.setEnabled(false);//30s内设置不可以点击
+                    //time.setBackgroundResource(R.drawable.ret);//30s内的背景
+                }
+            }
+        });
+        valueAnimator.setInterpolator(new LinearInterpolator());//设置变化值为线性变化
+        valueAnimator.start();//动画开始
     }
 
 }

@@ -27,7 +27,6 @@ public class MainActivity_login extends Activity implements View.OnClickListener
         password=(EditText)findViewById(R.id.passwordInfo);
         insert=(TextView)findViewById(R.id.insert);
         forget=(TextView)findViewById(R.id.forget);
-
         button.setOnClickListener(this);
         insert.setOnClickListener(this);
         forget.setOnClickListener(this);
@@ -41,6 +40,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
            case R.id.login:
                intent=new Intent(this,JieDangActivity.class);
                startActivity(intent);
+               finish();
                break;
            case R.id.insert:
                intent=new Intent(this,ZhuCe1Activity.class);

@@ -67,13 +67,17 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
         room_number = (EditText) findViewById(R.id.room_number);//房号
         et_id = (EditText) findViewById(R.id.et_id);//身份证
         et_xuehao = (EditText) findViewById(R.id.et_xuehao);//学号
-
         //**************************判断是否是在注册页面4返回回来的，如果是回显数据
         ZhuCeInfo zhuCeInfo = (ZhuCeInfo) getIntent().getSerializableExtra("zhuCeInfo");
         if (zhuCeInfo != null) {
+            fileName=getIntent().getStringExtra("picture");
             et_name.setText(zhuCeInfo.getUsername());
             et_phone.setText(zhuCeInfo.getNumber());
             et_xueyuan.setText(zhuCeInfo.getCollege());
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize = 2;
+            Bitmap cameraBitmap = BitmapFactory.decodeFile(fileName, options);
+            iv_touxiang.setImageBitmap(cameraBitmap);
         }
         //*******************
         //**********************
@@ -115,6 +119,7 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
         zhuCeInfo.setNumber(et_xuehao.getText().toString());
         Intent intent = new Intent(ZhuCe3Activity.this, ZhuCe4Activity.class);
         intent.putExtra("zhuCeInfo", zhuCeInfo);//传递注册信息
+        intent.putExtra("picture",fileName);
         startActivity(intent);
         finish();
     }
@@ -150,8 +155,8 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
         intent.putExtra("crop", true);
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
-        intent.putExtra("outputX", DensityUtil.px2dip(this,100));
-        intent.putExtra("outputY", DensityUtil.px2dip(this,100));
+        intent.putExtra("outputX", 250);
+        intent.putExtra("outputY", 250);
         startActivityForResult(intent, 10);
     }
 

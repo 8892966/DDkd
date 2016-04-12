@@ -4,18 +4,22 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
+import com.tencent.android.tpush.XGPushTextMessage;
 import com.tencent.android.tpush.service.XGPushService;
 
 /**
@@ -23,31 +27,60 @@ import com.tencent.android.tpush.service.XGPushService;
  */
 public class JieDangActivity extends Activity implements View.OnClickListener {
     private ListView listView;
-
+    //DD指南的按钮
     private LinearLayout ll_ddzhinang;
-
+//奖励活动的按钮
     private LinearLayout ll_jianlihuodong;
-
+//查看详细订单的按钮
     private TextView tv_to_dingdang;
-
+//开始抢单或休息的按钮
     private TextView but_jiedang;
+//今天的接单数
+    private TextView tv_xiuxi_huodong_now_number;
+//星星的评分
+    private TextView tv_star;
+//接单的总单数
+    private TextView tv_sum_number;
+//昨天接单的总单数
+    private TextView tv_xiuxi_huodong_yesterday_number;
+//昨天的营业额
+    private TextView tv_xiuxi_huodong_yesterday_money;
+    //星星图型评分
+    private RatingBar pb_star;
 
-    //测试用的
-    boolean i = true;
-
+    //判断接单状态
+    private boolean i = true;
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case MyApplication.XG_TEXT_MESSAGE:
+                    XGPushTextMessage xgPushTextMessage= (XGPushTextMessage) msg.obj;
+                    Toast.makeText(JieDangActivity.this,xgPushTextMessage.getContent(),Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.jiedang_activity);
         TextView textView = (TextView) findViewById(R.id.personinfo);
         textView.setOnClickListener(this);
-
+        MyApplication.setHandler(handler);
         listView = (ListView) findViewById(R.id.lv_jiedang);
 
         ll_ddzhinang = (LinearLayout) findViewById(R.id.ll_ddzhinang);
         ll_jianlihuodong = (LinearLayout) findViewById(R.id.ll_jianlihuodong);
         tv_to_dingdang = (TextView) findViewById(R.id.tv_to_dingdang);
         but_jiedang = (TextView) findViewById(R.id.but_jiedang);
+        findViewById(R.id.tv_xiuxi_huodong_now_number);
+        findViewById(R.id.pb_star);
+        findViewById(R.id.tv_star);
+        findViewById(R.id.tv_sum_number);
+        findViewById(R.id.tv_xiuxi_huodong_yesterday_number);
+        findViewById(R.id.tv_xiuxi_huodong_yesterday_money);
 
         ll_ddzhinang.setOnClickListener(this);
         ll_jianlihuodong.setOnClickListener(this);
@@ -56,6 +89,13 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         //listView.notifyDataSetChanged();//刷新数据库
         listView.setVisibility(View.GONE);
         listView.setAdapter(new MyBaseAdapter());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
     }
 
     @Override
@@ -97,6 +137,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                         public void onSuccess(Object data, int flag) {
                             Log.d("TPush", "注册成功，设备token为：" + data);
                         }
+
                         @Override
                         public void onFail(Object data, int errCode, String msg) {
                             Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);

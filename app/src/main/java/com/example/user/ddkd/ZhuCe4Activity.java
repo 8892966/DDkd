@@ -3,18 +3,16 @@ package com.example.user.ddkd;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.user.ddkd.beam.ZhuCeInfo;
+import com.example.user.ddkd.beam.SignUpInfo;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -70,7 +68,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
         switch (v.getId()){
             case R.id.tv_head_fanghui:
                 Intent intent = new Intent(ZhuCe4Activity.this, ZhuCe3Activity.class);
-                intent.putExtra("zhuCeInfo",getIntent().getSerializableExtra("zhuCeInfo"));
+                intent.putExtra("SignUpInfo",getIntent().getSerializableExtra("SignUpInfo"));
                 intent.putExtra("picture",getIntent().getSerializableExtra("picture"));
                 startActivity(intent);
                 finish();
@@ -85,14 +83,14 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 paizhao(103);
                 break;
             case R.id.tv_button_next:
-                ZhuCeInfo zhuCeInfo= (ZhuCeInfo) getIntent().getSerializableExtra("zhuCeInfo");
+                SignUpInfo signUpInfo = (SignUpInfo) getIntent().getSerializableExtra("SignUpInfo");
                 File file1=new File(uri1.getPath());
                 file1.delete();
                 File file2=new File(uri2.getPath());
                 file2.delete();
                 File file3=new File(uri3.getPath());
                 file3.delete();
-                Log.i("ZhuCe4Activity",zhuCeInfo.toString());
+                Log.i("ZhuCe4Activity", signUpInfo.toString());
                 Toast.makeText(this,"提交成功，请登录",Toast.LENGTH_SHORT).show();
                 Intent intent1=new Intent(ZhuCe4Activity.this,MainActivity_login.class);
                 startActivity(intent1);

@@ -24,6 +24,8 @@
         />
 
     <ImageView
+        android:clickable="true"
+        android:focusable="true"
         android:id="@+id/iv_call_phone"
         android:layout_marginRight="10dp"
         android:layout_alignParentRight="true"

@@ -1,33 +1,25 @@
 package com.example.user.ddkd;
 
-import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Xml;
 import android.view.View;
-import android.view.animation.LinearInterpolator;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.user.ddkd.beam.ZhuCeInfo;
+import com.example.user.ddkd.beam.SignUpInfo;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.xmlpull.v1.XmlPullParser;
@@ -37,10 +29,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 /**
  * Created by User on 2016-04-03.
@@ -135,10 +125,10 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
 //                } else {
 //                    if (yanzhengma.equals(et_yanzhengma.getText().toString()) && number.equals(et_phone_number.getText().toString())) {
 //                        //注册信息
-                        ZhuCeInfo zhuCeInfo = new ZhuCeInfo();
-                        zhuCeInfo.setPhone(number);
+                        SignUpInfo signUpInfo = new SignUpInfo();
+                        signUpInfo.setPhone(number);
                         Intent intent2 = new Intent(this, ZhuCe2Activity.class);
-                        intent2.putExtra("zhuCeInfo", zhuCeInfo);//传递注册信息
+                        intent2.putExtra("SignUpInfo", signUpInfo);//传递注册信息
                         startActivity(intent2);
                         finish();
 //                    } else {
@@ -173,8 +163,8 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
                                     eventType = parser.next();
                                     String code = parser.getText();
                                     if ("2".equals(code)) {
-                                        Log.i("ZhuCe1Activity", "请留意您的短信,3分钟内有效");
-                                        Toast.makeText(ZhuCe1Activity.this, "请留意您的短信,3分钟内有效", Toast.LENGTH_SHORT).show();
+                                        Log.i("ZhuCe1Activity", "请留意您的短信");
+                                        Toast.makeText(ZhuCe1Activity.this, "请留意您的短信", Toast.LENGTH_SHORT).show();
                                     } else {
                                         Toast.makeText(ZhuCe1Activity.this, "获取验证码失败", Toast.LENGTH_SHORT).show();
                                         Log.i("ZhuCe1Activity", "获取验证码失败");

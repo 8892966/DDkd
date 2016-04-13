@@ -1,5 +1,6 @@
 package com.example.user.ddkd;
 
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Xml;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;

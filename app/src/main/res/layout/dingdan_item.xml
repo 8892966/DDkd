@@ -77,25 +77,25 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_dingdang_nudi_dizhi"
         android:text="留言：" />
-    <TextView
-        android:id="@+id/tv_dingdang_liyou"
-        style="@style/textstyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_dingdang_liuyan"
-        android:text="退单理由：" />
+    <!--<TextView-->
+        <!--android:id="@+id/tv_dingdang_liyou"-->
+        <!--style="@style/textstyle"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@id/tv_dingdang_liuyan"-->
+        <!--android:text="退单理由：" />-->
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dip"
-        android:layout_below="@id/tv_dingdang_liyou"
+        android:layout_below="@id/tv_dingdang_liuyan"
         android:background="@color/biankuan" />
 
     <RelativeLayout
         android:id="@+id/rl_dingdang"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_dingdang_liyou"
+        android:layout_below="@id/tv_dingdang_liuyan"
         android:gravity="center_vertical"
         android:padding="5dp">
 

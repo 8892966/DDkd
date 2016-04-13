@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -16,11 +17,16 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.user.ddkd.beam.OrderInfo;
+import com.example.user.ddkd.utils.TimeCountUtil;
 import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
 import com.tencent.android.tpush.XGPushTextMessage;
 import com.tencent.android.tpush.service.XGPushService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by User on 2016-04-02.
@@ -47,25 +53,39 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     private TextView tv_xiuxi_huodong_yesterday_money;
     //星星图型评分
     private RatingBar pb_star;
+    //
+    private List<OrderInfo> list;
+    //倒计时列
+    private List<Integer> times;
+    //用于记录倒计时应该删除的列
+    private List<Integer> deltime;
 
     //判断接单状态
     private boolean i = true;
+    //处理接单的handler
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what){
                 case MyApplication.XG_TEXT_MESSAGE:
-                    XGPushTextMessage xgPushTextMessage= (XGPushTextMessage) msg.obj;
-                    Toast.makeText(JieDangActivity.this,xgPushTextMessage.getContent(),Toast.LENGTH_SHORT).show();
+                    list.add((OrderInfo) msg.obj);
                     break;
             }
         }
     };
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.jiedang_activity);
+        list=new ArrayList<OrderInfo>();
+        times=new ArrayList<Integer>();
+        deltime=new ArrayList<Integer>();
+
+
+
         TextView textView = (TextView) findViewById(R.id.personinfo);
         textView.setOnClickListener(this);
         MyApplication.setHandler(handler);
@@ -89,12 +109,6 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         //listView.notifyDataSetChanged();//刷新数据库
         listView.setVisibility(View.GONE);
         listView.setAdapter(new MyBaseAdapter());
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
 
     }
 
@@ -130,7 +144,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                     // 如果需要知道注册是否成功，请使用eregisterPush(getApplicationContxt(), XGIOperateCallback)带callback版本
                     // 如果需要绑定账号，请使用registerPush(getApplicationContext(),account)版本
                     // 具体可参考详细的开发指南
-// 传递的参数为ApplicationContext
+                    // 传递的参数为ApplicationContext
                     Context context = getApplicationContext();
                     XGPushManager.registerPush(this, new XGIOperateCallback() {
                         @Override
@@ -179,7 +193,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             View view;
             ViewInfo viewInfo;
             if (convertView != null) {
@@ -193,18 +207,13 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 viewInfo.tv_class = (TextView) view.findViewById(R.id.tv_class);
                 viewInfo.tv_item_title = (TextView) view.findViewById(R.id.tv_item_title);
                 viewInfo.tv_qiangdan_button = (TextView) view.findViewById(R.id.tv_qiangdan_button);
-                final int i = position;
-                viewInfo.tv_qiangdan_button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(JieDangActivity.this, i + "", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                int e=times.get(position);
+                TimeCountUtil timeCountUtil=new TimeCountUtil(e*1000,1000,viewInfo.tv_qiangdan_button);
+                timeCountUtil.start();
             }
             //处理数据，填写数据
             return view;
         }
-
         class ViewInfo {
             TextView tv_item_title;
             TextView tv_item_jianli;

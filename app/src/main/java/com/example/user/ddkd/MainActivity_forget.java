@@ -1,9 +1,11 @@
 package com.example.user.ddkd;
 
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,8 +64,31 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
                 finish();
                 break;
             case R.id.tv_button_yanzhengma:
+                countDown();
                 YanZhenMaUtil.sendYZM(this, et_phone_number);
                 break;
         }
+    }
+    private void countDown() {
+//        tv_bt_verify你要设置动画的view
+        ValueAnimator valueAnimator=ValueAnimator.ofInt(0,60);//从0到30计时
+        valueAnimator.setDuration(60000);//持续时间为60s
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                Integer value = (Integer) animation.getAnimatedValue();
+                tv_button_yanzhengma.setText("剩余（"+String.valueOf(60-value)+"s）");
+                if (value==60){
+                    //tv_bt_verify.setBackgroundResource(R.drawable.ret_orange);//30s后的背景
+                    tv_button_yanzhengma.setEnabled(true);//30s后设置可以点击
+                    tv_button_yanzhengma.setText("获取验证码");
+                }else {
+                    tv_button_yanzhengma.setEnabled(false);//30s内设置不可以点击
+                    //time.setBackgroundResource(R.drawable.ret);//30s内的背景
+                }
+            }
+        });
+        valueAnimator.setInterpolator(new LinearInterpolator());//设置变化值为线性变化
+        valueAnimator.start();//动画开始
     }
 }

@@ -7,9 +7,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.text.method.CharacterPickerDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,11 +18,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.user.ddkd.beam.ZhuCeInfo;
-import com.example.user.ddkd.utils.DensityUtil;
+import com.example.user.ddkd.beam.SignUpInfo;
 
 import java.io.File;
-import java.util.logging.Logger;
 
 /**
  * Created by User on 2016-04-03.
@@ -54,7 +50,6 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.zhuce3_activity);
         initFile();
-
         iv_touxiang = (ImageView) findViewById(R.id.iv_touxiang);
         iv_touxiang.setOnClickListener(this);
         et_name = (EditText) findViewById(R.id.et_name);//姓名
@@ -68,15 +63,16 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
         et_id = (EditText) findViewById(R.id.et_id);//身份证
         et_xuehao = (EditText) findViewById(R.id.et_xuehao);//学号
         //**************************判断是否是在注册页面4返回回来的，如果是回显数据
-        ZhuCeInfo zhuCeInfo = (ZhuCeInfo) getIntent().getSerializableExtra("zhuCeInfo");
-        if (zhuCeInfo != null) {
-            fileName=getIntent().getStringExtra("picture");
-            et_name.setText(zhuCeInfo.getUsername());
-            et_phone.setText(zhuCeInfo.getNumber());
-            et_xueyuan.setText(zhuCeInfo.getCollege());
+        SignUpInfo signUpInfo = (SignUpInfo) getIntent().getSerializableExtra("SignUpInfo");
+        if (signUpInfo.getUsername() != null) {
+            et_name.setText(signUpInfo.getUsername());
+            et_phone.setText(signUpInfo.getNumber());
+            et_xueyuan.setText(signUpInfo.getCollege());
+            fileName = getIntent().getStringExtra("picture");
+            tempFile = new File(fileName);
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inSampleSize = 2;
-            Bitmap cameraBitmap = BitmapFactory.decodeFile(fileName, options);
+            Bitmap cameraBitmap = BitmapFactory.decodeFile(tempFile.getPath(), options);
             iv_touxiang.setImageBitmap(cameraBitmap);
         }
         //*******************
@@ -87,7 +83,6 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
         //绑定 Adapter到控件
         sp_diqu.setPrompt("地区");
         sp_diqu.setAdapter(_Adapter);
-
         sp_diqu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -96,16 +91,15 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
                 //绑定 Adapter到控件
                 sp_loudong.setPrompt("楼栋");
                 sp_loudong.setAdapter(_Adapter2);
-
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 
 //****************************
+        //标题头的返回按钮
         TextView tv_head_fanghui = (TextView) findViewById(R.id.tv_head_fanghui);
         tv_head_fanghui.setOnClickListener(this);
     }
@@ -113,13 +107,17 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
     public void next(View v) {
 //        Toast.makeText(this, sp_diqu.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
         //注册信息
-        ZhuCeInfo zhuCeInfo = (ZhuCeInfo) getIntent().getSerializableExtra("zhuCeInfo");
-        zhuCeInfo.setCollege(et_xueyuan.getText().toString());
-        zhuCeInfo.setUsername(et_name.getText().toString());
-        zhuCeInfo.setNumber(et_xuehao.getText().toString());
+        SignUpInfo signUpInfo = (SignUpInfo) getIntent().getSerializableExtra("SignUpInfo");
+        signUpInfo.setCollege(et_xueyuan.getText().toString());
+        signUpInfo.setUsername(et_name.getText().toString());
+        signUpInfo.setNumber(et_xuehao.getText().toString());
+        signUpInfo.setClazz(et_class.getText().toString());
+        signUpInfo.setShortnumber(et_phone.getText().toString());
+        signUpInfo.setId_card(et_id.getText().toString());
+        signUpInfo.setSex(et_sex.getText().toString());
         Intent intent = new Intent(ZhuCe3Activity.this, ZhuCe4Activity.class);
-        intent.putExtra("zhuCeInfo", zhuCeInfo);//传递注册信息
-        intent.putExtra("picture",fileName);
+        intent.putExtra("SignUpInfo", signUpInfo);//传递注册信息
+        intent.putExtra("picture", fileName);
         startActivity(intent);
         finish();
     }
@@ -144,13 +142,15 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
     private void getPhoto() {
         Intent intent = new Intent(Intent.ACTION_PICK);// 打开相册
         intent.setDataAndType(MediaStore.Images.Media.INTERNAL_CONTENT_URI, "image/*");
-        intent.putExtra("output",Uri.fromFile(tempFile));
-        startActivityForResult(intent,11);
+        Log.e("ZhuCe3Activity", Uri.fromFile(tempFile).toString());
+        intent.putExtra("output", Uri.fromFile(tempFile));
+        startActivityForResult(intent, 11);
     }
 
     private void crop(Uri uri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
+        Log.e("crop", Uri.fromFile(tempFile).getPath());
         intent.putExtra("output", Uri.fromFile(tempFile));
         intent.putExtra("crop", true);
         intent.putExtra("aspectX", 1);
@@ -163,11 +163,11 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        System.out.println(resultCode);
-        if(requestCode==10) {
+        if (requestCode == 10) {
             if (data != null) {
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inSampleSize = 2;
-                Bitmap cameraBitmap = BitmapFactory.decodeFile(fileName, options);
+                Bitmap cameraBitmap = BitmapFactory.decodeFile(tempFile.getPath(), options);
 //                Bitmap cameraBitmap = (Bitmap) data.getExtras().get("data");
                 if (cameraBitmap != null) {
                     iv_touxiang.setImageBitmap(cameraBitmap);
@@ -175,8 +175,8 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
                     Toast.makeText(ZhuCe3Activity.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
                 }
             }
-        }else if(requestCode==11){
-            if(data!=null) {
+        } else if (requestCode == 11) {
+            if (data != null) {
                 Uri uri = data.getData();
                 Log.e("uri", uri.toString());
                 crop(uri);
@@ -184,18 +184,19 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
     public void initFile() {
-        if(fileName.equals("")) {
+        if (fileName.equals("")) {
             boolean sdCardExist = Environment.getExternalStorageState()
                     .equals(android.os.Environment.MEDIA_MOUNTED);
-            if(sdCardExist) {
+            if (sdCardExist) {
                 String path = Environment.getExternalStorageDirectory().getPath();
 //                FileUtil.mkdir(path);
 //                Logger.i("path:" + path);
-                fileName = path + "/user_head_photo.jpg";
+                fileName = path + "/user1_head_photo.jpg";
                 tempFile = new File(fileName);
             } else {
-                Toast.makeText(this,"请插入SD卡",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "请插入SD卡", Toast.LENGTH_SHORT).show();
             }
         }
     }

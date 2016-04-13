@@ -3,15 +3,11 @@ package com.example.user.ddkd;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.user.ddkd.R;
-import com.example.user.ddkd.beam.ZhuCeInfo;
+import com.example.user.ddkd.beam.SignUpInfo;
 import com.example.user.ddkd.utils.PasswordUtil;
 
 /**
@@ -36,10 +32,10 @@ public class ZhuCe2Activity extends Activity implements View.OnClickListener {
         String password2 = et_password2.getText().toString();
         if (PasswordUtil.isSame(ZhuCe2Activity.this, password1, password2)) {
             //注册信息
-            ZhuCeInfo zhuCeInfo= (ZhuCeInfo) getIntent().getSerializableExtra("zhuCeInfo");
-            zhuCeInfo.setPassword(password1);
+            SignUpInfo signUpInfo = (SignUpInfo) getIntent().getSerializableExtra("SignUpInfo");
+            signUpInfo.setPassword(password1);
             Intent intent = new Intent(ZhuCe2Activity.this, ZhuCe3Activity.class);
-            intent.putExtra("zhuCeInfo",zhuCeInfo);//传递注册信息
+            intent.putExtra("SignUpInfo", signUpInfo);//传递注册信息
             startActivity(intent);
             finish();
         }

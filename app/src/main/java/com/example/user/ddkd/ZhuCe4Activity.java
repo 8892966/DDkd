@@ -36,6 +36,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
     private Uri uri1;
     private Uri uri2;
     private Uri uri3;
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +47,13 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
         TextView tv_button2_paizhao = (TextView) findViewById(R.id.tv_button2_paizhao);
         TextView tv_button3_paizhao = (TextView) findViewById(R.id.tv_button3_paizhao);
 
-        textView=(TextView)findViewById(R.id.tv_button_next);
+        textView = (TextView) findViewById(R.id.tv_button_next);
         textView.setOnClickListener(this);
 
         //放照片的地方
-        iv_zhuce4_zhaopian1= (ImageView) findViewById(R.id.iv_zhuce4_zhaopian1);
-        iv_zhuce4_zhaopian2= (ImageView) findViewById(R.id.iv_zhuce4_zhaopian2);
-        iv_zhuce4_zhaopian3= (ImageView) findViewById(R.id.iv_zhuce4_zhaopian3);
+        iv_zhuce4_zhaopian1 = (ImageView) findViewById(R.id.iv_zhuce4_zhaopian1);
+        iv_zhuce4_zhaopian2 = (ImageView) findViewById(R.id.iv_zhuce4_zhaopian2);
+        iv_zhuce4_zhaopian3 = (ImageView) findViewById(R.id.iv_zhuce4_zhaopian3);
 
         tv_button1_paizhao.setOnClickListener(this);
         tv_button2_paizhao.setOnClickListener(this);
@@ -65,11 +66,11 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tv_head_fanghui:
                 Intent intent = new Intent(ZhuCe4Activity.this, ZhuCe3Activity.class);
-                intent.putExtra("SignUpInfo",getIntent().getSerializableExtra("SignUpInfo"));
-                intent.putExtra("picture",getIntent().getSerializableExtra("picture"));
+                intent.putExtra("SignUpInfo", getIntent().getSerializableExtra("SignUpInfo"));
+                intent.putExtra("picture", getIntent().getSerializableExtra("picture"));
                 startActivity(intent);
                 finish();
                 break;
@@ -84,26 +85,29 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 break;
             case R.id.tv_button_next:
                 SignUpInfo signUpInfo = (SignUpInfo) getIntent().getSerializableExtra("SignUpInfo");
-                File file1=new File(uri1.getPath());
+
+                //把图片缓存删除
+                File file1 = new File(uri1.getPath());
                 file1.delete();
-                File file2=new File(uri2.getPath());
+                File file2 = new File(uri2.getPath());
                 file2.delete();
-                File file3=new File(uri3.getPath());
+                File file3 = new File(uri3.getPath());
                 file3.delete();
                 Log.i("ZhuCe4Activity", signUpInfo.toString());
-                Toast.makeText(this,"提交成功，请登录",Toast.LENGTH_SHORT).show();
-                Intent intent1=new Intent(ZhuCe4Activity.this,MainActivity_login.class);
+                Toast.makeText(this, "提交成功，请登录", Toast.LENGTH_SHORT).show();
+                Intent intent1 = new Intent(ZhuCe4Activity.this, MainActivity_login.class);
                 startActivity(intent1);
                 finish();
                 break;
         }
     }
+
     private void paizhao(int code) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("image/*");
         intent.putExtra("return-data", true);
-        startActivityForResult(intent,code);
+        startActivityForResult(intent, code);
     }
 
     @Override
@@ -113,46 +117,47 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 Bitmap cameraBitmap = (Bitmap) data.getExtras().get("data");
                 if (cameraBitmap != null) {
                     iv_zhuce4_zhaopian1.setImageBitmap(cameraBitmap);
-                    uri1=saveBitmap(cameraBitmap);
+                    uri1 = saveBitmap(cameraBitmap);
                 } else {
                     Toast.makeText(ZhuCe4Activity.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
                 }
             }
-        }else if (requestCode == 102){
-            if (data != null){
+        } else if (requestCode == 102) {
+            if (data != null) {
                 Bitmap cameraBitmap = (Bitmap) data.getExtras().get("data");
-                if (cameraBitmap != null){
+                if (cameraBitmap != null) {
                     iv_zhuce4_zhaopian2.setImageBitmap(cameraBitmap);
-                    uri2=saveBitmap(cameraBitmap);
-                }else {
+                    uri2 = saveBitmap(cameraBitmap);
+                } else {
                     Toast.makeText(ZhuCe4Activity.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
                 }
             }
-        }else if (requestCode == 103) {
+        } else if (requestCode == 103) {
             if (data != null) {
                 Bitmap cameraBitmap = (Bitmap) data.getExtras().get("data");
                 if (cameraBitmap != null) {
                     iv_zhuce4_zhaopian3.setImageBitmap(cameraBitmap);
-                    uri3=saveBitmap(cameraBitmap);
+                    uri3 = saveBitmap(cameraBitmap);
                 } else {
                     Toast.makeText(ZhuCe4Activity.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
                 }
             }
         }
     }
-    private Uri saveBitmap(Bitmap bm){
-        File tmpDir = new File(Environment.getExternalStorageDirectory()+"/photo");
-        if(!tmpDir.exists()){
+
+    private Uri saveBitmap(Bitmap bm) {
+        File tmpDir = new File(Environment.getExternalStorageDirectory() + "/photo");
+        if (!tmpDir.exists()) {
             tmpDir.mkdir();
         }
-        tempFile = new File(tmpDir,System.currentTimeMillis()+".png");
-        try{
+        tempFile = new File(tmpDir, System.currentTimeMillis() + ".png");
+        try {
             FileOutputStream fos = new FileOutputStream(tempFile);
             bm.compress(Bitmap.CompressFormat.PNG, 85, fos);
             fos.flush();
             fos.close();
             return Uri.fromFile(tempFile);
-        }catch(FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
             return null;
         } catch (IOException e) {

@@ -4,68 +4,59 @@ package com.example.user.ddkd.text;
  * Created by Administrator on 2016/4/13.
  */
 public class UserInfo {
-    private long userphone;
-    private String schoolname;
     private String username;
-    private String usersex;
-    private int detailssum;
-    private String DJ;
-    private long userno;
+    private int shortphone;
+    private long phone;
+    private String college;
+    private int number;
+    private String level;
 
-    public String getUsersex() {
-        return usersex;
+    public int getNumber() {
+        return number;
     }
 
-    public int getDetailssum() {
-        return detailssum;
+    public int getShortphone() {
+        return shortphone;
     }
 
-    public long getUserno() {
-        return userno;
+    public long getPhone() {
+        return phone;
     }
 
-    public long getUserphone() {
-        return userphone;
+    public String getCollege() {
+        return college;
     }
 
-    public String getDJ() {
-        return DJ;
-    }
-
-    public String getSchoolname() {
-        return schoolname;
+    public String getLevel() {
+        return level;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public void setUsersex(String usersex) {
-        this.usersex = usersex;
+    public void setCollege(String college) {
+        this.college = college;
     }
 
-    public void setDetailssum(int detailssum) {
-        this.detailssum = detailssum;
+    public void setLevel(String level) {
+        this.level = level;
     }
 
-    public void setDJ(String DJ) {
-        this.DJ = DJ;
+    public void setNumber(int number) {
+        this.number = number;
     }
 
-    public void setSchoolname(String schoolname) {
-        this.schoolname = schoolname;
+    public void setPhone(long phone) {
+        this.phone = phone;
+    }
+
+    public void setShortphone(int shortphone) {
+        this.shortphone = shortphone;
     }
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public void setUserno(long userno) {
-        this.userno = userno;
-    }
-
-    public void setUserphone(long usnerphone) {
-        this.userphone = userphone;
     }
 
 }

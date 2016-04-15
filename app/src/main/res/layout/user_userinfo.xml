@@ -43,25 +43,6 @@
             android:layout_marginLeft="60dip"
             android:orientation="horizontal"
             android:padding="5dip">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="用户ID："
-                android:textSize="20sp" />
-            <TextView
-                android:id="@+id/userphone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="18813974694"
-                android:textSize="20sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="60dip"
-            android:orientation="horizontal"
-            android:padding="5dip">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -73,7 +54,6 @@
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="刘嘉文"
                 android:textSize="20sp" />
         </LinearLayout>
 
@@ -91,10 +71,9 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/schoolname"
+                android:id="@+id/collage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="计算机学院"
                 android:textSize="20sp" />
         </LinearLayout>
 
@@ -112,10 +91,9 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/userno"
+                android:id="@+id/number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="131110191"
                 android:textSize="20sp" />
         </LinearLayout>
 
@@ -130,13 +108,13 @@
                 android:id="@+id/detailsnum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="接单量："
+                android:text="长号："
                 android:textSize="20sp" />
 
             <TextView
+                android:id="@+id/phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="12"
                 android:textSize="20sp" />
         </LinearLayout>
 
@@ -146,18 +124,32 @@
             android:layout_marginLeft="60dip"
             android:orientation="horizontal"
             android:padding="5dip">
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="短号："
+                android:textSize="20sp" />
+            <TextView
+                android:id="@+id/shortphone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="60dip"
+            android:orientation="horizontal"
+            android:padding="5dip">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="等级："
                 android:textSize="20sp" />
-
             <TextView
-                android:id="@+id/DJ"
+                android:id="@+id/level"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="金牌快递员"
                 android:textSize="20sp" />
         </LinearLayout>
 

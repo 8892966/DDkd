@@ -2,7 +2,9 @@ package com.example.user.ddkd;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -55,14 +57,18 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
     }
 
     public void Voley_Get(){
-        String url="";
+        SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
+        String token=sharedPreferences.getString("token", null);
+
+        String url="http://www.louxiago.com/wc/ddkd/admin.php/Turnover/center/token/"+token;
+
         StringRequest request=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
+                Log.i("token",s);
                 Type userinfotype=new TypeToken<LinkedList<UserInfo>>(){}.getType();
                 Gson gson=new Gson();
                 userinfolist=gson.fromJson(s, userinfotype);
-
             }
         }, new Response.ErrorListener() {
             @Override

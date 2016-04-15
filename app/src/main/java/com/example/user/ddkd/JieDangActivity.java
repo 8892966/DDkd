@@ -206,7 +206,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 viewInfo.tv_qiangdan_button = (TextView) view.findViewById(R.id.tv_qiangdan_button);
                 view.setTag(viewInfo);
             }
-                int e=times.get(position);
+//                int e=times.get(position);
 //                TimeCountUtil timeCountUtil=new TimeCountUtil(20*1000,1000,viewInfo.tv_qiangdan_button);
 //                timeCountUtil.start();
 

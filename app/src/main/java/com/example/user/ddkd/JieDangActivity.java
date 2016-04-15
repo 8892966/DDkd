@@ -209,7 +209,6 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 //                int e=times.get(position);
 //                TimeCountUtil timeCountUtil=new TimeCountUtil(20*1000,1000,viewInfo.tv_qiangdan_button);
 //                timeCountUtil.start();
-
             //处理数据，填写数据
             return view;
         }

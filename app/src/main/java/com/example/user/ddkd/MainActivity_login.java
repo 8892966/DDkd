@@ -10,13 +10,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 
@@ -51,18 +50,14 @@ public class MainActivity_login extends Activity implements View.OnClickListener
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
+                Log.e("volley_Get", s);
+                s = s.substring(1, s.length() - 1);
                 //******************当提交成功以后，后台会返回一个参数来说明是否提交/验证成功******************
-                if (s == null) {
-
-                } else {
-                    SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
-                    SharedPreferences.Editor edit = sharedPreferences.edit();
-                    int length = s.length();
-                    String ss = s.substring(1, length-1);
-                    //Log.e("TOKEN1", ss);
-                    edit.putString("token", ss);
-                    edit.commit();
-                }
+                SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
+                SharedPreferences.Editor edit = sharedPreferences.edit();
+                edit.putString("token", s);
+                Log.e("volley_Get", s);
+                edit.commit();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -79,15 +74,9 @@ public class MainActivity_login extends Activity implements View.OnClickListener
         switch (v.getId()) {
             case R.id.login:
                 //***********判断服务器返回的参数，根据参数来判断验证是否通过**********
-                String phone = userid1.getText().toString();
-                String password = password1.getText().toString();
-                volley_Get(phone, password);
-
-                //**********获取token**********
-                SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
-                String Token=sharedPreferences.getString("token", null);
-                //****************************
-
+//               String phone=userid1.getText().toString();
+//               String password=password1.getText().toString();
+//               volley_Get(phone,password);
                 intent = new Intent(this, JieDangActivity.class);
                 startActivity(intent);
                 finish();

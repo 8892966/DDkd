@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -108,18 +109,28 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
 //        Toast.makeText(this, sp_diqu.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
         //注册信息
         SignUpInfo signUpInfo = (SignUpInfo) getIntent().getSerializableExtra("SignUpInfo");
-        signUpInfo.setCollege(et_xueyuan.getText().toString());
-        signUpInfo.setUsername(et_name.getText().toString());
-        signUpInfo.setNumber(et_xuehao.getText().toString());
-        signUpInfo.setClazz(et_class.getText().toString());
-        signUpInfo.setShortnumber(et_phone.getText().toString());
-        signUpInfo.setId_card(et_id.getText().toString());
-        signUpInfo.setSex(et_sex.getText().toString());
-        Intent intent = new Intent(ZhuCe3Activity.this, ZhuCe4Activity.class);
-        intent.putExtra("SignUpInfo", signUpInfo);//传递注册信息
-        intent.putExtra("picture", fileName);
-        startActivity(intent);
-        finish();
+        if (!TextUtils.isEmpty(et_xueyuan.getText().toString()) &&
+                !TextUtils.isEmpty(et_name.getText().toString()) &&
+                !TextUtils.isEmpty(et_xuehao.getText().toString()) &&
+                !TextUtils.isEmpty(et_class.getText().toString()) &&
+                !TextUtils.isEmpty(et_phone.getText().toString()) &&
+                !TextUtils.isEmpty(et_id.getText().toString()) &&
+                !TextUtils.isEmpty(et_sex.getText().toString())) {
+            signUpInfo.setCollege(et_xueyuan.getText().toString());
+            signUpInfo.setUsername(et_name.getText().toString());
+            signUpInfo.setNumber(et_xuehao.getText().toString());
+            signUpInfo.setClazz(et_class.getText().toString());
+            signUpInfo.setShortnumber(et_phone.getText().toString());
+            signUpInfo.setId_card(et_id.getText().toString());
+            signUpInfo.setSex(et_sex.getText().toString());
+            Intent intent = new Intent(ZhuCe3Activity.this, ZhuCe4Activity.class);
+            intent.putExtra("SignUpInfo", signUpInfo);//传递注册信息
+            intent.putExtra("picture", fileName);
+            startActivity(intent);
+            finish();
+        } else {
+            Toast.makeText(this,"请把信息填写完整!!",Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override

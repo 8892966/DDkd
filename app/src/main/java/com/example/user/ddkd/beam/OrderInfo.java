@@ -27,7 +27,7 @@ public class OrderInfo {
     //客户留言
     private String evaluate;
     //下单时间
-    private long time;
+    private String time;
     //
     private String addressee;
 
@@ -138,11 +138,11 @@ public class OrderInfo {
         this.evaluate = evaluate;
     }
 
-    public long getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(long time) {
+    public void setTime(String time) {
         this.time = time;
     }
 

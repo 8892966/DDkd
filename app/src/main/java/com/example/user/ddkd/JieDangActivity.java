@@ -75,7 +75,6 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         }
     };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,14 +82,10 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         list=new ArrayList<OrderInfo>();
         times=new ArrayList<Integer>();
         deltime=new ArrayList<Integer>();
-
-
-
         TextView textView = (TextView) findViewById(R.id.personinfo);
         textView.setOnClickListener(this);
         MyApplication.setHandler(handler);
         listView = (ListView) findViewById(R.id.lv_jiedang);
-
         ll_ddzhinang = (LinearLayout) findViewById(R.id.ll_ddzhinang);
         ll_jianlihuodong = (LinearLayout) findViewById(R.id.ll_jianlihuodong);
         tv_to_dingdang = (TextView) findViewById(R.id.tv_to_dingdang);
@@ -106,9 +101,12 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         ll_jianlihuodong.setOnClickListener(this);
         tv_to_dingdang.setOnClickListener(this);
         but_jiedang.setOnClickListener(this);
-        //listView.notifyDataSetChanged();//刷新数据库
+        //listView.notifyDataSetChanged();//刷新数据
         listView.setVisibility(View.GONE);
         listView.setAdapter(new MyBaseAdapter());
+
+
+        //初始化数据
 
     }
 
@@ -119,7 +117,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             case R.id.ll_ddzhinang:
                 intent = new Intent(this, WebActivity.class);
                 intent.putExtra("title", "DD指南");
-                intent.putExtra("url", "http://www.baidu.com");
+                intent.putExtra("url","http://www.baidu.com");
                 startActivity(intent);
                 break;
             case R.id.ll_jianlihuodong:
@@ -138,7 +136,6 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                     listView.setVisibility(View.VISIBLE);
                     but_jiedang.setText("休息");
                     but_jiedang.setBackgroundResource(R.drawable.yuan_selected);
-
                     // 开启logcat输出，方便debug，发布时请关闭
                     XGPushConfig.enableDebug(this, true);
                     // 如果需要知道注册是否成功，请使用eregisterPush(getApplicationContxt(), XGIOperateCallback)带callback版本
@@ -207,10 +204,12 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 viewInfo.tv_class = (TextView) view.findViewById(R.id.tv_class);
                 viewInfo.tv_item_title = (TextView) view.findViewById(R.id.tv_item_title);
                 viewInfo.tv_qiangdan_button = (TextView) view.findViewById(R.id.tv_qiangdan_button);
-                int e=times.get(position);
-                TimeCountUtil timeCountUtil=new TimeCountUtil(e*1000,1000,viewInfo.tv_qiangdan_button);
-                timeCountUtil.start();
+                view.setTag(viewInfo);
             }
+                int e=times.get(position);
+//                TimeCountUtil timeCountUtil=new TimeCountUtil(20*1000,1000,viewInfo.tv_qiangdan_button);
+//                timeCountUtil.start();
+
             //处理数据，填写数据
             return view;
         }

@@ -1,20 +1,18 @@
 package com.example.user.ddkd;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Xml;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -25,14 +23,7 @@ import com.example.user.ddkd.beam.OrderInfo;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.apache.commons.codec.digest.DigestUtils;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,56 +39,69 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
     private TextView tv_button_quxiao;
     private TextView tv_head_fanghui;
     private List<OrderInfo> list;
+    private RelativeLayout rl_order_ProgressBar;
 
     private int xuanzhe;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.order_details_activity);
-        listView = (ListView) findViewById(R.id.lv_order_details);
-        tv_button_yijie = (TextView) findViewById(R.id.tv_button_yijie);
-        tv_button_daisong = (TextView) findViewById(R.id.tv_button_daisong);
-        tv_button_wangchen = (TextView) findViewById(R.id.tv_button_wangchen);
-        tv_button_quxiao = (TextView) findViewById(R.id.tv_button_quxiao);
+        //初始加载已接单页面
+        volley_getOrder_GET("1");
 
+        listView = (ListView) findViewById(R.id.lv_order_details);
+        tv_button_yijie = (TextView) findViewById(R.id.tv_button_yijie);//查看已接单的订单详情
+        tv_button_daisong = (TextView) findViewById(R.id.tv_button_daisong);//查看待送的订单详情
+        tv_button_wangchen = (TextView) findViewById(R.id.tv_button_wangchen);//查看已完成的订单详情
+        tv_button_quxiao = (TextView) findViewById(R.id.tv_button_quxiao);//查看以取消的订单详情
         tv_head_fanghui = (TextView) findViewById(R.id.tv_head_fanghui);
+        rl_order_ProgressBar = (RelativeLayout) findViewById(R.id.rl_order_ProgressBar);//加载中显示的RelativeLayout
         //初始化选择页面
         xuanzhe = 1;
         //初始化list
         list = new ArrayList<OrderInfo>();
 
-
         tv_button_yijie.setOnClickListener(this);
         tv_button_daisong.setOnClickListener(this);
         tv_button_wangchen.setOnClickListener(this);
         tv_button_quxiao.setOnClickListener(this);
-
         tv_head_fanghui.setOnClickListener(this);
         baseAdapter = new MyBaseAdapter();
         listView.setAdapter(baseAdapter);
+        //先隐藏listview，等加载数据后再显示出来
+        listView.setVisibility(View.GONE);
         //初始化数据
-//        volley_getOrder_POST("", "1", "http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/state/0/uid/704");
+//        volley_getOrder_GET("", "1", "http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/state/0/uid/704");
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_button_yijie:
+            case R.id.tv_button_yijie://查看以接单
                 xuanzhe = 1;
-                volley_getOrder_POST("", "1", "http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/state/0/uid/704");
+                volley_getOrder_GET("1");
+                listView.setVisibility(View.GONE);//更新后再显示
+                rl_order_ProgressBar.setVisibility(View.VISIBLE);//显示加载页面
                 break;
-            case R.id.tv_button_daisong:
+            case R.id.tv_button_daisong://查看待送单
                 xuanzhe = 2;
-                volley_getOrder_POST("", "2", "http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/state/0/uid/704");
+                volley_getOrder_GET("2");
+                listView.setVisibility(View.GONE);//更新后再显示
+                rl_order_ProgressBar.setVisibility(View.VISIBLE);//显示加载页面
                 break;
-            case R.id.tv_button_wangchen:
+            case R.id.tv_button_wangchen://查看完成订单
                 xuanzhe = 3;
-                volley_getOrder_POST("", "3", "http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/state/0/uid/704");
+                volley_getOrder_GET("3");
+                listView.setVisibility(View.GONE);//更新后再显示
+                rl_order_ProgressBar.setVisibility(View.VISIBLE);//显示加载页面
                 break;
-            case R.id.tv_button_quxiao:
+            case R.id.tv_button_quxiao://查看取消的订单
                 xuanzhe = 4;
-                volley_getOrder_POST("", "5", "http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/state/0/uid/704");
+                volley_getOrder_GET("5");
+                listView.setVisibility(View.GONE);//更新后再显示
+                rl_order_ProgressBar.setVisibility(View.VISIBLE);//显示加载页面
                 break;
             case R.id.tv_head_fanghui:
                 finish();
@@ -131,7 +135,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             } else {
                 zhuanTai = new ZhuanTai();
                 view = View.inflate(DingDanActivity.this, R.layout.dingdan_item, null);
-                //已拿件/完成的按钮
+                //已拿件完成的按钮
                 zhuanTai.textbutton = (TextView) view.findViewById(R.id.tv_dingdang_yina);
                 //退单的按钮
                 zhuanTai.button = (TextView) view.findViewById(R.id.tv_dingdang_tuidang);
@@ -153,7 +157,6 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                 zhuanTai.iv_call_phone = (ImageView) view.findViewById(R.id.iv_call_phone);
 //                //退单的理由
 //                zhuanTai.tv_dingdang_liyou = (TextView) view.findViewById(R.id.tv_dingdang_liyou);
-
                 view.setTag(zhuanTai);
             }
             OrderInfo info = list.get(position);
@@ -178,9 +181,8 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                 zhuanTai.button.setVisibility(View.GONE);
 //                zhuanTai.tv_dingdang_liyou.setText();
             }
-
             zhuanTai.tv_dingdang_id.setText("订单：" + info.getId());
-            zhuanTai.tv_money.setText(info.getPrice());
+            zhuanTai.tv_money.setText(info.getPrice() + "元");
             zhuanTai.tv_dingdang_kehu.setText("   " + info.getUsername() + "   " + info.getPhone());
             zhuanTai.tv_dingdang_kuaidi_dizhi.setText("   " + info.getAddressee() + "   " + info.getExpressCompany() + "快递");
             zhuanTai.tv_dingdang_liuyan.setText("留言：" + info.getEvaluate());
@@ -216,7 +218,6 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                     case R.id.tv_dingdang_tuidang:
                         volley_OrderState_POST("", "", "", "");
                         break;
-
                 }
             }
         }
@@ -231,38 +232,48 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             TextView tv_dingdang_nudi_dizhi;
             TextView tv_dingdang_liuyan;
             TextView tv_dingdang_shijain;
-//            TextView tv_dingdang_liyou;
+            //            TextView tv_dingdang_liyou;
             ImageView iv_call_phone;
         }
     }
 
     //网络申请得到相应状态的订单列表
-    private void volley_getOrder_POST(final String token, final String State, String url) {
+    private void volley_getOrder_GET(final String State) {
+        preferences =getSharedPreferences("config",MODE_PRIVATE);
+        String token=preferences.getString("token","");
+        String url="http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/state/0/uid/704";
 //        参数一：方法 参数二：地址 参数三：成功回调 参数四：错误回调 。重写getParams 以post参数
-        url = url + "?State=" + State;
+        url =url+"?State="+State+"&token="+token;
         StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("volley_getOrder_POST", s);
-                if (s.equals("ERROR")) {
-                    //**********根据后台返回的参数列表来判断这个错误是什么**********
-
-
-                } else {
+                Log.e("volley_getOrder_GET", s);
+                if (!s.equals("token outtime")) {
                     Gson gson = new Gson();
                     list = gson.fromJson(s, new TypeToken<List<OrderInfo>>() {
                     }.getType());
-                    baseAdapter.notifyDataSetChanged();
+                    //转化时间戳
+                    SimpleDateFormat format = new SimpleDateFormat("MM月dd日 HH:mm");
+                    for (OrderInfo info : list) {
+                        info.setTime(format.format(Long.valueOf(info.getTime())));
+                    }
+                }else {
+                    Log.e("volley_getOrder_GET","token过时了");
                 }
+                //更新日期
+                baseAdapter.notifyDataSetChanged();
+                listView.setVisibility(View.VISIBLE);//显示数据
+                rl_order_ProgressBar.setVisibility(View.GONE);//隐藏加载页面
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                list = null;
                 baseAdapter.notifyDataSetChanged();
+                listView.setVisibility(View.VISIBLE);//显示数据
+                rl_order_ProgressBar.setVisibility(View.GONE);//隐藏加载页面
             }
         });
-        request_post.setTag("volley_getOrder_POST");
+        request_post.setTag("volley_getOrder_GET");
         MyApplication.getQueue().add(request_post);
     }
 

@@ -28,7 +28,6 @@ public class TimeCountUtil extends CountDownTimer {
 
     @Override
     public void onFinish() {
-
         textView.setVisibility(View.GONE);
     }
 }

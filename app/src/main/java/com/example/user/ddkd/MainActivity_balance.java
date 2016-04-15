@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -18,7 +17,6 @@ import com.example.user.ddkd.text.DetailsInfo;
 import com.example.user.ddkd.text.Payment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -28,7 +26,6 @@ import java.util.List;
  * Created by Administrator on 2016/4/5.
  */
 public class MainActivity_balance extends Activity implements View.OnClickListener {
-
     private List<Payment> paymentslist;
     private TextView textView;
     protected void onCreate(Bundle savedInstanceState) {

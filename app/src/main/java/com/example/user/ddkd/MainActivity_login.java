@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -44,6 +45,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
         StringRequest request=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
+                Log.e("volley_Get",s);
                 //******************当提交成功以后，后台会返回一个参数来说明是否提交/验证成功******************
                 SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
                 SharedPreferences.Editor edit=sharedPreferences.edit();
@@ -65,9 +67,9 @@ public class MainActivity_login extends Activity implements View.OnClickListener
        switch (v.getId()){
            case R.id.login:
                //***********判断服务器返回的参数，根据参数来判断验证是否通过**********
-//               String phone=userid1.getText().toString();
-//               String password=password1.getText().toString();
-//               volley_Get(phone,password,token);
+               String phone=userid1.getText().toString();
+               String password=password1.getText().toString();
+               volley_Get(phone,password);
 
                intent=new Intent(this,JieDangActivity.class);
                startActivity(intent);

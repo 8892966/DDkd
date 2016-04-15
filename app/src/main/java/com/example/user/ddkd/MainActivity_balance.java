@@ -40,6 +40,8 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
         textView=(TextView)findViewById(R.id.getmoney);
         textView.setOnClickListener(this);
 
+        Volley_Get();
+
         ListView viewById = (ListView) findViewById(R.id.listviewbalance);
         Payment person=new Payment();
         person.setMoney("+1");
@@ -75,6 +77,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
         StringRequest request=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
+                //**********从后台返回一个参数来说明数据的获取状况**********
                 Type listv=new TypeToken<LinkedList<DetailsInfo>>(){}.getType();
                 Gson gson=new Gson();
 
@@ -85,6 +88,8 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
 
             }
         });
+        request.setTag("abcGet");
+        MyApplication.getQueue().add(request);
     }
 
     class MyAdapter extends BaseAdapter{

@@ -17,7 +17,10 @@ import com.google.gson.reflect.TypeToken;
 import org.w3c.dom.Text;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/4/5.
@@ -30,6 +33,7 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
     private TextView DJ;
     private TextView userno;
     private TextView detailsnum;
+    private List<UserInfo> userinfolist;
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_userinfo);
@@ -41,16 +45,24 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
         DJ= (TextView) findViewById(R.id.DJ);
         detailsnum= (TextView) findViewById(R.id.detailsnum);
         schoolname= (TextView) findViewById(R.id.schoolname);
+        Voley_Get();
+
+        userinfolist=new ArrayList<UserInfo>();
+        //*****************根据Json中的数据回显用户的信息********************
+        
+
+
     }
 
-    public void Voley_Post(){
+    public void Voley_Get(){
         String url="";
-        StringRequest request=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        StringRequest request=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Type userinfolist=new TypeToken<LinkedList<UserInfo>>(){}.getType();
+                Type userinfotype=new TypeToken<LinkedList<UserInfo>>(){}.getType();
                 Gson gson=new Gson();
-                UserInfo list =gson.fromJson(s, userinfolist);
+                userinfolist=gson.fromJson(s, userinfotype);
+
             }
         }, new Response.ErrorListener() {
             @Override

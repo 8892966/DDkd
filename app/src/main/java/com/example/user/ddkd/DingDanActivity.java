@@ -65,7 +65,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
         //初始化选择页面
         xuanzhe = 1;
         //初始化list
-        list=new ArrayList<OrderInfo>();
+        list = new ArrayList<OrderInfo>();
 
 
         tv_button_yijie.setOnClickListener(this);
@@ -97,7 +97,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.tv_button_quxiao:
                 xuanzhe = 4;
-                volley_getOrder_POST("","5","http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/state/0/uid/704");
+                volley_getOrder_POST("", "5", "http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/state/0/uid/704");
                 break;
             case R.id.tv_head_fanghui:
                 finish();
@@ -179,23 +179,25 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
 //                zhuanTai.tv_dingdang_liyou.setText();
             }
 
-                zhuanTai.tv_dingdang_id.setText("订单："+info.getId());
-                zhuanTai.tv_money.setText(info.getPrice());
-                zhuanTai.tv_dingdang_kehu.setText("   "+info.getUsername()+"   "+info.getPhone());
-                zhuanTai.tv_dingdang_kuaidi_dizhi.setText("   "+info.getAddressee()+"   "+info.getExpressCompany()+"快递");
-                zhuanTai.tv_dingdang_liuyan.setText("留言："+info.getEvaluate());
-                zhuanTai.tv_dingdang_shijain.setText(info.getTime()+"");
-                zhuanTai.tv_dingdang_nudi_dizhi.setText("   "+info.getReceivePlace());
-                zhuanTai.iv_call_phone.setOnClickListener(new MyOnClickListener(info.getPhone()));
+            zhuanTai.tv_dingdang_id.setText("订单：" + info.getId());
+            zhuanTai.tv_money.setText(info.getPrice());
+            zhuanTai.tv_dingdang_kehu.setText("   " + info.getUsername() + "   " + info.getPhone());
+            zhuanTai.tv_dingdang_kuaidi_dizhi.setText("   " + info.getAddressee() + "   " + info.getExpressCompany() + "快递");
+            zhuanTai.tv_dingdang_liuyan.setText("留言：" + info.getEvaluate());
+            zhuanTai.tv_dingdang_shijain.setText(info.getTime() + "");
+            zhuanTai.tv_dingdang_nudi_dizhi.setText("   " + info.getReceivePlace());
+            zhuanTai.iv_call_phone.setOnClickListener(new MyOnClickListener(info.getPhone()));
             return view;
         }
 
         //按钮的监听
         class MyOnClickListener implements View.OnClickListener {
             String phone;
+
             public MyOnClickListener(String phone) {
                 this.phone = phone;
             }
+
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
@@ -218,6 +220,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                 }
             }
         }
+
         class ZhuanTai {
             TextView textbutton;
             TextView button;
@@ -232,20 +235,27 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             ImageView iv_call_phone;
         }
     }
+
     //网络申请得到相应状态的订单列表
     private void volley_getOrder_POST(final String token, final String State, String url) {
 //        参数一：方法 参数二：地址 参数三：成功回调 参数四：错误回调 。重写getParams 以post参数
-        url=url+"?State="+State;
+        url = url + "?State=" + State;
         StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("volley_getOrder_POST",s);
-                Gson gson = new Gson();
-                list = gson.fromJson(s, new TypeToken<List<OrderInfo>>() {
-                }.getType());
-                baseAdapter.notifyDataSetChanged();
+                Log.e("volley_getOrder_POST", s);
+                if (s.equals("ERROR")) {
+                    //**********根据后台返回的参数列表来判断这个错误是什么**********
+
+
+                } else {
+                    Gson gson = new Gson();
+                    list = gson.fromJson(s, new TypeToken<List<OrderInfo>>() {
+                    }.getType());
+                    baseAdapter.notifyDataSetChanged();
+                }
             }
-        },new Response.ErrorListener() {
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 list = null;
@@ -272,7 +282,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
 //                list = null;
 //                baseAdapter.notifyDataSetChanged();
             }
-        }){
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map = new HashMap<>();

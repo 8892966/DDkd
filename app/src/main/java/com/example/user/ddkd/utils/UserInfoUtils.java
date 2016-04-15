@@ -1,11 +1,6 @@
 package com.example.user.ddkd.utils;
 
-import android.util.JsonReader;
-
 import com.example.user.ddkd.text.UserInfo;
-
-import java.io.IOException;
-import java.io.StringReader;
 import java.util.LinkedList;
 
 /**
@@ -13,7 +8,6 @@ import java.util.LinkedList;
  */
 public class UserInfoUtils {
     public LinkedList<UserInfo> parser(String jsondata,UserInfo userInfo) {
-
         return null;
     }
 }

@@ -12,12 +12,14 @@ import android.widget.RelativeLayout;
  * Created by Administrator on 2016/4/2.
  */
 public class MainActivity_main extends Activity implements View.OnClickListener {
-
+    private ImageView announce;
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_userinfo);
         ImageView imageView=(ImageView)findViewById(R.id.exituserinfo);
         imageView.setOnClickListener(this);
+        announce= (ImageView) findViewById(R.id.announce);
+        announce.setOnClickListener(this);
 
         RelativeLayout moneysum=(RelativeLayout)findViewById(R.id.moneysum);
         moneysum.setOnClickListener(this);
@@ -51,6 +53,10 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
                 break;
             case R.id.exituserinfo:
                 finish();
+                break;
+            case R.id.announce:
+                intent=new Intent(MainActivity_main.this,Announce.class);
+                startActivity(intent);
                 break;
         }
     }

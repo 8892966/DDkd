@@ -10,9 +10,18 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.user.ddkd.text.Person;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.example.user.ddkd.text.DetailsInfo;
+import com.example.user.ddkd.text.Payment;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -20,7 +29,7 @@ import java.util.List;
  */
 public class MainActivity_balance extends Activity implements View.OnClickListener {
 
-    private List<Person> list;
+    private List<Payment> paymentslist;
     private TextView textView;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,21 +37,21 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
         TextView exit=(TextView)findViewById(R.id.tv_head_fanghui);
         exit.setOnClickListener(this);
 
-        textView=(TextView)findViewById(R.id.TX);
+        textView=(TextView)findViewById(R.id.getmoney);
         textView.setOnClickListener(this);
 
         ListView viewById = (ListView) findViewById(R.id.listviewbalance);
-        Person person=new Person();
+        Payment person=new Payment();
         person.setMoney("+1");
         person.setReason("小费");
         person.setAddr("南区三栋");
-        Person person2=new Person();
+        Payment person2=new Payment();
         person2.setMoney("+2");
         person2.setReason("小费");
         person2.setAddr("南区七栋");
-        list=new ArrayList<Person>();
-        list.add(person);
-        list.add(person2);
+        paymentslist=new ArrayList<Payment>();
+        paymentslist.add(person);
+        paymentslist.add(person2);
         viewById.setAdapter(new MyAdapter());
     }
 
@@ -50,7 +59,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
     public void onClick(View v) {
         Intent intent;
         switch (v.getId()){
-            case R.id.TX:
+            case R.id.getmoney:
                 intent=new Intent(this,MainActivity_getmoney.class);
                 startActivity(intent);
                 break;
@@ -61,12 +70,28 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
         }
     }
 
+    public void Volley_Get(){
+        String url="";
+        StringRequest request=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                Type listv=new TypeToken<LinkedList<DetailsInfo>>(){}.getType();
+                Gson gson=new Gson();
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+    }
+
     class MyAdapter extends BaseAdapter{
 
         @Override
         public int getCount() {
-//            Log.i("MainActivity_balance", list.size() + "");
-            return list.size();
+            return paymentslist.size();
         }
 
         @Override
@@ -82,7 +107,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View view;
-            if(convertView==null){
+            if(convertView==null){//判断当前的缓存对象是否为空；
                 LayoutInflater inflater = MainActivity_balance.this.getLayoutInflater();
                 view = inflater.inflate(R.layout.balance_listview, null);
             }else{
@@ -92,7 +117,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
             TextView view1= (TextView) view.findViewById(R.id.reason);
             TextView view3=(TextView)view.findViewById(R.id.addr);
 
-            Person person=list.get(position);
+            Payment person=paymentslist.get(position);
             view1.setText(person.getMoney());
             view2.setText(person.getReason());
             view3.setText(person.getAddr());

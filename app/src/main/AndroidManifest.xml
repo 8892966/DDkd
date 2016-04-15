@@ -35,6 +35,7 @@
         <activity android:name=".MainActivity_main" />
         <activity android:name=".MainActivity_forget" />
         <activity android:name=".SplashActivity" />
+        <activity android:name=".Announce" />
 
 
         <!-- APP项目的其它配置... -->

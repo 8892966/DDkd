@@ -27,22 +27,20 @@
         android:layout_height="120dip"
         android:orientation="horizontal">
         <TextView
-            android:drawableLeft="@drawable/money"
-            android:id="@+id/yue"
+            android:id="@+id/balance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_margin="20dip"
             android:layout_centerInParent="true"
-            android:text="1234.45"
             android:textSize="25sp" />
 
         <TextView
-            android:id="@+id/TX"
+            android:id="@+id/getmoney"
             android:layout_width="70dip"
             android:layout_height="70dip"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/yue"
+            android:layout_toRightOf="@id/balance"
             android:background="@drawable/radio"
             android:gravity="center"
             android:text="提现"

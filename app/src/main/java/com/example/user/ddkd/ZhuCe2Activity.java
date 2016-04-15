@@ -45,8 +45,8 @@ public class ZhuCe2Activity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_head_fanghui:
-                Intent intent = new Intent(ZhuCe2Activity.this, MainActivity_login.class);
-                startActivity(intent);
+//                Intent intent = new Intent(ZhuCe2Activity.this, MainActivity_login.class);
+//                startActivity(intent);
                 finish();
                 break;
         }

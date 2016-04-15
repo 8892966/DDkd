@@ -101,14 +101,25 @@
             android:id="@+id/progressBar"
             android:layout_gravity="center_horizontal" />
     </RelativeLayout>
-
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    >
     <ListView
         android:padding="5dp"
         android:id="@+id/lv_order_details"
-        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
     </ListView>
+    <TextView
+        android:id="@+id/tv_default"
+        android:gravity="center"
+        android:text="没有数据哦...亲！！！"
+        android:textSize="20sp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</FrameLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="5dip"

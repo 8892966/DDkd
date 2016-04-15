@@ -138,8 +138,8 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
         Intent intent;
         switch (v.getId()) {
             case R.id.tv_head_fanghui:
-                intent = new Intent(ZhuCe3Activity.this, MainActivity_login.class);
-                startActivity(intent);
+//                intent = new Intent(ZhuCe3Activity.this, MainActivity_login.class);
+//                startActivity(intent);
                 finish();
                 break;
             case R.id.iv_touxiang:

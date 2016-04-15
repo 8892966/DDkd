@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,6 +71,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
         tv_head_fanghui.setOnClickListener(this);
         baseAdapter = new MyBaseAdapter();
         listView.setAdapter(baseAdapter);
+        listView.setEmptyView(findViewById(R.id.tv_default));
         //先隐藏listview，等加载数据后再显示出来
         listView.setVisibility(View.GONE);
         //初始化数据
@@ -188,16 +190,23 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             zhuanTai.tv_dingdang_liuyan.setText("留言：" + info.getEvaluate());
             zhuanTai.tv_dingdang_shijain.setText(info.getTime() + "");
             zhuanTai.tv_dingdang_nudi_dizhi.setText("   " + info.getReceivePlace());
-            zhuanTai.iv_call_phone.setOnClickListener(new MyOnClickListener(info.getPhone()));
+            zhuanTai.iv_call_phone.setOnClickListener(new MyOnClickListener(null,info.getPhone()));
+            zhuanTai.textbutton.setOnClickListener(new MyOnClickListener(info.getId(),null));
             return view;
         }
 
         //按钮的监听
         class MyOnClickListener implements View.OnClickListener {
             String phone;
-
-            public MyOnClickListener(String phone) {
+            String Id;
+            /**
+             * 输入信息
+             * @param phone 电话号码，如果不需要就输入null
+             * @param Id 输入订单的id，如果不需要输入null
+             */
+            public MyOnClickListener(String phone,String Id) {
                 this.phone = phone;
+                this.Id=Id;
             }
 
             @Override
@@ -210,13 +219,13 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                         break;
                     case R.id.tv_dingdang_yina://已拿件/完成的按钮事件
                         if (xuanzhe == 1) {
-                            volley_OrderState_POST("", "", "", "");
+                            volley_OrderState_GET(Id, "2");
                         } else if (xuanzhe == 2) {
-                            volley_OrderState_POST("", "", "", "");
+                            volley_OrderState_GET(Id, "3");
                         }
                         break;
                     case R.id.tv_dingdang_tuidang:
-                        volley_OrderState_POST("", "", "", "");
+                        volley_OrderState_GET(Id, "4");
                         break;
                 }
             }
@@ -239,26 +248,32 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
 
     //网络申请得到相应状态的订单列表
     private void volley_getOrder_GET(final String State) {
-        preferences =getSharedPreferences("config",MODE_PRIVATE);
-        String token=preferences.getString("token","");
-        String url="http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/state/0/uid/704";
+        preferences = getSharedPreferences("config", MODE_PRIVATE);
+        String token = preferences.getString("token", "");
+        Log.e("volley_getOrder_GET", token);
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/state/" + State + "/uid/704";
 //        参数一：方法 参数二：地址 参数三：成功回调 参数四：错误回调 。重写getParams 以post参数
-        url =url+"?State="+State+"&token="+token;
+        url = url + "/token/48744f129470055a9e2bad2f5ac2ecb0";
         StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 Log.e("volley_getOrder_GET", s);
-                if (!s.equals("token outtime")) {
-                    Gson gson = new Gson();
-                    list = gson.fromJson(s, new TypeToken<List<OrderInfo>>() {
-                    }.getType());
-                    //转化时间戳
-                    SimpleDateFormat format = new SimpleDateFormat("MM月dd日 HH:mm");
-                    for (OrderInfo info : list) {
-                        info.setTime(format.format(Long.valueOf(info.getTime())));
+                if (!s.equals("ERROR")) {
+                    if (!s.equals("token outtime")) {
+                        Gson gson = new Gson();
+                        list = gson.fromJson(s, new TypeToken<List<OrderInfo>>() {
+                        }.getType());
+                        //转化时间戳
+                        SimpleDateFormat format = new SimpleDateFormat("MM月dd日 HH:mm");
+                        for (OrderInfo info : list) {
+                            info.setTime(format.format(Long.valueOf(info.getTime())));
+                        }
+                    } else {
+                        Log.e("volley_getOrder_GET", "token过时了");
+                        list.clear();
                     }
-                }else {
-                    Log.e("volley_getOrder_GET","token过时了");
+                } else {
+                    list.clear();
                 }
                 //更新日期
                 baseAdapter.notifyDataSetChanged();
@@ -278,11 +293,15 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
     }
 
     //网络申请修改相应状态的订单列表
-    private void volley_OrderState_POST(final String token, final String Id, final String State, String url) {
+    private void volley_OrderState_GET(final String Id, final String State) {
+        preferences = getSharedPreferences("config", MODE_PRIVATE);
+        String token = preferences.getString("token", "");
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/setOrderState/id/" + Id + "/state/" + State + "/token/de505b82a7e2368198b0d8d606d0c219";
 //        参数一：方法 参数二：地址 参数三：成功回调 参数四：错误回调 。重写getParams 以post参数
         StringRequest request_post = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
+                Log.e("volley_OrderState_GET", s);
 //                Gson gson=new Gson();
 //                list=gson.fromJson(s, new TypeToken<List<OrderInfo>>(){}.getType());
 //                baseAdapter.notifyDataSetChanged();
@@ -297,13 +316,13 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map = new HashMap<>();
-                map.put("token", token);
+//                map.put("token", token);
                 map.put("State", State);
                 map.put("Id", Id);
                 return map;
             }
         };
-        request_post.setTag("volley_OrderState_POST");
+        request_post.setTag("volley_OrderState_GET");
         MyApplication.getQueue().add(request_post);
     }
 }

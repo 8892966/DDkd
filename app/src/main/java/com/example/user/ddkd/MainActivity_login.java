@@ -41,7 +41,8 @@ public class MainActivity_login extends Activity implements View.OnClickListener
 
     }
     public void volley_Get(String userid,String password){
-        String url="http://www.louxiago.com/wc/ddkd/admin.php/User/login/phone/18813972184/password/123456?"+"phone="+userid+"&password="+password;
+        String url="http://www.louxiago.com/wc/ddkd/admin.php/User/login/phone/18813972184/password/123456";
+                //"?"+"phone="+userid+"&password="+password;
         StringRequest request=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {

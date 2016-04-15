@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2016/4/5.
@@ -50,6 +51,7 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
         Voley_Get();
 
         userInfo=new UserInfo();
+
         //*****************根据Json中的数据回显用户的信息********************
         username.setText(userInfo.getUsername());
         collage.setText(userInfo.getCollege());
@@ -67,9 +69,11 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
         StringRequest request=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                //Log.i("token",s);
+//                Log.i("token",s);
+                Type listv=new TypeToken<LinkedList<UserInfo>>(){}.getType();
                 Gson gson=new Gson();
-                userInfo =gson.fromJson(s,UserInfo.class);
+                userInfo=gson.fromJson(s,listv);
+//                Log.i("token",userInfo.toString());
             }
         }, new Response.ErrorListener() {
             @Override

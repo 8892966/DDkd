@@ -5,17 +5,29 @@ package com.example.user.ddkd.text;
  */
 public class UserInfo {
     private String username;
-    private int shortphone;
+    private long shortphone;
     private long phone;
     private String college;
     private int number;
     private String level;
 
+    @Override
+    public String toString() {
+        return "UserInfo{" +
+                "username='" + username + '\'' +
+                ", shortphone=" + shortphone +
+                ", phone=" + phone +
+                ", college='" + college + '\'' +
+                ", number=" + number +
+                ", level='" + level + '\'' +
+                '}';
+    }
+
     public int getNumber() {
         return number;
     }
 
-    public int getShortphone() {
+    public long getShortphone() {
         return shortphone;
     }
 
@@ -51,7 +63,7 @@ public class UserInfo {
         this.phone = phone;
     }
 
-    public void setShortphone(int shortphone) {
+    public void setShortphone(long shortphone) {
         this.shortphone = shortphone;
     }
 

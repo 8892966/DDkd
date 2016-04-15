@@ -41,7 +41,6 @@ public class MainActivity_login extends Activity implements View.OnClickListener
         button.setOnClickListener(this);
         insert.setOnClickListener(this);
         forget.setOnClickListener(this);
-
     }
 
     public void volley_Get(String userid, String password) {

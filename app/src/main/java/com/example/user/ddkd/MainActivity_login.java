@@ -64,7 +64,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
             public void onErrorResponse(VolleyError volleyError) {
             }
         });
-        request.setTag("abcGet");
+        request.setTag("abcGet_login");
         MyApplication.getQueue().add(request);
     }
 
@@ -74,9 +74,10 @@ public class MainActivity_login extends Activity implements View.OnClickListener
         switch (v.getId()) {
             case R.id.login:
                 //***********判断服务器返回的参数，根据参数来判断验证是否通过**********
-//               String phone=userid1.getText().toString();
-//               String password=password1.getText().toString();
-//               volley_Get(phone,password);
+                String phone = userid1.getText().toString();
+                String password = password1.getText().toString();
+                volley_Get(phone, password);
+
                 intent = new Intent(this, JieDangActivity.class);
                 startActivity(intent);
                 finish();

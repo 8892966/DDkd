@@ -29,30 +29,34 @@ import java.util.List;
  */
 public class MainActivity_userinfo extends Activity implements View.OnClickListener {
     private TextView textView;
-    private TextView userphone;
     private TextView username;
-    private TextView schoolname;
-    private TextView DJ;
-    private TextView userno;
-    private TextView detailsnum;
-    private List<UserInfo> userinfolist;
+    private TextView collage;
+    private TextView number;
+    private TextView phone;
+    private TextView shortphone;
+    private TextView level;
+    private UserInfo userInfo;
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_userinfo);
         textView=(TextView)findViewById(R.id.tv_head_fanghui);
         textView.setOnClickListener(this);
         username= (TextView) findViewById(R.id.username);
-        userno= (TextView) findViewById(R.id.userno);
-        userphone= (TextView) findViewById(R.id.userphone);
-        DJ= (TextView) findViewById(R.id.DJ);
-        detailsnum= (TextView) findViewById(R.id.detailsnum);
-        schoolname= (TextView) findViewById(R.id.schoolname);
+        collage= (TextView) findViewById(R.id.collage);
+        number= (TextView) findViewById(R.id.number);
+        phone= (TextView) findViewById(R.id.phone);
+        shortphone= (TextView) findViewById(R.id.shortphone);
+        level= (TextView) findViewById(R.id.level);
         Voley_Get();
 
-        userinfolist=new ArrayList<UserInfo>();
+        userInfo=new UserInfo();
         //*****************根据Json中的数据回显用户的信息********************
-        
-
+        username.setText(userInfo.getUsername());
+        collage.setText(userInfo.getCollege());
+        number.setText(userInfo.getNumber()+"");
+        phone.setText(userInfo.getPhone()+"");
+        shortphone.setText(userInfo.getShortphone()+"");
+        level.setText(userInfo.getLevel());
 
     }
 
@@ -64,9 +68,8 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
             @Override
             public void onResponse(String s) {
                 //Log.i("token",s);
-                Type userinfotype=new TypeToken<LinkedList<UserInfo>>(){}.getType();
                 Gson gson=new Gson();
-                userinfolist=gson.fromJson(s, userinfotype);
+                userInfo =gson.fromJson(s,UserInfo.class);
             }
         }, new Response.ErrorListener() {
             @Override

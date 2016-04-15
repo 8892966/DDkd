@@ -59,13 +59,11 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
     public void Voley_Get(){
         SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
         String token=sharedPreferences.getString("token", null);
-
         String url="http://www.louxiago.com/wc/ddkd/admin.php/Turnover/center/token/"+token;
-
         StringRequest request=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.i("token",s);
+                //Log.i("token",s);
                 Type userinfotype=new TypeToken<LinkedList<UserInfo>>(){}.getType();
                 Gson gson=new Gson();
                 userinfolist=gson.fromJson(s, userinfotype);

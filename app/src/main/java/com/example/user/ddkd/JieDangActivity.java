@@ -75,7 +75,6 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         }
     };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,14 +82,9 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         list=new ArrayList<OrderInfo>();
         times=new ArrayList<Integer>();
         deltime=new ArrayList<Integer>();
-
-
-
         TextView textView = (TextView) findViewById(R.id.personinfo);
         textView.setOnClickListener(this);
-
         MyApplication.setHandler(handler);
-
         listView = (ListView) findViewById(R.id.lv_jiedang);
         ll_ddzhinang = (LinearLayout) findViewById(R.id.ll_ddzhinang);
         ll_jianlihuodong = (LinearLayout) findViewById(R.id.ll_jianlihuodong);
@@ -107,9 +101,12 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         ll_jianlihuodong.setOnClickListener(this);
         tv_to_dingdang.setOnClickListener(this);
         but_jiedang.setOnClickListener(this);
-        //listView.notifyDataSetChanged();//刷新数据库
+        //listView.notifyDataSetChanged();//刷新数据
         listView.setVisibility(View.GONE);
         listView.setAdapter(new MyBaseAdapter());
+
+
+        //初始化数据
 
     }
 
@@ -120,7 +117,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             case R.id.ll_ddzhinang:
                 intent = new Intent(this, WebActivity.class);
                 intent.putExtra("title", "DD指南");
-                intent.putExtra("url", "http://www.baidu.com");
+                intent.putExtra("url","http://www.baidu.com");
                 startActivity(intent);
                 break;
             case R.id.ll_jianlihuodong:
@@ -210,8 +207,8 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 view.setTag(viewInfo);
             }
                 int e=times.get(position);
-                TimeCountUtil timeCountUtil=new TimeCountUtil(20*1000,1000,viewInfo.tv_qiangdan_button);
-                timeCountUtil.start();
+//                TimeCountUtil timeCountUtil=new TimeCountUtil(20*1000,1000,viewInfo.tv_qiangdan_button);
+//                timeCountUtil.start();
 
             //处理数据，填写数据
             return view;

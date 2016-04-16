@@ -37,6 +37,8 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
     private TextView shortphone;
     private TextView level;
     private UserInfo userInfo;
+    private List<UserInfo> list;
+
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_userinfo);
@@ -49,22 +51,12 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
         shortphone= (TextView) findViewById(R.id.shortphone);
         level= (TextView) findViewById(R.id.level);
         Voley_Get();
-
-        userInfo=new UserInfo();
-
-        //*****************根据Json中的数据回显用户的信息********************
-        username.setText(userInfo.getUsername());
-        collage.setText(userInfo.getCollege());
-        number.setText(userInfo.getNumber()+"");
-        phone.setText(userInfo.getPhone()+"");
-        shortphone.setText(userInfo.getShortphone()+"");
-        level.setText(userInfo.getLevel());
-
     }
 
     public void Voley_Get(){
         SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
         String token=sharedPreferences.getString("token", null);
+        Log.i("Volley_Get",token);
         String url="http://www.louxiago.com/wc/ddkd/admin.php/Turnover/center/token/"+token;
         StringRequest request=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
@@ -72,8 +64,26 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
 //                Log.i("token",s);
                 Type listv=new TypeToken<LinkedList<UserInfo>>(){}.getType();
                 Gson gson=new Gson();
-                userInfo=gson.fromJson(s,listv);
-//                Log.i("token",userInfo.toString());
+                list=gson.fromJson(s,listv);
+
+                if(list!=null){
+                    Log.i("token",userInfo.toString());
+                    UserInfo userInfo1=list.get(0);
+                    if(userInfo1!=null){
+                        Log.i("DDS","content not is null");
+                    }else{
+                        Log.i("DDS","content is null");
+                    }
+                    //*****************根据Json中的数据回显用户的信息********************
+                    username.setText(userInfo1.getUsername());
+                    collage.setText(userInfo1.getCollege());
+                    number.setText(userInfo1.getNumber()+"");
+                    phone.setText(userInfo1.getPhone()+"");
+                    shortphone.setText(userInfo1.getShortphone()+"");
+                    level.setText(userInfo1.getLevel());
+                }else{
+                    Log.i("Error","List is null");
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -81,7 +91,7 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
 
             }
         });
-        request.setTag("abcPost");
+        request.setTag("abcPost_userinfo");
         MyApplication.getQueue().add(request);
     }
 

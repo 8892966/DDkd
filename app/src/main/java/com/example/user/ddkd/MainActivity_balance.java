@@ -85,7 +85,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
 
             }
         });
-        request.setTag("abcGet");
+        request.setTag("abcGet_balance");
         MyApplication.getQueue().add(request);
     }
 

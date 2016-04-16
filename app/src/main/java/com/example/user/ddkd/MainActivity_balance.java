@@ -63,8 +63,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
                 startActivity(intent);
                 break;
             case R.id.tv_head_fanghui:
-                intent=new Intent(this,MainActivity_main.class);
-                startActivity(intent);
+                finish();
                 break;
         }
     }

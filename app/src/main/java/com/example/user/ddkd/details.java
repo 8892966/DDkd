@@ -40,7 +40,7 @@ public class details extends Activity implements View.OnClickListener {
         ListView listView = (ListView) findViewById(R.id.listviewdetails);
         exit_button = (TextView) findViewById(R.id.tv_head_fanghui);
         exit_button.setOnClickListener(this);
-        Volley_Get();
+        Volley_Get("4");
 
         detailsinfolist = new ArrayList<DetailsInfo>();
         myAdater = new MyAdater();
@@ -87,7 +87,7 @@ public class details extends Activity implements View.OnClickListener {
             TextView courier = (TextView) view.findViewById(R.id.courier);
             TextView telephone = (TextView) view.findViewById(R.id.userphone);
             TextView addr = (TextView) view.findViewById(R.id.addr);
-            TextView date = (TextView) findViewById(R.id.date);
+            TextView date = (TextView) view.findViewById(R.id.date);
 
             DetailsInfo detailsInfo = detailsinfolist.get(position);
             if (detailsInfo != null) {
@@ -96,21 +96,22 @@ public class details extends Activity implements View.OnClickListener {
                 username.setText(detailsInfo.getUsername());
                 courier.setText(detailsInfo.getExpressCompany());
                 telephone.setText(detailsInfo.getPhone() + "");
-                addr.setText(detailsInfo.getAddressee());
-//                SimpleDateFormat format=new SimpleDateFormat("yyyy/MM/dd    HH:mm:ss");
-//                date.setText(String.valueOf(format));
+                Log.e("getView", detailsInfo.getReceiverPlace()+"");
+                addr.setText(detailsInfo.getReceiverPlace()+"");
+                //回显时间
+                date.setText(detailsInfo.getTime());
             } else {
-                Log.i("Error","fdsfdsfsdfdsf");
+                Log.i("Error","fsdfaffsda");
             }
             return view;
         }
     }
 
-    public void Volley_Get() {
+    public void Volley_Get(String Static) {
         SharedPreferences preferences=getSharedPreferences("config",MODE_PRIVATE) ;
         String token=preferences.getString("token",null);
         //Log.i("Get_details_token",token);
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/static/"+1+"/token/"+token;
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/static/"+Static+"/token/"+token;
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
@@ -118,6 +119,10 @@ public class details extends Activity implements View.OnClickListener {
                 Type listv = new TypeToken<LinkedList<DetailsInfo>>() {}.getType();
                 Gson gson = new Gson();
                 detailsinfolist = gson.fromJson(s, listv);
+                SimpleDateFormat dateFormat=new SimpleDateFormat("yyy/mm/dd  HH:mm:ss");
+                for(DetailsInfo detailsInfo2:detailsinfolist){
+                    detailsInfo2.setTime(dateFormat.format(Long.valueOf(detailsInfo2.getTime())));
+                }
                 myAdater.notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {

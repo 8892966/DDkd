@@ -11,7 +11,7 @@ public class DetailsInfo {
     private long phone;
     private String ExpressCompany;
     private String evaluate;
-    private long time;
+    private String time;
     private String ReceiverPlace;
 
     public double getPrice() {
@@ -26,7 +26,7 @@ public class DetailsInfo {
         return phone;
     }
 
-    public long getTime() {
+    public String getTime() {
         return time;
     }
 
@@ -78,11 +78,16 @@ public class DetailsInfo {
         ReceiverPlace = receiverPlace;
     }
 
-    public void setTime(long time) {
+    public void setTime(String time) {
         this.time = time;
     }
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public String toString() {
+        return id+Price+addressee+username+phone+ReceiverPlace;
     }
 }

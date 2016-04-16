@@ -71,6 +71,7 @@ public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
             nm.notify(R.mipmap.ic_launcher,notification);
         }
     }
+
     @Override
     public void onNotifactionClickedResult(Context context, XGPushClickedResult xgPushClickedResult) {
         //  通知被打开触发的结果

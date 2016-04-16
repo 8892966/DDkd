@@ -84,7 +84,6 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
         request.setTag("abcPost");
         MyApplication.getQueue().add(request);
     }
-
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_head_fanghui:

@@ -1,6 +1,7 @@
 package com.example.user.ddkd.XinGe;
 
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -12,10 +13,14 @@ import com.tencent.android.tpush.XGPushRegisterResult;
 import com.tencent.android.tpush.XGPushShowedResult;
 import com.tencent.android.tpush.XGPushTextMessage;
 
+import java.util.List;
+
 /**
  * Created by User on 2016-04-09.
  */
 public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
+    ActivityManager am;
+
     @Override
     public void onRegisterResult(Context context, int i, XGPushRegisterResult xgPushRegisterResult) {
         //注册结果
@@ -41,13 +46,18 @@ public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
         message.obj=xgPushTextMessage;
         message.what=MyApplication.XG_TEXT_MESSAGE;
         handler.sendMessage(message);
+        am= (ActivityManager) context.getSystemService(context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> infos = am.getRunningTasks(100);
+//        infos.get(0).topActivity;
     }
     @Override
     public void onNotifactionClickedResult(Context context, XGPushClickedResult xgPushClickedResult){
     //  通知被打开触发的结果
+
     }
     @Override
     public void onNotifactionShowedResult(Context context, XGPushShowedResult xgPushShowedResult) {
     //通知被展示触发的结果，可以在此保存APP收到的通知
+
     }
 }

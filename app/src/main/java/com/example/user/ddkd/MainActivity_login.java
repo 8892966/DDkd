@@ -50,7 +50,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
             @Override
             public void onResponse(String s) {
                 Log.e("volley_Get", s);
-                s = s.substring(1, s.length() - 1);
+                s = s.substring(1, s.length()-1);
                 //******************当提交成功以后，后台会返回一个参数来说明是否提交/验证成功******************
                 SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
                 SharedPreferences.Editor edit = sharedPreferences.edit();
@@ -66,7 +66,6 @@ public class MainActivity_login extends Activity implements View.OnClickListener
         request.setTag("abcGet_login");
         MyApplication.getQueue().add(request);
     }
-
     @Override
     public void onClick(View v) {
         Intent intent;
@@ -76,7 +75,6 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                 String phone = userid1.getText().toString();
                 String password = password1.getText().toString();
                 volley_Get(phone, password);
-
                 intent = new Intent(this, JieDangActivity.class);
                 startActivity(intent);
                 finish();

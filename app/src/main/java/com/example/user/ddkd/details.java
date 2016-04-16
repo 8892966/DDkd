@@ -1,6 +1,7 @@
 package com.example.user.ddkd;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,9 +20,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 /**
  * Created by Administrator on 2016/4/4.
@@ -94,24 +97,28 @@ public class details extends Activity implements View.OnClickListener {
                 courier.setText(detailsInfo.getExpressCompany());
                 telephone.setText(detailsInfo.getPhone() + "");
                 addr.setText(detailsInfo.getAddressee());
+//                SimpleDateFormat format=new SimpleDateFormat("yyyy/MM/dd    HH:mm:ss");
+//                date.setText(String.valueOf(format));
             } else {
                 Log.i("Error","fdsfdsfsdfdsf");
-
             }
             return view;
         }
     }
 
     public void Volley_Get() {
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/state/0/uid/704?State=1";
+        SharedPreferences preferences=getSharedPreferences("config",MODE_PRIVATE) ;
+        String token=preferences.getString("token",null);
+        //Log.i("Get_details_token",token);
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/static/"+1+"/token/"+token;
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Type listv = new TypeToken<LinkedList<DetailsInfo>>() {
-                }.getType();
+                Log.i("Get_deailes",s);
+                Type listv = new TypeToken<LinkedList<DetailsInfo>>() {}.getType();
                 Gson gson = new Gson();
                 detailsinfolist = gson.fromJson(s, listv);
-                myAdater.notifyDataSetChanged();//
+                myAdater.notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -119,7 +126,7 @@ public class details extends Activity implements View.OnClickListener {
                 Log.e("111", "content is null");
             }
         });
-        request.setTag("abcGet");
+        request.setTag("abcGet_details");
         MyApplication.getQueue().add(request);
     }
 }

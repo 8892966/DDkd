@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -43,29 +45,39 @@ public class MainActivity_login extends Activity implements View.OnClickListener
         forget.setOnClickListener(this);
     }
 
-    public void volley_Get(String userid, String password) {
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/login/phone/18813972184/password/123456";
+    public void volley_Get(final String userid, final String password) {
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/login/phone/" + userid + "/password/" + password;
         //"?"+"phone="+userid+"&password="+password;
+        //Log.e("aaa","aaa");
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("volley_Get", s);
-                s = s.substring(1, s.length()-1);
-                //******************当提交成功以后，后台会返回一个参数来说明是否提交/验证成功******************
-                SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
-                SharedPreferences.Editor edit = sharedPreferences.edit();
-                edit.putString("token", s);
-                Log.e("volley_Get", s);
-                edit.commit();
+                Log.e("Get_login", s);
+                if (!s.equals("ERROR")){
+                    s = s.substring(1, s.length() - 1);
+                    //******************当提交成功以后，后台会返回一个参数来说明是否提交/验证成功******************
+                    SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
+                    SharedPreferences.Editor edit = sharedPreferences.edit();
+                    edit.putString("token", s);
+                    Log.e("volley_Get", s);
+                    edit.commit();
+                    Intent intent = new Intent(MainActivity_login.this, JieDangActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Log.i("Erroe", "ERROR");
+                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                Log.e("onErrorResponse", "onErrorResponse");
             }
         });
         request.setTag("abcGet_login");
         MyApplication.getQueue().add(request);
     }
+
     @Override
     public void onClick(View v) {
         Intent intent;
@@ -74,10 +86,16 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                 //***********判断服务器返回的参数，根据参数来判断验证是否通过**********
                 String phone = userid1.getText().toString();
                 String password = password1.getText().toString();
-                volley_Get(phone, password);
-                intent = new Intent(this, JieDangActivity.class);
-                startActivity(intent);
-                finish();
+                if(!TextUtils.isEmpty(phone)){
+
+                    if(!TextUtils.isEmpty(password)){
+                        volley_Get(phone, password);
+                    }else{
+                        Toast.makeText(MainActivity_login.this,"密码不能为空",Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(MainActivity_login.this,"账号不能为空",Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.insert:
                 intent = new Intent(this, ZhuCe1Activity.class);

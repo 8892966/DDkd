@@ -69,7 +69,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             super.handleMessage(msg);
             switch (msg.what){
                 case MyApplication.XG_TEXT_MESSAGE:
-                    list.add((OrderInfo) msg.obj);
+//                    list.add((OrderInfo) msg.obj);
                     break;
             }
         }

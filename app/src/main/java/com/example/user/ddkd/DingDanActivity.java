@@ -79,17 +79,17 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
+    public void onClick(View v){
+        switch (v.getId()){
             case R.id.tv_button_yijie://查看以接单
-                xuanzhe = 1;
+                xuanzhe=1;
                 volley_getOrder_GET("1");
                 listView.getEmptyView().setVisibility(View.GONE);//跟新后显示
                 listView.setVisibility(View.GONE);//更新后再显示
                 rl_order_ProgressBar.setVisibility(View.VISIBLE);//显示加载页面
                 break;
             case R.id.tv_button_daisong://查看待送单
-                xuanzhe = 2;
+                xuanzhe=2;
                 volley_getOrder_GET("2");
                 listView.getEmptyView().setVisibility(View.GONE);//跟新后显示
                 listView.setVisibility(View.GONE);//更新后再显示
@@ -114,7 +114,6 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                 break;
         }
     }
-
     class MyBaseAdapter extends BaseAdapter {
         @Override
         public int getCount() {
@@ -176,11 +175,11 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
 //                zhuanTai.tv_dingdang_liyou.setVisibility(View.GONE);
                 zhuanTai.textbutton.setText("完成");
                 zhuanTai.textbutton.setVisibility(View.VISIBLE);
-                zhuanTai.button.setVisibility(View.VISIBLE);
+                zhuanTai.button.setVisibility(View.GONE);
             } else if (xuanzhe == 3) {
 //                zhuanTai.tv_dingdang_liyou.setVisibility(View.GONE);
                 zhuanTai.textbutton.setVisibility(View.GONE);
-                zhuanTai.button.setVisibility(View.VISIBLE);
+                zhuanTai.button.setVisibility(View.GONE);
             } else if (xuanzhe == 4) {
 //                zhuanTai.tv_dingdang_liyou.setVisibility(View.VISIBLE);
                 zhuanTai.textbutton.setVisibility(View.GONE);
@@ -194,11 +193,10 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             zhuanTai.tv_dingdang_liuyan.setText("留言：" + info.getEvaluate());
             zhuanTai.tv_dingdang_shijain.setText(info.getTime() + "");
             zhuanTai.tv_dingdang_nudi_dizhi.setText("   " + info.getReceivePlace());
-            zhuanTai.iv_call_phone.setOnClickListener(new MyOnClickListener(null, info.getPhone()));
-            zhuanTai.textbutton.setOnClickListener(new MyOnClickListener(info.getId(),null));
+            zhuanTai.iv_call_phone.setOnClickListener(new MyOnClickListener(info.getPhone(),null ));
+            zhuanTai.textbutton.setOnClickListener(new MyOnClickListener(null,info.getId()));
             return view;
         }
-
         //按钮的监听
         class MyOnClickListener implements View.OnClickListener {
             String phone;
@@ -212,7 +210,6 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                 this.phone = phone;
                 this.Id=Id;
             }
-
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
@@ -255,7 +252,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
         preferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = preferences.getString("token", "");
         Log.e("volley_getOrder_GET", token);
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/state/" + State + "/uid/704/token/"+token;
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/state/" + State + "/token/"+token;
 //        参数一：方法 参数二：地址 参数三：成功回调 参数四：错误回调 。重写getParams 以post参数
         StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
@@ -280,7 +277,6 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                 }
                 //更新日期
                 baseAdapter.notifyDataSetChanged();
-                listView.getEmptyView().setVisibility(View.VISIBLE);//显示默认view
                 listView.setVisibility(View.VISIBLE);//显示数据
                 rl_order_ProgressBar.setVisibility(View.GONE);//隐藏加载页面
             }
@@ -288,7 +284,6 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 baseAdapter.notifyDataSetChanged();
-                listView.getEmptyView().setVisibility(View.VISIBLE);//显示默认view
                 listView.setVisibility(View.VISIBLE);//显示数据
                 rl_order_ProgressBar.setVisibility(View.GONE);//隐藏加载页面
             }
@@ -299,14 +294,14 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
     //网络申请修改相应状态的订单列表
     private void volley_OrderState_GET(final String Id, final String State) {
         preferences = getSharedPreferences("config", MODE_PRIVATE);
-        String token = preferences.getString("token", "");
+        String token = preferences.getString("token","");
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/setOrderState/id/" + Id + "/state/" + State + "/token/"+token;
 //        参数一：方法 参数二：地址 参数三：成功回调 参数四：错误回调 。重写getParams 以post参数
-        StringRequest request_post = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 Log.e("volley_OrderState_GET", s);
-                    if("".equals(s)) {
+                    if("SUCCESS".equals(s)) {
 //                baseAdapter.notifyDataSetChanged();
 
                     }

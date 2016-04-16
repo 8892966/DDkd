@@ -2,11 +2,17 @@ package com.example.user.ddkd.XinGe;
 
 
 import android.app.ActivityManager;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.example.user.ddkd.MyApplication;
+import com.example.user.ddkd.R;
 import com.tencent.android.tpush.XGPushBaseReceiver;
 import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushRegisterResult;
@@ -25,39 +31,55 @@ public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
     public void onRegisterResult(Context context, int i, XGPushRegisterResult xgPushRegisterResult) {
         //注册结果
     }
+
     @Override
     public void onUnregisterResult(Context context, int i) {
 //反注册结果
     }
+
     @Override
     public void onSetTagResult(Context context, int i, String s) {
 //设置标签结果
     }
+
     @Override
     public void onDeleteTagResult(Context context, int i, String s) {
 //删除标签结果
     }
+
     @Override
     public void onTextMessage(Context context, XGPushTextMessage xgPushTextMessage) {
         //开发者在前台下发消息，需要APP继承XGPushBaseReceiver重载onTextMessage方法接收，
         // 成功接收后，再根据特有业务场景进行处理。
-        Handler handler=MyApplication.getHandler();
-        Message message=Message.obtain();
-        message.obj=xgPushTextMessage;
-        message.what=MyApplication.XG_TEXT_MESSAGE;
-        handler.sendMessage(message);
-        am= (ActivityManager) context.getSystemService(context.ACTIVITY_SERVICE);
+
+//        Handler handler = MyApplication.getHandler();
+//        Message message = Message.obtain();
+//        message.obj = xgPushTextMessage;
+//        message.what = MyApplication.XG_TEXT_MESSAGE;
+//        handler.sendMessage(message);
+        am = (ActivityManager) context.getSystemService(context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> infos = am.getRunningTasks(100);
-//        infos.get(0).topActivity;
+        if ("com.example.user.ddkd.JieDangActivity".equals(infos.get(0).topActivity.getClassName())) {
+            Toast.makeText(context,xgPushTextMessage.getContent(), Toast.LENGTH_LONG).show();
+        } else {
+            NotificationManager nm = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+            Notification.Builder builder = new Notification.Builder(context);
+            builder.setContentTitle("DDkd");
+            builder.setContentText(xgPushTextMessage.getContent());
+            builder.setSmallIcon(R.mipmap.ic_launcher);
+            Notification notification = builder.getNotification();
+            nm.notify(R.mipmap.ic_launcher,notification);
+        }
     }
     @Override
-    public void onNotifactionClickedResult(Context context, XGPushClickedResult xgPushClickedResult){
-    //  通知被打开触发的结果
-
+    public void onNotifactionClickedResult(Context context, XGPushClickedResult xgPushClickedResult) {
+        //  通知被打开触发的结果
+            Log.e("MyXGPushBaseReceiver","onNotifactionClickedResult");
     }
+
     @Override
     public void onNotifactionShowedResult(Context context, XGPushShowedResult xgPushShowedResult) {
-    //通知被展示触发的结果，可以在此保存APP收到的通知
-
+        //通知被展示触发的结果，可以在此保存APP收到的通知
+        Log.e("MyXGPushBaseReceiver","onNotifactionShowedResult");
     }
 }

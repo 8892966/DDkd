@@ -59,7 +59,7 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
                     String password1 = et_new_password.getText().toString();
                     String password2 = et_new_password2.getText().toString();
                     if(PasswordUtil.isSame(this, password1, password2)) {
-                        volley_ForgetPassword_GET(password1,);
+//                        volley_ForgetPassword_GET(password1,);
                         Toast.makeText(this, "密码修改成功，请重新登录", Toast.LENGTH_SHORT).show();
                         intent = new Intent(this, MainActivity_login.class);
                         startActivity(intent);

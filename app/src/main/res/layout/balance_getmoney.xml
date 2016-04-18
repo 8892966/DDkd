@@ -60,7 +60,7 @@
             android:singleLine="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="请输入金额"
+            android:hint="请输入提现金额"
             android:textSize="20sp" />
     </LinearLayout>
 
@@ -74,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dip"
-            android:text="请输入支付宝账号："
+            android:text="提现至账户："
             android:textSize="20sp" />
         <TextView
             android:background="#666666"
@@ -83,10 +83,33 @@
         <EditText
             android:id="@+id/counter"
             android:singleLine="true"
+            android:hint="请输入支付宝账号"
             android:layout_marginLeft="15dip"
             android:layout_marginRight="10dip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip"
+        android:background="@drawable/getmoney_color"
+        android:orientation="horizontal"
+        android:padding="5dip">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="  提款人姓名："
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/Tname"
+            android:singleLine="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请输入账户人姓名"
+            android:textSize="20sp" />
     </LinearLayout>
     <RelativeLayout
         android:layout_marginTop="35dip"

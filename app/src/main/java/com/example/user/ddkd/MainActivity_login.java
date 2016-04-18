@@ -52,25 +52,26 @@ public class MainActivity_login extends Activity implements View.OnClickListener
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("Get_login", s);
+//                Log.e("Get_login", s);
                 if (!s.equals("ERROR")){
                     s = s.substring(1, s.length() - 1);
                     //******************当提交成功以后，后台会返回一个参数来说明是否提交/验证成功******************
                     SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
                     SharedPreferences.Editor edit = sharedPreferences.edit();
                     edit.putString("token", s);
-                    Log.e("volley_Get", s);
+//                    Log.e("volley_Get", s);
                     edit.commit();
                     Intent intent = new Intent(MainActivity_login.this, JieDangActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
-                    Log.i("Erroe", "ERROR");
+                    Log.i("Error", "ERROR");
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(MainActivity_login.this,"网络连接出错",Toast.LENGTH_SHORT).show();
                 Log.e("onErrorResponse", "onErrorResponse");
             }
         });
@@ -86,8 +87,8 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                 String phone = userid1.getText().toString();
                 String password = password1.getText().toString();
                 if(!TextUtils.isEmpty(phone)){
-
                     if(!TextUtils.isEmpty(password)){
+
                         volley_Get(phone, password);
                     }else{
                         Toast.makeText(MainActivity_login.this,"密码不能为空",Toast.LENGTH_SHORT).show();

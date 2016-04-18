@@ -3,6 +3,7 @@ package com.example.user.ddkd;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -53,13 +54,13 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     private TextView tv_xiuxi_huodong_yesterday_money;
     //星星图型评分
     private RatingBar pb_star;
-    //
+
     private List<OrderInfo> list;
     //倒计时列
     private List<Integer> times;
     //用于记录倒计时应该删除的列
     private List<Integer> deltime;
-
+    private SharedPreferences preferences;
     //判断接单状态
     private boolean i = true;
     //处理接单的handler
@@ -104,10 +105,14 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         //listView.notifyDataSetChanged();//刷新数据
         listView.setVisibility(View.GONE);
         listView.setAdapter(new MyBaseAdapter());
-
-
-        //初始化数据
-
+        //判断是否有开启信鸽
+        preferences=getSharedPreferences("config", MODE_PRIVATE);
+        if(preferences.getBoolean("XGisOpen",false)){
+            i = false;
+            listView.setVisibility(View.VISIBLE);
+            but_jiedang.setText("休息");
+            but_jiedang.setBackgroundResource(R.drawable.yuan_selected);
+        };
     }
 
     @Override
@@ -132,6 +137,10 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.but_jiedang:
                 if (i) {
+//                    preferences=getSharedPreferences("config", MODE_PRIVATE);
+                    SharedPreferences.Editor edit = preferences.edit();
+                    edit.putBoolean("XGisOpen",true);
+                    edit.commit();
                     i = false;
                     listView.setVisibility(View.VISIBLE);
                     but_jiedang.setText("休息");
@@ -158,6 +167,10 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 //                    Intent service = new Intent(context, XGPushService.class);
 //                    context.startService(service);
                 } else {
+//                    preferences=getSharedPreferences("config", MODE_PRIVATE);
+                    SharedPreferences.Editor edit = preferences.edit();
+                    edit.putBoolean("XGisOpen",false);
+                    edit.commit();
                     i = true;
                     listView.setVisibility(View.GONE);
                     but_jiedang.setText("听单");

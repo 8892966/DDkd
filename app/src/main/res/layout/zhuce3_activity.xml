@@ -152,6 +152,7 @@
                 android:orientation="horizontal"
                 android:weightSum="1">
                 <EditText
+                    android:text="chen"
                     android:id="@+id/et_name"
                     android:singleLine="true"
                     android:layout_width="wrap_content"
@@ -160,6 +161,7 @@
                     android:layout_weight="1" />
 
                 <EditText
+                    android:text="nan"
                     android:id="@+id/et_sex"
                     android:singleLine="true"
                     android:layout_width="140dp"
@@ -178,6 +180,7 @@
                 android:layout_below="@id/ll_zhuce3_item1"
                 android:orientation="horizontal">
                 <EditText
+                    android:text="jsj"
                     android:id="@+id/et_xueyuan"
                     android:singleLine="true"
                     android:layout_width="80dp"
@@ -185,6 +188,7 @@
                     android:hint="学院" />
 
                 <EditText
+                    android:text="1305"
                     android:id="@+id/et_class"
                     android:singleLine="true"
                     android:layout_width="80dp"
@@ -192,6 +196,7 @@
                     android:hint="班级" />
 
                 <EditText
+                    android:text="634653"
                     android:id="@+id/et_phone"
                     android:inputType="phone"
                     android:layout_weight="1"
@@ -226,6 +231,7 @@
                     />
 
                 <EditText
+                    android:text="123"
                     android:id="@+id/room_number"
                     android:inputType="number"
                     android:layout_weight="1"
@@ -246,12 +252,14 @@
                 android:layout_below="@id/ll_zhuce3_item3"
                 android:orientation="horizontal">
                 <EditText
+                    android:text="123"
                     android:id="@+id/et_id"
                     android:singleLine="true"
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
                     android:hint="身份证号" />
                 <EditText
+                    android:text="12345"
                     android:id="@+id/et_xuehao"
                     android:layout_weight="1"
                     android:singleLine="true"

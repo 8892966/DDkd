@@ -97,7 +97,6 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         findViewById(R.id.tv_sum_number);
         findViewById(R.id.tv_xiuxi_huodong_yesterday_number);
         findViewById(R.id.tv_xiuxi_huodong_yesterday_money);
-
         ll_ddzhinang.setOnClickListener(this);
         ll_jianlihuodong.setOnClickListener(this);
         tv_to_dingdang.setOnClickListener(this);
@@ -114,7 +113,6 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             but_jiedang.setBackgroundResource(R.drawable.yuan_selected);
         };
     }
-
     @Override
     public void onClick(View v) {
         Intent intent;

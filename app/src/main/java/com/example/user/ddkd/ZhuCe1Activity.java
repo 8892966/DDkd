@@ -224,5 +224,4 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
         valueAnimator.setInterpolator(new LinearInterpolator());//设置变化值为线性变化
         valueAnimator.start();//动画开始
     }
-
 }

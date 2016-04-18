@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
@@ -32,10 +34,12 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
     private EditText et_new_password;
     private EditText et_new_password2;
     private SharedPreferences preferences;
+    private YanZhenMaUtil yanZhenMaUtil;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.forget_password_activity);
+        yanZhenMaUtil = new YanZhenMaUtil();//初始化验证码工具类
 
         commit=(TextView)findViewById(R.id.commitpassword);
         tv_head_fanghui= (TextView) findViewById(R.id.tv_head_fanghui);
@@ -48,14 +52,35 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
         commit.setOnClickListener(this);
         tv_button_yanzhengma.setOnClickListener(this);
         tv_head_fanghui.setOnClickListener(this);
-    }
 
+        //只有输入手机号码时才能点击获取验证码
+        et_phone_number.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (et_phone_number.length() == 11) {
+                    tv_button_yanzhengma.setEnabled(true);
+                } else {
+                    tv_button_yanzhengma.setEnabled(false);
+                }
+            }
+        });
+    }
     @Override
     public void onClick(View v) {
         Intent intent;
         switch (v.getId()){
             case R.id.commitpassword:
-                if(YanZhenMaUtil.isYZM(this,et_yanzhengma)){
+                if(yanZhenMaUtil.isYZM(this,et_yanzhengma,et_phone_number)){
                     String password1 = et_new_password.getText().toString();
                     String password2 = et_new_password2.getText().toString();
                     if(PasswordUtil.isSame(this, password1, password2)) {
@@ -73,58 +98,8 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
                 finish();
                 break;
             case R.id.tv_button_yanzhengma:
-                countDown();
-                YanZhenMaUtil.sendYZM(this,et_phone_number);
+                yanZhenMaUtil.sendYZM(this,et_phone_number,tv_button_yanzhengma);
                 break;
         }
     }
-    private void countDown() {
-//        tv_bt_verify你要设置动画的view
-        ValueAnimator valueAnimator=ValueAnimator.ofInt(0,60);//从0到30计时
-        valueAnimator.setDuration(60000);//持续时间为60s
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                Integer value = (Integer) animation.getAnimatedValue();
-                tv_button_yanzhengma.setText("剩余（"+String.valueOf(60-value)+"s）");
-                if (value==60){
-                    //tv_bt_verify.setBackgroundResource(R.drawable.ret_orange);//30s后的背景
-                    tv_button_yanzhengma.setEnabled(true);//30s后设置可以点击
-                    tv_button_yanzhengma.setText("获取验证码");
-                }else {
-                    tv_button_yanzhengma.setEnabled(false);//30s内设置不可以点击
-                    //time.setBackgroundResource(R.drawable.ret);//30s内的背景
-                }
-            }
-        });
-        valueAnimator.setInterpolator(new LinearInterpolator());//设置变化值为线性变化
-        valueAnimator.start();//动画开始
-    }
-
-    //忘记密码，申请修改密码
-    private void volley_ForgetPassword_GET(final OrderInfo info, final String State) {
-        preferences = getSharedPreferences("config", MODE_PRIVATE);
-        String token = preferences.getString("token", "");
-        String url = "" +"/token/" + token;
-//        参数一：方法 参数二：地址 参数三：成功回调 参数四：错误回调 。重写getParams 以post参数
-        StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                Log.e("volley_ForgetPassword_GET", s);
-                if ("SUCCESS".equals(s)) {
-
-                }else{
-
-                }
-            }
-        }, new Response.ErrorListener(){
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-
-            }
-        });
-        request_post.setTag("volley_ForgetPassword_GET");
-        MyApplication.getQueue().add(request_post);
-    }
-
 }

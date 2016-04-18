@@ -119,7 +119,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                         File file2 = new File(uri2.getPath());
                         File file3 = new File(uri3.getPath());
                         Map<String, File> mapfile = new HashMap<String, File>();
-                        mapfile.put("Hand",file);
+                        mapfile.put("touxiang",file);
                         mapfile.put("IdCard",file1);
                         mapfile.put("IdCardBack",file2);
                         mapfile.put("StudentCard",file3);

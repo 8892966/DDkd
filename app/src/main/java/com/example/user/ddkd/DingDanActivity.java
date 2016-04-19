@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -79,17 +80,17 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
     }
 
     @Override
-    public void onClick(View v){
-        switch (v.getId()){
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.tv_button_yijie://查看以接单
-                xuanzhe=1;
+                xuanzhe = 1;
                 volley_getOrder_GET("1");
                 listView.getEmptyView().setVisibility(View.GONE);//跟新后显示
                 listView.setVisibility(View.GONE);//更新后再显示
                 rl_order_ProgressBar.setVisibility(View.VISIBLE);//显示加载页面
                 break;
             case R.id.tv_button_daisong://查看待送单
-                xuanzhe=2;
+                xuanzhe = 2;
                 volley_getOrder_GET("2");
                 listView.getEmptyView().setVisibility(View.GONE);//跟新后显示
                 listView.setVisibility(View.GONE);//更新后再显示
@@ -114,7 +115,9 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                 break;
         }
     }
+
     class MyBaseAdapter extends BaseAdapter {
+
         @Override
         public int getCount() {
             return list.size();
@@ -139,7 +142,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                 zhuanTai = (ZhuanTai) view.getTag();
             } else {
                 zhuanTai = new ZhuanTai();
-                view = View.inflate(DingDanActivity.this, R.layout.dingdan_item, null);
+                view = View.inflate(DingDanActivity.this,R.layout.dingdan_item, null);
                 //已拿件完成的按钮
                 zhuanTai.textbutton = (TextView) view.findViewById(R.id.tv_dingdang_yina);
                 //退单的按钮
@@ -168,14 +171,14 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             Log.e("MyBaseAdapter", info.toString());
             if (xuanzhe == 1) {
 //                zhuanTai.tv_dingdang_liyou.setVisibility(View.GONE);
-                zhuanTai.textbutton.setText("已拿件");
+                zhuanTai.button.setText("退出");
                 zhuanTai.textbutton.setVisibility(View.VISIBLE);
                 zhuanTai.button.setVisibility(View.VISIBLE);
             } else if (xuanzhe == 2) {
 //                zhuanTai.tv_dingdang_liyou.setVisibility(View.GONE);
-                zhuanTai.textbutton.setText("完成");
-                zhuanTai.textbutton.setVisibility(View.VISIBLE);
-                zhuanTai.button.setVisibility(View.GONE);
+                zhuanTai.button.setText("完成");
+                zhuanTai.textbutton.setVisibility(View.GONE);
+                zhuanTai.button.setVisibility(View.VISIBLE);
             } else if (xuanzhe == 3) {
 //                zhuanTai.tv_dingdang_liyou.setVisibility(View.GONE);
                 zhuanTai.textbutton.setVisibility(View.GONE);
@@ -193,40 +196,42 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             zhuanTai.tv_dingdang_liuyan.setText("留言：" + info.getEvaluate());
             zhuanTai.tv_dingdang_shijain.setText(info.getTime() + "");
             zhuanTai.tv_dingdang_nudi_dizhi.setText("   " + info.getReceivePlace());
-            zhuanTai.iv_call_phone.setOnClickListener(new MyOnClickListener(info.getPhone(),null ));
-            zhuanTai.textbutton.setOnClickListener(new MyOnClickListener(null,info.getId()));
+            zhuanTai.iv_call_phone.setOnClickListener(new MyOnClickListener(info));
+            zhuanTai.textbutton.setOnClickListener(new MyOnClickListener(info));
+            zhuanTai.button.setOnClickListener(new MyOnClickListener(info));
             return view;
         }
+
         //按钮的监听
         class MyOnClickListener implements View.OnClickListener {
-            String phone;
-            String Id;
+            OrderInfo info;
+
             /**
              * 输入信息
-             * @param phone 电话号码，如果不需要就输入null
-             * @param Id 输入订单的id，如果不需要输入null
+             * @param info
              */
-            public MyOnClickListener(String phone,String Id) {
-                this.phone = phone;
-                this.Id=Id;
+            public MyOnClickListener(OrderInfo info) {
+                this.info=info;
             }
+
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.iv_call_phone://打电话
-                        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
+                        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + info.getPhone()));
                         //noinspection ResourceType
                         startActivity(intent);
                         break;
-                    case R.id.tv_dingdang_yina://已拿件/完成的按钮事件
-                        if (xuanzhe == 1) {
-                            volley_OrderState_GET(Id, "2");
-                        } else if (xuanzhe == 2) {
-                            volley_OrderState_GET(Id, "3");
-                        }
+                    case R.id.tv_dingdang_yina://已拿件按钮事件
+                        volley_OrderState_GET(info, "2");
                         break;
                     case R.id.tv_dingdang_tuidang:
-                        volley_OrderState_GET(Id, "4");
+                        if (xuanzhe == 2) {
+                            volley_OrderState_GET(info, "3");
+                        }
+                        if (xuanzhe == 1) {
+                            volley_OrderState_GET(info, "4");
+                        }
                         break;
                 }
             }
@@ -249,16 +254,17 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
 
     //网络申请得到相应状态的订单列表
     private void volley_getOrder_GET(final String State) {
+        MyApplication.getQueue().cancelAll("volley_getOrder_GET");
         preferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = preferences.getString("token", "");
         Log.e("volley_getOrder_GET", token);
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/state/" + State + "/token/"+token;
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/state/" + State + "/token/" + token;
 //        参数一：方法 参数二：地址 参数三：成功回调 参数四：错误回调 。重写getParams 以post参数
         StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 Log.e("volley_getOrder_GET", s);
-                if (!s.equals("ERROR")) {
+                if (!s.equals("\"ERROR\"")) {
                     if (!s.equals("token outtime")) {
                         Gson gson = new Gson();
                         list = gson.fromJson(s, new TypeToken<List<OrderInfo>>() {
@@ -291,37 +297,33 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
         request_post.setTag("volley_getOrder_GET");
         MyApplication.getQueue().add(request_post);
     }
+
     //网络申请修改相应状态的订单列表
-    private void volley_OrderState_GET(final String Id, final String State) {
+    private void volley_OrderState_GET(final OrderInfo info, final String State) {
         preferences = getSharedPreferences("config", MODE_PRIVATE);
-        String token = preferences.getString("token","");
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/setOrderState/id/" + Id + "/state/" + State + "/token/"+token;
+        String token = preferences.getString("token", "");
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/setOrderState/id/" + info.getId() + "/state/" + State + "/token/" + token;
 //        参数一：方法 参数二：地址 参数三：成功回调 参数四：错误回调 。重写getParams 以post参数
         StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 Log.e("volley_OrderState_GET", s);
-                    if("SUCCESS".equals(s)) {
-//                baseAdapter.notifyDataSetChanged();
+                if ("SUCCESS".equals(s)) {
+                    list.remove(info);
+                    baseAdapter.notifyDataSetChanged();
+                }else{
 
-                    }
+                }
             }
-        }, new Response.ErrorListener() {
+        }, new Response.ErrorListener(){
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-//                list = null;
-//                baseAdapter.notifyDataSetChanged();
+                TextView textView= (TextView) listView.getEmptyView();
+                textView.setText("网络连接中断...");
+                list.clear();
+                baseAdapter.notifyDataSetChanged();
             }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> map = new HashMap<>();
-//                map.put("token", token);
-                map.put("State", State);
-                map.put("Id", Id);
-                return map;
-            }
-        };
+        });
         request_post.setTag("volley_OrderState_GET");
         MyApplication.getQueue().add(request_post);
     }

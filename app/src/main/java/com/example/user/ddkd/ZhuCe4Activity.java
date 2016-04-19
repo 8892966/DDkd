@@ -6,6 +6,9 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,6 +30,7 @@ import java.util.Map;
  * Created by User on 2016-04-03.
  */
 public class ZhuCe4Activity extends Activity implements View.OnClickListener {
+    public static final int SUCCESS = 1;//提交数据成功：
     //放照片文件
     private File file;
     //放照片的控件
@@ -39,9 +43,19 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
     private Uri uri2;
     private Uri uri3;
     private Map<String, String> map;
-
+    private String picture;
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case SUCCESS:
+                    Toast.makeText(getApplication(), "提交成功，请登录", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+    };
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.zhuce4_activity);
@@ -66,7 +80,6 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
         TextView tv_head_fanghui = (TextView) findViewById(R.id.tv_head_fanghui);
         tv_head_fanghui.setOnClickListener(this);
     }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -88,36 +101,42 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 break;
             case R.id.tv_button_next:
                 SignUpInfo signUpInfo = (SignUpInfo) getIntent().getSerializableExtra("SignUpInfo");
+                picture = getIntent().getStringExtra("picture");
                 map = new HashMap<String, String>();
-                map.put("", signUpInfo.getCollege());
-                map.put("", signUpInfo.getNumber());
-                map.put("", signUpInfo.getPassword());
-                map.put("", signUpInfo.getId_card());
-                map.put("", signUpInfo.getPhone());
-                map.put("", signUpInfo.getSex());
-                map.put("", signUpInfo.getShortnumber());
-                map.put("", signUpInfo.getUsername());
+                map.put("class",signUpInfo.getClazz());
+                map.put("college", signUpInfo.getCollege());
+                map.put("number", signUpInfo.getNumber());
+                map.put("password", signUpInfo.getPassword());
+                map.put("IdCardNum", signUpInfo.getId_card());
+                map.put("phone", signUpInfo.getPhone());
+                map.put("sex", signUpInfo.getSex());
+                map.put("shortphone", signUpInfo.getShortnumber());
+                map.put("username", signUpInfo.getUsername());
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
+                        File file=new File(picture);
                         File file1 = new File(uri1.getPath());
                         File file2 = new File(uri2.getPath());
                         File file3 = new File(uri3.getPath());
                         Map<String, File> mapfile = new HashMap<String, File>();
-                        mapfile.put("",file1);
-                        mapfile.put("",file2);
-                        mapfile.put("",file3);
+                        mapfile.put("touxiang",file);
+                        mapfile.put("IdCard",file1);
+                        mapfile.put("IdCardBack",file2);
+                        mapfile.put("StudentCard",file3);
                         try {
-                            post("", map,mapfile);
+                            String msg=post("http://www.louxiago.com/wc/ddkd/admin.php/User/register", map,mapfile);
+                            Log.e("ZhuCe4Activity",msg);
+                            handler.sendEmptyMessage(SUCCESS);
                         } catch (IOException e) {
                             e.printStackTrace();
+                            Log.e("ZhuCe4Activity","出错");
                         }
                         //把图片缓存删除
                         file1.delete();
                         file2.delete();
                         file3.delete();
 //                        Log.i("ZhuCe4Activity",signUpInfo.toString());
-                        Toast.makeText(ZhuCe4Activity.this, "提交成功，请登录", Toast.LENGTH_SHORT).show();
                         Intent intent1 = new Intent(ZhuCe4Activity.this, MainActivity_login.class);
                         startActivity(intent1);
                         finish();
@@ -145,7 +164,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 if (cameraBitmap != null) {
                     iv_zhuce4_zhaopian1.setImageBitmap(cameraBitmap);
                     uri1 = saveBitmap(cameraBitmap);
-                } else {
+                }else {
                     Toast.makeText(ZhuCe4Activity.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -171,7 +190,6 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
             }
         }
     }
-
     private Uri saveBitmap(Bitmap bm) {
         File tmpDir = new File(Environment.getExternalStorageDirectory() + "/photo");
         if (!tmpDir.exists()) {
@@ -192,7 +210,6 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
             return null;
         }
     }
-
     /**
      * 通过拼接的方式构造请求内容，实现参数传输以及文件传输
      *
@@ -212,9 +229,9 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
         conn.setReadTimeout(5 * 1000); // 缓存的最长时间
         conn.setDoInput(true);// 允许输入
         conn.setDoOutput(true);// 允许输出
-        conn.setUseCaches(false); // 不允许使用缓存
+        conn.setUseCaches(false);// 不允许使用缓存
         conn.setRequestMethod("POST");
-        conn.setRequestProperty("connection", "keep-alive");
+        conn.setRequestProperty("connection","keep-alive");
         conn.setRequestProperty("Charsert", "UTF-8");
         conn.setRequestProperty("Content-Type", MULTIPART_FROM_DATA + ";boundary=" + BOUNDARY);
         // 首先组拼文本类型的参数
@@ -260,18 +277,22 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
             outStream.flush();
             // 得到响应码
             int res = conn.getResponseCode();
-            if (res == 200) {
+            StringBuilder sb2=new StringBuilder();
+            Log.e("ZhuCe4Activity",res+"");
+            if (res == 200){
                 in = conn.getInputStream();
                 int ch;
-                StringBuilder sb2 = new StringBuilder();
                 while ((ch = in.read()) != -1) {
                     sb2.append((char) ch);
                 }
+            }else{
+                Log.e("ZhuCe4Activity","访问出错");
             }
             outStream.close();
             conn.disconnect();
+            return sb2.toString();
         }
-        // return in.toString();
+//         return in.toString();
         return BOUNDARY;
     }
 }

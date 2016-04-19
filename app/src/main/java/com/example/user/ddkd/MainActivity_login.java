@@ -80,7 +80,6 @@ public class MainActivity_login extends Activity implements View.OnClickListener
         request.setTag("abcGet_login");
         MyApplication.getQueue().add(request);
     }
-
     @Override
     public void onClick(View v) {
         Intent intent;

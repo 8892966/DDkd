@@ -106,7 +106,6 @@
             android:layout_height="wrap_content"
             android:text="04月01日    17:00"
             android:textSize="12dp" />
-
         <TextView
             style="@style/dingdang_item_buttonstyle"
             android:id="@+id/tv_dingdang_tuidang"

@@ -93,14 +93,12 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
             }
         });
     }
-
     @Override
     public void onClick(View v) {
         Intent intent;
         switch (v.getId()) {
             case R.id.tv_button_yanzhengma:
-                countDown();
-                yanZhenMaUtil.sendYZM(this, et_phone_number,tv_button_yanzhengma);
+                yanZhenMaUtil.sendYZM(this,et_phone_number,tv_button_yanzhengma);
                 break;
             case R.id.tv_button_yuedu:
                 intent = new Intent(this, WebActivity.class);
@@ -116,7 +114,7 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
                 }
                 break;
             case R.id.tv_next:
-                        if(yanZhenMaUtil.isYZM(this,et_yanzhengma,et_phone_number)) {
+//                        if(yanZhenMaUtil.isYZM(this,et_yanzhengma,et_phone_number)) {
                             //注册信息
                             SignUpInfo signUpInfo = new SignUpInfo();
                             signUpInfo.setPhone(et_phone_number.getText().toString());
@@ -124,7 +122,7 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
                             intent2.putExtra("SignUpInfo", signUpInfo);//传递注册信息
                             startActivity(intent2);
                             finish();
-                        }
+//                        }
                 break;
             case R.id.tv_head_fanghui:
 //                intent = new Intent(this, MainActivity_login.class);
@@ -132,27 +130,5 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
                 finish();
                 break;
         }
-    }
-    private void countDown() {
-//        tv_bt_verify你要设置动画的view
-        ValueAnimator valueAnimator=ValueAnimator.ofInt(0,60);//从0到30计时
-        valueAnimator.setDuration(60000);//持续时间为60s
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                Integer value = (Integer) animation.getAnimatedValue();
-                tv_button_yanzhengma.setText("剩余（"+String.valueOf(60-value)+"s）");
-                if (value==60){
-                    //tv_bt_verify.setBackgroundResource(R.drawable.ret_orange);//30s后的背景
-                    tv_button_yanzhengma.setEnabled(true);//30s后设置可以点击
-                    tv_button_yanzhengma.setText("获取验证码");
-                }else {
-                    tv_button_yanzhengma.setEnabled(false);//30s内设置不可以点击
-                    //time.setBackgroundResource(R.drawable.ret);//30s内的背景
-                }
-            }
-        });
-        valueAnimator.setInterpolator(new LinearInterpolator());//设置变化值为线性变化
-        valueAnimator.start();//动画开始
     }
 }

@@ -142,7 +142,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                 zhuanTai = (ZhuanTai) view.getTag();
             } else {
                 zhuanTai = new ZhuanTai();
-                view = View.inflate(DingDanActivity.this, R.layout.dingdan_item, null);
+                view = View.inflate(DingDanActivity.this,R.layout.dingdan_item, null);
                 //已拿件完成的按钮
                 zhuanTai.textbutton = (TextView) view.findViewById(R.id.tv_dingdang_yina);
                 //退单的按钮
@@ -229,7 +229,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                         if (xuanzhe == 2) {
                             volley_OrderState_GET(info, "3");
                         }
-                        if (xuanzhe == 3) {
+                        if (xuanzhe == 1) {
                             volley_OrderState_GET(info, "4");
                         }
                         break;
@@ -254,6 +254,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
 
     //网络申请得到相应状态的订单列表
     private void volley_getOrder_GET(final String State) {
+        MyApplication.getQueue().cancelAll("volley_getOrder_GET");
         preferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = preferences.getString("token", "");
         Log.e("volley_getOrder_GET", token);
@@ -309,7 +310,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                 Log.e("volley_OrderState_GET", s);
                 if ("SUCCESS".equals(s)) {
                     list.remove(info);
-                baseAdapter.notifyDataSetChanged();
+                    baseAdapter.notifyDataSetChanged();
                 }else{
 
                 }

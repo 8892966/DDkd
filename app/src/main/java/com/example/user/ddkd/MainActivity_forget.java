@@ -93,8 +93,8 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
                 }
                 break;
             case R.id.tv_head_fanghui:
-                intent=new Intent(this,MainActivity_login.class);
-                startActivity(intent);
+//                intent=new Intent(this,MainActivity_login.class);
+//                startActivity(intent);
                 finish();
                 break;
             case R.id.tv_button_yanzhengma:

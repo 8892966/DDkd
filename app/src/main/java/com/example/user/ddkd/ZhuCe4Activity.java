@@ -103,6 +103,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 SignUpInfo signUpInfo = (SignUpInfo) getIntent().getSerializableExtra("SignUpInfo");
                 picture = getIntent().getStringExtra("picture");
                 map = new HashMap<String, String>();
+                map.put("class",signUpInfo.getClazz());
                 map.put("college", signUpInfo.getCollege());
                 map.put("number", signUpInfo.getNumber());
                 map.put("password", signUpInfo.getPassword());
@@ -129,13 +130,13 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                             handler.sendEmptyMessage(SUCCESS);
                         } catch (IOException e) {
                             e.printStackTrace();
+                            Log.e("ZhuCe4Activity","出错");
                         }
                         //把图片缓存删除
                         file1.delete();
                         file2.delete();
                         file3.delete();
 //                        Log.i("ZhuCe4Activity",signUpInfo.toString());
-
                         Intent intent1 = new Intent(ZhuCe4Activity.this, MainActivity_login.class);
                         startActivity(intent1);
                         finish();
@@ -163,7 +164,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 if (cameraBitmap != null) {
                     iv_zhuce4_zhaopian1.setImageBitmap(cameraBitmap);
                     uri1 = saveBitmap(cameraBitmap);
-                } else {
+                }else {
                     Toast.makeText(ZhuCe4Activity.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -277,14 +278,15 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
             // 得到响应码
             int res = conn.getResponseCode();
             StringBuilder sb2=new StringBuilder();
-            if (res == 200) {
+            Log.e("ZhuCe4Activity",res+"");
+            if (res == 200){
                 in = conn.getInputStream();
                 int ch;
                 while ((ch = in.read()) != -1) {
                     sb2.append((char) ch);
                 }
             }else{
-
+                Log.e("ZhuCe4Activity","访问出错");
             }
             outStream.close();
             conn.disconnect();

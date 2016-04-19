@@ -1,6 +1,7 @@
 package com.example.user.ddkd;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,6 +31,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
     private EditText password1;
     private TextView insert;
     private TextView forget;
+    private ProgressDialog progressDialog;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,13 +48,13 @@ public class MainActivity_login extends Activity implements View.OnClickListener
     }
 
     public void volley_Get(final String userid, final String password) {
+
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/login/phone/" + userid + "/password/" + password;
-        //"?"+"phone="+userid+"&password="+password;
-        //Log.e("aaa","aaa");
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
 //                Log.e("Get_login", s);
+                closeProgressDialog();//*****关闭加载提示框*****
                 if (!s.equals("ERROR")){
                     s = s.substring(1, s.length() - 1);
                     //******************当提交成功以后，后台会返回一个参数来说明是否提交/验证成功******************
@@ -84,12 +86,12 @@ public class MainActivity_login extends Activity implements View.OnClickListener
         Intent intent;
         switch (v.getId()) {
             case R.id.login:
+                showProgressDialog();//*****启动加载提示框*****
                 //***********判断服务器返回的参数，根据参数来判断验证是否通过**********
                 String phone = userid1.getText().toString();
                 String password = password1.getText().toString();
                 if(!TextUtils.isEmpty(phone)){
                     if(!TextUtils.isEmpty(password)){
-
                         volley_Get(phone, password);
                     }else{
                         Toast.makeText(MainActivity_login.this,"密码不能为空",Toast.LENGTH_SHORT).show();
@@ -106,6 +108,19 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                 intent = new Intent(this, MainActivity_forget.class);
                 startActivity(intent);
                 break;
+        }
+    }
+    private void showProgressDialog(){
+        if(progressDialog==null){
+            progressDialog=new ProgressDialog(MainActivity_login.this);
+            progressDialog.setMessage("正在登陆.......");
+            progressDialog.setCanceledOnTouchOutside(false);
+        }
+        progressDialog.show();
+    }
+    private void closeProgressDialog(){
+        if(progressDialog!=null){
+            progressDialog.dismiss();
         }
     }
 }

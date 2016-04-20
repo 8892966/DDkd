@@ -72,6 +72,7 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
         tv_head_fanghui.setOnClickListener(this);
 
         //只有输入手机号码时才能点击获取验证码
+
         et_phone_number.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

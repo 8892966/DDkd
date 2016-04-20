@@ -54,6 +54,7 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.zhuce1_activity);
+
         yanZhenMaUtil = new YanZhenMaUtil();//初始化验证码工具类
 
         et_phone_number = (EditText) findViewById(R.id.et_phone_number);//手机号

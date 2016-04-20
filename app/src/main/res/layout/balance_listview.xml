@@ -7,28 +7,24 @@
         <TextView
             android:id="@+id/money"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="+2.3元" />
+            android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/reason"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/Tname"
             android:layout_below="@id/money"
-            android:text="小费" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <TextView
-            android:id="@+id/addr"
+            android:id="@+id/counter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"/>
+
+        <TextView
+            android:id="@+id/time1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="南区学生公寓" />
-
-        <TextView
-            android:id="@+id/time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/addr"
-            android:text="日期+时间" />
+            android:layout_below="@id/counter"/>
 </RelativeLayout>

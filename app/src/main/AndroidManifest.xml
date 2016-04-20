@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashActivity" >
+        <activity android:name=".MainActivity_login" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -34,7 +34,7 @@
         <activity android:name=".ZhuCe2Activity" />
         <activity android:name=".MainActivity_main" />
         <activity android:name=".MainActivity_forget" />
-        <activity android:name=".MainActivity_login" />
+        <activity android:name=".SplashActivity" />
         <activity android:name=".Announce" />
 
 
@@ -103,9 +103,7 @@
                 <action android:name="com.tencent.android.tpush.action.FEEDBACK" />
             </intent-filter>
         </receiver>
-        <!--统计sdk的配置-->
-        <meta-data android:name="TA_APPKEY" android:value="ASRQ2P1B2B1G" />
-        <meta-data android:name="InstallChannel" android:value="JiaYing" />
+
     </application>
 
     <!-- 【必须】 信鸽SDK所需权限 -->

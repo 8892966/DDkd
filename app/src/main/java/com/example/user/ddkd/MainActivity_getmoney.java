@@ -50,11 +50,17 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
         sure = (TextView) findViewById(R.id.sure);
         sure.setOnClickListener(this);
 
+        sure.setEnabled(false);
+        textView1.setEnabled(false);
+
         yue = (TextView) findViewById(R.id.yue);
         getmoney = (EditText) findViewById(R.id.getmoney);
         counter = (EditText) findViewById(R.id.counter);
         Tname = (EditText) findViewById(R.id.Tname);
         beizhu = (EditText) findViewById(R.id.beizhu);
+
+
+
     }
 
     @Override
@@ -81,6 +87,8 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
                     if (!TextUtils.isEmpty(counter1)){
                         if (!TextUtils.isEmpty(tname)) {
                             showProgressDialog();
+                            textView1.setEnabled(true);
+                            sure.setEnabled(true);
                             volley_get(getmoney1, counter1, tname, username, beizhu1);
                             finish();
                             break;

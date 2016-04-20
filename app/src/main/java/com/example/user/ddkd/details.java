@@ -40,7 +40,7 @@ public class details extends Activity implements View.OnClickListener {
         ListView listView = (ListView) findViewById(R.id.listviewdetails);
         exit_button = (TextView) findViewById(R.id.tv_head_fanghui);
         exit_button.setOnClickListener(this);
-        Volley_Get("3");
+        Volley_Get("4");
 
         detailsinfolist = new ArrayList<DetailsInfo>();
         myAdater = new MyAdater();
@@ -111,8 +111,7 @@ public class details extends Activity implements View.OnClickListener {
         SharedPreferences preferences=getSharedPreferences("config",MODE_PRIVATE) ;
         String token=preferences.getString("token",null);
         //Log.i("Get_details_token",token);
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/state/"+Static+"/token/"+token;
-        Log.i("Details",url);
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/static/"+Static+"/token/"+token;
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {

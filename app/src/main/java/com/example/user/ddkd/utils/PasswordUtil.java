@@ -12,7 +12,7 @@ import com.example.user.ddkd.ZhuCe3Activity;
  */
 public class PasswordUtil {
 
-    public static boolean isSame(Context context, String password1,String password2){
+    public static boolean isSame(Context context,String password1,String password2){
         if(!TextUtils.isEmpty(password1)){
             if (password1.length()>=6&&password1.length()<=32) {
                 if (password1.equals(password2)) {

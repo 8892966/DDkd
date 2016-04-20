@@ -4,58 +4,50 @@ package com.example.user.ddkd.text;
  * Created by Administrator on 2016/4/5.
  */
 public class Payment {
-    private String name;
-    private double money;
-    private String Tname;
-    private String counter;
-    private long time1;
-    private long time2;
+    private String money;
+    private String reason;
+    private String addr;
+    private String time;
+    private String date;
 
-    public String getCounter() {
-        return counter;
+    public void setAddr(String addr) {
+        this.addr = addr;
     }
 
-    public double getMoney() {
+    public String getAddr() {
+        return addr;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getMoney() {
         return money;
     }
 
-    public long getTime1() {
-        return time1;
-    }
-
-    public String getTname() {
-        return Tname;
-    }
-
-    public void setCounter(String counter) {
-        this.counter = counter;
-    }
-
-    public void setMoney(double money) {
+    public void setMoney(String money) {
         this.money = money;
     }
 
-    public void setTime1(long time1) {
-        this.time1 = time1;
+    public String getReason() {
+        return reason;
     }
 
-    public void setTname(String tname) {
-        Tname = tname;
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
-    public long getTime2() {
-        return time2;
+    public String getTime() {
+        return time;
     }
 
-    public String getName() {
-        return name;
+    public void setTime(String time) {
+        this.time = time;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setTime2(long time2) {
-        this.time2 = time2;
-    }
 }

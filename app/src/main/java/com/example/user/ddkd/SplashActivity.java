@@ -17,6 +17,10 @@ import android.content.DialogInterface.OnClickListener;
 import android.widget.Toast;
 import android.content.DialogInterface.OnCancelListener;
 import com.example.user.ddkd.utils.StreamTools;
+import com.tencent.stat.MtaSDkException;
+import com.tencent.stat.StatConfig;
+import com.tencent.stat.StatService;
+
 import net.tsz.afinal.FinalHttp;
 import net.tsz.afinal.http.AjaxCallBack;
 
@@ -67,10 +71,38 @@ public class SplashActivity extends AppCompatActivity {
     };
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        StatService.trackBeginPage(this, getPackageName());
+//        StatService.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        StatService.trackEndPage(this, getPackageName());
+//        StatService.onPause(this);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        //*************
+        StatConfig.setDebugEnable(true);
+        try {
+           boolean b=StatService.startStatService(this,"ASRQ2P1B2B1G",com.tencent.stat.common.StatConstants.VERSION);
+        Log.e("startStatService",b+"");
+        } catch (MtaSDkException e) {
+            e.printStackTrace();
+            Log.e("MtaSDkException",e.getMessage());
+
+        }
+
+        //**********
         Log.e("onCreate", getVersonName());
+        enterhome();
     }
     protected void showupdateDialog() {
         // TODO Auto-generated method stub
@@ -96,7 +128,7 @@ public class SplashActivity extends AppCompatActivity {
                         public void onFailure(Throwable t, int errorNo,
                                               String strMsg) {
                             t.printStackTrace();
-                            Toast.makeText(getApplicationContext(), "下载失败", 1).show();
+                            Toast.makeText(getApplicationContext(), "下载失败", Toast.LENGTH_LONG).show();
                             super.onFailure(t, errorNo, strMsg);
                         }
 
@@ -124,7 +156,7 @@ public class SplashActivity extends AppCompatActivity {
                     });
                     return;
                 }else{
-                    Toast.makeText(getApplicationContext(), "没有sd卡不能下载",0).show();
+                    Toast.makeText(getApplicationContext(), "没有sd卡不能下载",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -197,6 +229,11 @@ public class SplashActivity extends AppCompatActivity {
         }).start();
     }
     protected void enterhome() {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Intent intent = new Intent(getApplicationContext(), MainActivity_login.class);
         startActivity(intent);
         finish();

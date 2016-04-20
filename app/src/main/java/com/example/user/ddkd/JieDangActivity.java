@@ -37,21 +37,21 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     private ListView listView;
     //DD指南的按钮
     private LinearLayout ll_ddzhinang;
-//奖励活动的按钮
+    //奖励活动的按钮
     private LinearLayout ll_jianlihuodong;
-//查看详细订单的按钮
+    //查看详细订单的按钮
     private TextView tv_to_dingdang;
-//开始抢单或休息的按钮
+    //开始抢单或休息的按钮
     private TextView but_jiedang;
-//今天的接单数
+    //今天的接单数
     private TextView tv_xiuxi_huodong_now_number;
-//星星的评分
+    //星星的评分
     private TextView tv_star;
-//接单的总单数
+    //接单的总单数
     private TextView tv_sum_number;
-//昨天接单的总单数
+    //昨天接单的总单数
     private TextView tv_xiuxi_huodong_yesterday_number;
-//昨天的营业额
+    //昨天的营业额
     private TextView tv_xiuxi_huodong_yesterday_money;
     //星星图型评分
     private RatingBar pb_star;
@@ -136,7 +136,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.but_jiedang:
                 if (i) {
-//                    preferences=getSharedPreferences("config", MODE_PRIVATE);
+//                  preferences=getSharedPreferences("config", MODE_PRIVATE);
                     SharedPreferences.Editor edit = preferences.edit();
                     edit.putBoolean("XGisOpen",true);
                     edit.commit();

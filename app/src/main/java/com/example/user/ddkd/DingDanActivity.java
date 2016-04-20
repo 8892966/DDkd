@@ -235,7 +235,6 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             public MyOnClickListener(OrderInfo info) {
                 this.info = info;
             }
-
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {

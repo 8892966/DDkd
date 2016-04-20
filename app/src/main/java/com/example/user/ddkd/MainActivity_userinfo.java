@@ -55,6 +55,15 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
                 Gson gson=new Gson();
                 UserInfo userInfo=gson.fromJson(s,UserInfo.class);
                 if(userInfo!=null){
+                    SharedPreferences preferences=getSharedPreferences("User", MODE_PRIVATE);
+                    SharedPreferences.Editor editor=preferences.edit();
+                    editor.putString("username",userInfo.getUsername());
+                    editor.putString("collage",userInfo.getCollege());
+                    editor.putString("number",userInfo.getNumber()+"");
+                    editor.putString("phone",userInfo.getPhone()+"");
+                    editor.putString("shortphone",userInfo.getShortphone()+"");
+                    editor.putString("level",userInfo.getLevel());
+                    editor.commit();
 
                     boolean network=isNetworkConnected();
                     if (network){

@@ -5,7 +5,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -28,7 +30,7 @@ import java.security.Principal;
 /**
  * Created by Administrator on 2016/4/5.
  */
-public class MainActivity_getmoney extends Activity implements View.OnClickListener {
+public class MainActivity_getmoney extends Activity implements View.OnClickListener, TextWatcher {
     private TextView textView;
     private EditText getmoney;
     private TextView yue;
@@ -39,7 +41,10 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
     private UserInfo userInfo;
     private EditText beizhu;
     private ProgressDialog progressDialog;
-
+    private double getmoney1;
+    private String counter1;
+    private String tname;
+    private String beizhu1;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.balance_getmoney);
@@ -50,17 +55,14 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
         sure = (TextView) findViewById(R.id.sure);
         sure.setOnClickListener(this);
 
-        sure.setEnabled(false);
-        textView1.setEnabled(false);
-
         yue = (TextView) findViewById(R.id.yue);
         getmoney = (EditText) findViewById(R.id.getmoney);
+        getmoney.addTextChangedListener(this);
         counter = (EditText) findViewById(R.id.counter);
+        counter.addTextChangedListener(this);
         Tname = (EditText) findViewById(R.id.Tname);
+        Tname.addTextChangedListener(this);
         beizhu = (EditText) findViewById(R.id.beizhu);
-
-
-
     }
 
     @Override
@@ -74,33 +76,20 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
                 break;
             case R.id.sure:
                 //***********点击确定按钮的时候，提交数据*************
-                double getmoney1 = Double.valueOf(getmoney.getText().toString());
-                String counter1 = counter.getText().toString();
-                String tname = Tname.getText().toString();
-                String beizhu1 = beizhu.getText().toString();
+                showProgressDialog();
                 SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
                 String username = sharedPreferences.getString("username", null);
                 Log.i("MainActivity_getmoney", username);
                 //panduan1
+                getmoney1 = Double.valueOf(getmoney.getText().toString());
+                counter1 = counter.getText().toString();
+                tname = Tname.getText().toString();
+                beizhu1 = beizhu.getText().toString();
                 boolean getmoney2=Double.isNaN(getmoney1);
-                if (!getmoney2) {
-                    if (!TextUtils.isEmpty(counter1)){
-                        if (!TextUtils.isEmpty(tname)) {
-                            showProgressDialog();
-                            textView1.setEnabled(true);
-                            sure.setEnabled(true);
-                            volley_get(getmoney1, counter1, tname, username, beizhu1);
-                            finish();
-                            break;
-                        } else {
-                            Toast.makeText(MainActivity_getmoney.this, "提款人姓名不能为空", Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        Toast.makeText(MainActivity_getmoney.this, "提款账户不能为空", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(MainActivity_getmoney.this, "提款金额不能为空", Toast.LENGTH_SHORT).show();
-                }
+                volley_get(getmoney1, counter1, tname, username, beizhu1);
+                finish();
+                break;
+
         }
     }
 
@@ -149,10 +138,30 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
         }
         progressDialog.show();
     }
-
     private void closeProgressDialog() {
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        if(TextUtils.isEmpty(String.valueOf(getmoney1))&&TextUtils.isEmpty(counter1)&&TextUtils.isEmpty(tname)){
+            sure.setEnabled(false);
+            textView1.setEnabled(false);
+        }
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if(!TextUtils.isEmpty(String.valueOf(getmoney1))&&!TextUtils.isEmpty(counter1)&&!TextUtils.isEmpty(tname)){
+            sure.setEnabled(false);
+            textView1.setEnabled(false);
+        }
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 }

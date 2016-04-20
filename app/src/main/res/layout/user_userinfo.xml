@@ -32,15 +32,20 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="280dip">
+        android:layout_height="300dip">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <View
+            android:layout_margin="5dip"
+            android:background="#cccccc"
+            android:layout_width="match_parent"
+            android:layout_height="1dip"/>
         <LinearLayout
+            android:layout_marginLeft="10dip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="60dip"
             android:orientation="horizontal"
             android:padding="5dip">
 
@@ -49,18 +54,21 @@
                 android:layout_height="wrap_content"
                 android:text="姓名："
                 android:textSize="20sp" />
-
             <TextView
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20sp" />
         </LinearLayout>
-
+        <View
+            android:layout_margin="5dip"
+            android:background="#cccccc"
+            android:layout_width="match_parent"
+            android:layout_height="1dip"/>
         <LinearLayout
+            android:layout_marginLeft="10dip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="60dip"
             android:orientation="horizontal"
             android:padding="5dip">
 
@@ -76,11 +84,15 @@
                 android:layout_height="wrap_content"
                 android:textSize="20sp" />
         </LinearLayout>
-
+        <View
+            android:layout_margin="5dip"
+            android:background="#cccccc"
+            android:layout_width="match_parent"
+            android:layout_height="1dip"/>
         <LinearLayout
+            android:layout_marginLeft="10dip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="60dip"
             android:orientation="horizontal"
             android:padding="5dip">
 
@@ -96,11 +108,15 @@
                 android:layout_height="wrap_content"
                 android:textSize="20sp" />
         </LinearLayout>
-
+        <View
+            android:layout_margin="5dip"
+            android:background="#cccccc"
+            android:layout_width="match_parent"
+            android:layout_height="1dip"/>
         <LinearLayout
+            android:layout_marginLeft="10dip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="60dip"
             android:orientation="horizontal"
             android:padding="5dip">
 
@@ -117,11 +133,15 @@
                 android:layout_height="wrap_content"
                 android:textSize="20sp" />
         </LinearLayout>
-
+        <View
+            android:layout_margin="5dip"
+            android:background="#cccccc"
+            android:layout_width="match_parent"
+            android:layout_height="1dip"/>
         <LinearLayout
+            android:layout_marginLeft="10dip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="60dip"
             android:orientation="horizontal"
             android:padding="5dip">
             <TextView
@@ -135,10 +155,15 @@
                 android:layout_height="wrap_content"
                 android:textSize="20sp" />
         </LinearLayout>
+        <View
+            android:layout_margin="5dip"
+            android:background="#cccccc"
+            android:layout_width="match_parent"
+            android:layout_height="1dip"/>
         <LinearLayout
+            android:layout_marginLeft="10dip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="60dip"
             android:orientation="horizontal"
             android:padding="5dip">
             <TextView
@@ -152,7 +177,11 @@
                 android:layout_height="wrap_content"
                 android:textSize="20sp" />
         </LinearLayout>
-
+        <View
+            android:layout_margin="5dip"
+            android:background="#cccccc"
+            android:layout_width="match_parent"
+            android:layout_height="1dip"/>
     </LinearLayout>
     </ScrollView>
 </LinearLayout>

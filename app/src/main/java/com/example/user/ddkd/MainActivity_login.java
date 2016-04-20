@@ -46,7 +46,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
         rembpwd= (CheckBox) findViewById(R.id.rembpwd);
 
 
-        SharedPreferences preferences01=getSharedPreferences("userinfo",MODE_PRIVATE);
+        SharedPreferences preferences01=getSharedPreferences("config",MODE_PRIVATE);
         userid1.setText(preferences01.getString("phone",null));
         password1.setText(preferences01.getString("password",null));
 
@@ -81,6 +81,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                closeProgressDialog();
                 Toast.makeText(MainActivity_login.this,"网络连接出错",Toast.LENGTH_SHORT).show();
                 Log.e("onErrorResponse", "onErrorResponse");
             }
@@ -98,7 +99,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                 String phone = userid1.getText().toString();
                 String password = password1.getText().toString();
                 if(rembpwd.isChecked()){
-                    SharedPreferences preferences=getSharedPreferences("userinfo",MODE_PRIVATE);
+                    SharedPreferences preferences=getSharedPreferences("config",MODE_PRIVATE);
                     SharedPreferences.Editor editor=preferences.edit();
                     editor.putString("phone",phone);
                     editor.putString("password",password);
@@ -109,9 +110,11 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                     if(!TextUtils.isEmpty(password)){
                         volley_Get(phone, password);
                     }else{
+                        closeProgressDialog();
                         Toast.makeText(MainActivity_login.this,"密码不能为空",Toast.LENGTH_SHORT).show();
                     }
                 }else{
+                    closeProgressDialog();
                     Toast.makeText(MainActivity_login.this,"账号不能为空",Toast.LENGTH_SHORT).show();
                 }
                 break;

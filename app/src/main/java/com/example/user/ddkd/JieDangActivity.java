@@ -25,6 +25,7 @@ import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
 import com.tencent.android.tpush.XGPushTextMessage;
 import com.tencent.android.tpush.service.XGPushService;
+import com.tencent.stat.StatService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -164,7 +165,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 //                    Intent service = new Intent(context, XGPushService.class);
 //                    context.startService(service);
                 } else {
-//                    preferences=getSharedPreferences("config", MODE_PRIVATE);
+//                  preferences=getSharedPreferences("config", MODE_PRIVATE);
                     SharedPreferences.Editor edit = preferences.edit();
                     edit.putBoolean("XGisOpen",false);
                     edit.commit();
@@ -229,5 +230,16 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             TextView tv_addr;
             TextView tv_qiangdan_button;
         }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        StatService.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        StatService.onPause(this);
     }
 }

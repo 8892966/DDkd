@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -22,8 +24,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.user.ddkd.beam.OrderInfo;
+import com.example.user.ddkd.utils.AutologonUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.tencent.stat.StatService;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -46,13 +50,44 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
     private int xuanzhe;
     private SharedPreferences preferences;
 
+    private Handler handler1 = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case MyApplication.GET_TOKEN_SUCCESS:
+                    String State= (String) msg.obj;
+                    volley_getOrder_GET(State);
+                    break;
+                case MyApplication.GET_TOKEN_ERROR:
+                    Toast.makeText(DingDanActivity.this, "网络连接出错", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+    };
+    private Handler handler2 = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case MyApplication.GET_TOKEN_SUCCESS:
+                    Object[] obj= (Object[]) msg.obj;
+                    OrderInfo info= (OrderInfo) obj[0];
+                    String State= (String) obj[1];
+                    volley_OrderState_GET(info,State);
+                    break;
+                case MyApplication.GET_TOKEN_ERROR:
+
+                    break;
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.order_details_activity);
         //初始加载已接单页面
         volley_getOrder_GET("1");
-
         listView = (ListView) findViewById(R.id.lv_order_details);
         tv_button_yijie = (TextView) findViewById(R.id.tv_button_yijie);//查看已接单的订单详情
         tv_button_daisong = (TextView) findViewById(R.id.tv_button_daisong);//查看待送的订单详情
@@ -142,7 +177,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                 zhuanTai = (ZhuanTai) view.getTag();
             } else {
                 zhuanTai = new ZhuanTai();
-                view = View.inflate(DingDanActivity.this,R.layout.dingdan_item, null);
+                view = View.inflate(DingDanActivity.this, R.layout.dingdan_item, null);
                 //已拿件完成的按钮
                 zhuanTai.textbutton = (TextView) view.findViewById(R.id.tv_dingdang_yina);
                 //退单的按钮
@@ -208,10 +243,11 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
 
             /**
              * 输入信息
+             *
              * @param info
              */
             public MyOnClickListener(OrderInfo info) {
-                this.info=info;
+                this.info = info;
             }
             @Override
             public void onClick(View v) {
@@ -263,8 +299,8 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             @Override
             public void onResponse(String s) {
                 Log.e("volley_getOrder_GET", s);
-                if (!s.equals("\"ERROR\"")) {
-                    if (!s.equals("token outtime")) {
+                if (!s.endsWith("\"token outtime\"")) {
+                    if (!s.equals("\"ERROR\"")) {
                         Gson gson = new Gson();
                         list = gson.fromJson(s, new TypeToken<List<OrderInfo>>() {
                         }.getType());
@@ -273,19 +309,21 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                         for (OrderInfo info : list) {
                             info.setTime(format.format(Long.valueOf(info.getTime())));
                         }
+
                     } else {
-                        Log.e("volley_getOrder_GET", "token过时了");
                         list.clear();
                     }
+                    //更新日期
+                    baseAdapter.notifyDataSetChanged();
+                    listView.setVisibility(View.VISIBLE);//显示数据
+                    rl_order_ProgressBar.setVisibility(View.GONE);//隐藏加载页面
                 } else {
-                    list.clear();
+                    Log.e("volley_getOrder_GET", "token过时了");
+                    AutologonUtil autologonUtil = new AutologonUtil(DingDanActivity.this, handler1,State);
+                    autologonUtil.volley_Get_TOKEN();
                 }
-                //更新日期
-                baseAdapter.notifyDataSetChanged();
-                listView.setVisibility(View.VISIBLE);//显示数据
-                rl_order_ProgressBar.setVisibility(View.GONE);//隐藏加载页面
             }
-        }, new Response.ErrorListener() {
+        }, new Response.ErrorListener(){
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 baseAdapter.notifyDataSetChanged();
@@ -296,7 +334,6 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
         request_post.setTag("volley_getOrder_GET");
         MyApplication.getQueue().add(request_post);
     }
-
     //网络申请修改相应状态的订单列表
     private void volley_OrderState_GET(final OrderInfo info, final String State) {
         preferences = getSharedPreferences("config", MODE_PRIVATE);
@@ -307,17 +344,24 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             @Override
             public void onResponse(String s) {
                 Log.e("volley_OrderState_GET", s);
-                if ("SUCCESS".equals(s)) {
-                    list.remove(info);
-                    baseAdapter.notifyDataSetChanged();
-                }else{
+                if (!s.endsWith("\"token outtime\"")) {
+                    if ("\"SUCCESS\"".equals(s)) {
+                        list.remove(info);
+                        baseAdapter.notifyDataSetChanged();
+                    } else {
 
+                    }
+                } else {
+                    Log.e("volley_getOrder_GET", "token过时了");
+                    Object[] obj={info,State};
+                    AutologonUtil autologonUtil = new AutologonUtil(DingDanActivity.this, handler2,obj);
+                    autologonUtil.volley_Get_TOKEN();
                 }
             }
-        }, new Response.ErrorListener(){
+        },new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                TextView textView= (TextView) listView.getEmptyView();
+                TextView textView = (TextView) listView.getEmptyView();
                 textView.setText("网络连接中断...");
                 list.clear();
                 baseAdapter.notifyDataSetChanged();
@@ -325,5 +369,17 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
         });
         request_post.setTag("volley_OrderState_GET");
         MyApplication.getQueue().add(request_post);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        StatService.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        StatService.onPause(this);
     }
 }

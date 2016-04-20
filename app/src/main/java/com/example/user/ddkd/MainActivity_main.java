@@ -16,7 +16,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.user.ddkd.text.UserInfo;
-import com.example.user.ddkd.utils.Progress;
 import com.google.gson.Gson;
 
 /**
@@ -67,7 +66,6 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
                 finish();
                 break;
             case R.id.announce:
-                Progress.showProgressDialog();
                 intent=new Intent(MainActivity_main.this,Announce.class);
                 startActivity(intent);
                 break;

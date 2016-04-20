@@ -18,6 +18,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.tencent.stat.StatService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,13 +47,25 @@ public class MainActivity_login extends Activity implements View.OnClickListener
         rembpwd= (CheckBox) findViewById(R.id.rembpwd);
 
 
-        SharedPreferences preferences01=getSharedPreferences("userinfo",MODE_PRIVATE);
+        SharedPreferences preferences01=getSharedPreferences("config",MODE_PRIVATE);
         userid1.setText(preferences01.getString("phone",null));
         password1.setText(preferences01.getString("password",null));
 
         button.setOnClickListener(this);
         insert.setOnClickListener(this);
         forget.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        StatService.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        StatService.onPause(this);
     }
 
     public void volley_Get(final String userid, final String password) {
@@ -98,7 +111,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                 String phone = userid1.getText().toString();
                 String password = password1.getText().toString();
                 if(rembpwd.isChecked()){
-                    SharedPreferences preferences=getSharedPreferences("userinfo",MODE_PRIVATE);
+                    SharedPreferences preferences=getSharedPreferences("config",MODE_PRIVATE);
                     SharedPreferences.Editor editor=preferences.edit();
                     editor.putString("phone",phone);
                     editor.putString("password",password);

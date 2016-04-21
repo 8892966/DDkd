@@ -12,7 +12,7 @@ public class DetailsInfo {
     private String ExpressCompany;
     private String evaluate;
     private String time;
-    private String ReceiverPlace;
+    private String ReceivePlace;
 
     public double getPrice() {
         return Price;
@@ -42,8 +42,8 @@ public class DetailsInfo {
         return ExpressCompany;
     }
 
-    public String getReceiverPlace() {
-        return ReceiverPlace;
+    public String getReceivePlace() {
+        return ReceivePlace;
     }
 
     public String getUsername() {
@@ -74,8 +74,8 @@ public class DetailsInfo {
         Price = price;
     }
 
-    public void setReceiverPlace(String receiverPlace) {
-        ReceiverPlace = receiverPlace;
+    public void setReceivePlace(String receivePlace) {
+        ReceivePlace = receivePlace;
     }
 
     public void setTime(String time) {
@@ -88,6 +88,6 @@ public class DetailsInfo {
 
     @Override
     public String toString() {
-        return id+Price+addressee+username+phone+ReceiverPlace;
+        return id+Price+addressee+username+phone+ReceivePlace;
     }
 }

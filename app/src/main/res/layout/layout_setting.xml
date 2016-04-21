@@ -10,8 +10,7 @@
         <ImageView
             android:id="@+id/setExit"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dip"
-            android:src="@drawable/setting1"
+            style="@style/head_button_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
@@ -21,6 +20,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </RelativeLayout>
+    <View
+        android:background="#cccccc"
+        android:layout_width="match_parent"
+        android:layout_height="15dip"/>
 
     <TextView
         android:layout_marginLeft="10dip"
@@ -32,6 +35,10 @@
         android:padding="5dip"
         android:layout_width="match_parent"
         android:layout_height="40dip" />
+    <View
+        android:background="#cccccc"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"/>
     <TextView
         android:layout_marginLeft="10dip"
         android:background="@drawable/clickview"
@@ -42,6 +49,10 @@
         android:padding="5dip"
         android:layout_width="match_parent"
         android:layout_height="40dip" />
+    <View
+        android:background="#cccccc"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"/>
     <TextView
         android:layout_marginLeft="10dip"
         android:background="@drawable/clickview"
@@ -52,6 +63,10 @@
         android:padding="5dip"
         android:layout_width="match_parent"
         android:layout_height="40dip" />
+    <View
+        android:background="#cccccc"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"/>
     <TextView
         android:layout_marginLeft="10dip"
         android:background="@drawable/clickview"
@@ -62,6 +77,10 @@
         android:padding="5dip"
         android:layout_width="match_parent"
         android:layout_height="40dip" />
+    <View
+        android:background="#cccccc"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"/>
     <TextView
         android:layout_marginLeft="10dip"
         android:background="@drawable/clickview"
@@ -72,14 +91,20 @@
         android:padding="5dip"
         android:layout_width="match_parent"
         android:layout_height="40dip" />
+    <View
+        android:background="#cccccc"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"/>
     <TextView
+        android:layout_marginTop="30dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
         android:id="@+id/exit"
-        android:layout_margin="60dip"
         android:layout_gravity="center"
         android:gravity="center"
         android:background="@drawable/login_buttoncolor"
         android:text="退出登录"
         android:textSize="23sp"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>

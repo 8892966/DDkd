@@ -18,6 +18,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.user.ddkd.text.DetailsInfo;
 import com.example.user.ddkd.text.Payment;
+import com.example.user.ddkd.text.UserInfo;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
@@ -33,9 +34,11 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
     private List<Payment> paymentslist;
     private TextView textView;
     private MyAdapter myAdapter;
+    private TextView balance;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_balance);
+        balance= (TextView) findViewById(R.id.balance);
         TextView exit=(TextView)findViewById(R.id.tv_head_fanghui);
         exit.setOnClickListener(this);
 
@@ -44,6 +47,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
         ListView viewById = (ListView) findViewById(R.id.listviewbalance);
         paymentslist=new ArrayList<Payment>();
         Volley_Get();
+        volley_Get_Balance();
         myAdapter=new MyAdapter();
         viewById.setAdapter(myAdapter);
     }
@@ -85,7 +89,29 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
         request.setTag("abcGet_balance");
         MyApplication.getQueue().add(request);
     }
+    public void volley_Get_Balance(){
+        SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
+        String token=sharedPreferences.getString("token",null);
+        String url="http://www.louxiago.com/wc/ddkd/admin.php/Turnover/center/token/"+token;
+        final StringRequest balance_request=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                Log.i("Userinfo",s);
+                Gson gson=new Gson();
+                UserInfo userInfo=gson.fromJson(s,UserInfo.class);
+                if (userInfo!=null){
+                    balance.setText(String.valueOf(userInfo.getBalance()));
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
 
+            }
+        });
+        balance_request.setTag("get_main");
+        MyApplication.getQueue().add(balance_request);
+    }
     class MyAdapter extends BaseAdapter {
 
         @Override

@@ -5,7 +5,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -39,6 +41,10 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
     private UserInfo userInfo;
     private EditText beizhu;
     private ProgressDialog progressDialog;
+    private String getmoney1;
+    private String counter1;
+    private String tname;
+    private String beizhu1;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,17 +56,11 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
         sure = (TextView) findViewById(R.id.sure);
         sure.setOnClickListener(this);
 
-        sure.setEnabled(false);
-        textView1.setEnabled(false);
-
         yue = (TextView) findViewById(R.id.yue);
         getmoney = (EditText) findViewById(R.id.getmoney);
         counter = (EditText) findViewById(R.id.counter);
         Tname = (EditText) findViewById(R.id.Tname);
         beizhu = (EditText) findViewById(R.id.beizhu);
-
-
-
     }
 
     @Override
@@ -74,37 +74,52 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
                 break;
             case R.id.sure:
                 //***********点击确定按钮的时候，提交数据*************
-                double getmoney1 = Double.valueOf(getmoney.getText().toString());
-                String counter1 = counter.getText().toString();
-                String tname = Tname.getText().toString();
-                String beizhu1 = beizhu.getText().toString();
+                showProgressDialog();
                 SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
                 String username = sharedPreferences.getString("username", null);
                 Log.i("MainActivity_getmoney", username);
                 //panduan1
-                boolean getmoney2=Double.isNaN(getmoney1);
-                if (!getmoney2) {
-                    if (!TextUtils.isEmpty(counter1)){
+                getmoney1 = getmoney.getText().toString();
+                counter1 = counter.getText().toString();
+                tname = Tname.getText().toString();
+                beizhu1 = beizhu.getText().toString();
+//                if (beizhu1.length() <= 10) {
+                if (!TextUtils.isEmpty(getmoney1)) {
+                    if (!TextUtils.isEmpty(counter1)) {
                         if (!TextUtils.isEmpty(tname)) {
-                            showProgressDialog();
-                            textView1.setEnabled(true);
-                            sure.setEnabled(true);
-                            volley_get(getmoney1, counter1, tname, username, beizhu1);
-                            finish();
-                            break;
+                            if (TextUtils.isEmpty(beizhu1)) {
+                                beizhu1 = "无";
+                                volley_get(getmoney1, counter1, tname, username, beizhu1);
+                            } else {
+                                if (beizhu1.length() <= 10) {
+                                    volley_get(getmoney1, counter1, tname, username, beizhu1);
+                                    finish();
+                                    break;
+                                } else {
+                                    closeProgressDialog();
+                                    Toast.makeText(MainActivity_getmoney.this, "备注内容超过限制，请重新输入", Toast.LENGTH_SHORT).show();
+                                }
+                            }
                         } else {
-                            Toast.makeText(MainActivity_getmoney.this, "提款人姓名不能为空", Toast.LENGTH_SHORT).show();
+                            closeProgressDialog();
+                            Toast.makeText(MainActivity_getmoney.this, "账户人不能为空", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(MainActivity_getmoney.this, "提款账户不能为空", Toast.LENGTH_SHORT).show();
+                        closeProgressDialog();
+                        Toast.makeText(MainActivity_getmoney.this, "提现账户不能为空", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(MainActivity_getmoney.this, "提款金额不能为空", Toast.LENGTH_SHORT).show();
+                    closeProgressDialog();
+                    Toast.makeText(MainActivity_getmoney.this, "提现金额不能为空", Toast.LENGTH_SHORT).show();
                 }
+//                } else {
+//                    closeProgressDialog();
+//                    Toast.makeText(MainActivity_getmoney.this, "备注内容超过限制，请重新输入", Toast.LENGTH_SHORT).show();
+//                }
         }
     }
 
-    public void volley_get(double getmoney, String counter, String tname, String username, String beizhu2) {
+    public void volley_get(String getmoney, String counter, String tname, String username, String beizhu2) {
         SharedPreferences sharedPreferences1 = getSharedPreferences("config", MODE_PRIVATE);
         String token = sharedPreferences1.getString("token", null);
         try {
@@ -115,7 +130,7 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
             e.printStackTrace();
         }
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/withdrawCash/money/" + getmoney + "/Tname/" + tname + "/counter/" + counter + "/name/" + username + "/extra/" + beizhu2 + "/token/" + token;
-        Log.i("URL", url);
+//        Log.i("URL", url);
         //将用户的提现信息提交给服务器
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             public void onResponse(String s) {
@@ -126,8 +141,6 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
                 if ("SUCCESS".equals(s)) {
                     Toast.makeText(MainActivity_getmoney.this, "提现申请已提交", Toast.LENGTH_LONG).show();
                 } else if ("ERROR".equals(s)) {
-                    Toast.makeText(MainActivity_getmoney.this, "提交内容有误，请核对您的信息", Toast.LENGTH_SHORT).show();
-                } else if (" outtime".equals(s)) {
                     Toast.makeText(MainActivity_getmoney.this, "提交内容有误，请核对您的信息", Toast.LENGTH_SHORT).show();
                 }
             }

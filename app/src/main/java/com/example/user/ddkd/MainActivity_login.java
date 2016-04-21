@@ -90,6 +90,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                closeProgressDialog();
                 Toast.makeText(MainActivity_login.this,"网络连接出错",Toast.LENGTH_SHORT).show();
                 Log.e("onErrorResponse", "onErrorResponse");
             }
@@ -118,9 +119,11 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                     if(!TextUtils.isEmpty(password)){
                         volley_Get(phone, password);
                     }else{
+                        closeProgressDialog();
                         Toast.makeText(MainActivity_login.this,"密码不能为空",Toast.LENGTH_SHORT).show();
                     }
                 }else{
+                    closeProgressDialog();
                     Toast.makeText(MainActivity_login.this,"账号不能为空",Toast.LENGTH_SHORT).show();
                 }
                 break;

@@ -314,6 +314,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                     rl_order_ProgressBar.setVisibility(View.GONE);//隐藏加载页面
                 } else {
                     Log.e("volley_getOrder_GET", "token过时了");
+                    Object[] objects={};
                     AutologonUtil autologonUtil = new AutologonUtil(DingDanActivity.this, handler1,State);
                     autologonUtil.volley_Get_TOKEN();
                 }

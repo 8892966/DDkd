@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -40,7 +41,7 @@ public class details extends Activity implements View.OnClickListener {
         ListView listView = (ListView) findViewById(R.id.listviewdetails);
         exit_button = (TextView) findViewById(R.id.tv_head_fanghui);
         exit_button.setOnClickListener(this);
-        Volley_Get("3");
+        Volley_Get("2");
 
         detailsinfolist = new ArrayList<DetailsInfo>();
         myAdater = new MyAdater();
@@ -96,8 +97,7 @@ public class details extends Activity implements View.OnClickListener {
                 username.setText(detailsInfo.getUsername());
                 courier.setText(detailsInfo.getExpressCompany());
                 telephone.setText(detailsInfo.getPhone() + "");
-                Log.e("getView", detailsInfo.getReceiverPlace()+"");
-                addr.setText(detailsInfo.getReceiverPlace()+"");
+                addr.setText(detailsInfo.getReceivePlace());
                 //回显时间
                 date.setText(detailsInfo.getTime());
             } else {
@@ -116,15 +116,20 @@ public class details extends Activity implements View.OnClickListener {
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.i("Get_deailes",s);
-                Type listv = new TypeToken<LinkedList<DetailsInfo>>() {}.getType();
-                Gson gson = new Gson();
-                detailsinfolist = gson.fromJson(s, listv);
-                SimpleDateFormat dateFormat=new SimpleDateFormat("yyy/mm/dd  HH:mm:ss");
-                for(DetailsInfo detailsInfo2:detailsinfolist){
-                    detailsInfo2.setTime(dateFormat.format(Long.valueOf(detailsInfo2.getTime())));
+
+                if (!s.equals("\"ERROR\"")) {
+                    Type listv = new TypeToken<LinkedList<DetailsInfo>>() {}.getType();
+                    Gson gson = new Gson();
+                    Log.i("Get_deailes", s);
+                    detailsinfolist = gson.fromJson(s, listv);
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyy/mm/dd  HH:mm:ss");
+                    for (DetailsInfo detailsInfo2 : detailsinfolist) {
+                        detailsInfo2.setTime(dateFormat.format(Long.valueOf(detailsInfo2.getTime())));
+                    }
+                    myAdater.notifyDataSetChanged();
+                }else{
+                    Toast.makeText(details.this,"Error",Toast.LENGTH_SHORT).show();
                 }
-                myAdater.notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {
             @Override

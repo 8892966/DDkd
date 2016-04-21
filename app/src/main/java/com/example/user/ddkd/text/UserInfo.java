@@ -10,6 +10,24 @@ public class UserInfo {
     private String college;
     private int number;
     private String level;
+    private String yingye;
+    private double balance;
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public String getYingye() {
+        return yingye;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public void setYingye(String yingye) {
+        this.yingye = yingye;
+    }
 
     @Override
     public String toString() {

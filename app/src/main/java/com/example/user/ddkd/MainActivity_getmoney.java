@@ -30,7 +30,7 @@ import java.security.Principal;
 /**
  * Created by Administrator on 2016/4/5.
  */
-public class MainActivity_getmoney extends Activity implements View.OnClickListener, TextWatcher {
+public class MainActivity_getmoney extends Activity implements View.OnClickListener {
     private TextView textView;
     private EditText getmoney;
     private TextView yue;
@@ -41,10 +41,11 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
     private UserInfo userInfo;
     private EditText beizhu;
     private ProgressDialog progressDialog;
-    private double getmoney1;
+    private String getmoney1;
     private String counter1;
     private String tname;
     private String beizhu1;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.balance_getmoney);
@@ -57,11 +58,8 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
 
         yue = (TextView) findViewById(R.id.yue);
         getmoney = (EditText) findViewById(R.id.getmoney);
-        getmoney.addTextChangedListener(this);
         counter = (EditText) findViewById(R.id.counter);
-        counter.addTextChangedListener(this);
         Tname = (EditText) findViewById(R.id.Tname);
-        Tname.addTextChangedListener(this);
         beizhu = (EditText) findViewById(R.id.beizhu);
     }
 
@@ -81,19 +79,47 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
                 String username = sharedPreferences.getString("username", null);
                 Log.i("MainActivity_getmoney", username);
                 //panduan1
-                getmoney1 = Double.valueOf(getmoney.getText().toString());
+                getmoney1 = getmoney.getText().toString();
                 counter1 = counter.getText().toString();
                 tname = Tname.getText().toString();
                 beizhu1 = beizhu.getText().toString();
-                boolean getmoney2=Double.isNaN(getmoney1);
-                volley_get(getmoney1, counter1, tname, username, beizhu1);
-                finish();
-                break;
-
+//                if (beizhu1.length() <= 10) {
+                if (!TextUtils.isEmpty(getmoney1)) {
+                    if (!TextUtils.isEmpty(counter1)) {
+                        if (!TextUtils.isEmpty(tname)) {
+                            if (TextUtils.isEmpty(beizhu1)) {
+                                beizhu1 = "无";
+                                volley_get(getmoney1, counter1, tname, username, beizhu1);
+                            } else {
+                                if (beizhu1.length() <= 10) {
+                                    volley_get(getmoney1, counter1, tname, username, beizhu1);
+                                    finish();
+                                    break;
+                                } else {
+                                    closeProgressDialog();
+                                    Toast.makeText(MainActivity_getmoney.this, "备注内容超过限制，请重新输入", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        } else {
+                            closeProgressDialog();
+                            Toast.makeText(MainActivity_getmoney.this, "账户人不能为空", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        closeProgressDialog();
+                        Toast.makeText(MainActivity_getmoney.this, "提现账户不能为空", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    closeProgressDialog();
+                    Toast.makeText(MainActivity_getmoney.this, "提现金额不能为空", Toast.LENGTH_SHORT).show();
+                }
+//                } else {
+//                    closeProgressDialog();
+//                    Toast.makeText(MainActivity_getmoney.this, "备注内容超过限制，请重新输入", Toast.LENGTH_SHORT).show();
+//                }
         }
     }
 
-    public void volley_get(double getmoney, String counter, String tname, String username, String beizhu2) {
+    public void volley_get(String getmoney, String counter, String tname, String username, String beizhu2) {
         SharedPreferences sharedPreferences1 = getSharedPreferences("config", MODE_PRIVATE);
         String token = sharedPreferences1.getString("token", null);
         try {
@@ -104,7 +130,7 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
             e.printStackTrace();
         }
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/withdrawCash/money/" + getmoney + "/Tname/" + tname + "/counter/" + counter + "/name/" + username + "/extra/" + beizhu2 + "/token/" + token;
-        Log.i("URL", url);
+//        Log.i("URL", url);
         //将用户的提现信息提交给服务器
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             public void onResponse(String s) {
@@ -115,8 +141,6 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
                 if ("SUCCESS".equals(s)) {
                     Toast.makeText(MainActivity_getmoney.this, "提现申请已提交", Toast.LENGTH_LONG).show();
                 } else if ("ERROR".equals(s)) {
-                    Toast.makeText(MainActivity_getmoney.this, "提交内容有误，请核对您的信息", Toast.LENGTH_SHORT).show();
-                } else if (" outtime".equals(s)) {
                     Toast.makeText(MainActivity_getmoney.this, "提交内容有误，请核对您的信息", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -138,30 +162,10 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
         }
         progressDialog.show();
     }
+
     private void closeProgressDialog() {
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        if(TextUtils.isEmpty(String.valueOf(getmoney1))&&TextUtils.isEmpty(counter1)&&TextUtils.isEmpty(tname)){
-            sure.setEnabled(false);
-            textView1.setEnabled(false);
-        }
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if(!TextUtils.isEmpty(String.valueOf(getmoney1))&&!TextUtils.isEmpty(counter1)&&!TextUtils.isEmpty(tname)){
-            sure.setEnabled(false);
-            textView1.setEnabled(false);
-        }
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-
     }
 }

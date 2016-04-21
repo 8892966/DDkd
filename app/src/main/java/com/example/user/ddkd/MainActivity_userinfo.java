@@ -70,7 +70,7 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
                     }else{
                         //当网络连接不存在时，从手机的内存中获取用户信息
                         Log.i("ERROR","ERROR");
-                        SharedPreferences sharedPreferences1=getSharedPreferences("User",MODE_PRIVATE);
+                        SharedPreferences sharedPreferences1=getSharedPreferences("user",MODE_PRIVATE);
 //                        Map<String,String> userMap=new HashMap<String,String>();
 //                        userMap.put("username",sharedPreferences1.getString("username",null));
 //                        userMap.put("collage",sharedPreferences1.getString("collage",null));

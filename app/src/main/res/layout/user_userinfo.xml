@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="45dip"
         android:background="#00ccff">
-
         <TextView
             android:id="@+id/tv_head_fanghui"
             style="@style/head_button_back"
@@ -23,16 +23,19 @@
             android:text="个人信息"
             android:textSize="25sp" />
     </RelativeLayout>
-
     <ImageView
+        android:id="@+id/userimage"
+        android:layout_below="@id/title"
         android:layout_width="match_parent"
         android:layout_height="120dip"
         android:padding="10dip"
         android:src="@drawable/personinfo3" />
 
     <ScrollView
+        android:layout_above="@id/bottom"
+        android:layout_below="@id/userimage"
         android:layout_width="match_parent"
-        android:layout_height="300dip">
+        android:layout_height="wrap_content">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -184,4 +187,10 @@
             android:layout_height="1dip"/>
     </LinearLayout>
     </ScrollView>
-</LinearLayout>
+    <TextView
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="15dip" />
+</RelativeLayout>

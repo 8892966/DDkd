@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -18,21 +19,35 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.user.ddkd.text.UserInfo;
 import com.google.gson.Gson;
 
+import org.w3c.dom.Text;
+
 /**
  * Created by Administrator on 2016/4/2.
  */
 public class MainActivity_main extends Activity implements View.OnClickListener {
     private ImageView announce;
+    private RelativeLayout title;
+    private ImageView userimage;
+    private TextView username;
+    private TextView turnover;
+    private TextView moneysum;
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_userinfo);
-        ImageView imageView=(ImageView)findViewById(R.id.exituserinfo);
-        imageView.setOnClickListener(this);
+
+        //*******个人中心的信息回显*********
+        userimage= (ImageView) findViewById(R.id.userimage);
+        username= (TextView) findViewById(R.id.username);
+        turnover= (TextView) findViewById(R.id.turnover);
+        moneysum= (TextView) findViewById(R.id.moneysum);
+
+        //*******实现点击页面的跳转*******
+        ImageView exituserinfo=(ImageView)findViewById(R.id.exituserinfo);
+        exituserinfo.setOnClickListener(this);
         announce= (ImageView) findViewById(R.id.announce);
         announce.setOnClickListener(this);
-
-        RelativeLayout moneysum=(RelativeLayout)findViewById(R.id.moneysum);
-        moneysum.setOnClickListener(this);
+        title=(RelativeLayout)findViewById(R.id.title);
+        title.setOnClickListener(this);
         LinearLayout detauils=(LinearLayout)findViewById(R.id.details);
         detauils.setOnClickListener(this);
         LinearLayout userinfo=(LinearLayout)findViewById(R.id.userInfo);
@@ -46,7 +61,7 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
     public void onClick(View v) {
         Intent intent;
         switch (v.getId()){
-            case R.id.moneysum:
+            case R.id.title:
                 intent=new Intent(this,MainActivity_balance.class);
                 startActivity(intent);
                 break;
@@ -78,10 +93,19 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
         StringRequest request=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.i("Main",s);
+//                Log.i("Main",s);
                 Gson gson=new Gson();
                 UserInfo userInfo=gson.fromJson(s, UserInfo.class);
                 if(userInfo!=null) {
+                    if(""+userInfo.getYingye()==null) {
+                        turnover.setText("0");
+                    }else{
+                        turnover.setText(userInfo.getYingye());
+                    }
+                    //**********回显用户的个人信息***********
+                    username.setText(userInfo.getUsername());
+                    moneysum.setText(String.valueOf(userInfo.getBalance()));
+
                     SharedPreferences preferences = getSharedPreferences("user", MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putString("username", userInfo.getUsername());

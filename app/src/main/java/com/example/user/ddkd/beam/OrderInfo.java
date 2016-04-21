@@ -31,8 +31,6 @@ public class OrderInfo {
     //
     private String addressee;
 
-    private int state=0;//判断是否有操作，如果什么都没有做就为0，如果点击了完成就设在为1，点击了退单，设置为2，点击了完成，设置为3
-
 //    @Override
 //    public String toString() {
 //        return "OrderInfo{" +
@@ -51,14 +49,6 @@ public class OrderInfo {
 //                ", addressee='" + addressee + '\'' +
 //                '}';
 //    }
-
-    public int getState() {
-        return state;
-    }
-
-    public void setState(int state) {
-        this.state = state;
-    }
 
     public String getReturn_code() {
         return return_code;

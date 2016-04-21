@@ -18,10 +18,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.tencent.stat.StatService;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 
 /**
@@ -59,13 +55,13 @@ public class MainActivity_login extends Activity implements View.OnClickListener
     @Override
     protected void onResume() {
         super.onResume();
-        StatService.onResume(this);
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        StatService.onPause(this);
+
     }
 
     public void volley_Get(final String userid, final String password) {

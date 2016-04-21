@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -27,13 +25,10 @@ import com.example.user.ddkd.beam.OrderInfo;
 import com.example.user.ddkd.utils.AutologonUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.tencent.stat.StatService;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class DingDanActivity extends Activity implements View.OnClickListener {
     //放订单列表
@@ -299,7 +294,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             @Override
             public void onResponse(String s) {
                 Log.e("volley_getOrder_GET", s);
-                if (!s.endsWith("\"token outtime\"")) {
+                if (!s.equals("\"token outtime\"")) {
                     if (!s.equals("\"ERROR\"")) {
                         Gson gson = new Gson();
                         list = gson.fromJson(s, new TypeToken<List<OrderInfo>>() {
@@ -344,12 +339,12 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             @Override
             public void onResponse(String s) {
                 Log.e("volley_OrderState_GET", s);
-                if (!s.endsWith("\"token outtime\"")) {
+                if (!s.equals("\"token outtime\"")) {
                     if ("\"SUCCESS\"".equals(s)) {
                         list.remove(info);
                         baseAdapter.notifyDataSetChanged();
                     } else {
-
+                        Toast.makeText(DingDanActivity.this,"网络连接错...",Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Log.e("volley_getOrder_GET", "token过时了");
@@ -370,16 +365,15 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
         request_post.setTag("volley_OrderState_GET");
         MyApplication.getQueue().add(request_post);
     }
-
     @Override
     protected void onResume() {
         super.onResume();
-        StatService.onResume(this);
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        StatService.onPause(this);
+
     }
 }

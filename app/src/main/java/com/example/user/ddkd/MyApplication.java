@@ -5,8 +5,6 @@ import android.os.Handler;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
-import com.tencent.stat.MtaSDkException;
-import com.tencent.stat.StatService;
 
 /**
  * Created by User on 2016-04-07.

@@ -53,7 +53,7 @@
             android:id="@+id/tv_xiuxi_huodong_now_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="接单：18单"
+            android:text="接单：?单"
             android:textColor="#000000"
             android:textSize="15sp" />
 
@@ -63,6 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:numStars="5"
+            android:isIndicator="true"
             style="?android:attr/ratingBarStyleSmall"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/tv_xiuxi_huodong_now_number" />
@@ -81,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/tv_star"
-            android:text="107单"
+            android:text=" ?单"
             android:textColor="#000000" />
 
         <TextView
@@ -90,7 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_xiuxi_huodong_now_number"
             android:layout_marginTop="10dp"
-            android:text="昨天订单：10单"
+            android:text="昨天订单：?单"
             android:textColor="#000000"
             android:textSize="10sp" />
 
@@ -102,7 +103,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@id/tv_xiuxi_huodong_yesterday_number"
-            android:text="昨天营业额：987元"
+            android:text="昨天营业额：?元"
             android:textColor="#000000"
             android:textSize="10sp" />
     </RelativeLayout>

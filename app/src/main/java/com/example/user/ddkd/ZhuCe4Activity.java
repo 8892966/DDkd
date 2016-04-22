@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.beam.SignUpInfo;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -294,5 +296,16 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
         }
 //         return in.toString();
         return BOUNDARY;
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        StatService.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        StatService.onPause(this);
     }
 }

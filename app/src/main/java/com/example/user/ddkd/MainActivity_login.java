@@ -92,10 +92,12 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                     // 传递的参数为ApplicationContext
                     Context context = getApplicationContext();
                     XGPushManager.registerPush(MainActivity_login.this, new XGIOperateCallback() {
+
                         @Override
                         public void onSuccess(Object data, int flag) {
                             Log.d("TPush", "注册成功，设备token为：" + data);
                         }
+
                         @Override
                         public void onFail(Object data, int errCode, String msg) {
                             Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);

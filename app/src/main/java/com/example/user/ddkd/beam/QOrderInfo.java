@@ -17,24 +17,6 @@ public class QOrderInfo {
     private String username;
     private String Message;
 
-    @Override
-    public String toString() {
-        return "QOrderInfo{" +
-                "uid='" + uid + '\'' +
-                ", Price='" + Price + '\'' +
-                ", tip='" + tip + '\'' +
-                ", OrderTime='" + OrderTime + '\'' +
-                ", ReceivePlace='" + ReceivePlace + '\'' +
-                ", PaymentMethod='" + PaymentMethod + '\'' +
-                ", addressee='" + addressee + '\'' +
-                ", weight='" + weight + '\'' +
-                ", ExpressCompany='" + ExpressCompany + '\'' +
-                ", phone='" + phone + '\'' +
-                ", username='" + username + '\'' +
-                ", Message='" + Message + '\'' +
-                '}';
-    }
-
     public String getUid() {
         return uid;
     }

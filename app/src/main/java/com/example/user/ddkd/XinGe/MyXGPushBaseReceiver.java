@@ -4,6 +4,7 @@ package com.example.user.ddkd.XinGe;
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -12,6 +13,7 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.user.ddkd.JieDangActivity;
 import com.example.user.ddkd.MyApplication;
 import com.example.user.ddkd.R;
 import com.example.user.ddkd.beam.MainMsgInfo;
@@ -30,7 +32,8 @@ import java.util.List;
  * Created by User on 2016-04-09.
  */
 public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
-    //    ActivityManager am;
+    ActivityManager am;
+
     @Override
     public void onRegisterResult(Context context, int i, XGPushRegisterResult xgPushRegisterResult) {
         //注册结果
@@ -56,33 +59,31 @@ public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
         //开发者在前台下发消息，需要APP继承XGPushBaseReceiver重载onTextMessage方法接收，
         // 成功接收后，再根据特有业务场景进行处理。
 
-        String s = xgPushTextMessage.getContent();
-        Gson gson = new Gson();
-        QOrderInfo info = gson.fromJson(s, QOrderInfo.class);
-
-        Handler handler = MyApplication.getHandler();
-        Message message = new Message();
-        message.obj = info;
-        message.what = MyApplication.XG_TEXT_MESSAGE;
-        handler.sendMessage(message);
-//        Handler handler = MyApplication.getHandler();
-//        Message message = Message.obtain();
-//        message.obj = xgPushTextMessage;
-//        message.what = MyApplication.XG_TEXT_MESSAGE;
-//        handler.sendMessage(message);
-//        am = (ActivityManager) context.getSystemService(context.ACTIVITY_SERVICE);
-//        List<ActivityManager.RunningTaskInfo> infos = am.getRunningTasks(100);
-//        if ("com.example.user.ddkd.JieDangActivity".equals(infos.get(0).topActivity.getClassName())) {
-//            Toast.makeText(context,xgPushTextMessage.getContent(), Toast.LENGTH_LONG).show();
-//        } else {
-//            NotificationManager nm = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
-//            Notification.Builder builder = new Notification.Builder(context);
-//            builder.setContentTitle("DDkd");
-//            builder.setContentText(xgPushTextMessage.getContent());
-//            builder.setSmallIcon(R.mipmap.ic_launcher);
-//            Notification notification = builder.getNotification();
-//            nm.notify(R.mipmap.ic_launcher,notification);
-//        }
+            am = (ActivityManager) context.getSystemService(context.ACTIVITY_SERVICE);
+            List<ActivityManager.RunningTaskInfo> infos = am.getRunningTasks(100);
+        if ("com.example.user.ddkd.JieDangActivity".equals(infos.get(0).topActivity.getClassName())) {
+            String s = xgPushTextMessage.getContent();
+            Gson gson = new Gson();
+            QOrderInfo info = gson.fromJson(s, QOrderInfo.class);
+            Handler handler = MyApplication.getHandler();
+            Message message = new Message();
+            message.obj = info;
+            message.what = MyApplication.XG_TEXT_MESSAGE;
+            handler.sendMessage(message);
+        } else if("".equals(xgPushTextMessage.getTitle())){
+            NotificationManager nm = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+            Notification.Builder builder = new Notification.Builder(context);
+            builder.setContentTitle("DD快递");
+            builder.setContentText("有一个单没人抢，而且小费很高哦...亲！");
+            Intent notificationIntent = new Intent(context,JieDangActivity.class);
+            notificationIntent.putExtra("msg","FROM_QT");
+            PendingIntent contentIntent = PendingIntent.getActivity(context,0,
+                    notificationIntent,0);
+            builder.setContentIntent(contentIntent);
+            builder.setSmallIcon(R.mipmap.ic_launcher);
+            Notification notification = builder.getNotification();
+            nm.notify(R.mipmap.ic_launcher, notification);
+        }
     }
 
     @Override

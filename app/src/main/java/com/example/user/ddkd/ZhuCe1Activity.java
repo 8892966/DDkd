@@ -21,6 +21,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.beam.SignUpInfo;
 import com.example.user.ddkd.utils.YanZhenMaUtil;
 
@@ -49,6 +50,17 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
 
     private YanZhenMaUtil yanZhenMaUtil;
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        StatService.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        StatService.onPause(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

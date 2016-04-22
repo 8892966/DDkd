@@ -36,6 +36,7 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
                 startActivity(intent);
                 XGPushManager.unregisterPush(this);
                 Toast.makeText(this,"退出成功",Toast.LENGTH_SHORT).show();
+                finish();
                 break;
             case R.id.setExit:
                 finish();

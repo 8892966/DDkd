@@ -3,6 +3,8 @@ package com.example.user.ddkd;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.text.DetailsInfo;
+import com.example.user.ddkd.utils.AutologonUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -35,6 +38,23 @@ public class details extends Activity implements View.OnClickListener {
     private TextView exit_button;
     private List<DetailsInfo> detailsinfolist;
     private MyAdater myAdater;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case MyApplication.GET_TOKEN_SUCCESS:
+                    Object[] objects = (Object[]) msg.obj;
+                    DetailsInfo detailsInfo = (DetailsInfo) objects[0];
+                    String Static = (String) objects[1];
+                    Volley_Get(detailsInfo, Static);
+                    break;
+                case MyApplication.GET_TOKEN_ERROR:
+
+                    break;
+            }
+        }
+    };
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +62,8 @@ public class details extends Activity implements View.OnClickListener {
         ListView listView = (ListView) findViewById(R.id.listviewdetails);
         exit_button = (TextView) findViewById(R.id.tv_head_fanghui);
         exit_button.setOnClickListener(this);
-        Volley_Get("2");
+        DetailsInfo detailsInfo = new DetailsInfo();
+        Volley_Get(detailsInfo, "3");
 
         detailsinfolist = new ArrayList<DetailsInfo>();
         myAdater = new MyAdater();
@@ -102,35 +123,44 @@ public class details extends Activity implements View.OnClickListener {
                 //回显时间
                 date.setText(detailsInfo.getTime());
             } else {
-                Log.i("Error","fsdfaffsda");
+                Log.i("Error", "fsdfaffsda");
             }
             return view;
         }
     }
 
-    public void Volley_Get(String Static) {
-        SharedPreferences preferences=getSharedPreferences("config",MODE_PRIVATE) ;
-        String token=preferences.getString("token",null);
+    public void Volley_Get(final DetailsInfo detailsInfo, final String Static) {
+        SharedPreferences preferences = getSharedPreferences("config", MODE_PRIVATE);
+        String token = preferences.getString("token", null);
         //Log.i("Get_details_token",token);
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/state/"+Static+"/token/"+token;
-        Log.i("Details",url);
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/state/" + Static + "/token/" + token;
+        Log.i("Details", url);
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-
-                if (!s.equals("\"ERROR\"")) {
-                    Type listv = new TypeToken<LinkedList<DetailsInfo>>() {}.getType();
-                    Gson gson = new Gson();
-                    Log.i("Get_deailes", s);
-                    detailsinfolist = gson.fromJson(s, listv);
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyy/mm/dd  HH:mm:ss");
-                    for (DetailsInfo detailsInfo2 : detailsinfolist) {
-                        detailsInfo2.setTime(dateFormat.format(Long.valueOf(detailsInfo2.getTime())));
+                if (!s.equals("\"token outtime\"")) {
+                    if (!s.equals("\"ERROR\"")) {
+                        Type listv = new TypeToken<LinkedList<DetailsInfo>>() {
+                        }.getType();
+                        Gson gson = new Gson();
+                        detailsinfolist = gson.fromJson(s, listv);
+                        //转化时间轴
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyy/mm/dd  HH:mm:ss");
+                        for (DetailsInfo detailsInfo2 : detailsinfolist) {
+                            detailsInfo2.setTime(dateFormat.format(Long.valueOf(detailsInfo2.getTime())));
+                        }
+                        myAdater.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(details.this, "网络连接出错", Toast.LENGTH_SHORT).show();
                     }
-                    myAdater.notifyDataSetChanged();
-                }else{
-                    Toast.makeText(details.this,"Error",Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.e("Main_balance", "token outtime");
+                    Object[] objects = {detailsInfo, Static};
+                    AutologonUtil autologonUtil = new AutologonUtil(details.this, handler, objects);
+                    autologonUtil.volley_Get_TOKEN();
                 }
+
+
             }
         }, new Response.ErrorListener() {
             @Override

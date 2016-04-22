@@ -158,15 +158,4 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
             return view;
         }
     }
-    @Override
-    protected void onResume(){
-        super.onResume();
-        StatService.onResume(this);
-    }
-
-    @Override
-    protected void onPause(){
-        super.onPause();
-        StatService.onPause(this);
-    }
 }

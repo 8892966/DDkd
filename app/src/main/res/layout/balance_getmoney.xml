@@ -43,31 +43,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
-    <View
-        android:background="#cccccc"
-        android:layout_width="match_parent"
-        android:layout_height="20dip"/>
-    <RelativeLayout
-        android:layout_marginTop="10dip"
-        android:layout_gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/tixian"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="  提   现："
-            android:textSize="20sp" />
-        <EditText
-            android:layout_toRightOf="@id/tixian"
-            android:id="@+id/getmoney"
-            android:singleLine="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="请输入提现金额"
-            android:textSize="20sp" />
-    </RelativeLayout>
     <LinearLayout
         android:background="#cccccc"
         android:layout_width="match_parent"
@@ -84,10 +59,35 @@
             android:id="@+id/yue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="200元"
             android:textSize="15sp" />
     </LinearLayout>
 
+    <RelativeLayout
+        android:layout_marginTop="10dip"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tixian"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="  提   现："
+            android:textSize="20sp" />
+        <EditText
+            android:layout_toRightOf="@id/tixian"
+            android:id="@+id/getmoney"
+            android:phoneNumber="true"
+            android:singleLine="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="亲，满100才可以提现喔"
+            android:textSize="20sp" />
+    </RelativeLayout>
+    <View
+        android:background="#cccccc"
+        android:layout_width="match_parent"
+        android:layout_height="20dip"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

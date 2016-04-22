@@ -6,15 +6,20 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.text.UserInfo;
+import com.example.user.ddkd.utils.AutologonUtil;
 import com.google.gson.Gson;
 
 /**
@@ -28,7 +33,15 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
     private TextView phone;
     private TextView shortphone;
     private TextView level;
-
+    private UserInfo userInfo;
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            UserInfo userInfo= (UserInfo) msg.obj;
+            Voley_Get(userInfo);
+        }
+    };
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_userinfo);
@@ -40,10 +53,10 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
         phone= (TextView) findViewById(R.id.phone);
         shortphone= (TextView) findViewById(R.id.shortphone);
         level= (TextView) findViewById(R.id.level);
-        Voley_Get();
+        Voley_Get(userInfo);
     }
 
-    public void Voley_Get(){
+    public void Voley_Get(final UserInfo userInfo){
         final SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
         String token=sharedPreferences.getString("token", null);
 //        Log.i("Volley_Get",token);
@@ -51,43 +64,43 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
         StringRequest request=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-//                Log.i("Get_userinfo",s);
-//                Type listv=new TypeToken<LinkedList<UserInfo>>(){}.getType();
-                Gson gson=new Gson();
-                UserInfo userInfo=gson.fromJson(s,UserInfo.class);
-                if(userInfo!=null){
-
-                    boolean network=isNetworkConnected();
-                    if (network){
-                        //**********当网络连接存在时，从后台获取用户信息***********
-                        Log.i("SUCCESS","SUCCESS");
-                        //*****************根据Json中的数据回显用户的信息********************
-                        username.setText(userInfo.getUsername());
-                        collage.setText(userInfo.getCollege());
-                        number.setText(userInfo.getNumber()+"");
-                        phone.setText(userInfo.getPhone()+"");
-                        shortphone.setText(userInfo.getShortphone()+"");
-                        level.setText(userInfo.getLevel());
+                if (!s.equals("\"token outtime\"")){
+                    if(!s.equals("\"ERROR\"")){
+                        Gson gson=new Gson();
+                        UserInfo userInfo=gson.fromJson(s,UserInfo.class);
+                        if(userInfo!=null){
+                            boolean network=isNetworkConnected();
+                            if (network){
+                                //**********当网络连接存在时，从后台获取用户信息***********
+                                Log.i("SUCCESS","SUCCESS");
+                                //*****************根据Json中的数据回显用户的信息********************
+                                username.setText(userInfo.getUsername());
+                                collage.setText(userInfo.getCollege());
+                                number.setText(userInfo.getNumber()+"");
+                                phone.setText(userInfo.getPhone()+"");
+                                shortphone.setText(userInfo.getShortphone()+"");
+                                level.setText(userInfo.getLevel());
+                            }else{
+                                //当网络连接不存在时，从手机的内存中获取用户信息
+                                Log.i("ERROR","ERROR");
+                                SharedPreferences sharedPreferences1=getSharedPreferences("user",MODE_PRIVATE);
+                                username.setText(sharedPreferences1.getString("username",null));
+                                collage.setText(sharedPreferences1.getString("collage", null));
+                                number.setText(sharedPreferences1.getString("number",null));
+                                phone.setText(sharedPreferences1.getString("phone",null));
+                                shortphone.setText(sharedPreferences1.getString("shortphone",null));
+                                level.setText(sharedPreferences1.getString("level",null));
+                            }
+                        }else{
+                            Log.i("Error","List is null");
+                        }
                     }else{
-                        //当网络连接不存在时，从手机的内存中获取用户信息
-                        Log.i("ERROR","ERROR");
-                        SharedPreferences sharedPreferences1=getSharedPreferences("user",MODE_PRIVATE);
-//                        Map<String,String> userMap=new HashMap<String,String>();
-//                        userMap.put("username",sharedPreferences1.getString("username",null));
-//                        userMap.put("collage",sharedPreferences1.getString("collage",null));
-//                        userMap.put("number",sharedPreferences1.getString("number",null));
-//                        userMap.put("phone",sharedPreferences1.getString("phone",null));
-//                        userMap.put("shortphone",sharedPreferences1.getString("shortphone",null));
-//                        userMap.put("level",sharedPreferences1.getString("level",null));
-                        username.setText(sharedPreferences1.getString("username",null));
-                        collage.setText(sharedPreferences1.getString("collage", null));
-                        number.setText(sharedPreferences1.getString("number",null));
-                        phone.setText(sharedPreferences1.getString("phone",null));
-                        shortphone.setText(sharedPreferences1.getString("shortphone",null));
-                        level.setText(sharedPreferences1.getString("level",null));
+                        Toast.makeText(MainActivity_userinfo.this, "网络连接出错", Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Log.i("Error","List is null");
+                    Log.e("MainActivity_userinfo","token outtime");
+                    AutologonUtil autologonUtil=new AutologonUtil(MainActivity_userinfo.this,handler,userInfo);
+                    autologonUtil.volley_Get_TOKEN();
                 }
             }
         }, new Response.ErrorListener() {

@@ -49,18 +49,18 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
     private String counter1;
     private String tname1;
     private String beizhu1;
-    private Handler handler=new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case MyApplication.GET_TOKEN_SUCCESS:
-                    Object[] objects= (Object[]) msg.obj;
-                    String getmoney3= (String) objects[0];
-                    String counter3= (String) objects[1];
-                    String tname3= (String) objects[2];
-                    String username3= (String) objects[3];
-                    String beizhu3= (String) objects[4];
+                    Object[] objects = (Object[]) msg.obj;
+                    String getmoney3 = (String) objects[0];
+                    String counter3 = (String) objects[1];
+                    String tname3 = (String) objects[2];
+                    String username3 = (String) objects[3];
+                    String beizhu3 = (String) objects[4];
                     volley_get(getmoney3, counter3, tname3, username3, beizhu3);
                     break;
                 case MyApplication.GET_TOKEN_ERROR:
@@ -70,14 +70,17 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
 
         }
     };
-    private Handler handler1=new Handler(){
+    private Handler handler1 = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case MyApplication.GET_TOKEN_SUCCESS:
-                    UserInfo userInfo= (UserInfo) msg.obj;
-                    Volley_Get(userInfo);
+                    Volley_Get();
+                    break;
+                case MyApplication.GET_TOKEN_ERROR:
+
+                    break;
             }
         }
     };
@@ -97,8 +100,8 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
         counter = (EditText) findViewById(R.id.counter);
         Tname = (EditText) findViewById(R.id.Tname);
         beizhu = (EditText) findViewById(R.id.beizhu);
-        Volley_Get(userInfo);
-
+        Volley_Get();
+        ExitApplication.getInstance().addActivity(this);
     }
 
     @Override
@@ -122,49 +125,55 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
                 tname1 = Tname.getText().toString();
                 beizhu1 = beizhu.getText().toString();
 //                if (beizhu1.length() <= 10) {
+                Log.i("Money2",userInfo.getBalance());
                 if (!TextUtils.isEmpty(getmoney1)) {
-                    if (!TextUtils.isEmpty(counter1)) {
-                        if (!TextUtils.isEmpty(tname1)) {
-                            if (TextUtils.isEmpty(beizhu1)) {
-                                beizhu1 = "无";
-                                volley_get(getmoney1, counter1, tname1, username, beizhu1);
-                            } else {
-                                if (beizhu1.length() <= 10) {
-                                    volley_get(getmoney1, counter1, tname1, username, beizhu1);
-                                    finish();
-                                    break;
+                    if (Double.valueOf(userInfo.getBalance()) > 100) {
+                        if (Double.valueOf(getmoney1) < Double.valueOf(userInfo.getBalance())) {
+                            if (!TextUtils.isEmpty(counter1)) {
+                                if (!TextUtils.isEmpty(tname1)) {
+                                    if (TextUtils.isEmpty(beizhu1)) {
+                                        beizhu1 = "无";
+                                        volley_get(getmoney1, counter1, tname1, username, beizhu1);
+                                    } else {
+                                        if (beizhu1.length() <= 10) {
+                                            volley_get(getmoney1, counter1, tname1, username, beizhu1);
+                                            finish();
+                                            break;
+                                        } else {
+                                            closeProgressDialog();
+                                            Toast.makeText(MainActivity_getmoney.this, "备注内容超过限制，请重新输入", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
                                 } else {
                                     closeProgressDialog();
-                                    Toast.makeText(MainActivity_getmoney.this, "备注内容超过限制，请重新输入", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(MainActivity_getmoney.this, "账户人不能为空", Toast.LENGTH_SHORT).show();
                                 }
+                            } else {
+                                closeProgressDialog();
+                                Toast.makeText(MainActivity_getmoney.this, "提现账户不能为空", Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             closeProgressDialog();
-                            Toast.makeText(MainActivity_getmoney.this, "账户人不能为空", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity_getmoney.this, "提现金额输入有误，请重新输入", Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         closeProgressDialog();
-                        Toast.makeText(MainActivity_getmoney.this, "提现账户不能为空", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity_getmoney.this, "您的余额不足100元", Toast.LENGTH_SHORT).show();
                     }
-                } else if(Double.valueOf(getmoney1)>Double.valueOf(userInfo.getBalance())){
-                    closeProgressDialog();
-                    Toast.makeText(MainActivity_getmoney.this, "您输入的金额有误",Toast.LENGTH_SHORT).show();
-                }else if(userInfo.getBalance()<100){
-                    closeProgressDialog();
-                    Toast.makeText(MainActivity_getmoney.this, "您的余额不足100", Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     closeProgressDialog();
                     Toast.makeText(MainActivity_getmoney.this, "提现金额不能为空", Toast.LENGTH_SHORT).show();
                 }
         }
     }
 
-    public void volley_get(final String getmoney, final String counter, final String tname, final String username, final String beizhu) {
+    public void volley_get(final String getmoney, final String counter, final String tname,
+                           final String username, final String beizhu) {
         SharedPreferences sharedPreferences1 = getSharedPreferences("config", MODE_PRIVATE);
         String token = sharedPreferences1.getString("token", null);
         String tname2 = null;
-        String username2=null;
-        String beizhu2=null;
+        String username2 = null;
+        String beizhu2 = null;
 
         try {
             tname2 = URLEncoder.encode(tname, "utf-8");
@@ -173,7 +182,7 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/withdrawCash/money/" + getmoney + "/Tname/" +tname2+ "/counter/" + counter + "/name/" + username2 + "/extra/" + beizhu2 + "/token/" + token;
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/withdrawCash/money/" + getmoney + "/Tname/" + tname2 + "/counter/" + counter + "/name/" + username2 + "/extra/" + beizhu2 + "/token/" + token;
         //******************将用户的提现信息提交给服务器
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             public void onResponse(String s) {
@@ -188,13 +197,13 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
                         } else if ("ERROR".equals(s)) {
                             Toast.makeText(MainActivity_getmoney.this, "提交内容有误，请核对您的信息", Toast.LENGTH_SHORT).show();
                         }
-                    }else{
+                    } else {
                         Toast.makeText(MainActivity_getmoney.this, "网络连接出错", Toast.LENGTH_SHORT).show();
                     }
-                }else{
-                    Log.e("MainActivity_getmoney","token outtime");
-                    Object[] obj={getmoney,counter,tname,username,beizhu};
-                    AutologonUtil autologonUtil=new AutologonUtil(MainActivity_getmoney.this,handler,obj);
+                } else {
+                    Log.e("MainActivity_getmoney", "token outtime");
+                    Object[] obj = {getmoney, counter, tname, username, beizhu};
+                    AutologonUtil autologonUtil = new AutologonUtil(MainActivity_getmoney.this, handler, obj);
                     autologonUtil.volley_Get_TOKEN();
                 }
             }
@@ -208,24 +217,25 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
         MyApplication.getQueue().add(request);
     }
 
-    public void Volley_Get(final UserInfo userInfo){
-        String url="";
-        StringRequest stringRequest=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+    public void Volley_Get() {
+        SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
+        String token=sharedPreferences.getString("token",null);
+        String url="http://www.louxiago.com/wc/ddkd/admin.php/Turnover/center/token/"+token;
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                if (!s.equals("\"token outtime\"")){
-                    if (!s.equals("\"ERROR\"")){
-                        Log.i("Userinfo",s);
-                        Gson gson=new Gson();
-                        UserInfo userInfo=gson.fromJson(s,UserInfo.class);
-                        Log.i("Money",String.valueOf(userInfo.getBalance()));
-                        yue.setText(String.valueOf(userInfo.getBalance()));
-                    }else{
-                        Toast.makeText(MainActivity_getmoney.this,"网络连接出错",Toast.LENGTH_SHORT).show();
+                if (!s.equals("\"token outtime\"")) {
+                    if (!s.equals("\"ERROR\"")) {
+                        Gson gson = new Gson();
+                        userInfo = gson.fromJson(s, UserInfo.class);
+//                        Log.i("Money", String.valueOf(userInfo.getBalance()));
+                        yue.setText(userInfo.getBalance());
+                    } else {
+                        Toast.makeText(MainActivity_getmoney.this, "网络连接出错", Toast.LENGTH_SHORT).show();
                     }
-                }else{
+                } else {
                     Log.e("Main_balance", "token outtime");
-                    AutologonUtil autologonUtil=new AutologonUtil(MainActivity_getmoney.this,handler1,userInfo);
+                    AutologonUtil autologonUtil = new AutologonUtil(MainActivity_getmoney.this, handler1, null);
                     autologonUtil.volley_Get_TOKEN();
                 }
 

@@ -20,6 +20,7 @@ public class WebActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.web_activity);
+        ExitApplication.getInstance().addActivity(this);
         tv_head_fanghui= (TextView) findViewById(R.id.tv_head_fanghui);
         tv_head_fanghui.setOnClickListener(this);
         url=getIntent().getStringExtra("url");

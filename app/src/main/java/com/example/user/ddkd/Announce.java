@@ -44,6 +44,7 @@ public class Announce extends Activity implements View.OnClickListener {
         announcelist.add(gonggao2);
         announcelist.add(gonggao3);
         announcelistview.setAdapter(new MyAdapter());
+        ExitApplication.getInstance().addActivity(this);
     }
 
     @Override

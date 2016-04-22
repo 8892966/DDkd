@@ -138,6 +138,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         listView.setVisibility(View.GONE);
         myBaseAdapter = new MyBaseAdapter();
         listView.setAdapter(myBaseAdapter);
+        ExitApplication.getInstance().addActivity(this);
 
         //判断是否有开启信鸽和服务
         sreviceisrunning=ServiceUtils.isRunning(this,"com.example.user.ddkd.service.JieDanService");

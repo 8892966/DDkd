@@ -68,6 +68,7 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
         LinearLayout setting=(LinearLayout)findViewById(R.id.setting);
         setting.setOnClickListener(this);
         volley_Get(userInfo);
+        ExitApplication.getInstance().addActivity(this);
     }
 
     @Override

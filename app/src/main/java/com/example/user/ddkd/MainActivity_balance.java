@@ -86,6 +86,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
 
         myAdapter=new MyAdapter();
         viewById.setAdapter(myAdapter);
+        ExitApplication.getInstance().addActivity(this);
     }
 
     @Override

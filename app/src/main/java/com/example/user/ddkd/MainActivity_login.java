@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -34,6 +35,26 @@ public class MainActivity_login extends Activity implements View.OnClickListener
     private TextView forget;
     private ProgressDialog progressDialog;
     private CheckBox rembpwd;
+
+    //**************重写返回键监听*********************
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Log.e("onKeyDown", "杀死进程");
+
+            //*******************销毁该应用的所有Activity*************************
+            ExitApplication.getInstance().exit();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+    @Override
+    public void onBackPressed() {
+        Log.e("onKeyDown", "杀死进程");
+        android.os.Process.killProcess(android.os.Process.myPid());
+        moveTaskToBack(false);
+        //System.exit(0);
+    }
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_login);
@@ -53,6 +74,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
         button.setOnClickListener(this);
         insert.setOnClickListener(this);
         forget.setOnClickListener(this);
+        ExitApplication.getInstance().addActivity(this);
     }
 
     @Override
@@ -81,9 +103,11 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                     SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
                     SharedPreferences.Editor edit = sharedPreferences.edit();
                     edit.putString("token", s);
+
+                    //****************保存登录状态，0为离线状态，1为在线状态************************
+                    edit.putString("loginstatic","1");
 //                    Log.e("volley_Get", s);
                     edit.commit();
-
                     // 开启logcat输出，方便debug，发布时请关闭
                     XGPushConfig.enableDebug(MainActivity_login.this, true);
                     // 如果需要知道注册是否成功，请使用eregisterPush(getApplicationContxt(), XGIOperateCallback)带callback版本

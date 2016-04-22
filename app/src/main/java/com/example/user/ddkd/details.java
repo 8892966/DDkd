@@ -67,6 +67,7 @@ public class details extends Activity implements View.OnClickListener {
         detailsinfolist = new ArrayList<DetailsInfo>();
         myAdater = new MyAdater();
         listView.setAdapter(myAdater);
+        ExitApplication.getInstance().addActivity(this);
     }
 
     @Override

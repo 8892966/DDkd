@@ -107,6 +107,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
         listView.getEmptyView().setVisibility(View.GONE);
         //先隐藏listview，等加载数据后再显示出来
         listView.setVisibility(View.GONE);
+        ExitApplication.getInstance().addActivity(this);
         //初始化数据
 //        volley_getOrder_GET("", "1", "http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/state/0/uid/704");
     }

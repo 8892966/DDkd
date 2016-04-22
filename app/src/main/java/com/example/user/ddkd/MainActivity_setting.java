@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tencent.android.tpush.XGPushManager;
+
 /**
  * Created by Administrator on 2016/4/4.
  */
@@ -32,6 +34,7 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
             case R.id.exit:
                 intent=new Intent(this,MainActivity_login.class);
                 startActivity(intent);
+                XGPushManager.unregisterPush(this);
                 Toast.makeText(this,"退出成功",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.setExit:

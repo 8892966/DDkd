@@ -18,6 +18,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.tencent.android.tpush.XGIOperateCallback;
+import com.tencent.android.tpush.XGPushConfig;
+import com.tencent.android.tpush.XGPushManager;
 
 
 /**
@@ -80,6 +83,25 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                     edit.putString("token", s);
 //                    Log.e("volley_Get", s);
                     edit.commit();
+
+                    // 开启logcat输出，方便debug，发布时请关闭
+                    XGPushConfig.enableDebug(MainActivity_login.this, true);
+                    // 如果需要知道注册是否成功，请使用eregisterPush(getApplicationContxt(), XGIOperateCallback)带callback版本
+                    // 如果需要绑定账号，请使用registerPush(getApplicationContext(),account)版本
+                    // 具体可参考详细的开发指南
+                    // 传递的参数为ApplicationContext
+                    Context context = getApplicationContext();
+                    XGPushManager.registerPush(MainActivity_login.this, new XGIOperateCallback() {
+                        @Override
+                        public void onSuccess(Object data, int flag) {
+                            Log.d("TPush", "注册成功，设备token为：" + data);
+                        }
+                        @Override
+                        public void onFail(Object data, int errCode, String msg) {
+                            Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
+                        }
+                    });
+
                     Intent intent = new Intent(MainActivity_login.this, JieDangActivity.class);
                     startActivity(intent);
                     finish();

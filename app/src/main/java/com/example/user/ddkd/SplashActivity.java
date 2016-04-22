@@ -16,6 +16,9 @@ import android.util.Log;
 import android.content.DialogInterface.OnClickListener;
 import android.widget.Toast;
 import android.content.DialogInterface.OnCancelListener;
+
+import com.baidu.mobstat.SendStrategyEnum;
+import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.utils.StreamTools;
 import net.tsz.afinal.FinalHttp;
 import net.tsz.afinal.http.AjaxCallBack;
@@ -70,8 +73,31 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        StatService.setLogSenderDelayed(10);
+        StatService.setSendLogStrategy(this, SendStrategyEnum.APP_START,
+                1, false);
+        StatService.setSessionTimeOut(0);
         Log.e("onCreate", getVersonName());
+        try {
+            Thread.sleep(2000);
+            enterhome();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        StatService.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        StatService.onPause(this);
+    }
+
     protected void showupdateDialog() {
         // TODO Auto-generated method stub
         AlertDialog.Builder builder=new Builder(this);
@@ -96,7 +122,7 @@ public class SplashActivity extends AppCompatActivity {
                         public void onFailure(Throwable t, int errorNo,
                                               String strMsg) {
                             t.printStackTrace();
-                            Toast.makeText(getApplicationContext(), "下载失败", 1).show();
+                            Toast.makeText(getApplicationContext(), "下载失败", Toast.LENGTH_LONG).show();
                             super.onFailure(t, errorNo, strMsg);
                         }
 
@@ -124,7 +150,7 @@ public class SplashActivity extends AppCompatActivity {
                     });
                     return;
                 }else{
-                    Toast.makeText(getApplicationContext(), "没有sd卡不能下载",0).show();
+                    Toast.makeText(getApplicationContext(), "没有sd卡不能下载",Toast.LENGTH_SHORT).show();
                 }
             }
         });

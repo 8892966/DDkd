@@ -21,6 +21,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.beam.OrderInfo;
 import com.example.user.ddkd.utils.AutologonUtil;
 import com.google.gson.Gson;
@@ -103,6 +104,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
         baseAdapter = new MyBaseAdapter();
         listView.setAdapter(baseAdapter);
         listView.setEmptyView(findViewById(R.id.tv_default));
+        listView.getEmptyView().setVisibility(View.GONE);
         //先隐藏listview，等加载数据后再显示出来
         listView.setVisibility(View.GONE);
         //初始化数据
@@ -368,12 +370,12 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-
+        StatService.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
+        StatService.onPause(this);
     }
 }

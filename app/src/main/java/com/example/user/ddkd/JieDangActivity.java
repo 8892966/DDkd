@@ -25,6 +25,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.beam.MainMsgInfo;
 import com.example.user.ddkd.beam.OrderInfo;
 import com.example.user.ddkd.beam.QOrderInfo;
@@ -267,11 +268,13 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
+        StatService.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        StatService.onPause(this);
     }
 
     @Override

@@ -19,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.beam.SignUpInfo;
 
 import java.io.File;
@@ -210,5 +211,16 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
                 Toast.makeText(this, "请插入SD卡", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        StatService.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        StatService.onPause(this);
     }
 }

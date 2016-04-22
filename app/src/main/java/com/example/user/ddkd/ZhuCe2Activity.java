@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.beam.SignUpInfo;
 import com.example.user.ddkd.utils.PasswordUtil;
 
@@ -50,5 +51,16 @@ public class ZhuCe2Activity extends Activity implements View.OnClickListener {
                 finish();
                 break;
         }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        StatService.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        StatService.onPause(this);
     }
 }

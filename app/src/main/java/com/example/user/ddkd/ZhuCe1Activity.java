@@ -51,13 +51,13 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
     private YanZhenMaUtil yanZhenMaUtil;
 
     @Override
-    protected void onResume() {
+    protected void onResume(){
         super.onResume();
         StatService.onResume(this);
     }
 
     @Override
-    protected void onPause() {
+    protected void onPause(){
         super.onPause();
         StatService.onPause(this);
     }

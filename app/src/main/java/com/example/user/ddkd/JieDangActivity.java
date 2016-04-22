@@ -385,4 +385,5 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         request_post.setTag("volley_MSG_GET");
         MyApplication.getQueue().add(request_post);
     }
+
 }

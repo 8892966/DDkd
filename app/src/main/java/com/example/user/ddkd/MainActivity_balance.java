@@ -16,6 +16,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.text.DetailsInfo;
 import com.example.user.ddkd.text.Payment;
 import com.example.user.ddkd.text.UserInfo;
@@ -156,5 +157,16 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
             }
             return view;
         }
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        StatService.onResume(this);
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        StatService.onPause(this);
     }
 }

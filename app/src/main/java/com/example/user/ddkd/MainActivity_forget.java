@@ -18,6 +18,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.beam.OrderInfo;
 import com.example.user.ddkd.utils.PasswordUtil;
 import com.example.user.ddkd.utils.YanZhenMaUtil;
@@ -101,5 +102,16 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
                 yanZhenMaUtil.sendYZM(this,et_phone_number,tv_button_yanzhengma);
                 break;
         }
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        StatService.onResume(this);
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        StatService.onPause(this);
     }
 }

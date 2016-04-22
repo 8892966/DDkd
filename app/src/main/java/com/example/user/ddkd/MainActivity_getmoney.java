@@ -18,6 +18,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.text.UserInfo;
 
 import org.w3c.dom.Text;
@@ -167,5 +168,17 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        StatService.onResume(this);
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        StatService.onPause(this);
     }
 }

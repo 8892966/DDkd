@@ -16,6 +16,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.text.DetailsInfo;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -139,5 +140,16 @@ public class details extends Activity implements View.OnClickListener {
         });
         request.setTag("abcGet_details");
         MyApplication.getQueue().add(request);
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        StatService.onResume(this);
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        StatService.onPause(this);
     }
 }

@@ -18,6 +18,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.baidu.mobstat.StatService;
 import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
@@ -56,15 +57,15 @@ public class MainActivity_login extends Activity implements View.OnClickListener
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume(){
         super.onResume();
-
+        StatService.onResume(this);
     }
 
     @Override
-    protected void onPause() {
+    protected void onPause(){
         super.onPause();
-
+        StatService.onPause(this);
     }
 
     public void volley_Get(final String userid, final String password) {

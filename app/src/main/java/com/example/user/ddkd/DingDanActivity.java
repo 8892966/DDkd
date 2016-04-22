@@ -282,7 +282,6 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             ImageView iv_call_phone;
         }
     }
-
     //网络申请得到相应状态的订单列表
     private void volley_getOrder_GET(final String State) {
         MyApplication.getQueue().cancelAll("volley_getOrder_GET");
@@ -368,13 +367,13 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
         MyApplication.getQueue().add(request_post);
     }
     @Override
-    protected void onResume() {
+    protected void onResume(){
         super.onResume();
         StatService.onResume(this);
     }
 
     @Override
-    protected void onPause() {
+    protected void onPause(){
         super.onPause();
         StatService.onPause(this);
     }

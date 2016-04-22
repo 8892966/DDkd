@@ -108,7 +108,6 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
         //初始化数据
 //        volley_getOrder_GET("", "1", "http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/state/0/uid/704");
     }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

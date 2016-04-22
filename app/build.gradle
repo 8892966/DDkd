@@ -43,4 +43,5 @@ dependencies {
     compile files('libs/commons-beanutils-1.8.3.jar')
     compile files('libs/mta-android-stat-sdk-2.1.0_20160111.jar')
     compile files('libs/mid-mid-sdk-2.3.jar')
+    compile files('libs/Baidu_Mtj_3.7.3.1.jar')
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.user.ddkd" >
+    package="com.example.user.ddkd"
+    >
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -38,7 +39,6 @@
         <activity android:name=".MainActivity_login" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -121,14 +121,12 @@
         <!-- com.tencent.android.xgpushdemo.CustomPushReceiver需要改为自己的Receiver -->
         <receiver android:name=".XinGe.MyXGPushBaseReceiver" >
             <intent-filter>
-
                 <!-- 接收消息透传 -->
                 <action android:name="com.tencent.android.tpush.action.PUSH_MESSAGE" />
                 <!-- 监听注册、反注册、设置/删除标签、通知被点击等处理结果 -->
                 <action android:name="com.tencent.android.tpush.action.FEEDBACK" />
             </intent-filter>
         </receiver>
-
         <service
             android:name=".service.JieDanService"
             android:enabled="true"

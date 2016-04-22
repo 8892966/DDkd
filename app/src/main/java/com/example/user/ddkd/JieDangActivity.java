@@ -295,9 +295,11 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unbindService(sc);
-    }
+        if(sreviceisrunning){
+            unbindService(sc);
+        }
 
+    }
     //绑定服务
     private ServiceConnection sc=new ServiceConnection(){
         @Override
@@ -354,14 +356,13 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             }
         },new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError volleyError) {
+            public void onErrorResponse(VolleyError volleyError){
 
             }
         });
         request_post.setTag("volley_MSG_GET");
         MyApplication.getQueue().add(request_post);
     }
-
     //抢单数据
     private void volley_QD_GET(String id) {
         preferences = getSharedPreferences("config", MODE_PRIVATE);

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,7 +71,9 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                     Object[] obj= (Object[]) msg.obj;
                     OrderInfo info= (OrderInfo) obj[0];
                     String State= (String) obj[1];
-                    volley_OrderState_GET(info,State);
+                    TextView button= (TextView) obj[2];
+                    ProgressBar pb_button= (ProgressBar) obj[2];
+                    volley_OrderState_GET(info,State,pb_button,button);
                     break;
                 case MyApplication.GET_TOKEN_ERROR:
 
@@ -175,8 +178,8 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                 zhuanTai = new ZhuanTai();
                 view = View.inflate(DingDanActivity.this, R.layout.dingdan_item, null);
                 //已拿件完成的按钮
-                zhuanTai.textbutton = (TextView) view.findViewById(R.id.tv_dingdang_yina);
-                //退单的按钮
+//                zhuanTai.textbutton = (TextView) view.findViewById(R.id.tv_dingdang_yina);
+                //退单的按钮(过时)，现在为已拿件完成的按钮
                 zhuanTai.button = (TextView) view.findViewById(R.id.tv_dingdang_tuidang);
                 //订单的id
                 zhuanTai.tv_dingdang_id = (TextView) view.findViewById(R.id.tv_dingdang_id);
@@ -194,6 +197,8 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                 zhuanTai.tv_dingdang_shijain = (TextView) view.findViewById(R.id.tv_dingdang_shijain);
                 //打客户的电话
                 zhuanTai.iv_call_phone = (ImageView) view.findViewById(R.id.iv_call_phone);
+                //ProgressBar,点击改变状态时出现
+                zhuanTai.pb_button = (ProgressBar) view.findViewById(R.id.pb_button);
 //                //退单的理由
 //                zhuanTai.tv_dingdang_liyou = (TextView) view.findViewById(R.id.tv_dingdang_liyou);
                 view.setTag(zhuanTai);
@@ -202,21 +207,21 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             Log.e("MyBaseAdapter", info.toString());
             if (xuanzhe == 1) {
 //                zhuanTai.tv_dingdang_liyou.setVisibility(View.GONE);
-                zhuanTai.button.setText("退出");
-                zhuanTai.textbutton.setVisibility(View.VISIBLE);
+                zhuanTai.button.setText("已拿件");
+//                zhuanTai.textbutton.setVisibility(View.VISIBLE);
                 zhuanTai.button.setVisibility(View.VISIBLE);
             } else if (xuanzhe == 2) {
 //                zhuanTai.tv_dingdang_liyou.setVisibility(View.GONE);
                 zhuanTai.button.setText("完成");
-                zhuanTai.textbutton.setVisibility(View.GONE);
+//                zhuanTai.textbutton.setVisibility(View.GONE);
                 zhuanTai.button.setVisibility(View.VISIBLE);
             } else if (xuanzhe == 3) {
 //                zhuanTai.tv_dingdang_liyou.setVisibility(View.GONE);
-                zhuanTai.textbutton.setVisibility(View.GONE);
+//                zhuanTai.textbutton.setVisibility(View.GONE);
                 zhuanTai.button.setVisibility(View.GONE);
             } else if (xuanzhe == 4) {
 //                zhuanTai.tv_dingdang_liyou.setVisibility(View.VISIBLE);
-                zhuanTai.textbutton.setVisibility(View.GONE);
+//                zhuanTai.textbutton.setVisibility(View.GONE);
                 zhuanTai.button.setVisibility(View.GONE);
 //                zhuanTai.tv_dingdang_liyou.setText();
             }
@@ -227,23 +232,26 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             zhuanTai.tv_dingdang_liuyan.setText("留言：" + info.getEvaluate());
             zhuanTai.tv_dingdang_shijain.setText(info.getTime() + "");
             zhuanTai.tv_dingdang_nudi_dizhi.setText("   " + info.getReceivePlace());
-            zhuanTai.iv_call_phone.setOnClickListener(new MyOnClickListener(info));
-            zhuanTai.textbutton.setOnClickListener(new MyOnClickListener(info));
-            zhuanTai.button.setOnClickListener(new MyOnClickListener(info));
+            zhuanTai.iv_call_phone.setOnClickListener(new MyOnClickListener(info,null,null));
+//            zhuanTai.textbutton.setOnClickListener(new MyOnClickListener(info));
+            zhuanTai.button.setOnClickListener(new MyOnClickListener(info,zhuanTai.pb_button,zhuanTai.button));
             return view;
         }
 
         //按钮的监听
         class MyOnClickListener implements View.OnClickListener {
             OrderInfo info;
-
+            ProgressBar pb_button;
+            TextView button;
             /**
              * 输入信息
              *
              * @param info
              */
-            public MyOnClickListener(OrderInfo info) {
+            public MyOnClickListener(OrderInfo info,ProgressBar pb_button,TextView button) {
                 this.info = info;
+                this.pb_button=pb_button;
+                this.button=button;
             }
             @Override
             public void onClick(View v) {
@@ -253,15 +261,19 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                         //noinspection ResourceType
                         startActivity(intent);
                         break;
-                    case R.id.tv_dingdang_yina://已拿件按钮事件
-                        volley_OrderState_GET(info, "2");
-                        break;
-                    case R.id.tv_dingdang_tuidang:
+//                    case R.id.tv_dingdang_yina://已拿件按钮事件（过时）
+//                        volley_OrderState_GET(info, "2");
+//                        break;
+                    case R.id.tv_dingdang_tuidang://已拿件按钮事件
                         if (xuanzhe == 2) {
-                            volley_OrderState_GET(info, "3");
+                            button.setEnabled(false);
+                            pb_button.setVisibility(View.VISIBLE);
+                            volley_OrderState_GET(info,"3",pb_button,button);
                         }
                         if (xuanzhe == 1) {
-                            volley_OrderState_GET(info, "4");
+                            button.setEnabled(false);
+                            pb_button.setVisibility(View.VISIBLE);
+                            volley_OrderState_GET(info,"2",pb_button,button);
                         }
                         break;
                 }
@@ -269,7 +281,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
         }
 
         class ZhuanTai {
-            TextView textbutton;
+//            TextView textbutton;
             TextView button;
             TextView tv_dingdang_id;
             TextView tv_money;
@@ -280,6 +292,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             TextView tv_dingdang_shijain;
             //            TextView tv_dingdang_liyou;
             ImageView iv_call_phone;
+            ProgressBar pb_button;//当按钮被点击时出现的等待标志
         }
     }
     //网络申请得到相应状态的订单列表
@@ -314,7 +327,6 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                     rl_order_ProgressBar.setVisibility(View.GONE);//隐藏加载页面
                 } else {
                     Log.e("volley_getOrder_GET", "token过时了");
-                    Object[] objects={};
                     AutologonUtil autologonUtil = new AutologonUtil(DingDanActivity.this, handler1,State);
                     autologonUtil.volley_Get_TOKEN();
                 }
@@ -331,7 +343,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
         MyApplication.getQueue().add(request_post);
     }
     //网络申请修改相应状态的订单列表
-    private void volley_OrderState_GET(final OrderInfo info, final String State) {
+    private void volley_OrderState_GET(final OrderInfo info, final String State,final ProgressBar pb_button, final TextView button) {
         preferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = preferences.getString("token", "");
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/setOrderState/id/" + info.getId() + "/state/" + State + "/token/" + token;
@@ -342,14 +354,16 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                 Log.e("volley_OrderState_GET", s);
                 if (!s.equals("\"token outtime\"")) {
                     if ("\"SUCCESS\"".equals(s)) {
-                        list.remove(info);
-                        baseAdapter.notifyDataSetChanged();
+//                        list.remove(info);
+//                        baseAdapter.notifyDataSetChanged();
                     } else {
+                        button.setEnabled(true);
+                        pb_button.setVisibility(View.GONE);
                         Toast.makeText(DingDanActivity.this,"网络连接错...",Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Log.e("volley_getOrder_GET", "token过时了");
-                    Object[] obj={info,State};
+                    Object[] obj={info,State,pb_button,button};
                     AutologonUtil autologonUtil = new AutologonUtil(DingDanActivity.this, handler2,obj);
                     autologonUtil.volley_Get_TOKEN();
                 }
@@ -357,6 +371,8 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
         },new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                button.setEnabled(true);
+                pb_button.setVisibility(View.GONE);
                 TextView textView = (TextView) listView.getEmptyView();
                 textView.setText("网络连接中断...");
                 list.clear();

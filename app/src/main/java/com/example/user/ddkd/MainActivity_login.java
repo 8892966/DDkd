@@ -70,7 +70,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
 
     public void volley_Get(final String userid, final String password) {
 
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/login/phone/" + userid + "/password/" + password;
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/login/phone/" +userid+"/password/"+ password;
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
@@ -84,7 +84,6 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                     edit.putString("token", s);
 //                    Log.e("volley_Get", s);
                     edit.commit();
-
                     // 开启logcat输出，方便debug，发布时请关闭
                     XGPushConfig.enableDebug(MainActivity_login.this, true);
                     // 如果需要知道注册是否成功，请使用eregisterPush(getApplicationContxt(), XGIOperateCallback)带callback版本
@@ -93,18 +92,19 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                     // 传递的参数为ApplicationContext
                     Context context = getApplicationContext();
                     XGPushManager.registerPush(MainActivity_login.this, new XGIOperateCallback() {
-
                         @Override
                         public void onSuccess(Object data, int flag) {
                             Log.d("TPush", "注册成功，设备token为：" + data);
+                            SharedPreferences preferences=getSharedPreferences("config", MODE_PRIVATE);
+                            SharedPreferences.Editor edit = preferences.edit();
+                            edit.putString("XGtoken",(String)data);
+                            edit.commit();
                         }
-
                         @Override
                         public void onFail(Object data, int errCode, String msg) {
                             Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
                         }
                     });
-
                     Intent intent = new Intent(MainActivity_login.this, JieDangActivity.class);
                     startActivity(intent);
                     finish();
@@ -175,4 +175,12 @@ public class MainActivity_login extends Activity implements View.OnClickListener
             progressDialog.dismiss();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        android.os.Process.killProcess(android.os.Process.myPid());
+//        System.exit(0);
+    }
+
 }

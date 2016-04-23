@@ -98,7 +98,6 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
         xuanzhe = 1;
         //初始化list
         list = new ArrayList<OrderInfo>();
-
         tv_button_yijie.setOnClickListener(this);
         tv_button_daisong.setOnClickListener(this);
         tv_button_wangchen.setOnClickListener(this);

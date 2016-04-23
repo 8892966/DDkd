@@ -202,10 +202,10 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
             boolean sdCardExist = Environment.getExternalStorageState()
                     .equals(android.os.Environment.MEDIA_MOUNTED);
             if (sdCardExist) {
-                String path = Environment.getExternalStorageDirectory().getPath();
+                String path = Environment.getExternalStorageDirectory().getPath()+"/photo";
 //                FileUtil.mkdir(path);
 //                Logger.i("path:" + path);
-                fileName = path + "/user1_head_photo.jpg";
+                fileName = path + "/user1_head_photo.png";
                 tempFile = new File(fileName);
             } else {
                 Toast.makeText(this, "请插入SD卡", Toast.LENGTH_SHORT).show();

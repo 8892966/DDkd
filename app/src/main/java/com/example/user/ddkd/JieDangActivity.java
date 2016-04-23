@@ -15,6 +15,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -358,7 +359,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         },new Response.ErrorListener(){
             @Override
             public void onErrorResponse(VolleyError volleyError){
-
+                Toast.makeText(JieDangActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
             }
         });
         request_post.setTag("volley_MSG_GET");
@@ -396,7 +397,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 Toast.makeText(JieDangActivity.this,"网络异常",Toast.LENGTH_LONG).show();
             }
         });
-        request_post.setTag("volley_MSG_GET");
+        request_post.setTag("volley_QD_GET");
         MyApplication.getQueue().add(request_post);
     }
 
@@ -405,6 +406,16 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         // 启动后删除之前我们定义的通知
         NotificationManager notificationManager = (NotificationManager)getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
         notificationManager.cancel(0);
-
+    }
+    long[] djtime =new long[2];
+    @Override
+    public void onBackPressed(){
+            System.arraycopy(djtime,1,djtime,0,djtime.length-1);
+            djtime[djtime.length-1]= SystemClock.uptimeMillis();
+            if(djtime[0]>=(SystemClock.uptimeMillis()-1000)){
+                super.onBackPressed();
+            }else{
+                Toast.makeText(this,"在按一次返回键退出应用",Toast.LENGTH_SHORT).show();
+            }
     }
 }

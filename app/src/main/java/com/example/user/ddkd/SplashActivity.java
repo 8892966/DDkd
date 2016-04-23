@@ -90,13 +90,13 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        StatService.onResume(this);
+//        StatService.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        StatService.onPause(this);
+//        StatService.onPause(this);
     }
 
     protected void showupdateDialog() {

@@ -67,7 +67,6 @@ public class MainActivity_login extends Activity implements View.OnClickListener
         forget = (TextView) findViewById(R.id.forget);
         rembpwd= (CheckBox) findViewById(R.id.rembpwd);
 
-
         SharedPreferences preferences01=getSharedPreferences("config",MODE_PRIVATE);
         userid1.setText(preferences01.getString("phone",null));
         password1.setText(preferences01.getString("password",null));
@@ -199,13 +198,6 @@ public class MainActivity_login extends Activity implements View.OnClickListener
         if(progressDialog!=null){
             progressDialog.dismiss();
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-//        super.onBackPressed();
-        android.os.Process.killProcess(android.os.Process.myPid());
-//        System.exit(0);
     }
 
 }

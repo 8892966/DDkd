@@ -57,6 +57,6 @@ public class WebActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onPause(){
         super.onPause();
-        StatService.onPageStart(this,getIntent().getStringExtra("title"));
+        StatService.onPageEnd(this,getIntent().getStringExtra("title"));
     }
 }

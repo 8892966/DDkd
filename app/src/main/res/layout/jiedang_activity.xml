@@ -188,4 +188,17 @@
         android:layout_marginTop="10dp"
         android:padding="5dp">
     </ListView>
+    <TextView
+        android:gravity="center"
+        android:id="@+id/tv_jiedang"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/but_jiedang"
+        android:layout_below="@id/ll_jiedang"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
+        android:text="暂时没有单抢，请耐心等候"
+        >
+    </TextView>
 </RelativeLayout>

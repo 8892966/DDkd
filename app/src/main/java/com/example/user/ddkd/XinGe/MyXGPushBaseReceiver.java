@@ -61,9 +61,10 @@ public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
         // 成功接收后，再根据特有业务场景进行处理。
             //"ROBRES"签单结果
         if(xgPushTextMessage.getTitle().equals("ROBRES")){
-//            Log.e("onTextMessage","啊啊啊啊啊啊");
-        }
-        if (ServiceUtils.isRunning(context,"com.example.user.ddkd.service.JieDanService")) {
+            Gson gson = new Gson();
+            Log.e("ROBRES", xgPushTextMessage.getContent());
+
+        } else if (ServiceUtils.isRunning(context,"com.example.user.ddkd.service.JieDanService")) {
             String s = xgPushTextMessage.getContent();
             Log.e("onTextMessage",s);
             Gson gson = new Gson();
@@ -88,7 +89,6 @@ public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
             nm.notify(R.mipmap.ic_launcher,notification);
         }
     }
-
     @Override
     public void onNotifactionClickedResult(Context context, XGPushClickedResult xgPushClickedResult) {
         //  通知被打开触发的结果

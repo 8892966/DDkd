@@ -171,26 +171,27 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
         intent.putExtra("outputY", 250);
         startActivityForResult(intent, 10);
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        System.out.println(resultCode);
         if (requestCode == 10) {
             if (data != null) {
                 BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inSampleSize = 2;
+                options.inSampleSize = 1;
                 Bitmap cameraBitmap = BitmapFactory.decodeFile(tempFile.getPath(), options);
 //                Bitmap cameraBitmap = (Bitmap) data.getExtras().get("data");
-                if (cameraBitmap != null) {
+                if ( cameraBitmap != null ){
                     iv_touxiang.setImageBitmap(cameraBitmap);
-                } else {
+                }
+                else
+                {
                     Toast.makeText(ZhuCe3Activity.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
                 }
             }
         } else if (requestCode == 11) {
             if (data != null) {
                 Uri uri = data.getData();
-                Log.e("uri", uri.toString());
+                Log.e("uri",uri.toString());
                 crop(uri);
             }
         }

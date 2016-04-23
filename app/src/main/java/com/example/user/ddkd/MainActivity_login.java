@@ -41,21 +41,11 @@ public class MainActivity_login extends Activity implements View.OnClickListener
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             Log.e("onKeyDown", "杀死进程");
-
-            //*******************销毁该应用的所有Activity*************************
             ExitApplication.getInstance().exit();
             return true;
         }
         return super.onKeyDown(keyCode, event);
     }
-    @Override
-    public void onBackPressed() {
-        Log.e("onKeyDown", "杀死进程");
-        android.os.Process.killProcess(android.os.Process.myPid());
-        moveTaskToBack(false);
-        //System.exit(0);
-    }
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_login);

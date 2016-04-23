@@ -152,6 +152,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         listView.setVisibility(View.GONE);
         myBaseAdapter = new MyBaseAdapter();
         listView.setAdapter(myBaseAdapter);
+        listView.setEmptyView(findViewById(R.id.tv_jiedang));
         ExitApplication.getInstance().addActivity(this);
 
         //判断是否有开启信鸽和服务

@@ -96,7 +96,7 @@ public class JieDanService extends Service {
                     System.arraycopy(o, 1, o, 0, o.length - 1);
                     o[o.length - 1] = null;
                     if (b) {
-                        handler2.sendEmptyMessageDelayed(2, 1000);
+                        handler2.sendEmptyMessageDelayed(2,1000);
                     }
                     break;
             }

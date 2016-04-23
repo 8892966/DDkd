@@ -54,6 +54,7 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
         shortphone= (TextView) findViewById(R.id.shortphone);
         level= (TextView) findViewById(R.id.level);
         Voley_Get(userInfo);
+        ExitApplication.getInstance().addActivity(this);
     }
 
     public void Voley_Get(final UserInfo userInfo){

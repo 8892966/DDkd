@@ -11,9 +11,9 @@ public class UserInfo {
     private int number;
     private String level;
     private String yingye;
-    private double balance;
+    private String balance;
 
-    public double getBalance() {
+    public String getBalance() {
         return balance;
     }
 
@@ -21,7 +21,7 @@ public class UserInfo {
         return yingye;
     }
 
-    public void setBalance(double balance) {
+    public void setBalance(String balance) {
         this.balance = balance;
     }
 

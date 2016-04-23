@@ -24,36 +24,51 @@
         android:background="#cccccc"
         android:layout_width="match_parent"
         android:layout_height="15dip"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dip">
+        <TextView
+            android:layout_centerVertical="true"
+            android:id="@+id/userimage"
+            android:layout_marginLeft="10dip"
+            android:background="@drawable/clickview"
+            android:clickable="true"
+            android:focusable="true"
+            android:textSize="20sp"
+            android:text=" 头    像"
+            android:padding="5dip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_marginRight="20dip"
+            android:layout_centerVertical="true"
+            android:src="@drawable/userimage"
+            android:layout_width="70dip"
+            android:layout_height="70dip"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
 
+    <View
+        android:background="#cccccc"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"/>
     <TextView
+        android:id="@+id/updatepwd"
         android:layout_marginLeft="10dip"
         android:background="@drawable/clickview"
         android:clickable="true"
         android:focusable="true"
         android:textSize="20sp"
-        android:text="消息提醒"
+        android:text="修改密码"
         android:padding="5dip"
         android:layout_width="match_parent"
         android:layout_height="40dip" />
     <View
         android:background="#cccccc"
         android:layout_width="match_parent"
-        android:layout_height="1dip"/>
+        android:layout_height="15dip"/>
     <TextView
-        android:layout_marginLeft="10dip"
-        android:background="@drawable/clickview"
-        android:clickable="true"
-        android:focusable="true"
-        android:textSize="20sp"
-        android:text="字体大小"
-        android:padding="5dip"
-        android:layout_width="match_parent"
-        android:layout_height="40dip" />
-    <View
-        android:background="#cccccc"
-        android:layout_width="match_parent"
-        android:layout_height="1dip"/>
-    <TextView
+        android:id="@+id/cline"
         android:layout_marginLeft="10dip"
         android:background="@drawable/clickview"
         android:clickable="true"
@@ -68,6 +83,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dip"/>
     <TextView
+        android:id="@+id/updateApp"
         android:layout_marginLeft="10dip"
         android:background="@drawable/clickview"
         android:clickable="true"
@@ -80,14 +96,15 @@
     <View
         android:background="#cccccc"
         android:layout_width="match_parent"
-        android:layout_height="1dip"/>
+        android:layout_height="15dip"/>
     <TextView
+        android:id="@+id/aboutDD"
         android:layout_marginLeft="10dip"
         android:background="@drawable/clickview"
         android:clickable="true"
         android:focusable="true"
         android:textSize="20sp"
-        android:text="关于我们"
+        android:text="关于DD快递"
         android:padding="5dip"
         android:layout_width="match_parent"
         android:layout_height="40dip" />
@@ -96,7 +113,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dip"/>
     <TextView
-        android:layout_marginTop="30dip"
+        android:layout_marginTop="40dip"
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
         android:id="@+id/exit"

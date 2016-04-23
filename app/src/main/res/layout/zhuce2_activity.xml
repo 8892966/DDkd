@@ -23,83 +23,91 @@
             android:textSize="20sp"
             />
     </RelativeLayout>
-    <LinearLayout
-        android:orientation="horizontal"
+    <RelativeLayout
         android:layout_below="@id/rl_head"
-        android:id="@+id/ll_dian"
+        android:id="@+id/ll_4text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="20dp">
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_width="wrap_content"
+        <View
+            android:layout_centerInParent="true"
+            android:layout_below="@id/ll_dian"
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:layout_marginLeft="60dip"
+            android:layout_marginRight="60dip"
+            android:background="#cccccc" />
+        <LinearLayout
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:orientation="horizontal"
+            android:id="@+id/ll_dian"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/round_un_choosed" />
 
-        <ImageView
-            android:layout_width="wrap_content"
+            android:layout_marginTop="20dp">
+            <ImageView
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/round_un_choosed" />
+            <ImageView
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/round_un_choosed" />
+            <ImageView
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/round_choosed" />
+            <ImageView
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/round_choosed" />
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/round_un_choosed" />
+            android:layout_below="@id/ll_dian"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="10dp">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/round_choosed" />
+            <TextView
+                android:gravity="center"
+                style="@style/zhuche_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="验证手机"
+                android:textSize="12dp" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/round_choosed" />
-    </LinearLayout>
+            <TextView
+                android:gravity="center"
+                style="@style/zhuche_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="设置密码" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.2dp"
-        android:layout_below="@id/ll_dian"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginTop="1dp"
-        android:background="@color/biankuan" />
+            <TextView
+                android:gravity="center"
+                style="@style/zhuche_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="基本信息" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ll_dian"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="10dp">
-
-        <TextView
-            style="@style/zhuche_text"
-            android:textSize="12dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="验证手机" />
-
-        <TextView
-            style="@style/zhuche_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="设置密码" />
-
-        <TextView
-            style="@style/zhuche_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="基本信息" />
-
-        <TextView
-            style="@style/zhuche_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="上传资料" />
-    </LinearLayout>
+            <TextView
+                android:gravity="center"
+                style="@style/zhuche_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="上传资料" />
+        </LinearLayout>
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_shuru"
@@ -107,11 +115,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/biankuan"
-            />
         <LinearLayout
             android:gravity="center"
             android:id="@+id/ll_phone_number"
@@ -135,12 +138,6 @@
             android:hint="6~32位密码"
             />
         </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_centerInParent="true"
-            android:background="@color/biankuan"
-            />
         <LinearLayout
             android:gravity="center"
             android:id="@+id/ll_yanzhengma"
@@ -166,12 +163,6 @@
             android:hint="请再次输入密码"
             />
         </LinearLayout>
-        <View
-            android:layout_below="@id/ll_yanzhengma"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/biankuan"
-            />
     </RelativeLayout>
     <TextView
         android:layout_centerHorizontal="true"

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,22 +15,43 @@ import android.widget.Toast;
 
 import com.tencent.android.tpush.XGPushManager;
 
+import org.w3c.dom.Text;
+
 /**
  * Created by Administrator on 2016/4/4.
  */
 public class MainActivity_setting extends Activity implements View.OnClickListener {
+    private TextView exit;
+    private TextView userimage;
+    private TextView updatepwd;
+    private TextView clime;
+    private TextView updateapp;
+    private TextView aboutDD;
+    private ImageView imageView;
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_setting);
-        ImageView imageView=(ImageView)findViewById(R.id.setExit);
+        imageView=(ImageView)findViewById(R.id.setExit);
         imageView.setOnClickListener(this);
-        TextView exit=(TextView)findViewById(R.id.exit);
+        exit=(TextView)findViewById(R.id.exit);
         exit.setOnClickListener(this);
+        userimage= (TextView) findViewById(R.id.userimage);
+        userimage.setOnClickListener(this);
+        updatepwd= (TextView) findViewById(R.id.updatepwd);
+        updatepwd.setOnClickListener(this);
+        clime= (TextView) findViewById(R.id.cline);
+        clime.setOnClickListener(this);
+        updateapp= (TextView) findViewById(R.id.updateApp);
+        updateapp.setOnClickListener(this);
+        aboutDD= (TextView) findViewById(R.id.aboutDD);
+        aboutDD.setOnClickListener(this);
+
         ExitApplication.getInstance().addActivity(this);
     }
 
     @Override
     public void onClick(View v) {
+        Intent intent;
         switch (v.getId()){
             case R.id.exit:
                 AlertDialog isExit = new AlertDialog.Builder(this).create();
@@ -46,6 +68,22 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
             case R.id.setExit:
                 finish();
                 break;
+            case R.id.userimage:
+
+                break;
+            case R.id.updatepwd:
+
+                break;
+            case R.id.cline:
+
+                break;
+            case R.id.updateApp:
+
+                break;
+            case R.id.aboutDD:
+                intent=new Intent(MainActivity_setting.this,MainActivity_Webview.class);
+                startActivity(intent);
+                break;
         }
 
     }
@@ -57,6 +95,13 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
             switch (which)
             {
                 case AlertDialog.BUTTON_POSITIVE:// "确认"按钮退出程序
+                    //点击确定退出以后，重新将loginstatic的值设置为“1”
+                    SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
+                    SharedPreferences.Editor editor=sharedPreferences.edit();
+                    editor.putString("loginstatic","0");
+//                    MyApplication.state=0;
+                    editor.commit();
+                    ExitApplication.getInstance().exit();
                     Intent intent=new Intent(MainActivity_setting.this,MainActivity_login.class);
                     startActivity(intent);
                     XGPushManager.unregisterPush(MainActivity_setting.this);

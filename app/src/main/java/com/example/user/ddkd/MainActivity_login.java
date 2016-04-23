@@ -36,29 +36,17 @@ public class MainActivity_login extends Activity implements View.OnClickListener
     private ProgressDialog progressDialog;
     private CheckBox rembpwd;
 
-    //**************重写返回键监听*********************
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Log.e("onKeyDown", "杀死进程");
-
-            //*******************销毁该应用的所有Activity*************************
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
             ExitApplication.getInstance().exit();
-            return true;
+            return false;
         }
         return super.onKeyDown(keyCode, event);
-    }
-    @Override
-    public void onBackPressed() {
-        Log.e("onKeyDown", "杀死进程");
-        android.os.Process.killProcess(android.os.Process.myPid());
-        moveTaskToBack(false);
-        //System.exit(0);
     }
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_login);
-
         button = (TextView) findViewById(R.id.login);
         userid1 = (EditText) findViewById(R.id.userInfo);
         password1 = (EditText) findViewById(R.id.passwordInfo);
@@ -66,15 +54,23 @@ public class MainActivity_login extends Activity implements View.OnClickListener
         forget = (TextView) findViewById(R.id.forget);
         rembpwd= (CheckBox) findViewById(R.id.rembpwd);
 
-
         SharedPreferences preferences01=getSharedPreferences("config",MODE_PRIVATE);
         userid1.setText(preferences01.getString("phone",null));
         password1.setText(preferences01.getString("password",null));
-
         button.setOnClickListener(this);
         insert.setOnClickListener(this);
         forget.setOnClickListener(this);
         ExitApplication.getInstance().addActivity(this);
+
+        //**********点击图标判断当前是否为登录状态**********
+        SharedPreferences loginstatic=getSharedPreferences("config",MODE_PRIVATE);
+        String nowLoginstatic=loginstatic.getString("loginstatic","");
+        if(nowLoginstatic.equals("1")) {
+            Intent intent=new Intent(MainActivity_login.this,JieDangActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
     }
 
     @Override
@@ -105,8 +101,8 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                     edit.putString("token", s);
 
                     //****************保存登录状态，0为离线状态，1为在线状态************************
-                    edit.putString("loginstatic","1");
-//                    Log.e("volley_Get", s);
+                    edit.putString("loginstatic", "1");
+//                    MyApplication.state=1;
                     edit.commit();
                     // 开启logcat输出，方便debug，发布时请关闭
                     XGPushConfig.enableDebug(MainActivity_login.this, true);
@@ -131,6 +127,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                     Intent intent = new Intent(MainActivity_login.this, JieDangActivity.class);
                     startActivity(intent);
                     finish();
+
                 } else {
                     Log.i("Error", "ERROR");
                 }
@@ -151,7 +148,8 @@ public class MainActivity_login extends Activity implements View.OnClickListener
         Intent intent;
         switch (v.getId()) {
             case R.id.login:
-                showProgressDialog();//*****启动加载提示框*****
+                //*****启动加载提示框*****
+                showProgressDialog();
                 //***********判断服务器返回的参数，根据参数来判断验证是否通过**********
                 String phone = userid1.getText().toString();
                 String password = password1.getText().toString();

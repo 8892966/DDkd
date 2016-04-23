@@ -2,13 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <RelativeLayout
         android:id="@+id/rl_head"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@color/head"
-        >
+        android:background="@color/head">
         <TextView
             style="@style/head_button_back"
             android:id="@+id/tv_head_fanghui"
@@ -24,52 +22,54 @@
             android:textSize="20sp"
             />
     </RelativeLayout>
+    <RelativeLayout
+        android:layout_below="@id/rl_head"
+        android:id="@+id/ll_4text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:layout_centerInParent="true"
+            android:layout_below="@id/ll_dian"
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:layout_marginLeft="60dip"
+            android:layout_marginRight="60dip"
+            android:background="#cccccc" />
     <LinearLayout
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
         android:orientation="horizontal"
         android:id="@+id/ll_dian"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rl_head"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
+
         android:layout_marginTop="20dp">
-
         <ImageView
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:src="@drawable/round_un_choosed" />
-
         <ImageView
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:src="@drawable/round_un_choosed" />
-
         <ImageView
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:src="@drawable/round_un_choosed" />
-
         <ImageView
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:src="@drawable/round_choosed" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.2dp"
-        android:layout_below="@id/ll_dian"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginTop="1dp"
-        android:background="@color/biankuan" />
-
     <LinearLayout
-        android:id="@+id/ll_4text"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ll_dian"
@@ -78,6 +78,7 @@
         android:layout_marginTop="10dp">
 
         <TextView
+            android:gravity="center"
             style="@style/zhuche_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -85,23 +86,28 @@
             android:textSize="12dp" />
 
         <TextView
+            android:gravity="center"
             style="@style/zhuche_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="设置密码" />
 
         <TextView
+            android:gravity="center"
             style="@style/zhuche_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="基本信息" />
 
         <TextView
+            android:gravity="center"
             style="@style/zhuche_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="上传资料" />
     </LinearLayout>
+    </RelativeLayout>
+
 
     <TextView
         android:id="@+id/tv_button_next"
@@ -119,12 +125,11 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:paddingTop="5dp">
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <ImageView
+                android:layout_marginTop="20dip"
                 android:clickable="true"
                 android:focusable="true"
                 android:id="@+id/iv_touxiang"
@@ -132,6 +137,13 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:src="@drawable/ic_contact_picture" />
+            <View
+                android:id="@+id/view"
+                android:layout_marginTop="20dip"
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:layout_below="@id/iv_touxiang"
+                android:background="@color/biankuan" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -145,10 +157,11 @@
                 android:textSize="17dp" />
 
             <LinearLayout
+                android:layout_marginTop="15dip"
                 android:id="@+id/ll_zhuce3_item1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/iv_touxiang"
+                android:layout_below="@id/view"
                 android:orientation="horizontal"
                 android:weightSum="1">
                 <EditText
@@ -168,12 +181,9 @@
                     android:layout_height="wrap_content"
                     android:hint="性别" />
             </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.2dp"
-                android:layout_above="@id/ll_zhuce3_item1"
-                android:background="@color/biankuan" />
+
             <LinearLayout
+                android:layout_marginTop="15dip"
                 android:id="@+id/ll_zhuce3_item2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -181,20 +191,41 @@
                 android:orientation="horizontal">
                 <EditText
                     android:text="jsj"
+                    android:layout_weight="1"
                     android:id="@+id/et_xueyuan"
                     android:singleLine="true"
-                    android:layout_width="80dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="学院" />
 
                 <EditText
+                    android:layout_marginLeft="10dip"
                     android:text="1305"
+                    android:layout_weight="1"
                     android:id="@+id/et_class"
                     android:singleLine="true"
-                    android:layout_width="80dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="班级" />
 
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="15dip"
+                android:orientation="horizontal"
+                android:id="@+id/ll_zhuce3_item"
+                android:layout_below="@id/ll_zhuce3_item2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_marginLeft="10dip"
+                    android:text="12345"
+                    android:id="@+id/et_xuehao"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="学号" />
                 <EditText
                     android:text="634653"
                     android:id="@+id/et_phone"
@@ -204,17 +235,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="手机短号" />
+
             </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.2dp"
-                android:layout_above="@id/ll_zhuce3_item2"
-                android:background="@color/biankuan" />
+
             <LinearLayout
+                android:layout_marginTop="15dip"
                 android:id="@+id/ll_zhuce3_item3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ll_zhuce3_item2"
+                android:layout_below="@id/ll_zhuce3_item"
                 android:orientation="horizontal">
                 <Spinner
                     android:id="@+id/sp_diqu"
@@ -227,9 +256,7 @@
                     android:id="@+id/sp_loudong"
                     android:singleLine="true"
                     android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    />
-
+                    android:layout_height="wrap_content" />
                 <EditText
                     android:text="123"
                     android:id="@+id/room_number"
@@ -240,12 +267,9 @@
                     android:layout_height="wrap_content"
                     android:hint="房号" />
             </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.2dp"
-                android:layout_above="@id/ll_zhuce3_item3"
-                android:background="@color/biankuan" />
+
             <LinearLayout
+                android:layout_marginTop="15dip"
                 android:id="@+id/ll_zhuce3_item4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -255,28 +279,10 @@
                     android:text="123"
                     android:id="@+id/et_id"
                     android:singleLine="true"
-                    android:layout_width="180dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="身份证号" />
-                <EditText
-                    android:text="12345"
-                    android:id="@+id/et_xuehao"
-                    android:layout_weight="1"
-                    android:singleLine="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="学号" />
             </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.2dp"
-                android:layout_above="@id/ll_zhuce3_item4"
-                android:background="@color/biankuan" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.2dp"
-                android:layout_below="@id/ll_zhuce3_item4"
-                android:background="@color/biankuan" />
         </RelativeLayout>
     </ScrollView>
 

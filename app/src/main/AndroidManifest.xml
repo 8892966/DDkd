@@ -64,8 +64,8 @@
         <activity android:name=".MainActivity_main" />
         <activity android:name=".MainActivity_forget" />
         <activity android:name=".MainActivity_login" />
-        <activity android:name=".Announce" />
-
+        <activity android:name=".Announce"/>
+        <activity android:name=".MainActivity_Webview" />
         <!-- APP项目的其它配置... -->
 
 

@@ -113,8 +113,18 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="5dp"
-            android:text="退单" />
+            android:text="已拿件"
+            />
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@+id/pb_button"
+            android:layout_alignBottom="@id/tv_dingdang_tuidang"
+            android:layout_above="@id/tv_dingdang_tuidang"
+            android:layout_toLeftOf="@id/tv_dingdang_tuidang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <TextView
+            android:visibility="gone"
             style="@style/dingdang_item_buttonstyle"
             android:id="@+id/tv_dingdang_yina"
             android:layout_width="60dip"

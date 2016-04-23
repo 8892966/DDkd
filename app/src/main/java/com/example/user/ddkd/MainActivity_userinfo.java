@@ -17,6 +17,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.text.UserInfo;
 import com.example.user.ddkd.utils.AutologonUtil;
 import com.google.gson.Gson;
@@ -103,7 +104,7 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
                     autologonUtil.volley_Get_TOKEN();
                 }
             }
-        }, new Response.ErrorListener() {
+        },new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
 
@@ -131,5 +132,16 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
         }else{
             return false;
         }
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        StatService.onResume(this);
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        StatService.onPause(this);
     }
 }

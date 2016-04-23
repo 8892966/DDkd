@@ -16,6 +16,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.baidu.mobstat.StatService;
 
 import org.w3c.dom.Text;
 
@@ -106,4 +107,17 @@ public class Announce extends Activity implements View.OnClickListener {
         request.setTag("abcGet");
         MyApplication.getQueue().add(request);
     }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        StatService.onResume(this);
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        StatService.onPause(this);
+    }
+
 }

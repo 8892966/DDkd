@@ -142,7 +142,7 @@ public class YanZhenMaUtil {
         MyApplication.getQueue().add(request_post);
     }
 
-    private void countDown() {
+    private void countDown(){
 //      tv_bt_verify你要设置动画的view
         ValueAnimator valueAnimator=ValueAnimator.ofInt(0,60);//从0到30计时
         valueAnimator.setDuration(60000);//持续时间为60s

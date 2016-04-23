@@ -2,25 +2,43 @@ package com.example.user.ddkd;
 
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Xml;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.beam.OrderInfo;
+import com.example.user.ddkd.utils.AutologonUtil;
 import com.example.user.ddkd.utils.PasswordUtil;
 import com.example.user.ddkd.utils.YanZhenMaUtil;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2016/4/6.
@@ -35,6 +53,20 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
     private EditText et_new_password2;
     private SharedPreferences preferences;
     private YanZhenMaUtil yanZhenMaUtil;
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case MyApplication.GET_TOKEN_SUCCESS:
+                    volley_XGMM_GET("",null);
+                    break;
+                case MyApplication.GET_TOKEN_ERROR:
+                    Toast.makeText(MainActivity_forget.this, "网络连接出错", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+    };
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,7 +131,71 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
                 break;
             case R.id.tv_button_yanzhengma:
                 yanZhenMaUtil.sendYZM(this,et_phone_number,tv_button_yanzhengma);
+                countDown();
                 break;
         }
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        StatService.onResume(this);
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        StatService.onPause(this);
+    }
+    private void countDown(){
+//      tv_bt_verify你要设置动画的view
+        ValueAnimator valueAnimator=ValueAnimator.ofInt(0,60);//从0到30计时
+        valueAnimator.setDuration(60000);//持续时间为60s
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                Integer value = (Integer) animation.getAnimatedValue();
+                tv_button_yanzhengma.setText("剩余（"+String.valueOf(60-value)+"s）");
+                if (value==60){
+                    //tv_bt_verify.setBackgroundResource(R.drawable.ret_orange);//30s后的背景
+                    tv_button_yanzhengma.setEnabled(true);//30s后设置可以点击
+                    tv_button_yanzhengma.setText("获取验证码");
+                }else {
+                    tv_button_yanzhengma.setEnabled(false);//30s内设置不可以点击
+                    //time.setBackgroundResource(R.drawable.ret);//30s内的背景
+                }
+            }
+        });
+        valueAnimator.setInterpolator(new LinearInterpolator());//设置变化值为线性变化
+        valueAnimator.start();//动画开始
+    }
+
+    private void volley_XGMM_GET(final String id, final TextView button) {
+        preferences = getSharedPreferences("config", MODE_PRIVATE);
+        String token = preferences.getString("token", "");
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/RobOrder/orderId/"+id+"/token/" + token;
+        StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                if (!s.equals("\"token outtime\"")) {
+                    if(s.equals("\"ERROR\"")){
+
+                    }else{
+
+                    }
+                } else {
+                    Log.e("volley_QD_GET", "token过时了");
+                    Object[] obj={id,button};
+                    AutologonUtil autologonUtil = new AutologonUtil(MainActivity_forget.this,handler,obj);
+                    autologonUtil.volley_Get_TOKEN();
+                }
+            }
+        },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(MainActivity_forget.this,"网络异常",Toast.LENGTH_LONG).show();
+            }
+        });
+        request_post.setTag("volley_XGMM_GET");
+        MyApplication.getQueue().add(request_post);
     }
 }

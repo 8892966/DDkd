@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.mobstat.StatService;
 import com.tencent.android.tpush.XGPushManager;
 
 import org.w3c.dom.Text;
@@ -86,6 +87,17 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
                 break;
         }
 
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        StatService.onResume(this);
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        StatService.onPause(this);
     }
 
     DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener()

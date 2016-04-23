@@ -155,6 +155,7 @@
                     android:background="@color/biankuan" />
 
                 <ImageView
+                    android:padding="2dp"
                     android:id="@+id/iv_zhuce4_zhaopian1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
@@ -182,6 +183,7 @@
                     android:background="@color/biankuan" />
 
                 <ImageView
+                    android:padding="2dp"
                     android:id="@+id/iv_zhuce4_zhaopian2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
@@ -206,6 +208,7 @@
                     android:layout_height="match_parent"
                     android:background="@color/biankuan" />
                 <ImageView
+                    android:padding="2dp"
                     android:id="@+id/iv_zhuce4_zhaopian3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />

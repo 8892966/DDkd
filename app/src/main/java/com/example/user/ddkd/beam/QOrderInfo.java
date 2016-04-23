@@ -16,6 +16,15 @@ public class QOrderInfo {
     private String phone;
     private String username;
     private String Message;
+    private String orderid;
+
+    public String getOrderid() {
+        return orderid;
+    }
+
+    public void setOrderid(String orderid) {
+        this.orderid = orderid;
+    }
 
     public String getUid() {
         return uid;

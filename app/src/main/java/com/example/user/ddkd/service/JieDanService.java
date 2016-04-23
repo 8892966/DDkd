@@ -3,6 +3,7 @@ package com.example.user.ddkd.service;
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
@@ -11,6 +12,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.util.Log;
 
+import com.example.user.ddkd.JieDangActivity;
 import com.example.user.ddkd.MyApplication;
 import com.example.user.ddkd.R;
 import com.example.user.ddkd.beam.QOrderInfo;
@@ -74,11 +76,15 @@ public class JieDanService extends Service {
                             Notification.Builder builder = new Notification.Builder(JieDanService.this);
                             builder.setContentTitle("有单抢啦...");
                             builder.setContentText("有"+o[o.length - 1].size()+"单可以抢");
+                            Intent notificationIntent = new Intent(JieDanService.this,JieDangActivity.class);
+//                          notificationIntent.putExtra("msg","FROM_QT");//标志强推信息
+                            PendingIntent contentIntent = PendingIntent.getActivity(JieDanService.this, 0, notificationIntent, 0);
+                            builder.setContentIntent(contentIntent);
                             builder.setSmallIcon(R.mipmap.ic_launcher);
                             Notification notification = builder.getNotification();
+                            notification.flags=Notification.FLAG_AUTO_CANCEL;
                             nm.notify(R.mipmap.ic_launcher, notification);
                         }
-
                         int i = 0;
                         for (QOrderInfo xgp : o[o.length - 1]) {
                             Log.e("JieDanService", xgp.toString() + o.length + (i++));
@@ -99,7 +105,6 @@ public class JieDanService extends Service {
 
     public JieDanService() {
     }
-
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.

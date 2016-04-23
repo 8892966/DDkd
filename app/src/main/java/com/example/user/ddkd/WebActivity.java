@@ -8,6 +8,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
+
 /**
  * Created by User on 2016-04-02.
  */
@@ -45,5 +47,16 @@ public class WebActivity extends Activity implements View.OnClickListener {
                 finish();
                 break;
         }
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        StatService.onPageStart(this,getIntent().getStringExtra("title"));
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        StatService.onPageEnd(this,getIntent().getStringExtra("title"));
     }
 }

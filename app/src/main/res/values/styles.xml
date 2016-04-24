@@ -74,4 +74,8 @@
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
     </style>
+    <style name="editview" parent="AppTheme">
+        <item name="android:background">@drawable/editview</item>
+        <item name="android:padding">10dp</item>
+    </style>
 </resources>

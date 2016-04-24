@@ -1,110 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<RelativeLayout
-    android:id="@+id/rl_head"
-    android:layout_width="match_parent"
-    android:layout_height="40dp"
-    android:background="@color/head"
-    >
-    <TextView
-        style="@style/head_button_back"
-        android:id="@+id/tv_head_fanghui"
-        android:layout_centerVertical="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
-    <TextView
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="注册"
-        android:textSize="20sp"
-        />
-</RelativeLayout>
+    android:layout_height="match_parent"
+    android:background="#116699ff">
+
     <RelativeLayout
-        android:layout_below="@id/rl_head"
-        android:id="@+id/ll_4text"
+        android:id="@+id/rl_head"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <View
-            android:layout_centerInParent="true"
-            android:layout_width="match_parent"
-            android:layout_height="0.2dp"
-            android:layout_marginLeft="70dip"
-            android:layout_marginRight="70dip"
-            android:background="#999999" />
-        <LinearLayout
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:orientation="horizontal"
-            android:id="@+id/ll_dian"
-            android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/head">
+
+        <TextView
+            android:id="@+id/tv_head_fanghui"
+            style="@style/head_button_back"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
-            <ImageView
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/round_un_choosed" />
-            <ImageView
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/round_choosed" />
-            <ImageView
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/round_choosed" />
-            <ImageView
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/round_choosed" />
-        </LinearLayout>
+            android:layout_centerVertical="true" />
 
-        <LinearLayout
-
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ll_dian"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginTop="10dp">
-
-            <TextView
-                android:gravity="center"
-                style="@style/zhuche_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="验证手机"
-                android:textSize="12dp" />
-
-            <TextView
-                android:gravity="center"
-                style="@style/zhuche_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="设置密码" />
-
-            <TextView
-                android:gravity="center"
-                style="@style/zhuche_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="基本信息" />
-
-            <TextView
-                android:gravity="center"
-                style="@style/zhuche_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="上传资料" />
-        </LinearLayout>
+            android:layout_centerInParent="true"
+            android:text="注册"
+            android:textSize="20sp" />
     </RelativeLayout>
+
+    <ImageView
+        android:layout_marginTop="10dip"
+        android:layout_below="@id/rl_head"
+        android:id="@+id/ll_dian"
+        android:layout_width="match_parent"
+        android:layout_height="55dip"
+        android:src="@drawable/zhuce1" />
+
+
 
     <RelativeLayout
         android:id="@+id/rl_shuru"
@@ -112,13 +41,16 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:padding="15dp">
-
-
+        <View
+            android:id="@+id/view1"
+            android:background="#cccccc"
+            android:layout_width="match_parent"
+            android:layout_height="1dip"/>
         <LinearLayout
+            android:layout_marginTop="5dip"
             android:id="@+id/ll_phone_number"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_height="50dip"
             android:orientation="horizontal">
 
             <TextView
@@ -126,19 +58,19 @@
                 style="@style/zhuche1_text_shuru"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="手机号" />
-
+                android:text="手机号:" />
             <EditText
-                android:text="18813974653"
-                android:inputType="phone"
+                android:textSize="20sp"
+                android:background="@null"
                 android:id="@+id/et_phone_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:hint="请输入手机号码"
-                android:singleLine="true" />
+                android:inputType="phone"
+                android:singleLine="true"/>
 
             <TextView
+                android:layout_marginLeft="5dip"
                 android:id="@+id/tv_button_yanzhengma"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -150,12 +82,18 @@
                 android:text="验证码"
                 android:textColor="#ffffff" />
         </LinearLayout>
+        <View
+            android:id="@+id/view2"
+            android:layout_below="@id/ll_phone_number"
+            android:background="#cccccc"
+            android:layout_width="match_parent"
+            android:layout_height="1dip"/>
         <LinearLayout
+            android:layout_marginTop="5dip"
             android:id="@+id/ll_yanzhengma"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dip"
             android:layout_below="@id/ll_phone_number"
-            android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
@@ -163,42 +101,49 @@
                 style="@style/zhuche1_text_shuru"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="验证码" />
+                android:text="验证码:" />
 
             <EditText
+                android:textSize="20dip"
+                android:background="@null"
                 android:id="@+id/et_yanzhengma"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:hint="请输入短信验证码"
-                android:singleLine="true"/>
+                android:singleLine="true" />
         </LinearLayout>
+        <View
+            android:layout_below="@id/ll_yanzhengma"
+            android:id="@+id/view3"
+            android:background="#cccccc"
+            android:layout_width="match_parent"
+            android:layout_height="1dip"/>
     </RelativeLayout>
 
     <CheckBox
-        android:checked="true"
         android:id="@+id/cb_xieyi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/rl_shuru"
         android:layout_margin="10dp"
+        android:checked="true"
         android:text="我同意《DD快递服务协议》" />
-    <TextView
-        android:clickable="true"
-        android:focusable="true"
-        android:id="@+id/tv_button_yuedu"
-        android:layout_marginBottom="10dp"
-        android:layout_alignBottom="@id/cb_xieyi"
-        android:layout_toRightOf="@id/cb_xieyi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/dingdang_item_button"
-        android:text="阅读协议"
-        />
 
     <TextView
-        style="@style/zhuce_button_next"
+        android:id="@+id/tv_button_yuedu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/cb_xieyi"
+        android:layout_marginBottom="10dp"
+        android:layout_toRightOf="@id/cb_xieyi"
+        android:background="@drawable/dingdang_item_button"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="阅读协议" />
+
+    <TextView
         android:id="@+id/tv_next"
+        style="@style/zhuce_button_next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="下一步"

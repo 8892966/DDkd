@@ -73,7 +73,8 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
 
                 break;
             case R.id.updatepwd:
-
+                intent=new Intent(MainActivity_setting.this,Activity_updpwd.class);
+                startActivity(intent);
                 break;
             case R.id.cline:
 

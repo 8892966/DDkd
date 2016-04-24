@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="#116699ff"
     android:layout_height="match_parent">
     <RelativeLayout
         android:id="@+id/rl_head"
@@ -23,91 +24,14 @@
             android:textSize="20sp"
             />
     </RelativeLayout>
-    <RelativeLayout
+    <ImageView
+        android:layout_marginTop="10dip"
         android:layout_below="@id/rl_head"
-        android:id="@+id/ll_4text"
+        android:id="@+id/ll_dian"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="55dip"
+        android:src="@drawable/zhuce2" />
 
-        <View
-            android:layout_centerInParent="true"
-            android:layout_below="@id/ll_dian"
-            android:layout_width="match_parent"
-            android:layout_height="0.2dp"
-            android:layout_marginLeft="60dip"
-            android:layout_marginRight="60dip"
-            android:background="#cccccc" />
-        <LinearLayout
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:orientation="horizontal"
-            android:id="@+id/ll_dian"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:layout_marginTop="20dp">
-            <ImageView
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/round_un_choosed" />
-            <ImageView
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/round_un_choosed" />
-            <ImageView
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/round_choosed" />
-            <ImageView
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/round_choosed" />
-        </LinearLayout>
-
-        <LinearLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/ll_dian"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginTop="10dp">
-
-            <TextView
-                android:gravity="center"
-                style="@style/zhuche_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="验证手机"
-                android:textSize="12dp" />
-
-            <TextView
-                android:gravity="center"
-                style="@style/zhuche_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="设置密码" />
-
-            <TextView
-                android:gravity="center"
-                style="@style/zhuche_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="基本信息" />
-
-            <TextView
-                android:gravity="center"
-                style="@style/zhuche_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="上传资料" />
-        </LinearLayout>
-    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_shuru"
@@ -115,20 +39,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">
+        <View
+            android:id="@+id/view1"
+            android:background="#cccccc"
+            android:layout_width="match_parent"
+            android:layout_height="1dip"/>
         <LinearLayout
+            android:layout_marginTop="10dip"
             android:gravity="center"
             android:id="@+id/ll_phone_number"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="45dip"
             android:orientation="horizontal">
         <TextView
             style="@style/zhuche1_text_shuru"
             android:id="@+id/tv_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="设置密码" />
+            android:text="设 置 密 码:" />
         <EditText
-            android:text="123456"
+            style="@style/editview"
+            android:textSize="20sp"
             android:inputType="textPassword"
             android:singleLine="true"
             android:id="@+id/et_password"
@@ -138,22 +69,30 @@
             android:hint="6~32位密码"
             />
         </LinearLayout>
+        <View
+            android:layout_marginTop="10dip"
+            android:id="@+id/view2"
+            android:layout_below="@id/ll_phone_number"
+            android:background="#cccccc"
+            android:layout_width="match_parent"
+            android:layout_height="1dip"/>
         <LinearLayout
+            android:layout_marginTop="10dip"
             android:gravity="center"
             android:id="@+id/ll_yanzhengma"
-            android:layout_below="@id/ll_phone_number"
+            android:layout_below="@id/view2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="45dip"
             android:orientation="horizontal">
         <TextView
             style="@style/zhuche1_text_shuru"
             android:id="@+id/tv_password2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="确认密码"
-            />
+            android:text="确 认 密 码:" />
         <EditText
-            android:text="123456"
+            style="@style/editview"
+            android:textSize="20sp"
             android:inputType="textPassword"
             android:layout_weight="1"
             android:singleLine="true"
@@ -163,6 +102,13 @@
             android:hint="请再次输入密码"
             />
         </LinearLayout>
+        <View
+            android:layout_marginTop="10dip"
+            android:id="@+id/view3"
+            android:layout_below="@id/ll_yanzhengma"
+            android:background="#cccccc"
+            android:layout_width="match_parent"
+            android:layout_height="1dip"/>
     </RelativeLayout>
     <TextView
         android:layout_centerHorizontal="true"

@@ -94,7 +94,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
             public void onResponse(String s) {
 //                Log.e("Get_login", s);
                 closeProgressDialog();//*****关闭加载提示框*****
-                if (!s.equals("ERROR")){
+                if (!s.equals("\"ERROR\"")){
                     s = s.substring(1, s.length() - 1);
                     //******************当提交成功以后，后台会返回一个参数来说明是否提交/验证成功******************
                     SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
@@ -131,7 +131,8 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                     finish();
 
                 } else {
-                    Log.i("Error", "ERROR");
+                    closeProgressDialog();
+                    Toast.makeText(MainActivity_login.this,"您的信息有误",Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {

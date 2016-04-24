@@ -22,6 +22,8 @@ import android.widget.Toast;
 import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.beam.SignUpInfo;
 
+import org.w3c.dom.Text;
+
 import java.io.File;
 
 /**
@@ -41,6 +43,7 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
     private Spinner sp_loudong;
     private String fileName = "";//帮助文件
     private File tempFile;
+    private TextView exit;
 
     //地区
     private String[] mItems = {"中区", "南区", "东区"};
@@ -104,6 +107,9 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
         //标题头的返回按钮
         TextView tv_head_fanghui = (TextView) findViewById(R.id.tv_head_fanghui);
         tv_head_fanghui.setOnClickListener(this);
+        exit= (TextView) findViewById(R.id.tv_button_next);
+        exit.setOnClickListener(this);
+
     }
 
     public void next(View v) {
@@ -147,6 +153,10 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
 //                Uri uri = Uri.parse(Environment.getExternalStorageDirectory().getPath()+"/test.png");
 //                Log.e("uri",uri.toString());
                 getPhoto();
+                break;
+            case R.id.tv_button_next:
+                intent=new Intent(ZhuCe3Activity.this,ZhuCe4Activity.class);
+                startActivity(intent);
                 break;
         }
     }

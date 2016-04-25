@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:text="设 置 密 码:" />
         <EditText
-            style="@style/editview"
+            android:background="@null"
             android:textSize="20sp"
             android:inputType="textPassword"
             android:singleLine="true"
@@ -91,7 +91,7 @@
             android:layout_height="wrap_content"
             android:text="确 认 密 码:" />
         <EditText
-            style="@style/editview"
+            android:background="@null"
             android:textSize="20sp"
             android:inputType="textPassword"
             android:layout_weight="1"

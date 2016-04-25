@@ -42,6 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <EditText
+            android:id="@+id/userid"
             android:padding="5dip"
             android:hint="请输入您的手机号"
             android:layout_marginLeft="5dip"
@@ -62,7 +63,7 @@
         android:layout_height="15dip"
         android:background="#cccccc"/>
     <EditText
-        android:id="@+id/edit"
+        android:id="@+id/messageedit"
         android:layout_below="@id/view2"
         android:layout_margin="5dip"
         android:padding="10dip"
@@ -76,11 +77,12 @@
         android:layout_height="280dip" />
     <RelativeLayout
         android:layout_above="@id/bottom"
-        android:layout_below="@id/edit"
+        android:layout_below="@id/messageedit"
         android:id="@+id/commit"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <TextView
+        android:id="@+id/Fcommit"
         android:layout_centerInParent="true"
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"

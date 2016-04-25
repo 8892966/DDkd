@@ -13,42 +13,37 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
-import org.w3c.dom.Text;
-
 /**
  * Created by Administrator on 2016/4/24.
  */
-public class Activity_updpwd extends Activity implements View.OnClickListener {
-    private EditText password1;
-    private EditText password2;
-    private EditText password3;
-    private TextView sure;
+public class Activity_feedback extends Activity implements View.OnClickListener {
+    private EditText userid;
+    private TextView Fcommit;
+    private EditText messageedit;
     private ImageView exit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_updpwd);
+        setContentView(R.layout.layout_feedback);
 
-        password1= (EditText) findViewById(R.id.password1);
-        password2= (EditText) findViewById(R.id.password2);
-        password3= (EditText) findViewById(R.id.password3);
+        userid= (EditText) findViewById(R.id.userid);
+        messageedit= (EditText) findViewById(R.id.messageedit);
+        Fcommit= (TextView) findViewById(R.id.Fcommit);
         exit= (ImageView) findViewById(R.id.setExit);
         exit.setOnClickListener(this);
-        sure= (TextView) findViewById(R.id.sure);
-        sure.setOnClickListener(this);
+        Fcommit.setOnClickListener(this);
 
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.sure:
-                String pwd1=password1.getText().toString();
-                String pwd2=password2.getText().toString();
-                String pwd3=password3.getText().toString();
-                volley_Get(pwd1,pwd2,pwd3);
+            case R.id.Fcommit:
+                String phone=userid.getText().toString();
+                String message=messageedit.getText().toString();
+                volley_Get(phone,message);
 
-                Toast.makeText(Activity_updpwd.this,"修改成功",Toast.LENGTH_SHORT).show();
+                Toast.makeText(Activity_feedback.this,"commie success",Toast.LENGTH_SHORT).show();
                 finish();
                 break;
             case R.id.setExit:
@@ -56,8 +51,7 @@ public class Activity_updpwd extends Activity implements View.OnClickListener {
                 break;
         }
     }
-
-    public void volley_Get(String pwd1,String pwd2,String pwd3){
+    public void volley_Get(String phone,String message){
         String url="";
         StringRequest request=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
@@ -70,7 +64,7 @@ public class Activity_updpwd extends Activity implements View.OnClickListener {
 
             }
         });
-        request.setTag("Get_updpwd");
+        request.setTag("Get_feedback");
         MyApplication.getQueue().add(request);
     }
 }

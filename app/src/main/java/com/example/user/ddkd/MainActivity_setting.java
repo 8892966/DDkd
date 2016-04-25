@@ -5,18 +5,24 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.Image;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Environment;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baidu.mobstat.StatService;
 import com.tencent.android.tpush.XGPushManager;
 
-import org.w3c.dom.Text;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URI;
 
 /**
  * Created by Administrator on 2016/4/4.
@@ -29,6 +35,10 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
     private TextView updateapp;
     private TextView aboutDD;
     private ImageView imageView;
+    private RelativeLayout changeimage;
+    private final int IMAGE_CODE=0;
+    private Uri uri;
+    private File tempFile;
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_setting);
@@ -37,7 +47,7 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
         exit=(TextView)findViewById(R.id.exit);
         exit.setOnClickListener(this);
         userimage= (TextView) findViewById(R.id.userimage);
-        userimage.setOnClickListener(this);
+
         updatepwd= (TextView) findViewById(R.id.updatepwd);
         updatepwd.setOnClickListener(this);
         clime= (TextView) findViewById(R.id.cline);
@@ -46,7 +56,8 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
         updateapp.setOnClickListener(this);
         aboutDD= (TextView) findViewById(R.id.aboutDD);
         aboutDD.setOnClickListener(this);
-
+        changeimage= (RelativeLayout) findViewById(R.id.changeimage);
+        changeimage.setOnClickListener(this);
         ExitApplication.getInstance().addActivity(this);
     }
 
@@ -69,7 +80,15 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
             case R.id.setExit:
                 finish();
                 break;
-            case R.id.userimage:
+            //*****更换头像*****
+            case R.id.changeimage:
+                new AlertDialog.Builder(this).setPositiveButton("更换头像", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+//                        Toast.makeText(MainActivity_setting.this,"已启动该选项",Toast.LENGTH_SHORT).show();
+                    }
+                }).show();
 
                 break;
             case R.id.updatepwd:
@@ -77,13 +96,16 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
                 startActivity(intent);
                 break;
             case R.id.cline:
-
+                intent=new Intent(MainActivity_setting.this,Activity_feedback.class);
+                startActivity(intent);
                 break;
             case R.id.updateApp:
-
+                new AlertDialog.Builder(this).setTitle("系统提示").setMessage("当前已是最新版本").show();
                 break;
             case R.id.aboutDD:
-                intent=new Intent(MainActivity_setting.this,MainActivity_Webview.class);
+                intent=new Intent(MainActivity_setting.this,WebActivity.class);
+                intent.putExtra("title","关于DD快递");
+                intent.putExtra("url","http://www.baidu.com");
                 startActivity(intent);
                 break;
         }
@@ -128,5 +150,44 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
             }
         }
     };
+    private void getImage(){
+
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+        intent.putExtra("return-data", true);
+        startActivityForResult(intent,IMAGE_CODE );
+    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == IMAGE_CODE) {
+            Bitmap cameraBitmap = (Bitmap) data.getExtras().get("data");
+            if (cameraBitmap != null) {
+                imageView.setImageBitmap(cameraBitmap);
+                uri = saveBitmap(cameraBitmap);
+            }else{
+                Toast.makeText(MainActivity_setting.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    private Uri saveBitmap(Bitmap bm) {
+        File tmpDir = new File(Environment.getExternalStorageDirectory() + "/photo");
+        if (!tmpDir.exists()) {
+            tmpDir.mkdir();
+        }
+        tempFile = new File(tmpDir, System.currentTimeMillis() + ".png");
+        try {
+            FileOutputStream fos = new FileOutputStream(tempFile);
+            bm.compress(Bitmap.CompressFormat.PNG, 85, fos);
+            fos.flush();
+            fos.close();
+            return Uri.fromFile(tempFile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 }

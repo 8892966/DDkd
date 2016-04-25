@@ -18,10 +18,12 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.text.UserInfo;
 import com.example.user.ddkd.utils.AutologonUtil;
+import com.example.user.ddkd.utils.BitmaoCache;
 import com.google.gson.Gson;
 
 import org.w3c.dom.Text;
@@ -34,6 +36,7 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
     private RelativeLayout title;
     private ImageView userimage;
     private TextView username;
+    private BitmaoCache bitmaoCache;
     private TextView turnover;
     private TextView moneysum;
     private UserInfo userInfo;
@@ -68,6 +71,8 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
         userinfo.setOnClickListener(this);
         LinearLayout setting=(LinearLayout)findViewById(R.id.setting);
         setting.setOnClickListener(this);
+
+        volley_Get_Image();
         volley_Get(userInfo);
         ExitApplication.getInstance().addActivity(this);
     }
@@ -101,6 +106,16 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
                 break;
         }
     }
+
+    //**********缓存并加载网络图片***********
+    public void volley_Get_Image(){
+        bitmaoCache=new BitmaoCache();
+        String url="";
+        ImageLoader imageLoader=new ImageLoader(MyApplication.getQueue(),bitmaoCache);
+        ImageLoader.ImageListener imageListener=ImageLoader.getImageListener(userimage,R.drawable.personinfo3,R.drawable.personinfo3);
+        imageLoader.get(url,imageListener);
+    }
+
     public void volley_Get(final UserInfo userInfo){
         SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
         String token=sharedPreferences.getString("token",null);
@@ -108,7 +123,6 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
         StringRequest request=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-//                Log.e("Get_main", s);
                 if (!s.equals("\"token outtime\"")) {
                     if (!s.equals("\"ERROR\"")) {
                         Gson gson = new Gson();

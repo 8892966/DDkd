@@ -202,6 +202,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.but_jiedang:
                 if (!sreviceisrunning){
+                    listView.getEmptyView().setVisibility(View.VISIBLE);
                     sreviceisrunning=true;
 //                  preferences=getSharedPreferences("config", MODE_PRIVATE);
                     listView.setVisibility(View.VISIBLE);
@@ -214,6 +215,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 //                    Intent service = new Intent(context, XGPushService.class);
 //                    context.startService(service);
                 }else{
+                    listView.getEmptyView().setVisibility(View.GONE);
                     sreviceisrunning=false;
                     unbindService(sc);
                     jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
@@ -361,7 +363,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                     tv_xiuxi_huodong_now_number.setText("接单"+info.getTodOrder()+"单");
                     tv_star.setText(info.getEvaluate());
                     tv_sum_number.setText("总"+info.getTotalOrder()+"单");
-                    tv_xiuxi_huodong_yesterday_number.setText("昨天订单："+info.getYstOrder()+"单");
+                    tv_xiuxi_huodong_yesterday_number.setText("昨天订单：" + info.getYstOrder()+"单");
                     if(info.getYstTurnover()!=null) {
                         tv_xiuxi_huodong_yesterday_money.setText("昨天营业额:"+info.getYstTurnover()+"元");
                     }else{

@@ -68,7 +68,6 @@ public class SplashActivity extends AppCompatActivity {
             }
         }
     };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,7 +85,6 @@ public class SplashActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
     @Override
     protected void onResume() {
         super.onResume();

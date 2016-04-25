@@ -60,7 +60,7 @@ public class AutologonUtil {
         },new Response.ErrorListener(){
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(context, "网络连接出错", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "网络连接出错", Toast.LENGTH_SHORT).show();
                 Log.e("onErrorResponse", "onErrorResponse");
                 handler.sendEmptyMessage(MyApplication.GET_TOKEN_ERROR);
             }

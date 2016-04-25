@@ -146,13 +146,11 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
     }
 
     private void getPhoto() {
-
         Intent intent = new Intent(Intent.ACTION_PICK);// 打开相册
         intent.setDataAndType(MediaStore.Images.Media.INTERNAL_CONTENT_URI, "image/*");
         Log.e("ZhuCe3Activity", Uri.fromFile(tempFile).toString());
         intent.putExtra("output", Uri.fromFile(tempFile));
         startActivityForResult(intent, 11);
-
     }
 
     private void crop(Uri uri) {
@@ -204,7 +202,7 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
 //                FileUtil.mkdir(path);
 //                Logger.i("path:" + path);
                 tempFile = new File(path);
-                if (!tempFile.exists()) {
+                if (!tempFile.exists()){
                     tempFile.mkdir();
                 }
                 fileName = path + "/user1_head_photo.png";

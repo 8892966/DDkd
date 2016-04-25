@@ -221,7 +221,6 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                             Log.e("ZhuCe4Activity", "出错");
                         }
                         //把图片缓存删除
-                        file.delete();
                         file1.delete();
                         file2.delete();
                         file3.delete();

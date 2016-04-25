@@ -354,8 +354,10 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                 Log.e("volley_OrderState_GET", s);
                 if (!s.equals("\"token outtime\"")) {
                     if ("\"SUCCESS\"".equals(s)) {
-//                        list.remove(info);
-//                        baseAdapter.notifyDataSetChanged();
+                        button.setEnabled(true);
+                        pb_button.setVisibility(View.GONE);
+                        list.remove(info);
+                        baseAdapter.notifyDataSetChanged();
                     } else {
                         button.setEnabled(true);
                         pb_button.setVisibility(View.GONE);
@@ -392,5 +394,12 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
     protected void onPause(){
         super.onPause();
         StatService.onPause(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MyApplication.getQueue().cancelAll("volley_OrderState_GET");
+        MyApplication.getQueue().cancelAll("volley_getOrder_GET");
     }
 }

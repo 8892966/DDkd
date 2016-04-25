@@ -83,6 +83,7 @@ public class JieDanService extends Service {
                             builder.setSmallIcon(R.mipmap.ic_launcher);
                             Notification notification = builder.getNotification();
                             notification.flags=Notification.FLAG_AUTO_CANCEL;
+                            notification.defaults|= Notification.DEFAULT_SOUND;
                             nm.notify(R.mipmap.ic_launcher, notification);
                         }
                         int i = 0;

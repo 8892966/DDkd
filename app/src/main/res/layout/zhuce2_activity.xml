@@ -32,7 +32,6 @@
         android:layout_height="55dip"
         android:src="@drawable/zhuce2" />
 
-
     <RelativeLayout
         android:id="@+id/rl_shuru"
         android:padding="15dp"

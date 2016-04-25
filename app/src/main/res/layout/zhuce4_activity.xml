@@ -56,63 +56,52 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout
+            <FrameLayout
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:background="@drawable/jiedang_button_normal">
-
                 <TextView
+                    android:background="#00000000"
                     android:clickable="true"
                     android:focusable="true"
                     android:id="@+id/tv_button1_paizhao"
-                    android:layout_width="wrap_content"
-                    android:layout_height="150dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:gravity="center"
                     android:padding="10dp"
                     android:text="点击上传\n身份证\n正面" />
-
-                <View
-                    android:layout_width="0.5dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/biankuan" />
-
                 <ImageView
                     android:padding="2dp"
                     android:id="@+id/iv_zhuce4_zhaopian1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
-            </LinearLayout>
+            </FrameLayout>
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/jiedang_button_normal">
 
                 <TextView
+                    android:background="#00000000"
                     android:clickable="true"
                     android:focusable="true"
                     android:id="@+id/tv_button2_paizhao"
-                    android:layout_width="wrap_content"
-                    android:layout_height="150dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:gravity="center"
                     android:padding="10dp"
                     android:text="点击上传\n身份证\n反面" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/biankuan" />
-
                 <ImageView
                     android:padding="2dp"
                     android:id="@+id/iv_zhuce4_zhaopian2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
-            </LinearLayout>
+            </FrameLayout>
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_marginTop="10dp"
@@ -121,21 +110,17 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:id="@+id/tv_button3_paizhao"
-                    android:layout_width="wrap_content"
-                    android:layout_height="150dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:gravity="center"
                     android:padding="10dp"
                     android:text="点击上传\n学生证\n或一卡通" />
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/biankuan" />
                 <ImageView
                     android:padding="2dp"
                     android:id="@+id/iv_zhuce4_zhaopian3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
-            </LinearLayout>
+            </FrameLayout>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

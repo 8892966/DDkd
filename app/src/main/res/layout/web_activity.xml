@@ -25,8 +25,17 @@
             android:textSize="20sp"
             />
     </RelativeLayout>
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:indeterminateOnly="false"
+        android:max="100"
+        android:id="@+id/ProgressBar1"
+        android:layout_width="match_parent"
+        android:layout_height="5dip" />
+
     <WebView
         android:id="@+id/wv_web"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></WebView>
+        android:layout_height="match_parent"/>
+
 </LinearLayout>

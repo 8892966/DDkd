@@ -34,7 +34,6 @@
         android:src="@drawable/zhuce1" />
 
 
-
     <RelativeLayout
         android:id="@+id/rl_shuru"
         android:layout_width="match_parent"
@@ -63,24 +62,11 @@
                 android:textSize="20sp"
                 android:background="@null"
                 android:id="@+id/et_phone_number"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="请输入手机号码"
                 android:inputType="phone"
                 android:singleLine="true"/>
-
-            <TextView
-                android:layout_marginLeft="5dip"
-                android:id="@+id/tv_button_yanzhengma"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/dingdang_item_button"
-                android:clickable="true"
-                android:focusable="true"
-                android:padding="5dp"
-                android:text="验证码"
-                android:textColor="#ffffff" />
         </LinearLayout>
         <View
             android:id="@+id/view2"
@@ -109,8 +95,21 @@
                 android:id="@+id/et_yanzhengma"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="请输入短信验证码"
+                android:hint="请输入验证码"
+                android:layout_weight="1"
                 android:singleLine="true" />
+            <TextView
+                android:layout_marginLeft="5dip"
+                android:id="@+id/tv_button_yanzhengma"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/dingdang_item_button"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="5dp"
+                android:text="验证码"
+                android:textColor="#ffffff" />
         </LinearLayout>
         <View
             android:layout_below="@id/ll_yanzhengma"

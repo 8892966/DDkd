@@ -3,6 +3,7 @@ package com.example.user.ddkd;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -33,8 +34,7 @@ public class ZhuCe2Activity extends Activity implements View.OnClickListener {
         String password2 = et_password2.getText().toString();
         if (PasswordUtil.isSame(ZhuCe2Activity.this, password1, password2)) {
             //注册信息
-            SignUpInfo signUpInfo = (SignUpInfo) getIntent().getSerializableExtra("SignUpInfo");
-            signUpInfo.setPassword(password1);
+            SignUpInfo signUpInfo = getSignUpInfo(password1);
             Intent intent = new Intent(ZhuCe2Activity.this, ZhuCe3Activity.class);
             intent.putExtra("SignUpInfo", signUpInfo);//传递注册信息
             startActivity(intent);
@@ -46,12 +46,21 @@ public class ZhuCe2Activity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_head_fanghui:
-//                Intent intent = new Intent(ZhuCe2Activity.this, MainActivity_login.class);
-//                startActivity(intent);
+                Intent intent = new Intent(ZhuCe2Activity.this, ZhuCe1Activity.class);
+                intent.putExtra("SignUpInfo", getIntent().getSerializableExtra("SignUpInfo"));
+                startActivity(intent);
                 finish();
                 break;
         }
     }
+
+    //获取已有信息并添加新的信息
+    private SignUpInfo getSignUpInfo(String password1) {
+        SignUpInfo signUpInfo = (SignUpInfo) getIntent().getSerializableExtra("SignUpInfo");
+        signUpInfo.setPassword(password1);
+        return signUpInfo;
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -63,4 +72,5 @@ public class ZhuCe2Activity extends Activity implements View.OnClickListener {
         super.onPause();
         StatService.onPause(this);
     }
+
 }

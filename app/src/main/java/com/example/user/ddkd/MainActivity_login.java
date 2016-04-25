@@ -94,13 +94,16 @@ public class MainActivity_login extends Activity implements View.OnClickListener
             public void onResponse(String s) {
 //                Log.e("Get_login", s);
                 closeProgressDialog();//*****关闭加载提示框*****
+                if(s.equals("\"WAIT PASS\"")) {
+                    closeProgressDialog();
+                    Toast.makeText(MainActivity_login.this,"正在审核中，请耐心等候...",Toast.LENGTH_SHORT).show();
+                }else
                 if (!s.equals("\"ERROR\"")){
                     s = s.substring(1, s.length() - 1);
                     //******************当提交成功以后，后台会返回一个参数来说明是否提交/验证成功******************
                     SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
                     SharedPreferences.Editor edit = sharedPreferences.edit();
                     edit.putString("token", s);
-
                     //****************保存登录状态，0为离线状态，1为在线状态************************
                     edit.putString("loginstatic", "1");
 //                    MyApplication.state=1;
@@ -129,12 +132,11 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                     Intent intent = new Intent(MainActivity_login.this, JieDangActivity.class);
                     startActivity(intent);
                     finish();
-
-                } else {
-                    closeProgressDialog();
-                    Toast.makeText(MainActivity_login.this,"您的信息有误",Toast.LENGTH_SHORT).show();
+                }else{
+                        closeProgressDialog();
+                        Toast.makeText(MainActivity_login.this,"您的信息有误",Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {

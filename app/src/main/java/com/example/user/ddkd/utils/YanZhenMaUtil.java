@@ -150,7 +150,7 @@ public class YanZhenMaUtil {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 Integer value = (Integer) animation.getAnimatedValue();
-                tv_button_yanzhengma.setText("剩余（"+String.valueOf(60-value)+"s）");
+                tv_button_yanzhengma.setText("剩余"+String.valueOf(60-value)+"s");
                 if (value==60){
                     //tv_bt_verify.setBackgroundResource(R.drawable.ret_orange);//30s后的背景
                     tv_button_yanzhengma.setEnabled(true);//30s后设置可以点击

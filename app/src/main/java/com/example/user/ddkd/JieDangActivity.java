@@ -10,6 +10,8 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -86,6 +88,10 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     private MyBaseAdapter myBaseAdapter;
     //获取后台token
     private SharedPreferences preferences;
+    //播放短暂声音
+    private SoundPool sp;
+    //声音源
+    private int soundid;
 
 
 
@@ -128,7 +134,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.jiedang_activity);
-        clearNotification();
+        initSound();//初始化数据
         volley_MSG_GET();//获取页面信息
         list=new ArrayList<QOrderInfo>();
         TextView textView = (TextView) findViewById(R.id.personinfo);
@@ -166,6 +172,14 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             bindService(jieDanServiceIntent,sc,BIND_AUTO_CREATE);
         }
     }
+
+    private void initSound() {
+        sp = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+        //第三个参数暂时无用
+        //加载声音至声音池
+//        soundid=sp.load(this, R.raw.fire, 1);
+    }
+
     @Override
     public void onClick(View v) {
         Intent intent;
@@ -187,7 +201,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.but_jiedang:
-                if (!sreviceisrunning) {
+                if (!sreviceisrunning){
                     sreviceisrunning=true;
 //                  preferences=getSharedPreferences("config", MODE_PRIVATE);
                     listView.setVisibility(View.VISIBLE);
@@ -199,7 +213,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 //// 2.36（不包括）之前的版本需要调用以下2行代码
 //                    Intent service = new Intent(context, XGPushService.class);
 //                    context.startService(service);
-                } else {
+                }else{
                     sreviceisrunning=false;
                     unbindService(sc);
                     jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
@@ -288,20 +302,19 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         super.onResume();
         StatService.onResume(this);
     }
-
     @Override
     protected void onPause() {
         super.onPause();
         StatService.onPause(this);
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         if(sreviceisrunning){
             unbindService(sc);
         }
-
+        MyApplication.getQueue().cancelAll("volley_MSG_GET");
+        MyApplication.getQueue().cancelAll("volley_QD_GET");
     }
     //绑定服务
     private ServiceConnection sc=new ServiceConnection(){
@@ -312,12 +325,14 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 @Override
                 public void Delete(List list) {
                     JieDangActivity.this.list.removeAll(list);
+//                    sp.play(soundid, 1.0f, 0.3f, 0, 0, 2.0f);
                     myBaseAdapter.notifyDataSetChanged();//刷新数据
                 }
                 @Override
                 public void Add(List list) {
                     JieDangActivity.this.list.addAll(list);
                     myBaseAdapter.notifyDataSetChanged();//刷新数据
+
                 }
             });
             list=jdBinder.getMsg();
@@ -329,15 +344,17 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 
         }
     };
+
     //网络申请获取主页面信息
     private void volley_MSG_GET() {
         preferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = preferences.getString("token", "");
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/CountOrder/token/" + token;
+        Log.e("volley_OrderState_GET",url);
         StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-//                Log.e("volley_OrderState_GET", s);
+                Log.e("volley_OrderState_GET", s);
                 if (!s.endsWith("\"token outtime\"")) {
                     Gson gson = new Gson();
                     MainMsgInfo info = gson.fromJson(s,MainMsgInfo.class);
@@ -350,7 +367,11 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                     }else{
                         tv_xiuxi_huodong_yesterday_money.setText("昨天营业额:0元");
                     }
-                    pb_star.setRating(Float.valueOf(info.getEvaluate()));
+                    if(info.getEvaluate()==null) {
+                        pb_star.setRating(0);
+                    }else{
+                        pb_star.setRating(Float.valueOf(info.getEvaluate()));
+                    }
                 } else {
                     Log.e("volley_getOrder_GET", "token过时了");
                     AutologonUtil autologonUtil = new AutologonUtil(JieDangActivity.this,handler1,null);
@@ -382,7 +403,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                     }else{
                         button.setEnabled(false);
                         button.setTextColor(Color.BLACK);
-                        button.setText("已抢");
+                        button.setText("等待");
                         Toast.makeText(JieDangActivity.this,"请等待抢单信息",Toast.LENGTH_LONG).show();
                     }
                 } else {
@@ -400,13 +421,6 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         });
         request_post.setTag("volley_QD_GET");
         MyApplication.getQueue().add(request_post);
-    }
-
-    //删除通知
-    private void clearNotification(){
-        // 启动后删除之前我们定义的通知
-        NotificationManager notificationManager = (NotificationManager)getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
-        notificationManager.cancel(0);
     }
     long[] djtime =new long[2];
     @Override

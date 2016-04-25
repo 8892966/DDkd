@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +23,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.baidu.mobstat.StatService;
+import com.example.user.ddkd.beam.OrderInfo;
 import com.example.user.ddkd.beam.SignUpInfo;
+import com.example.user.ddkd.utils.AutologonUtil;
 import com.example.user.ddkd.utils.YanZhenMaUtil;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -51,13 +54,13 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
     private YanZhenMaUtil yanZhenMaUtil;
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         StatService.onResume(this);
     }
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
         StatService.onPause(this);
     }
@@ -99,6 +102,7 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
             public void afterTextChanged(Editable s) {
                 if (et_phone_number.length() == 11) {
                     tv_button_yanzhengma.setEnabled(true);
+                    volley_phoExist_GET(et_phone_number.getText().toString());
                 } else {
                     tv_button_yanzhengma.setEnabled(false);
                 }
@@ -111,7 +115,7 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
         Intent intent;
         switch (v.getId()) {
             case R.id.tv_button_yanzhengma:
-                yanZhenMaUtil.sendYZM(this,et_phone_number,tv_button_yanzhengma);
+                yanZhenMaUtil.sendYZM(this, et_phone_number, tv_button_yanzhengma);
                 break;
             case R.id.tv_button_yuedu:
                 intent = new Intent(this, WebActivity.class);
@@ -127,15 +131,15 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
                 }
                 break;
             case R.id.tv_next:
-//                        if(yanZhenMaUtil.isYZM(this,et_yanzhengma,et_phone_number)) {
-                            //注册信息
-                            SignUpInfo signUpInfo = new SignUpInfo();
-                            signUpInfo.setPhone(et_phone_number.getText().toString());
-                            Intent intent2 = new Intent(this, ZhuCe2Activity.class);
-                            intent2.putExtra("SignUpInfo", signUpInfo);//传递注册信息
-                            startActivity(intent2);
-                            finish();
-//                        }
+//                if (yanZhenMaUtil.isYZM(this, et_yanzhengma, et_phone_number)) {
+                    //注册信息
+                    SignUpInfo signUpInfo = new SignUpInfo();
+                    signUpInfo.setPhone(et_phone_number.getText().toString());
+                    Intent intent2 = new Intent(this, ZhuCe2Activity.class);
+                    intent2.putExtra("SignUpInfo", signUpInfo);//传递注册信息
+                    startActivity(intent2);
+                    finish();
+//                }
                 break;
             case R.id.tv_head_fanghui:
 //                intent = new Intent(this, MainActivity_login.class);
@@ -143,5 +147,35 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
                 finish();
                 break;
         }
+    }
+
+    //网络申请修改相应状态的订单列表
+    private void volley_phoExist_GET(String phone) {
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/phoExist/phone/" + phone;
+//        参数一：方法 参数二：地址 参数三：成功回调 参数四：错误回调 。重写getParams 以post参数
+        StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                Log.e("volley_phoExist_GET", s);
+                if ("\"SUCCESS\"".equals(s)) {
+
+                } else {
+                    Toast.makeText(ZhuCe1Activity.this, "用户已存在！", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(ZhuCe1Activity.this, "网络异常", Toast.LENGTH_SHORT).show();
+            }
+        });
+        request_post.setTag("volley_phoExist_GET");
+        MyApplication.getQueue().add(request_post);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MyApplication.getQueue().cancelAll("volley_phoExist_GET");
     }
 }

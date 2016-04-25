@@ -1,22 +1,43 @@
 package com.example.user.ddkd;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.util.Xml;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.baidu.mobstat.StatService;
+import com.example.user.ddkd.beam.MainMsgInfo;
 import com.example.user.ddkd.beam.SignUpInfo;
+import com.example.user.ddkd.utils.AutologonUtil;
+import com.example.user.ddkd.utils.PostUtil;
+import com.google.gson.Gson;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.ByteArrayInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,8 +45,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,8 +57,10 @@ import java.util.Map;
  */
 public class ZhuCe4Activity extends Activity implements View.OnClickListener {
     public static final int SUCCESS = 1;//提交数据成功：
-    //放照片文件
-    private File file;
+    public static final int ERROR = 2;//提交数据成功：
+    public static final int NEXT =3;//提交图片成功，进行下一个
+//    //放照片文件
+//    private File file;
     //放照片的控件
     private ImageView iv_zhuce4_zhaopian1;
     private ImageView iv_zhuce4_zhaopian2;
@@ -46,7 +71,8 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
     private Uri uri2;
     private Uri uri3;
     private Map<String, String> map;
-    private String picture;
+    private String picture;//头像的路径
+    private ProgressDialog progressDialog;//注册等待
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -54,15 +80,25 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
             switch (msg.what) {
                 case SUCCESS:
                     Toast.makeText(getApplication(), "提交成功，请登录", Toast.LENGTH_SHORT).show();
+                    closeProgressDialog();
+                    finish();
+                    break;
+                case ERROR:
+                    Toast.makeText(getApplication(), "提交失败，请重新提交", Toast.LENGTH_SHORT).show();
+                    closeProgressDialog();
                     break;
             }
         }
     };
+    private SignUpInfo signUpInfo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.zhuce4_activity);
+
+//        initFile();//初始化文件
         //拍照
         TextView tv_button1_paizhao = (TextView) findViewById(R.id.tv_button1_paizhao);
         TextView tv_button2_paizhao = (TextView) findViewById(R.id.tv_button2_paizhao);
@@ -96,6 +132,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 finish();
                 break;
             case R.id.tv_button1_paizhao:
+//                showChooseDialog();
                 paizhao(100);
                 break;
             case R.id.tv_button2_paizhao:
@@ -105,9 +142,10 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 paizhao(103);
                 break;
             case R.id.tv_button_next:
-                SignUpInfo signUpInfo = (SignUpInfo) getIntent().getSerializableExtra("SignUpInfo");
+                signUpInfo = (SignUpInfo) getIntent().getSerializableExtra("SignUpInfo");
                 picture = getIntent().getStringExtra("picture");
                 map = new HashMap<String, String>();
+//                Log.e("map", signUpInfo.getClazz());
                 map.put("class", signUpInfo.getClazz());
                 map.put("college", signUpInfo.getCollege());
                 map.put("number", signUpInfo.getNumber());
@@ -117,24 +155,69 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 map.put("sex", signUpInfo.getSex());
                 map.put("shortphone", signUpInfo.getShortnumber());
                 map.put("username", signUpInfo.getUsername());
+                showProgressDialog(6);
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
+                        int i=0;
                         File file = new File(picture);
                         File file1 = new File(uri1.getPath());
                         File file2 = new File(uri2.getPath());
                         File file3 = new File(uri3.getPath());
-                        Map<String, File> mapfile = new HashMap<String, File>();
-                        mapfile.put("touxiang", file);
-                        mapfile.put("IdCard", file1);
-                        mapfile.put("IdCardBack", file2);
-                        mapfile.put("StudentCard", file3);
+                        Log.e("name", picture);
+                        Log.e("name", uri1.getPath());
+                        Log.e("name", uri2.getPath());
+                        Log.e("name", uri3.getPath());
+                        Map<String, File> mapfile1 = new HashMap<String, File>();
+                        Map<String, File> mapfile2 = new HashMap<String, File>();
+                        Map<String, File> mapfile3 = new HashMap<String, File>();
+                        Map<String, File> mapfile4 = new HashMap<String, File>();
+                        mapfile1.put("touxiang", file);
+                        mapfile2.put("IdCard", file1);
+                        mapfile3.put("IdCardBack", file2);
+                        mapfile4.put("StudentCard", file3);
+                        Map<String, String> map1 = new HashMap<String, String>();
+                        map1.put("name", "touxiang");
+                        map1.put("phone", signUpInfo.getPhone());
+                        Map<String, String> map2 = new HashMap<String, String>();
+                        map2.put("name", "IdCard");
+                        map2.put("phone", signUpInfo.getPhone());
+                        Map<String, String> map3 = new HashMap<String, String>();
+                        map3.put("name", "IdCardBack");
+                        map3.put("phone", signUpInfo.getPhone());
+                        Map<String, String> map4 = new HashMap<String, String>();
+                        map4.put("name", "StudentCard");
+                        map4.put("phone", signUpInfo.getPhone());
                         try {
-                            String msg = post("http://www.louxiago.com/wc/ddkd/admin.php/User/register", map, mapfile);
-                            Log.e("ZhuCe4Activity", msg);
+                            String msg1 = PostUtil.post("http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage/name/touxiang/phone/" + signUpInfo.getPhone(), map1, mapfile1);
+                            Log.e("msg1", msg1);
+                            Message message=new Message();
+                            message.arg1=i;
+                            message.what=NEXT;
+                            handler.sendMessage(message);
+                            i++;
+                            String msg2 = PostUtil.post("http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage/name/IdCard/phone/" + signUpInfo.getPhone(), map2, mapfile2);
+                            Log.e("msg2", msg2);
+                            message.arg1=i;
+                            message.what=NEXT;
+                            handler.sendMessage(message);
+                            i++;
+                            String msg3 = PostUtil.post("http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage/name/IdCardBack/phone/" + signUpInfo.getPhone(), map3, mapfile3);
+                            Log.e("msg3", msg3);
+                            message.arg1=i;
+                            message.what=NEXT;
+                            handler.sendMessage(message);
+                            i++;
+                            String msg4 = PostUtil.post("http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage/name/StudentCard/phone/" + signUpInfo.getPhone(), map4, mapfile4);
+                            Log.e("msg4", msg4);
+                            message.arg1=i;
+                            message.what=NEXT;
+                            handler.sendMessage(message);
+                            volley_ZC_GET(map);
                             handler.sendEmptyMessage(SUCCESS);
                         } catch (IOException e) {
                             e.printStackTrace();
+                            handler.sendEmptyMessage(ERROR);
                             Log.e("ZhuCe4Activity", "出错");
                         }
                         //把图片缓存删除
@@ -142,12 +225,9 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                         file1.delete();
                         file2.delete();
                         file3.delete();
-//                        Log.i("ZhuCe4Activity",signUpInfo.toString());
-                        finish();
                     }
-                }).start();
-                textView.setEnabled(false);
-                textView.setText("正在传送数据，请等一下");
+                }
+                ).start();
                 break;
         }
     }
@@ -162,7 +242,8 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 100) {
+
+        if (requestCode == 100){
             if (data != null) {
                 Bitmap cameraBitmap = (Bitmap) data.getExtras().get("data");
                 if (cameraBitmap != null) {
@@ -172,7 +253,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                     Toast.makeText(ZhuCe4Activity.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
                 }
             }
-        } else if (requestCode == 102) {
+        } else if (requestCode == 102){
             if (data != null) {
                 Bitmap cameraBitmap = (Bitmap) data.getExtras().get("data");
                 if (cameraBitmap != null) {
@@ -182,7 +263,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                     Toast.makeText(ZhuCe4Activity.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
                 }
             }
-        } else if (requestCode == 103) {
+        } else if (requestCode == 103){
             if (data != null) {
                 Bitmap cameraBitmap = (Bitmap) data.getExtras().get("data");
                 if (cameraBitmap != null) {
@@ -196,7 +277,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
     }
 
     private Uri saveBitmap(Bitmap bm) {
-        File tmpDir = new File(Environment.getExternalStorageDirectory() + "/photo");
+        File tmpDir = new File(Environment.getExternalStorageDirectory() + "/DDkdphoto");
         if (!tmpDir.exists()) {
             tmpDir.mkdir();
         }
@@ -216,92 +297,6 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
         }
     }
 
-    /**
-     * 通过拼接的方式构造请求内容，实现参数传输以及文件传输
-     *
-     * @param actionUrl 访问的服务器URL
-     * @param params    普通参数
-     * @param files     文件参数
-     * @return
-     * @throws IOException
-     */
-    public static String post(String actionUrl, Map<String, String> params, Map<String, File> files) throws IOException {
-        String BOUNDARY = java.util.UUID.randomUUID().toString();
-        String PREFIX = "--", LINEND = "\r\n";
-        String MULTIPART_FROM_DATA = "multipart/form-data";
-        String CHARSET = "UTF-8";
-        URL uri = new URL(actionUrl);
-        HttpURLConnection conn = (HttpURLConnection) uri.openConnection();
-        conn.setReadTimeout(5 * 1000); // 缓存的最长时间
-        conn.setDoInput(true);// 允许输入
-        conn.setDoOutput(true);// 允许输出
-        conn.setUseCaches(false);// 不允许使用缓存
-        conn.setRequestMethod("POST");
-        conn.setRequestProperty("connection", "keep-alive");
-        conn.setRequestProperty("Charsert", "UTF-8");
-        conn.setRequestProperty("Content-Type", MULTIPART_FROM_DATA + ";boundary=" + BOUNDARY);
-        // 首先组拼文本类型的参数
-        StringBuilder sb = new StringBuilder();
-        for (Map.Entry<String, String> entry : params.entrySet()) {
-            sb.append(PREFIX);
-            sb.append(BOUNDARY);
-            sb.append(LINEND);
-            sb.append("Content-Disposition: form-data; name=\"" + entry.getKey() + "\"" + LINEND);
-            sb.append("Content-Type: text/plain; charset=" + CHARSET + LINEND);
-            sb.append("Content-Transfer-Encoding: 8bit" + LINEND);
-            sb.append(LINEND);
-            sb.append(entry.getValue());
-            sb.append(LINEND);
-        }
-        DataOutputStream outStream = new DataOutputStream(conn.getOutputStream());
-        outStream.write(sb.toString().getBytes());
-        InputStream in = null;
-        // 发送文件数据
-        if (files != null) {
-            for (Map.Entry<String, File> file : files.entrySet()) {
-                StringBuilder sb1 = new StringBuilder();
-                sb1.append(PREFIX);
-                sb1.append(BOUNDARY);
-                sb1.append(LINEND);
-                // name是post中传参的键 filename是文件的名称
-                sb1.append("Content-Disposition: form-data; name=\"file\"; filename=\"" + file.getKey() + "\"" + LINEND);
-                sb1.append("Content-Type: application/octet-stream; charset=" + CHARSET + LINEND);
-                sb1.append(LINEND);
-                outStream.write(sb1.toString().getBytes());
-                InputStream is = new FileInputStream(file.getValue());
-                byte[] buffer = new byte[1024];
-                int len = 0;
-                while ((len = is.read(buffer)) != -1) {
-                    outStream.write(buffer, 0, len);
-                }
-                is.close();
-                outStream.write(LINEND.getBytes());
-            }
-            // 请求结束标志
-            byte[] end_data = (PREFIX + BOUNDARY + PREFIX + LINEND).getBytes();
-            outStream.write(end_data);
-            outStream.flush();
-            // 得到响应码
-            int res = conn.getResponseCode();
-            StringBuilder sb2 = new StringBuilder();
-            Log.e("ZhuCe4Activity", res + "");
-            if (res == 200) {
-                in = conn.getInputStream();
-                int ch;
-                while ((ch = in.read()) != -1) {
-                    sb2.append((char) ch);
-                }
-            } else {
-                Log.e("ZhuCe4Activity", "访问出错");
-            }
-            outStream.close();
-            conn.disconnect();
-            return sb2.toString();
-        }
-//         return in.toString();
-        return BOUNDARY;
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -313,4 +308,186 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
         super.onPause();
         StatService.onPause(this);
     }
+
+    private void showProgressDialog(int max) {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.setMax(max);
+            progressDialog.setMessage("正在提交.......");
+            progressDialog.setCanceledOnTouchOutside(false);
+        }
+        progressDialog.show();
+    }
+
+    private void closeProgressDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+    }
+
+    private void volley_ZC_GET(final Map<String, String> map) {
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/register";
+
+        StringRequest request_post = new StringRequest(Request.Method.POST,url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+//                Log.e("volley_OrderState_GET", s);
+                Log.e("msg5", s);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(ZhuCe4Activity.this, "网络异常", Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map1 = new HashMap<>();
+                for (Map.Entry<String, String> entry : map.entrySet()) {
+                map1.put(entry.getKey(), entry.getValue());
+                }
+                return map1;
+            }
+        };
+        request_post.setTag("volley_ZC_GET");
+        MyApplication.getQueue().add(request_post);
+    }
+//    private void showChooseDialog(){
+//        Dialog dialog = new AlertDialog.Builder(this).setIcon(
+//                android.R.drawable.btn_star).setTitle("选择").setMessage(
+//                "请选择获取图片方式").setPositiveButton("图库",
+//                new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        openGallery();
+//                    }
+//                }).setNegativeButton("拍照", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                openCamera();
+//            }
+//        }).setNeutralButton("取消", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//            }
+//        }).create();
+//        dialog.show();
+//    }
+
+    ////******************************
+
+//    private ImageView iv_user_photo;
+//    private String fileName = "";
+//    private File tempFile;
+//    private int crop = 300;// 裁剪大小
+//    private static final int OPEN_CAMERA_CODE = 10;
+//    private static final int OPEN_GALLERY_CODE = 11;
+//    private static final int CROP_PHOTO_CODE = 12;
+//
+//    private OnClickListener PopupWindowItemOnClick = new OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
+//            menuWindow.dismiss();
+//            switch (v.getId()) {
+//                // 拍照
+//                case R.id.btn_camera:
+//                    initFile();
+//                    openCamera();
+//                    break;
+//                // 相册
+//                case R.id.btn_gallery:
+//                    initFile();
+//                    openGallery();
+//                    break;
+//                default:
+//                    break;
+//            }
+//        }
+//    };
+//
+//    public void initFile() {
+//        if (fileName.equals("")) {
+//            boolean sdCardExist = Environment.getExternalStorageState()
+//                    .equals(android.os.Environment.MEDIA_MOUNTED);
+//            if (sdCardExist) {
+//                String path = Environment.getExternalStorageDirectory().getPath()+"/DDkdphoto";
+////                FileUtil.mkdir(path);
+////                Logger.i("path:" + path);
+//                tempFile=new File(path);
+//                if(!tempFile.exists()){
+//                    tempFile.mkdir();
+//                }
+//                fileName = path + "/iv_zhuce4_zhaopian1.png";
+//                tempFile = new File(fileName);
+//            } else {
+//                Toast.makeText(this, "请插入SD卡", Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//    }
+//
+//    /**
+//     * 调用相机
+//     */
+//    public void openCamera() {
+//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);// 打开相机
+//        intent.putExtra("output", Uri.fromFile(tempFile));
+//        startActivityForResult(intent, OPEN_CAMERA_CODE);
+//    }
+//
+//    /**
+//     * 打开相册
+//     */
+//    public void openGallery() {
+//        Intent intent = new Intent(Intent.ACTION_PICK);// 打开相册
+//        intent.setDataAndType(MediaStore.Images.Media.INTERNAL_CONTENT_URI, "image/*");
+//        intent.putExtra("output", Uri.fromFile(tempFile));
+//        startActivityForResult(intent, OPEN_GALLERY_CODE);
+//    }
+//    /**
+//     * 裁剪图片
+//     * @param uri
+//     */
+//    public void cropPhoto(Uri uri) {
+//        Intent intent = new Intent("com.android.camera.action.CROP");
+//        intent.setDataAndType(uri, "image/*");
+//        intent.putExtra("output", Uri.fromFile(tempFile));
+//        intent.putExtra("crop", true);
+//        intent.putExtra("aspectX", 1);
+//        intent.putExtra("aspectY", 1);
+//        intent.putExtra("outputX", crop);
+//        intent.putExtra("outputY", crop);
+//        startActivityForResult(intent, CROP_PHOTO_CODE);
+//    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (resultCode == 1)
+//            return;
+//        switch (requestCode) {
+//            case OPEN_CAMERA_CODE:
+//                cropPhoto(Uri.fromFile(tempFile));
+//                break;
+//            case OPEN_GALLERY_CODE:
+//                cropPhoto(data.getData());
+//                break;
+//            case CROP_PHOTO_CODE:
+//                try {
+//                    BitmapFactory.Options options = new BitmapFactory.Options();
+//                    options.inSampleSize = 2;
+//                    Bitmap bitmap = BitmapFactory.decodeFile(fileName, options);
+//                    if (bitmap != null) {
+//                        iv_zhuce4_zhaopian1.setImageBitmap(bitmap);
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//                break;
+//            default:
+//                break;
+//        }
+//
+//        super.onActivityResult(requestCode, resultCode, data);
+//    }
+    ////**************
 }

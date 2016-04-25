@@ -52,6 +52,8 @@
                     android:textSize="20sp" />
 
                 <EditText
+                    android:textSize="20sp"
+                    android:background="@null"
                     android:id="@+id/counter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -88,6 +90,7 @@
                 android:layout_marginTop="10dip">
 
                 <TextView
+                    android:padding="10dip"
                     android:id="@+id/tixian"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -96,14 +99,18 @@
                     android:textSize="20sp" />
 
                 <EditText
+                    android:padding="10dip"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
+                    android:textSize="20sp"
+                    android:background="@null"
                     android:id="@+id/getmoney"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/tixian"
                     android:hint="亲，满100才可以提现喔"
                     android:phoneNumber="true"
-                    android:singleLine="true"
-                    android:textSize="20sp" />
+                    android:singleLine="true"/>
             </RelativeLayout>
 
             <View
@@ -125,6 +132,7 @@
                     android:textSize="20sp" />
 
                 <EditText
+                    android:background="@null"
                     android:id="@+id/Tname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

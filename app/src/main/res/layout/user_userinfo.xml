@@ -8,7 +8,7 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="45dip"
-        android:background="#00ccff">
+        android:background="#0767c8">
         <TextView
             android:id="@+id/tv_head_fanghui"
             style="@style/head_button_back"

@@ -28,7 +28,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by Administrator on 2016/4/5.
@@ -92,6 +91,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
                     }
                 }else{
                     Log.i("token outtime","token outtime");
+
                 }
             }
         }, new Response.ErrorListener() {
@@ -152,8 +152,6 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
             TextView view1 = (TextView) view.findViewById(R.id.Tname);
             TextView view3 = (TextView) view.findViewById(R.id.counter);
             TextView view4 = (TextView) view.findViewById(R.id.time1);
-
-
             Payment payment = paymentslist.get(position);
             if (payment != null) {
                 view1.setText(payment.getTname());

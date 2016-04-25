@@ -65,7 +65,10 @@
         <activity android:name=".MainActivity_forget" />
         <activity android:name=".MainActivity_login" />
         <activity android:name=".Announce"/>
-        <activity android:name=".MainActivity_Webview" />
+        <activity android:name=".Activity_updpwd"/>
+        <activity android:name=".Activity_feedback"/>
+
+
         <!-- APP项目的其它配置... -->
 
 

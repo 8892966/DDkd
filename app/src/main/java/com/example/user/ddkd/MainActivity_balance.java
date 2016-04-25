@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -61,9 +63,11 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
             case R.id.getmoney:
                 intent=new Intent(this,MainActivity_getmoney.class);
                 startActivity(intent);
+                Log.i("getmoney", "getmoney");
                 break;
             case R.id.tv_head_fanghui:
                 finish();
+                Log.i("exit","exit");
                 break;
         }
     }
@@ -77,10 +81,18 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
             public void onResponse(String s) {
                 Log.i("Json",s);
                 //**********从后台返回一个参数来说明数据的获取状况**********
-                Type listv=new TypeToken<LinkedList<Payment>>(){}.getType();
-                Gson gson=new Gson();
-                paymentslist=gson.fromJson(s,listv);
-                myAdapter.notifyDataSetChanged();
+                if(!s.equals("\"token outtime\"")){
+                    if(!s.equals("\"ERROR\"")){
+                        Type listv=new TypeToken<LinkedList<Payment>>(){}.getType();
+                        Gson gson=new Gson();
+                        paymentslist=gson.fromJson(s,listv);
+                        myAdapter.notifyDataSetChanged();
+                    }else{
+                        Toast.makeText(MainActivity_balance.this,"网络连接出错",Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Log.i("token outtime","token outtime");
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -115,22 +127,18 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
         MyApplication.getQueue().add(balance_request);
     }
     class MyAdapter extends BaseAdapter {
-
         @Override
         public int getCount() {
             return paymentslist.size();
         }
-
         @Override
         public Object getItem(int position) {
             return null;
         }
-
         @Override
         public long getItemId(int position) {
             return 0;
         }
-
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View view;

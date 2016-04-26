@@ -46,6 +46,7 @@ public class Activity_updpwd extends Activity implements View.OnClickListener {
                 String pwd1=password1.getText().toString();
                 String pwd2=password2.getText().toString();
                 String pwd3=password3.getText().toString();
+
                 volley_Get(pwd1,pwd2,pwd3);
 
                 Toast.makeText(Activity_updpwd.this,"修改成功",Toast.LENGTH_SHORT).show();

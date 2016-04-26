@@ -17,6 +17,7 @@ public abstract class MyStringRequest implements Response.Listener {
             tokenouttime();
         }else if(s.equals("yididenglu")){
             Log.e("volley_getOrder_GET", "yide");
+            yidiensdfsdf();
         }else{
             Log.e("volley_getOrder_GET", "ok");
             success(s);

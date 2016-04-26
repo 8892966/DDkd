@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.example.user.ddkd.DingDanActivity;
 import com.example.user.ddkd.JieDangActivity;
 import com.example.user.ddkd.MyApplication;
 import com.example.user.ddkd.R;
@@ -88,8 +89,10 @@ public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
             } else {
                 builder.setContentText("您抢的单号为:" + robres.getOrderid() + "的单抢单不成功");
             }
-            Intent notificationIntent = new Intent(context, details.DingDanActivity.class);
+
+            Intent notificationIntent = new Intent(context,DingDanActivity.class);
             PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+
             builder.setContentIntent(contentIntent);
             builder.setSmallIcon(R.mipmap.ic_launcher);
             Notification notification = builder.getNotification();

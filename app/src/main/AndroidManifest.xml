@@ -54,7 +54,7 @@
         <activity android:name=".JieDangActivity" />
         <activity android:name=".ZhuCe1Activity" />
         <activity android:name=".ZhuCe3Activity" />
-        <activity android:name=".details$DingDanActivity" />
+        <activity android:name=".DingDanActivity" />
         <activity android:name=".details" />
         <activity android:name=".MainActivity_setting" />
         <activity android:name=".MainActivity_userinfo" />

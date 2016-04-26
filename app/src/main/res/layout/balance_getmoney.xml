@@ -68,14 +68,12 @@
                 android:layout_marginTop="5dip"
                 android:background="#cccccc"
                 android:orientation="horizontal"
-                android:padding="10dip">
-
+                android:padding="5dip">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="可提款金额："
                     android:textSize="15sp" />
-
                 <TextView
                     android:id="@+id/yue"
                     android:layout_width="wrap_content"
@@ -117,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dip"
                 android:background="#cccccc"
-                android:padding="10dip">
+                android:padding="5dip">
                 <TextView
                     android:layout_centerInParent="true"
                     android:layout_width="wrap_content"
@@ -181,7 +179,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="20dip"
                 android:background="#cccccc" />
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

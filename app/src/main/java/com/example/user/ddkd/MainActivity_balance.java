@@ -224,12 +224,22 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
             TextView view1 = (TextView) view.findViewById(R.id.Tname);
             TextView view3 = (TextView) view.findViewById(R.id.counter);
             TextView view4 = (TextView) view.findViewById(R.id.time1);
+            TextView view5= (TextView) view.findViewById(R.id.getstatic);
             Payment payment = paymentslist.get(position);
             if (payment != null) {
                 view1.setText(payment.getTname());
                 view2.setText(String.valueOf(payment.getMoney()));
                 view3.setText(payment.getCounter());
                 view4.setText(String.valueOf(payment.getTime1()));
+                //*****************根据返回的Static状态来判断当前的体现状态***************
+                //1表示审核中；2表示通过；3表示失败
+//                if(){
+//                    view5.setText("审核中");
+//                }else if(){
+//                    view5.setText("提现成功");
+//                }else{
+//                    view5.setText("提现失败");
+//                }
 
             } else {
                 Log.i("ERROR", "payment的内容为空");

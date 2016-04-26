@@ -103,7 +103,6 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
                         getImage();
                     }
                 }).show();
-
                 break;
             case R.id.updatepwd:
                 intent=new Intent(MainActivity_setting.this,MainActivity_forget.class);

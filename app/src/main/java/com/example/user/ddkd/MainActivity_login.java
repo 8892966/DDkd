@@ -97,8 +97,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                 if(s.equals("\"WAIT PASS\"")) {
                     closeProgressDialog();
                     Toast.makeText(MainActivity_login.this,"正在审核中，请耐心等候...",Toast.LENGTH_SHORT).show();
-                }else
-                if (!s.equals("\"ERROR\"")){
+                }else if (!s.equals("\"ERROR\"")){
                     s = s.substring(1, s.length() - 1);
                     //******************当提交成功以后，后台会返回一个参数来说明是否提交/验证成功******************
                     SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
@@ -200,6 +199,10 @@ public class MainActivity_login extends Activity implements View.OnClickListener
         if(progressDialog!=null){
             progressDialog.dismiss();
         }
+    }
+    protected void onDestroy() {
+        super.onDestroy();
+        MyApplication.getQueue().cancelAll("abcGet_login");
     }
 
 }

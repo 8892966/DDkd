@@ -328,7 +328,6 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
 
     private void volley_ZC_GET(final Map<String, String> map) {
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/register";
-
         StringRequest request_post = new StringRequest(Request.Method.POST,url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {

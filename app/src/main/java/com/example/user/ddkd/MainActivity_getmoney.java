@@ -2,8 +2,11 @@ package com.example.user.ddkd;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -126,8 +129,8 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
                 tname1 = Tname.getText().toString();
                 beizhu1 = beizhu.getText().toString();
 //                if (beizhu1.length() <= 10) {
-                Log.i("Money2",userInfo.getBalance());
-                if (!TextUtils.isEmpty(getmoney1)) {
+                Log.i("Money2", userInfo.getBalance());
+                if (!TextUtils.isEmpty(getmoney1)&&Double.valueOf(getmoney1)>100) {
                     if (Double.valueOf(userInfo.getBalance()) > 100) {
                         if (Double.valueOf(getmoney1) < Double.valueOf(userInfo.getBalance())) {
                             if (!TextUtils.isEmpty(counter1)) {
@@ -138,7 +141,6 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
                                     } else {
                                         if (beizhu1.length() <= 10) {
                                             volley_get(getmoney1, counter1, tname1, username, beizhu1);
-                                            finish();
                                             break;
                                         } else {
                                             closeProgressDialog();
@@ -163,7 +165,7 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
                     }
                 } else {
                     closeProgressDialog();
-                    Toast.makeText(MainActivity_getmoney.this, "提现金额不能为空", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity_getmoney.this, "提现金额不能为空或提现金额小于100", Toast.LENGTH_SHORT).show();
                 }
         }
     }
@@ -184,6 +186,7 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
             e.printStackTrace();
         }
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/withdrawCash/money/" + getmoney + "/Tname/" + tname2 + "/counter/" + counter + "/name/" + username2 + "/extra/" + beizhu2 + "/token/" + token;
+        Log.i("URL", url);
         //******************将用户的提现信息提交给服务器
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             public void onResponse(String s) {
@@ -193,13 +196,10 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
                     if (!s.equals("\"ERROR\"")) {
                         s = s.substring(1, s.length() - 1);
                         //**************返回一个参数，说明提交的情况*****************
-                        if ("SUCCESS".equals(s)) {
-                            Toast.makeText(MainActivity_getmoney.this, "提现申请已提交", Toast.LENGTH_LONG).show();
-                        } else if ("ERROR".equals(s)) {
-                            Toast.makeText(MainActivity_getmoney.this, "提交内容有误，请核对您的信息", Toast.LENGTH_SHORT).show();
-                        }
+                        finish();
+                        Toast.makeText(MainActivity_getmoney.this, "提现申请已提交", Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(MainActivity_getmoney.this, "网络连接出错", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity_getmoney.this, "提交内容有误，请核对您的信息", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Log.e("MainActivity_getmoney", "token outtime");
@@ -219,26 +219,28 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
     }
 
     public void Volley_Get() {
-        SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
-        String token=sharedPreferences.getString("token",null);
-        String url="http://www.louxiago.com/wc/ddkd/admin.php/Turnover/center/token/"+token;
+        SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
+        String token = sharedPreferences.getString("token", null);
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/center/token/" + token;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                if (!s.equals("\"token outtime\"")) {
-                    if (!s.equals("\"ERROR\"")) {
-                        Gson gson = new Gson();
-                        userInfo = gson.fromJson(s, UserInfo.class);
+
+                //*******判断当前网络是否可用********
+                    if (!s.equals("\"token outtime\"")) {
+                        if (!s.equals("\"ERROR\"")) {
+                            Gson gson = new Gson();
+                            userInfo = gson.fromJson(s, UserInfo.class);
 //                        Log.i("Money", String.valueOf(userInfo.getBalance()));
-                        yue.setText(userInfo.getBalance());
+                            yue.setText(userInfo.getBalance());
+                        } else {
+                            Toast.makeText(MainActivity_getmoney.this, "网络连接出错", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
-                        Toast.makeText(MainActivity_getmoney.this, "网络连接出错", Toast.LENGTH_SHORT).show();
+                        Log.e("Main_balance", "token outtime");
+                        AutologonUtil autologonUtil = new AutologonUtil(MainActivity_getmoney.this, handler1, null);
+                        autologonUtil.volley_Get_TOKEN();
                     }
-                } else {
-                    Log.e("Main_balance", "token outtime");
-                    AutologonUtil autologonUtil = new AutologonUtil(MainActivity_getmoney.this, handler1, null);
-                    autologonUtil.volley_Get_TOKEN();
-                }
 
             }
         }, new Response.ErrorListener() {
@@ -247,7 +249,7 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
 
             }
         });
-        stringRequest.setTag("Get_getmoney");
+        stringRequest.setTag("Get_getmoney_userinfo");
         MyApplication.getQueue().add(stringRequest);
     }
 
@@ -267,14 +269,20 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         StatService.onResume(this);
     }
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
         StatService.onPause(this);
     }
+    protected void onDestroy() {
+        super.onDestroy();
+        MyApplication.getQueue().cancelAll("abcGet_getmoney");
+        MyApplication.getQueue().cancelAll("Get_getmoney_userinfo");
+    }
+
 }

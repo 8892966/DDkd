@@ -144,4 +144,8 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
         super.onPause();
         StatService.onPause(this);
     }
+    protected void onDestroy() {
+        super.onDestroy();
+        MyApplication.getQueue().cancelAll("abcPost_userinfo");
+    }
 }

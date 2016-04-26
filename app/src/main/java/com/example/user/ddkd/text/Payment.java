@@ -8,8 +8,8 @@ public class Payment {
     private double money;
     private String Tname;
     private String counter;
-    private long time1;
-    private long time2;
+    private String time1;
+    private String time2;
 
     public String getCounter() {
         return counter;
@@ -19,7 +19,7 @@ public class Payment {
         return money;
     }
 
-    public long getTime1() {
+    public String getTime1() {
         return time1;
     }
 
@@ -35,7 +35,7 @@ public class Payment {
         this.money = money;
     }
 
-    public void setTime1(long time1) {
+    public void setTime1(String time1) {
         this.time1 = time1;
     }
 
@@ -43,7 +43,7 @@ public class Payment {
         Tname = tname;
     }
 
-    public long getTime2() {
+    public String getTime2() {
         return time2;
     }
 
@@ -55,7 +55,7 @@ public class Payment {
         this.name = name;
     }
 
-    public void setTime2(long time2) {
+    public void setTime2(String time2) {
         this.time2 = time2;
     }
 }

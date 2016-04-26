@@ -7,10 +7,12 @@ import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -46,6 +48,7 @@ public class Announce extends Activity implements View.OnClickListener {
         announcelist.add(gonggao3);
         announcelistview.setAdapter(new MyAdapter());
         ExitApplication.getInstance().addActivity(this);
+        voll_Get();
     }
 
     @Override
@@ -101,10 +104,10 @@ public class Announce extends Activity implements View.OnClickListener {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                Toast.makeText(Announce.this, "网络连接中断", Toast.LENGTH_SHORT).show();
             }
         });
-        request.setTag("abcGet");
+        request.setTag("abcGet_announce");
         MyApplication.getQueue().add(request);
     }
 
@@ -113,11 +116,14 @@ public class Announce extends Activity implements View.OnClickListener {
         super.onResume();
         StatService.onResume(this);
     }
-
     @Override
     protected void onPause(){
         super.onPause();
         StatService.onPause(this);
+    }
+    protected void onDestroy() {
+        super.onDestroy();
+        MyApplication.getQueue().cancelAll("abcGet_announce");
     }
 
 }

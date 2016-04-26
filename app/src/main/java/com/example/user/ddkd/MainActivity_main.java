@@ -28,6 +28,9 @@ import com.google.gson.Gson;
 
 import org.w3c.dom.Text;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+
 /**
  * Created by Administrator on 2016/4/2.
  */
@@ -39,6 +42,7 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
     private BitmaoCache bitmaoCache;
     private TextView turnover;
     private TextView moneysum;
+    private TextView userphone;
     private UserInfo userInfo;
     private Handler handler=new Handler(){
         @Override
@@ -55,6 +59,7 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
         //*******个人中心的信息回显*********
         userimage= (ImageView) findViewById(R.id.userimage);
         username= (TextView) findViewById(R.id.username);
+        userphone= (TextView) findViewById(R.id.userphone);
         turnover= (TextView) findViewById(R.id.turnover);
         moneysum= (TextView) findViewById(R.id.moneysum);
 
@@ -131,10 +136,14 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
                             if ("" + userInfo.getYingye() == null) {
                                 turnover.setText("0");
                             } else {
-                                turnover.setText(userInfo.getYingye());
+                                //***********将数值类型定义为高精度*************
+                                DecimalFormat g = new DecimalFormat("0.00");//精确到两位小数
+                                g.format(Double.valueOf(userInfo.getYingye()));
+                                turnover.setText(g.format(Double.valueOf(userInfo.getYingye())));
                             }
                             username.setText(userInfo.getUsername());
                             moneysum.setText(String.valueOf(userInfo.getBalance()));
+                            userphone.setText(String.valueOf(userInfo.getPhone()));
 
                             //**********保存用户的个人信息，断网时回显***********
                             SharedPreferences preferences = getSharedPreferences("user", MODE_PRIVATE);
@@ -176,5 +185,10 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
     protected void onPause(){
         super.onPause();
         StatService.onPause(this);
+    }
+    protected void onDestroy() {
+        super.onDestroy();
+        MyApplication.getQueue().cancelAll("Get_main");
+
     }
 }

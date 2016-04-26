@@ -24,6 +24,8 @@ import com.example.user.ddkd.utils.AutologonUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.w3c.dom.Text;
+
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,6 +40,7 @@ public class details extends Activity implements View.OnClickListener {
     private TextView exit_button;
     private List<DetailsInfo> detailsinfolist;
     private MyAdater myAdater;
+    private TextView tongzhi;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -60,6 +63,7 @@ public class details extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_details);
         ListView listView = (ListView) findViewById(R.id.listviewdetails);
+        tongzhi= (TextView) findViewById(R.id.tongzhi);
         exit_button = (TextView) findViewById(R.id.tv_head_fanghui);
         exit_button.setOnClickListener(this);
         DetailsInfo detailsInfo = new DetailsInfo();
@@ -115,6 +119,7 @@ public class details extends Activity implements View.OnClickListener {
 
             DetailsInfo detailsInfo = detailsinfolist.get(position);
             if (detailsInfo != null) {
+
                 orderid.setText(detailsInfo.getId() + "");
                 orderprice.setText(detailsInfo.getPrice() + "");
                 username.setText(detailsInfo.getUsername());
@@ -150,6 +155,7 @@ public class details extends Activity implements View.OnClickListener {
                         for (DetailsInfo detailsInfo2 : detailsinfolist) {
                             detailsInfo2.setTime(dateFormat.format(Long.valueOf(detailsInfo2.getTime())));
                         }
+                        tongzhi.setVisibility(View.GONE);
                         myAdater.notifyDataSetChanged();
                     } else {
                         Toast.makeText(details.this, "网络连接出错", Toast.LENGTH_SHORT).show();
@@ -166,7 +172,7 @@ public class details extends Activity implements View.OnClickListener {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("111", "content is null");
+                Toast.makeText(details.this,"网络连接中断",Toast.LENGTH_SHORT).show();
             }
         });
         request.setTag("abcGet_details");
@@ -182,5 +188,9 @@ public class details extends Activity implements View.OnClickListener {
     protected void onPause(){
         super.onPause();
         StatService.onPause(this);
+    }
+    protected void onDestroy() {
+        super.onDestroy();
+        MyApplication.getQueue().cancelAll("abcGet_details");
     }
 }

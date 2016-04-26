@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,9 +24,11 @@ import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.text.DetailsInfo;
 import com.example.user.ddkd.text.Payment;
 import com.example.user.ddkd.text.UserInfo;
+import com.example.user.ddkd.utils.AutologonUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -37,6 +41,35 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
     private TextView textView;
     private MyAdapter myAdapter;
     private TextView balance;
+    private UserInfo userInfo;
+    private Handler handler1=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case MyApplication.GET_TOKEN_SUCCESS:
+                    UserInfo userInfo= (UserInfo) msg.obj;
+                    volley_Get_Balance(userInfo);
+                    break;
+                case MyApplication.GET_TOKEN_ERROR:
+                    break;
+            }
+        }
+    };
+    private Handler handler2=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case MyApplication.GET_TOKEN_SUCCESS:
+                    List<Payment> paymentList= (List<Payment>) msg.obj;
+                    Volley_Get(paymentList);
+                    break;
+                case MyApplication.GET_TOKEN_ERROR:
+                    break;
+            }
+        }
+    };
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_balance);
@@ -48,8 +81,8 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
         textView.setOnClickListener(this);
         ListView viewById = (ListView) findViewById(R.id.listviewbalance);
         paymentslist=new ArrayList<Payment>();
-        Volley_Get();
-        volley_Get_Balance();
+        Volley_Get(paymentslist);
+        volley_Get_Balance(userInfo);
         myAdapter=new MyAdapter();
         viewById.setAdapter(myAdapter);
         ExitApplication.getInstance().addActivity(this);
@@ -71,7 +104,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
         }
     }
 
-    public void Volley_Get(){
+    public void Volley_Get(final List<Payment> paymentslist2){
         SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
         String token=sharedPreferences.getString("token",null);
         String url="http://www.louxiago.com/wc/ddkd/admin.php/Turnover/takeoutrecord/token/"+token;
@@ -85,12 +118,18 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
                         Type listv=new TypeToken<LinkedList<Payment>>(){}.getType();
                         Gson gson=new Gson();
                         paymentslist=gson.fromJson(s,listv);
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyy/mm/dd  HH:mm:ss");
+                        for (Payment paymentslist2 : paymentslist) {
+                            paymentslist2.setTime1(dateFormat.format(Long.valueOf(paymentslist2.getTime1())));
+                        }
                         myAdapter.notifyDataSetChanged();
                     }else{
                         Toast.makeText(MainActivity_balance.this,"网络连接出错",Toast.LENGTH_SHORT).show();
                     }
                 }else{
                     Log.i("token outtime","token outtime");
+                    AutologonUtil autologonUtil=new AutologonUtil(MainActivity_balance.this,handler2,paymentslist2);
+                    autologonUtil.volley_Get_TOKEN();
 
                 }
             }
@@ -103,7 +142,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
         request.setTag("abcGet_balance");
         MyApplication.getQueue().add(request);
     }
-    public void volley_Get_Balance(){
+    public void volley_Get_Balance(final UserInfo userInfo1){
         SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
         String token=sharedPreferences.getString("token",null);
         String url="http://www.louxiago.com/wc/ddkd/admin.php/Turnover/center/token/"+token;
@@ -111,16 +150,26 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
             @Override
             public void onResponse(String s) {
                 Log.i("Userinfo",s);
-                Gson gson=new Gson();
-                UserInfo userInfo=gson.fromJson(s,UserInfo.class);
-                if (userInfo!=null){
-                    balance.setText(String.valueOf(userInfo.getBalance()));
+                if (!s.equals("\"token outtime\"")){
+                    if (!s.equals("\"ERROR\"")){
+                        Gson gson=new Gson();
+                        UserInfo userInfo=gson.fromJson(s,UserInfo.class);
+                        if (userInfo!=null){
+                            balance.setText(String.valueOf(userInfo.getBalance()));
+                        }
+                    }else{
+                        Toast.makeText(MainActivity_balance.this,"网络连接异常",Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Log.i("TOKEN","token outtime");
+                    AutologonUtil autologonUtil=new AutologonUtil(MainActivity_balance.this,handler1,userInfo1);
+                    autologonUtil.volley_Get_TOKEN();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                Toast.makeText(MainActivity_balance.this,"网络连接中断",Toast.LENGTH_SHORT).show();
             }
         });
         balance_request.setTag("get_main");
@@ -164,5 +213,10 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
             }
             return view;
         }
+    }
+    protected void onDestroy() {
+        super.onDestroy();
+        MyApplication.getQueue().cancelAll("get_main");
+        MyApplication.getQueue().cancelAll("abcGet_balance");
     }
 }

@@ -128,12 +128,13 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
         StringRequest request=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
+                Log.e("volley_Get",s);
                 if (!s.equals("\"token outtime\"")) {
                     if (!s.equals("\"ERROR\"")) {
                         Gson gson = new Gson();
                         UserInfo userInfo = gson.fromJson(s, UserInfo.class);
                         if (userInfo != null) {
-                            if ("" + userInfo.getYingye() == null) {
+                            if (userInfo.getYingye() == null) {
                                 turnover.setText("0");
                             } else {
                                 //***********将数值类型定义为高精度*************

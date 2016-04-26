@@ -146,7 +146,6 @@ public class JieDanService extends Service {
 
     public interface IJD {
         public void Delete(List list);
-
         public void Add(List list);
     }
 }

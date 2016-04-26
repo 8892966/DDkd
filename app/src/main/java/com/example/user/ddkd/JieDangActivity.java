@@ -128,6 +128,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         list=new ArrayList<QOrderInfo>();
         TextView textView = (TextView) findViewById(R.id.personinfo);
         textView.setOnClickListener(this);
+
         listView = (ListView) findViewById(R.id.lv_jiedang);
         ll_ddzhinang = (LinearLayout) findViewById(R.id.ll_ddzhinang);
         ll_jianlihuodong = (LinearLayout) findViewById(R.id.ll_jianlihuodong);
@@ -139,6 +140,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         tv_sum_number= (TextView) findViewById(R.id.tv_sum_number);
         tv_xiuxi_huodong_yesterday_number= (TextView) findViewById(R.id.tv_xiuxi_huodong_yesterday_number);
         tv_xiuxi_huodong_yesterday_money= (TextView) findViewById(R.id.tv_xiuxi_huodong_yesterday_money);
+
         ll_ddzhinang.setOnClickListener(this);
         ll_jianlihuodong.setOnClickListener(this);
         tv_to_dingdang.setOnClickListener(this);
@@ -151,15 +153,15 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         ExitApplication.getInstance().addActivity(this);
 
         //判断是否有开启信鸽和服务
-        sreviceisrunning=ServiceUtils.isRunning(this,"com.example.user.ddkd.service.JieDanService");
-        if(sreviceisrunning){
-            listView.setVisibility(View.VISIBLE);
-            but_jiedang.setText("休息");
-            but_jiedang.setBackgroundResource(R.drawable.yuan_selected);
-            //服务一开，绑定服务
-            jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
-            bindService(jieDanServiceIntent,sc,BIND_AUTO_CREATE);
-        }
+//        sreviceisrunning=ServiceUtils.isRunning(this,"com.example.user.ddkd.service.JieDanService");
+//        if(sreviceisrunning){
+//            listView.setVisibility(View.VISIBLE);
+//            but_jiedang.setText("休息");
+//            but_jiedang.setBackgroundResource(R.drawable.yuan_selected);
+//            //服务一开，绑定服务
+//            jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
+//            bindService(jieDanServiceIntent,sc,BIND_AUTO_CREATE);
+//        }
     }
 
     private void initSound() {
@@ -289,21 +291,30 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         }
     }
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onResume(){
         StatService.onResume(this);
+        sreviceisrunning=ServiceUtils.isRunning(this,"com.example.user.ddkd.service.JieDanService");
+        if(sreviceisrunning){
+            listView.setVisibility(View.VISIBLE);
+            but_jiedang.setText("休息");
+            but_jiedang.setBackgroundResource(R.drawable.yuan_selected);
+            //服务一开，绑定服务
+            jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
+            bindService(jieDanServiceIntent,sc,BIND_AUTO_CREATE);
+        }
+        super.onResume();
     }
     @Override
     protected void onPause() {
         super.onPause();
-        StatService.onPause(this);
+        if(sreviceisrunning){
+            unbindService(sc);
+        }
     }
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(sreviceisrunning){
-            unbindService(sc);
-        }
+        StatService.onPause(this);
         MyApplication.getQueue().cancelAll("volley_MSG_GET");
         MyApplication.getQueue().cancelAll("volley_QD_GET");
     }
@@ -312,6 +323,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             jdBinder = (JieDanService.JDBinder) service;
+            Log.e("ServiceConnection","jinru");
             jdBinder.SendIJD(new JieDanService.IJD() {
                 @Override
                 public void Delete(List list) {

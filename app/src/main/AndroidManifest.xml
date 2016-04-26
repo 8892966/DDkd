@@ -51,7 +51,9 @@
         </activity>
         <activity android:name=".ZhuCe4Activity" />
         <activity android:name=".WebActivity" />
-        <activity android:name=".JieDangActivity" />
+        <activity
+            android:launchMode="singleTask"
+            android:name=".JieDangActivity" />
         <activity android:name=".ZhuCe1Activity" />
         <activity android:name=".ZhuCe3Activity" />
         <activity android:name=".DingDanActivity" />

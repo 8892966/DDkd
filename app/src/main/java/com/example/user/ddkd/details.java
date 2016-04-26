@@ -28,6 +28,7 @@ import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.beam.OrderInfo;
 import com.example.user.ddkd.text.DetailsInfo;
 import com.example.user.ddkd.utils.AutologonUtil;
+import com.example.user.ddkd.utils.Exit;
 import com.example.user.ddkd.utils.MyStringRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -176,6 +177,7 @@ public class details extends Activity implements View.OnClickListener {
             }
             @Override
             public void yidiensdfsdf() {
+                Exit.exit(details.this);
                 Toast.makeText(details.this, "您的账户已在异地登录", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {

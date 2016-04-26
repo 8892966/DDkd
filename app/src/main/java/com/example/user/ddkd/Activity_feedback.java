@@ -13,6 +13,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.user.ddkd.utils.Exit;
 import com.example.user.ddkd.utils.MyStringRequest;
 
 /**
@@ -61,6 +62,7 @@ public class Activity_feedback extends Activity implements View.OnClickListener 
             }
             @Override
             public void yidiensdfsdf() {
+                Exit.exit(Activity_feedback.this);
                 Toast.makeText(Activity_feedback.this, "您的账户已在异地登录", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {

@@ -26,6 +26,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.text.UserInfo;
 import com.example.user.ddkd.utils.AutologonUtil;
+import com.example.user.ddkd.utils.Exit;
 import com.example.user.ddkd.utils.MyStringRequest;
 import com.google.gson.Gson;
 
@@ -214,6 +215,7 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
 
             @Override
             public void yidiensdfsdf() {
+                Exit.exit(MainActivity_getmoney.this);
                 Toast.makeText(MainActivity_getmoney.this, "您的账户已在异地登录", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
@@ -253,6 +255,7 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
 
             @Override
             public void yidiensdfsdf() {
+                Exit.exit(MainActivity_getmoney.this);
                 Toast.makeText(MainActivity_getmoney.this, "您的账户已在异地登录", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {

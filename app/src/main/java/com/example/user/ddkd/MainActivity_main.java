@@ -23,6 +23,7 @@ import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.text.UserInfo;
 import com.example.user.ddkd.utils.AutologonUtil;
 import com.example.user.ddkd.utils.BitmaoCache;
+import com.example.user.ddkd.utils.Exit;
 import com.example.user.ddkd.utils.MyStringRequest;
 import com.google.gson.Gson;
 import java.text.DecimalFormat;
@@ -164,6 +165,7 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
             }
             @Override
             public void yidiensdfsdf() {
+                Exit.exit(MainActivity_main.this);
                 Toast.makeText(MainActivity_main.this, "您的账户已在异地登录", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {

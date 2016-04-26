@@ -19,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.baidu.mobstat.StatService;
+import com.example.user.ddkd.utils.Exit;
 import com.example.user.ddkd.utils.MyStringRequest;
 
 import org.w3c.dom.Text;
@@ -109,6 +110,7 @@ public class Announce extends Activity implements View.OnClickListener {
 
             @Override
             public void yidiensdfsdf() {
+                Exit.exit(Announce.this);
                 Toast.makeText(Announce.this, "您的账户已在异地登录", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {

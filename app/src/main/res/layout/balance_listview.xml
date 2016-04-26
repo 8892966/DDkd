@@ -5,18 +5,22 @@
     android:padding="15dip"
     >
         <TextView
+            android:text="fdsffsd"
             android:textSize="20sp"
             android:id="@+id/money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
+
         <TextView
+            android:text="fdsda"
             android:id="@+id/Tname"
             android:layout_below="@id/money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <TextView
+            android:text="fdsafsad"
             android:textSize="17sp"
             android:id="@+id/counter"
             android:layout_width="wrap_content"
@@ -24,6 +28,7 @@
             android:layout_alignParentRight="true"/>
 
         <TextView
+            android:text="fdsafs"
             android:id="@+id/time1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

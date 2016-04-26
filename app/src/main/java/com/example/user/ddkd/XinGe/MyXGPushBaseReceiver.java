@@ -6,23 +6,34 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.user.ddkd.DingDanActivity;
 import com.example.user.ddkd.JieDangActivity;
 import com.example.user.ddkd.MyApplication;
 import com.example.user.ddkd.R;
+import com.example.user.ddkd.beam.OrderInfo;
 import com.example.user.ddkd.beam.QOrderInfo;
 import com.example.user.ddkd.details;
 import com.example.user.ddkd.utils.ServiceUtils;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.tencent.android.tpush.XGPushBaseReceiver;
 import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushRegisterResult;
 import com.tencent.android.tpush.XGPushShowedResult;
 import com.tencent.android.tpush.XGPushTextMessage;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by User on 2016-04-09.
@@ -99,7 +110,7 @@ public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
             notification.flags = Notification.FLAG_AUTO_CANCEL;
             notification.defaults |= Notification.DEFAULT_SOUND;
             nm.notify(R.mipmap.ic_launcher, notification);
-        } else if (ServiceUtils.isRunning(context, "com.example.user.ddkd.service.JieDanService")) {
+        } else if (ServiceUtils.isRunning(context,"com.example.user.ddkd.service.JieDanService")) {
             String s = xgPushTextMessage.getContent();
             Gson gson = new Gson();
             QOrderInfo info = gson.fromJson(s, QOrderInfo.class);
@@ -109,11 +120,35 @@ public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
             message.what = MyApplication.XG_TEXT_MESSAGE;
             handler.sendMessage(message);
         } else if ("FORCEPUSH".equals(xgPushTextMessage.getTitle())) {
+            Log.e("FORCEPUSH", xgPushTextMessage.getContent());
+            String s = xgPushTextMessage.getContent();
+            Gson gson = new Gson();
+            List<QOrderInfo> l=gson.fromJson(s, new TypeToken<List<QOrderInfo>>() {
+            }.getType());
+            QOrderInfo info = l.get(0);
+            info.setOrderTime(System.currentTimeMillis()+"");
+//            Toast.makeText(context,xgPushTextMessage.getContent(),Toast.LENGTH_SHORT).show();
+
+            SharedPreferences sharedPreferences=context.getSharedPreferences("qtmsg", context.MODE_PRIVATE);
+            String qt=sharedPreferences.getString("QT", "");
+            List list = gson.fromJson(qt,new TypeToken<List<OrderInfo>>() {
+            }.getType());
+            if (list==null){
+                list=new ArrayList();
+            }
+            list.add(info);
+            String QT=gson.toJson(list);
+            SharedPreferences.Editor edit = sharedPreferences.edit();
+            edit.putString("QT", QT);
+//            Log.e("QT",QT);
+            edit.commit();
+
             NotificationManager nm = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
             Notification.Builder builder = new Notification.Builder(context);
             builder.setContentTitle("DD快递");
             builder.setContentText("有一个快递单没人抢，而且小费很高哦...亲！");
             Intent notificationIntent = new Intent(context, JieDangActivity.class);
+            notificationIntent.putExtra("info",info);
             PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
             builder.setContentIntent(contentIntent);
             builder.setSmallIcon(R.mipmap.ic_launcher);

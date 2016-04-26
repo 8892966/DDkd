@@ -93,10 +93,10 @@ public class MainActivity_login extends Activity implements View.OnClickListener
             public void onResponse(String s) {
 //                Log.e("Get_login", s);
                 closeProgressDialog();//*****关闭加载提示框*****
-                if (s.equals("\"WAIT PASS\"")) {
+                if (s.equals("WAIT PASS")) {
                     closeProgressDialog();
                     Toast.makeText(MainActivity_login.this, "正在审核中，请耐心等候...", Toast.LENGTH_SHORT).show();
-                } else if (!s.equals("\"ERROR\"")) {
+                } else if (!s.equals("ERROR")) {
                     s = s.substring(1, s.length() - 1);
                     //******************当提交成功以后，后台会返回一个参数来说明是否提交/验证成功******************
                     SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
@@ -214,7 +214,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
             @Override
             public void onResponse(String s) {
                 Log.e("volley_phoExist_GET", s);
-                if (!"\"SUCCESS\"".equals(s)) {
+                if (!"SUCCESS".equals(s)) {
                     volley_Get(phone, password);
                 } else {
                     closeProgressDialog();

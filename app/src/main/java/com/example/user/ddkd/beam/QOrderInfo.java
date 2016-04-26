@@ -1,9 +1,11 @@
 package com.example.user.ddkd.beam;
 
+import java.io.Serializable;
+
 /**
  * Created by User on 2016-04-21.
  */
-public class QOrderInfo {
+public class QOrderInfo implements Serializable {
     private String uid;
     private String Price;
     private String tip;

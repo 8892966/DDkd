@@ -26,6 +26,7 @@ import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.beam.OrderInfo;
 import com.example.user.ddkd.beam.SignUpInfo;
 import com.example.user.ddkd.utils.AutologonUtil;
+import com.example.user.ddkd.utils.SmsUtils;
 import com.example.user.ddkd.utils.YanZhenMaUtil;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -71,6 +72,9 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.zhuce1_activity);
         yanZhenMaUtil = new YanZhenMaUtil();//初始化验证码工具类
+
+        SmsUtils smsUtils=new SmsUtils();
+        smsUtils.startGetSms(this);
 
         et_phone_number = (EditText) findViewById(R.id.et_phone_number);//手机号
         et_yanzhengma = (EditText) findViewById(R.id.et_yanzhengma);//验证码
@@ -158,7 +162,7 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
             @Override
             public void onResponse(String s) {
                 Log.e("volley_phoExist_GET", s);
-                if ("\"SUCCESS\"".equals(s)) {
+                if ("SUCCESS".equals(s)) {
                     tv_button_yanzhengma.setEnabled(true);
                 } else {
                     tv_button_yanzhengma.setEnabled(false);

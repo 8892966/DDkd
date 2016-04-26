@@ -127,14 +127,16 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
             @Override
             public void success(Object o) {
                 String s= (String) o;
-                if (!s.equals("\"ERROR\"")) {
+                if (!s.equals("ERROR")) {
                         Gson gson = new Gson();
                         UserInfo userInfo = gson.fromJson(s, UserInfo.class);
                         if (userInfo != null) {
-                            if ("" + userInfo.getYingye() == null) {
+                            if (userInfo.getYingye() == null) {
                                 turnover.setText("0");
                             } else {
+
                                 //***********将数值类型定义为高精度*************
+
                                 DecimalFormat g = new DecimalFormat("0.00");//精确到两位小数
                                 g.format(Double.valueOf(userInfo.getYingye()));
                                 turnover.setText(g.format(Double.valueOf(userInfo.getYingye())));
@@ -144,6 +146,7 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
                             userphone.setText(String.valueOf(userInfo.getPhone()));
 
                             //**********保存用户的个人信息，断网时回显***********
+
                             SharedPreferences preferences = getSharedPreferences("user", MODE_PRIVATE);
                             SharedPreferences.Editor editor = preferences.edit();
                             editor.putString("username", userInfo.getUsername());

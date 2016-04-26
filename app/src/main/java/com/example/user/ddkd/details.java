@@ -151,7 +151,7 @@ public class details extends Activity implements View.OnClickListener {
             @Override
             public void success(Object o) {
                 String s= (String) o;
-                if (!s.equals("\"ERROR\"")) {
+                if (!s.equals("ERROR")) {
                     Type listv = new TypeToken<LinkedList<DetailsInfo>>() {
                     }.getType();
                     Gson gson = new Gson();

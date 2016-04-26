@@ -120,7 +120,8 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
             public void success(Object o) {
                 String s = o.toString();
 //                Log.i("Payment",s);
-                if (!s.equals("\"ERROR\"")) {
+                if (!s.equals("ERROR")) {
+                    Log.i("Balance",s);
                     Type listv = new TypeToken<LinkedList<Payment>>() {
                     }.getType();
                     Gson gson = new Gson();
@@ -166,7 +167,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
             public void success(Object o) {
                 String s = (String) o;
                 Log.i("Balance",s);
-                if (!s.equals("\"ERROR\"")) {
+                if (!s.equals("ERROR")) {
                     Gson gson = new Gson();
                     UserInfo userInfo = gson.fromJson(s, UserInfo.class);
                     if (userInfo != null) {

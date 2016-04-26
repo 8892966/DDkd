@@ -72,6 +72,8 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
         tv_button_yanzhengma.setOnClickListener(this);
         tv_head_fanghui.setOnClickListener(this);
 
+        tv_button_yanzhengma.setEnabled(false);//验证码初始化为空
+
         //只有输入手机号码时才能点击获取验证码
         et_phone_number.addTextChangedListener(new TextWatcher() {
             @Override
@@ -98,14 +100,12 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.commitpassword:
-                if(yanZhenMaUtil.isYZM(this,et_yanzhengma,et_phone_number)){
                     String password1 = et_new_password.getText().toString();
                     String password2 = et_new_password2.getText().toString();
                     if(PasswordUtil.isSame(this, password1, password2)) {
                         showProgressDialog();
                         volley_XGMM_GET(et_phone_number.getText().toString(),et_new_password.getText().toString(),et_yanzhengma.getText().toString());
                     }
-                }
                 break;
             case R.id.tv_head_fanghui:
                 finish();
@@ -155,7 +155,8 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
         StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                    if(s.equals("\"ERROR\"")){
+                Log.e("onResponse",s);
+                    if(!s.equals("ERROR")){
                         closeProgressDialog();
                         Intent intent;
                         Toast.makeText(MainActivity_forget.this, "密码修改成功，请重新登录", Toast.LENGTH_SHORT).show();
@@ -179,11 +180,12 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
     }
     //***************得到验证码*********************
     private void volley_getYZM_GET(String phone) {
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/modifyPsw/phone"+phone;
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/modifyPsw/phone/"+phone;
         StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                    if(s.equals("\"ERROR\"")){
+                    Log.e("volley_getYZM_GET",s);
+                    if(!s.equals("ERROR")){
                         Toast.makeText(MainActivity_forget.this, "请留意您的短信", Toast.LENGTH_SHORT).show();
                     }else{
                         Toast.makeText(MainActivity_forget.this,"网络异常", Toast.LENGTH_SHORT).show();

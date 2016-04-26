@@ -29,6 +29,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.beam.MainMsgInfo;
+import com.example.user.ddkd.beam.OrderInfo;
 import com.example.user.ddkd.beam.QOrderInfo;
 import com.example.user.ddkd.service.JieDanService;
 import com.example.user.ddkd.utils.AutologonUtil;
@@ -36,6 +37,7 @@ import com.example.user.ddkd.utils.Exit;
 import com.example.user.ddkd.utils.MyStringRequest;
 import com.example.user.ddkd.utils.ServiceUtils;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,7 +130,6 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         list=new ArrayList<QOrderInfo>();
         TextView textView = (TextView) findViewById(R.id.personinfo);
         textView.setOnClickListener(this);
-
         listView = (ListView) findViewById(R.id.lv_jiedang);
         ll_ddzhinang = (LinearLayout) findViewById(R.id.ll_ddzhinang);
         ll_jianlihuodong = (LinearLayout) findViewById(R.id.ll_jianlihuodong);
@@ -151,7 +152,6 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         listView.setAdapter(myBaseAdapter);
         listView.setEmptyView(findViewById(R.id.tv_jiedang));
         ExitApplication.getInstance().addActivity(this);
-
         //判断是否有开启信鸽和服务
 //        sreviceisrunning=ServiceUtils.isRunning(this,"com.example.user.ddkd.service.JieDanService");
 //        if(sreviceisrunning){
@@ -293,7 +293,14 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onResume(){
         StatService.onResume(this);
+        if(getIntent().getSerializableExtra("info")!=null){
+            Log.e("onResume","1111111111111111111111");
+            jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
+            startService(jieDanServiceIntent);
+            bindService(jieDanServiceIntent,sc,BIND_AUTO_CREATE);
+        }
         sreviceisrunning=ServiceUtils.isRunning(this,"com.example.user.ddkd.service.JieDanService");
+//        Log.e("isRunning",sreviceisrunning+"");
         if(sreviceisrunning){
             listView.setVisibility(View.VISIBLE);
             but_jiedang.setText("休息");
@@ -302,6 +309,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
             bindService(jieDanServiceIntent,sc,BIND_AUTO_CREATE);
         }
+
         super.onResume();
     }
     @Override
@@ -323,7 +331,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             jdBinder = (JieDanService.JDBinder) service;
-            Log.e("ServiceConnection","jinru");
+//            Log.e("ServiceConnection", "jinru");
             jdBinder.SendIJD(new JieDanService.IJD() {
                 @Override
                 public void Delete(List list) {
@@ -331,6 +339,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 //                    sp.play(soundid, 1.0f, 0.3f, 0, 0, 2.0f);
                     myBaseAdapter.notifyDataSetChanged();//刷新数据
                 }
+
                 @Override
                 public void Add(List list) {
                     JieDangActivity.this.list.addAll(list);
@@ -339,7 +348,17 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 }
             });
             list=jdBinder.getMsg();
-            Log.e("ServiceConnection",list.size()+"");
+            Gson gson=new Gson();
+            SharedPreferences sharedPreferences=getSharedPreferences("qtmsg", MODE_PRIVATE);
+            String qt=sharedPreferences.getString("QT", "");
+            sharedPreferences.edit().putString("QT","").commit();
+            List QTli = gson.fromJson(qt, new TypeToken<List<QOrderInfo>>() {
+            }.getType());
+            if(QTli!=null) {
+                list.addAll(QTli);
+                jdBinder.setMsg(QTli);
+            }
+//            Log.e("ServiceConnection", list.size() + "");
             myBaseAdapter.notifyDataSetChanged();
         }
         @Override
@@ -439,8 +458,8 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             @Override
             public void onResponse(String s) {
                 Log.e("volley_QD_GET",s);
-                if (!s.equals("\"token outtime\"")) {
-                    if(s.equals("\"ERROR\"")){
+                if (!s.equals("token outtime")) {
+                    if(s.equals("ERROR")){
                         Toast.makeText(JieDangActivity.this,"网络异常",Toast.LENGTH_LONG).show();
                     }else{
                         button.setEnabled(false);

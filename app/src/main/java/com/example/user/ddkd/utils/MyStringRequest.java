@@ -12,7 +12,7 @@ public abstract class MyStringRequest implements Response.Listener {
     @Override
     public void onResponse(Object o) {
         String s = o.toString();
-        if (s.endsWith("\"token outtime\"")) {
+        if (s.endsWith("token outtime")) {
             Log.e("volley_getOrder_GET", "token过时了");
             tokenouttime();
         }else if(s.equals("yididenglu")){

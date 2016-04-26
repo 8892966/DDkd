@@ -28,7 +28,6 @@ public class JieDanService extends Service {
         @Override
         public void Delete(List list) {
         }
-
         @Override
         public void Add(List list) {
         }
@@ -59,11 +58,11 @@ public class JieDanService extends Service {
                     if (o[0] != null) {
                         ijd.Delete(o[0]);
                         int i = 0;
-                        for (QOrderInfo xgp : o[0]) {
-                            Log.e("JieDanService", xgp.toString() + 0 + (i++));
-                        }
+//                        for (QOrderInfo xgp : o[0]) {
+//                            Log.e("JieDanService", xgp.toString() + 0 + (i++));
+//                        }
                     } else {
-                        Log.e("JieDanService", "时间还没到");
+//                        Log.e("JieDanService", "时间还没到");
                     }
                     if (o[o.length - 1] != null) {
                         //判断抢单页面是否在前台
@@ -86,13 +85,13 @@ public class JieDanService extends Service {
                             notification.defaults|= Notification.DEFAULT_SOUND;
                             nm.notify(R.mipmap.ic_launcher, notification);
                         }
-                        int i = 0;
-                        for (QOrderInfo xgp : o[o.length - 1]) {
-                            Log.e("JieDanService", xgp.toString() + o.length + (i++));
-                        }
-                        Log.e("JieDanService", "显示了数据");
+//                        int i = 0;
+//                        for (QOrderInfo xgp : o[o.length - 1]) {
+//                            Log.e("JieDanService", xgp.toString() + o.length + (i++));
+//                        }
+//                        Log.e("JieDanService", "显示了数据");
                     } else {
-                        Log.e("JieDanService", "没有信鸽信息");
+//                        Log.e("JieDanService", "没有信鸽信息");
                     }
                     System.arraycopy(o, 1, o, 0, o.length - 1);
                     o[o.length - 1] = null;
@@ -124,13 +123,25 @@ public class JieDanService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.e("JieDanService","JieDanServiceonDestroy");
+//        Log.e("JieDanService","JieDanServiceonDestroy");
         b = false;
     }
 
     public class JDBinder extends Binder {
         public void SendIJD(IJD ijd) {
             JieDanService.this.ijd = ijd;
+        }
+
+        public void setMsg(List<QOrderInfo> msg){
+            for (QOrderInfo q:msg){
+                long time = System.currentTimeMillis() - Long.valueOf(q.getOrderTime());
+                int t= (int) ((30*1000-time))/1000;
+                Log.e("setMsg",t+"");
+                if(o[t]==null){
+                    o[t]=new ArrayList<>();
+                }
+                o[t].add(q);
+            }
         }
 
         public List getMsg() {
@@ -146,6 +157,7 @@ public class JieDanService extends Service {
 
     public interface IJD {
         public void Delete(List list);
+
         public void Add(List list);
     }
 }

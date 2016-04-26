@@ -195,7 +195,7 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
             public void success(Object o) {
                 String s= (String) o;
                 closeProgressDialog();
-                if (!s.equals("\"ERROR\"")) {
+                if (!s.equals("ERROR")) {
                     s = s.substring(1, s.length() - 1);
                     //**************返回一个参数，说明提交的情况*****************
                     finish();
@@ -237,7 +237,7 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
             @Override
             public void success(Object o) {
                 String s= (String) o;
-                if (!s.equals("\"ERROR\"")) {
+                if (!s.equals("ERROR")) {
                     Gson gson = new Gson();
                     userInfo = gson.fromJson(s, UserInfo.class);
 //                        Log.i("Money", String.valueOf(userInfo.getBalance()));

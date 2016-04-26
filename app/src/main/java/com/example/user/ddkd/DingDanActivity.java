@@ -27,6 +27,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.beam.OrderInfo;
 import com.example.user.ddkd.utils.AutologonUtil;
+import com.example.user.ddkd.utils.Exit;
 import com.example.user.ddkd.utils.MyStringRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -322,7 +323,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             @Override
             public void success(Object o) {
                 String s= (String) o;
-                if (!s.equals("\"ERROR\"")) {
+                if (!s.equals("ERROR")) {
                     Gson gson = new Gson();
                     list = gson.fromJson((String)o, new TypeToken<List<OrderInfo>>() {
                     }.getType());
@@ -404,27 +405,34 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
         String token = preferences.getString("token", "");
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/setOrderState/id/" + info.getId() + "/state/" + State + "/token/" + token;
 //        参数一：方法 参数二：地址 参数三：成功回调 参数四：错误回调 。重写getParams 以post参数
-        StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        StringRequest request_post = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
+
             @Override
-            public void onResponse(String s) {
-                Log.e("volley_OrderState_GET", s);
-                if (!s.equals("\"token outtime\"")) {
-                    if ("\"SUCCESS\"".equals(s)) {
-                        button.setEnabled(true);
-                        pb_button.setVisibility(View.GONE);
-                        list.remove(info);
-                        baseAdapter.notifyDataSetChanged();
-                    } else {
-                        button.setEnabled(true);
-                        pb_button.setVisibility(View.GONE);
-                        Toast.makeText(DingDanActivity.this, "网络连接错...", Toast.LENGTH_SHORT).show();
-                    }
+            public void success(Object o) {
+                String s= (String) o;
+                if ("SUCCESS".equals(s)) {
+                    button.setEnabled(true);
+                    pb_button.setVisibility(View.GONE);
+                    list.remove(info);
+                    baseAdapter.notifyDataSetChanged();
                 } else {
-                    Log.e("volley_getOrder_GET", "token过时了");
-                    Object[] obj = {info, State, pb_button, button};
-                    AutologonUtil autologonUtil = new AutologonUtil(DingDanActivity.this, handler2, obj);
-                    autologonUtil.volley_Get_TOKEN();
+                    button.setEnabled(true);
+                    pb_button.setVisibility(View.GONE);
+                    Toast.makeText(DingDanActivity.this, "网络连接错...", Toast.LENGTH_SHORT).show();
                 }
+            }
+
+            @Override
+            public void tokenouttime() {
+                Log.e("volley_getOrder_GET", "token过时了");
+                Object[] obj = {info, State, pb_button, button};
+                AutologonUtil autologonUtil = new AutologonUtil(DingDanActivity.this, handler2, obj);
+                autologonUtil.volley_Get_TOKEN();
+            }
+
+            @Override
+            public void yidiensdfsdf() {
+                Exit.exit(DingDanActivity.this);
             }
         }, new Response.ErrorListener() {
             @Override

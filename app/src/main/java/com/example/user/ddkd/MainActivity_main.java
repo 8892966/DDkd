@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -26,10 +25,6 @@ import com.example.user.ddkd.utils.AutologonUtil;
 import com.example.user.ddkd.utils.BitmaoCache;
 import com.example.user.ddkd.utils.MyStringRequest;
 import com.google.gson.Gson;
-
-import org.w3c.dom.Text;
-
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 /**

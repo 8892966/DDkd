@@ -27,6 +27,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.beam.OrderInfo;
 import com.example.user.ddkd.utils.AutologonUtil;
+import com.example.user.ddkd.utils.MyStringRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -312,37 +313,43 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
     //网络申请得到相应状态的订单列表
     private void volley_getOrder_GET(final String State) {
         MyApplication.getQueue().cancelAll("volley_getOrder_GET");
-        preferences = getSharedPreferences("config", MODE_PRIVATE);
-        String token = preferences.getString("token", "");
+        preferences = getSharedPreferences("config",MODE_PRIVATE);
+        String token = preferences.getString("token","");
         Log.e("volley_getOrder_GET", token);
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/state/" + State + "/token/" + token;
-//        参数一：方法 参数二：地址 参数三：成功回调 参数四：错误回调 。重写getParams 以post参数
-        StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        StringRequest request_post = new StringRequest(Request.Method.GET, url,new MyStringRequest(){
+
             @Override
-            public void onResponse(String s) {
-                Log.e("volley_getOrder_GET", s);
-                if (!s.equals("\"token outtime\"")) {//error"token outtime"
-                    if (!s.equals("\"ERROR\"")) {
-                        Gson gson = new Gson();
-                        list = gson.fromJson(s, new TypeToken<List<OrderInfo>>() {
-                        }.getType());
-                        //转化时间戳
-                        SimpleDateFormat format = new SimpleDateFormat("MM月dd日 HH:mm");
-                        for (OrderInfo info : list) {
-                            info.setTime(format.format(Long.valueOf(info.getTime())));
-                        }
-                    } else {
-                        list.clear();
+            public void success(Object o) {
+                String s= (String) o;
+                if (!s.equals("\"ERROR\"")) {
+                    Gson gson = new Gson();
+                    list = gson.fromJson((String)o, new TypeToken<List<OrderInfo>>() {
+                    }.getType());
+                    //转化时间戳
+                    SimpleDateFormat format = new SimpleDateFormat("MM月dd日 HH:mm");
+                    for (OrderInfo info : list) {
+                        info.setTime(format.format(Long.valueOf(info.getTime())));
                     }
-                    //更新日期
-                    baseAdapter.notifyDataSetChanged();
-                    listView.setVisibility(View.VISIBLE);//显示数据
-                    rl_order_ProgressBar.setVisibility(View.GONE);//隐藏加载页面
                 } else {
-                    Log.e("volley_getOrder_GET", "token过时了");
-                    AutologonUtil autologonUtil = new AutologonUtil(DingDanActivity.this, handler1, State);
-                    autologonUtil.volley_Get_TOKEN();
+                    list.clear();
                 }
+                //更新日期
+                baseAdapter.notifyDataSetChanged();
+                listView.setVisibility(View.VISIBLE);//显示数据
+                rl_order_ProgressBar.setVisibility(View.GONE);//隐藏加载页面
+            }
+
+            @Override
+            public void tokenouttime() {
+                Log.e("volley_getOrder_GET", "token过时了");
+                AutologonUtil autologonUtil = new AutologonUtil(DingDanActivity.this, handler1, State);
+                autologonUtil.volley_Get_TOKEN();
+            }
+
+            @Override
+            public void yidiensdfsdf() {
+                Toast.makeText(DingDanActivity.this,"您的账号在其他地方被登陆，请在此登陆",Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -352,6 +359,41 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                 rl_order_ProgressBar.setVisibility(View.GONE);//隐藏加载页面
             }
         });
+//        StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String s) {
+//                Log.e("volley_getOrder_GET", s);
+//                if (!s.equals("\"token outtime\"")) {//error"token outtime"
+//                    if (!s.equals("\"ERROR\"")) {
+//                        Gson gson = new Gson();
+//                        list = gson.fromJson(s, new TypeToken<List<OrderInfo>>() {
+//                        }.getType());
+//                        //转化时间戳
+//                        SimpleDateFormat format = new SimpleDateFormat("MM月dd日 HH:mm");
+//                        for (OrderInfo info : list) {
+//                            info.setTime(format.format(Long.valueOf(info.getTime())));
+//                        }
+//                    } else {
+//                        list.clear();
+//                    }
+//                    //更新日期
+//                    baseAdapter.notifyDataSetChanged();
+//                    listView.setVisibility(View.VISIBLE);//显示数据
+//                    rl_order_ProgressBar.setVisibility(View.GONE);//隐藏加载页面
+//                } else {
+//                    Log.e("volley_getOrder_GET", "token过时了");
+//                    AutologonUtil autologonUtil = new AutologonUtil(DingDanActivity.this, handler1, State);
+//                    autologonUtil.volley_Get_TOKEN();
+//                }
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError volleyError) {
+//                baseAdapter.notifyDataSetChanged();
+//                listView.setVisibility(View.VISIBLE);//显示数据
+//                rl_order_ProgressBar.setVisibility(View.GONE);//隐藏加载页面
+//            }
+//        });
         request_post.setTag("volley_getOrder_GET");
         MyApplication.getQueue().add(request_post);
     }

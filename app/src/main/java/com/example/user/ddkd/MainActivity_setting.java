@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baidu.mobstat.StatService;
+import com.example.user.ddkd.utils.Exit;
 import com.example.user.ddkd.utils.PostUtil;
 import com.tencent.android.tpush.XGPushManager;
 
@@ -143,17 +144,7 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
             {
                 case AlertDialog.BUTTON_POSITIVE:// "确认"按钮退出程序
                     //点击确定退出以后，重新将loginstatic的值设置为“1”
-                    SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
-                    SharedPreferences.Editor editor=sharedPreferences.edit();
-                    editor.putString("loginstatic","0");
-                    MyApplication.state=0;
-                    editor.commit();
-                    ExitApplication.getInstance().exit();
-                    Intent intent=new Intent(MainActivity_setting.this,MainActivity_login.class);
-                    startActivity(intent);
-                    XGPushManager.unregisterPush(MainActivity_setting.this);
-                    finish();
-                    Toast.makeText(MainActivity_setting.this,"退出成功",Toast.LENGTH_SHORT).show();
+                    Exit.exit(MainActivity_setting.this);
                     break;
                 case AlertDialog.BUTTON_NEGATIVE:// "取消"第二个按钮取消对话框
                     break;
@@ -162,7 +153,22 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
             }
         }
     };
-//*********************调用手机的相册********************************
+
+//    private void exit() {
+//        SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
+//        SharedPreferences.Editor editor=sharedPreferences.edit();
+//        editor.putString("loginstatic","0");
+//        MyApplication.state=0;
+//        editor.commit();
+//        ExitApplication.getInstance().exit();
+//        Intent intent=new Intent(MainActivity_setting.this,MainActivity_login.class);
+//        startActivity(intent);
+//        XGPushManager.unregisterPush(MainActivity_setting.this);
+//        finish();
+//        Toast.makeText(MainActivity_setting.this, "退出成功", Toast.LENGTH_SHORT).show();
+//    }
+
+    //*********************调用手机的相册********************************
     private void getImage(){
         Intent intent = new Intent(Intent.ACTION_PICK);// 打开相册
         intent.setDataAndType(MediaStore.Images.Media.INTERNAL_CONTENT_URI, "image/*");
@@ -196,7 +202,6 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
                     uri=saveBitmap(cameraBitmap);
                     Toast.makeText(MainActivity_setting.this,"图片修改成功",Toast.LENGTH_SHORT).show();
 
-
                     Map<String,String> map=new HashMap<String,String>();
                     map.put("name","touxiang");
                     map.put("phone",sharedPreferences1.getString("phone",""));
@@ -223,7 +228,7 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-    public void initFile() {
+    public void initFile(){
         if (fileName.equals("")) {
             boolean sdCardExist = Environment.getExternalStorageState()
                     .equals(android.os.Environment.MEDIA_MOUNTED);
@@ -271,5 +276,4 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
             return null;
         }
     }
-
 }

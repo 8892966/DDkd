@@ -1,19 +1,14 @@
 package com.example.user.ddkd;
 
 import android.app.Activity;
-import android.app.NotificationManager;
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -34,20 +29,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.beam.MainMsgInfo;
-import com.example.user.ddkd.beam.OrderInfo;
 import com.example.user.ddkd.beam.QOrderInfo;
 import com.example.user.ddkd.service.JieDanService;
 import com.example.user.ddkd.utils.AutologonUtil;
+import com.example.user.ddkd.utils.Exit;
 import com.example.user.ddkd.utils.MyStringRequest;
 import com.example.user.ddkd.utils.ServiceUtils;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.tencent.android.tpush.XGIOperateCallback;
-import com.tencent.android.tpush.XGPushConfig;
-import com.tencent.android.tpush.XGPushManager;
-import com.tencent.android.tpush.XGPushRegisterResult;
-
-import net.tsz.afinal.core.AsyncTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -198,7 +186,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.tv_to_dingdang:
-                intent = new Intent(this, DingDanActivity.class);
+                intent = new Intent(this, details.DingDanActivity.class);
                 startActivity(intent);
                 break;
             case R.id.but_jiedang:
@@ -357,7 +345,6 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         StringRequest request_post = new StringRequest(Request.Method.GET, url, new MyStringRequest(){
             @Override
             public void success(Object o) {
-                if("error".equals(o)){
                     Gson gson = new Gson();
                     MainMsgInfo info = gson.fromJson((String)o, MainMsgInfo.class);
                     tv_xiuxi_huodong_now_number.setText("接单" + info.getTodOrder() + "单");
@@ -374,9 +361,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                     } else {
                         pb_star.setRating(Float.valueOf(info.getEvaluate()));
                     }
-                }
             }
-
             @Override
             public void tokenouttime() {
                 AutologonUtil autologonUtil = new AutologonUtil(JieDangActivity.this,handler1,null);
@@ -384,7 +369,8 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             }
             @Override
             public void yidiensdfsdf() {
-                Toast.makeText(JieDangActivity.this,"您的账号在其他地方被登陆，请在此登陆",Toast.LENGTH_SHORT).show();;
+                Toast.makeText(JieDangActivity.this,"您的账号在其他地方被登陆，请在此登陆",Toast.LENGTH_SHORT).show();
+                Exit.exit(JieDangActivity.this);
             }
         },new Response.ErrorListener(){
             @Override

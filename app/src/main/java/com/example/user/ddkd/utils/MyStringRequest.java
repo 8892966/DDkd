@@ -15,15 +15,13 @@ public abstract class MyStringRequest implements Response.Listener {
         if (s.endsWith("\"token outtime\"")) {
             Log.e("volley_getOrder_GET", "token过时了");
             tokenouttime();
-        }else if(s.equals("yidiensdfsdf")){
+        }else if(s.equals("yididenglu")){
             Log.e("volley_getOrder_GET", "yide");
-            yidiensdfsdf();
         }else{
             Log.e("volley_getOrder_GET", "ok");
             success(s);
         }
     }
-
     public abstract void  success(Object o);
     public abstract void  tokenouttime();
     public abstract void  yidiensdfsdf();

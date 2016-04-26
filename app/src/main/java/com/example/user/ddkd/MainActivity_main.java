@@ -112,7 +112,8 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
     //**********缓存并加载网络图片***********
     public void volley_Get_Image(){
         bitmaoCache=new BitmaoCache();
-        String url="";
+        SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
+        String url="http://www.louxiago.com/wc/ddkd/admin.php/User/getLogo/token/"+sharedPreferences.getString("token",null);
         ImageLoader imageLoader=new ImageLoader(MyApplication.getQueue(),bitmaoCache);
         ImageLoader.ImageListener imageListener=ImageLoader.getImageListener(userimage,R.drawable.personinfo3,R.drawable.personinfo3);
         imageLoader.get(url,imageListener);

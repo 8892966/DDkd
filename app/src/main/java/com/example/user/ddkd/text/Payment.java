@@ -10,6 +10,10 @@ public class Payment {
     private String counter;
     private String time1;
     private String time2;
+    private String shouru;
+    private String zhichu;
+    private String chutime;
+    private String rutime;
 
     public String getCounter() {
         return counter;

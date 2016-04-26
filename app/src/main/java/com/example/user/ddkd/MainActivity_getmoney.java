@@ -200,6 +200,7 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
                     //**************返回一个参数，说明提交的情况*****************
                     finish();
                     Toast.makeText(MainActivity_getmoney.this, "提现申请已提交", Toast.LENGTH_LONG).show();
+
                 } else {
                     Toast.makeText(MainActivity_getmoney.this, "提交内容有误，请核对您的信息", Toast.LENGTH_SHORT).show();
                 }

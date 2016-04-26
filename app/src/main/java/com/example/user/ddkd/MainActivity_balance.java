@@ -1,6 +1,7 @@
 package com.example.user.ddkd;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -45,6 +46,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
     private MyAdapter myAdapter;
     private TextView balance;
     private UserInfo userInfo;
+    private ProgressDialog progressDialog;
     private Handler handler1 = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -80,7 +82,6 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
         balance = (TextView) findViewById(R.id.balance);
         TextView exit = (TextView) findViewById(R.id.tv_head_fanghui);
         exit.setOnClickListener(this);
-
         textView = (TextView) findViewById(R.id.getmoney);
         textView.setOnClickListener(this);
         ListView viewById = (ListView) findViewById(R.id.listviewbalance);
@@ -113,10 +114,12 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
         String token = sharedPreferences.getString("token", null);
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/takeoutrecord/token/" + token;
         //**********从后台返回一个参数来说明数据的获取状况**********
+        Log.i("Payment",url);
         StringRequest request = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
-                String s = (String) o;
+                String s = o.toString();
+//                Log.i("Payment",s);
                 if (!s.equals("\"ERROR\"")) {
                     Type listv = new TypeToken<LinkedList<Payment>>() {
                     }.getType();
@@ -162,6 +165,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
             @Override
             public void success(Object o) {
                 String s = (String) o;
+                Log.i("Balance",s);
                 if (!s.equals("\"ERROR\"")) {
                     Gson gson = new Gson();
                     UserInfo userInfo = gson.fromJson(s, UserInfo.class);
@@ -172,7 +176,6 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
                     Toast.makeText(MainActivity_balance.this, "网络连接异常", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void tokenouttime() {
                 Log.i("TOKEN", "token outtime");

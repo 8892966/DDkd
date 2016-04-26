@@ -171,7 +171,7 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
         request_post.setTag("volley_XGMM_GET");
         MyApplication.getQueue().add(request_post);
     }
-    //得到验证码
+    //***************得到验证码*********************
     private void volley_getYZM_GET(String phone) {
         String url = ""+"/phone"+phone;
         StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
@@ -196,7 +196,7 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        MyApplication.getQueue().cancelAll("volley_XGMM_GET");
         MyApplication.getQueue().cancelAll("volley_getYZM_GET");
+        MyApplication.getQueue().cancelAll("volley_XGMM_GET");
     }
 }

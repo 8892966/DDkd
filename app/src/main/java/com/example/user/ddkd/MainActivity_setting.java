@@ -2,13 +2,16 @@ package com.example.user.ddkd;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baidu.mobstat.StatService;
+import com.example.user.ddkd.utils.PostUtil;
 import com.tencent.android.tpush.XGPushManager;
 
 import java.io.DataOutputStream;
@@ -29,6 +33,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 
 /**
@@ -36,25 +42,26 @@ import java.util.Map;
  */
 public class MainActivity_setting extends Activity implements View.OnClickListener {
     private TextView exit;
-    private TextView userimage;
+    private ImageView userimage;
     private TextView updatepwd;
     private TextView clime;
     private TextView updateapp;
     private TextView aboutDD;
     private ImageView imageView;
     private RelativeLayout changeimage;
-    private final int IMAGE_CODE=0;
     private Uri uri;
     private File tempFile;
+    private String fileName="";
+    //获取图片之后的中转文件;
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_setting);
+        initFile();
         imageView=(ImageView)findViewById(R.id.setExit);
         imageView.setOnClickListener(this);
         exit=(TextView)findViewById(R.id.exit);
         exit.setOnClickListener(this);
-        userimage= (TextView) findViewById(R.id.userimage);
-
+        userimage= (ImageView) findViewById(R.id.userimage);
         updatepwd= (TextView) findViewById(R.id.updatepwd);
         updatepwd.setOnClickListener(this);
         clime= (TextView) findViewById(R.id.cline);
@@ -93,7 +100,6 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         getImage();
-//                        Toast.makeText(MainActivity_setting.this,"已启动该选项",Toast.LENGTH_SHORT).show();
                     }
                 }).show();
 
@@ -116,7 +122,6 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
                 startActivity(intent);
                 break;
         }
-
     }
     @Override
     protected void onResume(){
@@ -157,27 +162,97 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
             }
         }
     };
-
+//*********************调用手机的相册********************************
     private void getImage(){
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("image/*");
-        intent.putExtra("return-data", true);
-        startActivityForResult(intent,IMAGE_CODE );
+        Intent intent = new Intent(Intent.ACTION_PICK);// 打开相册
+        intent.setDataAndType(MediaStore.Images.Media.INTERNAL_CONTENT_URI, "image/*");
+        Log.e("ZhuCe3Activity", Uri.fromFile(tempFile).toString());
+        intent.putExtra("output", Uri.fromFile(tempFile));
+        startActivityForResult(intent, 11);
+    }
+    //***************************调用截图功能*************************
+    private void crop(Uri uri) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        Log.e("crop", Uri.fromFile(tempFile).getPath());
+        intent.putExtra("output", Uri.fromFile(tempFile));
+        intent.putExtra("crop", true);
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        intent.putExtra("outputX", px2dip(this, 150));
+        intent.putExtra("outputY", px2dip(this, 150));
+        startActivityForResult(intent, 10);
     }
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == IMAGE_CODE) {
-            Bitmap cameraBitmap = (Bitmap) data.getExtras().get("data");
-            if (cameraBitmap != null) {
-                imageView.setImageBitmap(cameraBitmap);
-                uri = saveBitmap(cameraBitmap);
-            }else{
-                Toast.makeText(MainActivity_setting.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
+//        System.out.println(resultCode);
+        if (requestCode == 10) {
+            if (data != null) {
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = 1;//图片的保存比例
+                Bitmap cameraBitmap = BitmapFactory.decodeFile(tempFile.getPath(), options);//设置图片的保存路径;
+                if (cameraBitmap != null) {
+                    SharedPreferences sharedPreferences1=getSharedPreferences("config",MODE_PRIVATE);
+                    userimage.setImageBitmap(cameraBitmap);
+                    uri=saveBitmap(cameraBitmap);
+                    Toast.makeText(MainActivity_setting.this,"图片修改成功",Toast.LENGTH_SHORT).show();
+
+
+                    Map<String,String> map=new HashMap<String,String>();
+                    map.put("name","touxiang");
+                    map.put("phone",sharedPreferences1.getString("phone",""));
+                    File file=new File(uri.getPath());
+                    Map<String,File> mapfile=new HashMap<String,File>();
+                    mapfile.put("touxiang",file);
+                    //**********************图片修改成功之后就开始上传图片*********************************
+                    try {
+                        PostUtil.post("http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage/name/touxiang/phone/" + sharedPreferences1.getString("phone", ""), map,mapfile );
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    file.delete();
+                } else {
+                    Toast.makeText(MainActivity_setting.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
+                }
+            }
+        } else if (requestCode == 11) {
+            if (data != null) {
+                Uri uri = data.getData();
+                Log.e("uri", uri.toString());
+                crop(uri);
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+    public void initFile() {
+        if (fileName.equals("")) {
+            boolean sdCardExist = Environment.getExternalStorageState()
+                    .equals(android.os.Environment.MEDIA_MOUNTED);
+            if (sdCardExist) {
+                String path = Environment.getExternalStorageDirectory().getPath() + "/DDkdPhoto";
+                //设置文件的存储路径;
+                tempFile = new File(path);
+                if (!tempFile.exists()) {
+                    tempFile.mkdir();
+                }
+                fileName = path + "/user1_head_photo.png";
+                //设置文件的文件名;
+                tempFile = new File(fileName);
+            } else {
+                Toast.makeText(this, "请插入SD卡", Toast.LENGTH_SHORT).show();
             }
         }
     }
+    /**
+     * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
+     */
+    public static int px2dip(Context context, float pxValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (pxValue / scale + 0.5f);
+    }
+
+    //
     private Uri saveBitmap(Bitmap bm) {
-        File tmpDir = new File(Environment.getExternalStorageDirectory() + "/photo");
+        File tmpDir = new File(Environment.getExternalStorageDirectory() + "/DDkdphoto");
         if (!tmpDir.exists()) {
             tmpDir.mkdir();
         }
@@ -195,69 +270,6 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
             e.printStackTrace();
             return null;
         }
-    }
-    public static String post(String actionUrl, Map<String, File> files) throws IOException {
-        String BOUNDARY = java.util.UUID.randomUUID().toString();
-        String PREFIX = "--", LINEND = "\r\n";
-        String MULTIPART_FROM_DATA = "multipart/form-data";
-        String CHARSET = "UTF-8";
-        URL uri = new URL(actionUrl);
-        HttpURLConnection conn = (HttpURLConnection) uri.openConnection();
-        conn.setReadTimeout(5 * 1000); // 缓存的最长时间
-        conn.setDoInput(true);// 允许输入
-        conn.setDoOutput(true);// 允许输出
-        conn.setUseCaches(false);// 不允许使用缓存
-        conn.setRequestMethod("POST");
-        conn.setRequestProperty("connection", "keep-alive");
-        conn.setRequestProperty("Charsert", "UTF-8");
-        conn.setRequestProperty("Content-Type", MULTIPART_FROM_DATA + ";boundary=" + BOUNDARY);
-        // 首先组拼文本类型的参数
-        DataOutputStream outStream = new DataOutputStream(conn.getOutputStream());
-        InputStream in = null;
-        // 发送文件数据
-        if (files != null) {
-            for (Map.Entry<String, File> file : files.entrySet()) {
-                StringBuilder sb1 = new StringBuilder();
-                sb1.append(PREFIX);
-                sb1.append(BOUNDARY);
-                sb1.append(LINEND);
-                // name是post中传参的键 filename是文件的名称
-                sb1.append("Content-Disposition: form-data; name=\"file\"; filename=\"" + file.getKey() + "\"" + LINEND);
-                sb1.append("Content-Type: application/octet-stream; charset=" + CHARSET + LINEND);
-                sb1.append(LINEND);
-                outStream.write(sb1.toString().getBytes());
-                InputStream is = new FileInputStream(file.getValue());
-                byte[] buffer = new byte[1024];
-                int len = 0;
-                while ((len = is.read(buffer)) != -1) {
-                    outStream.write(buffer, 0, len);
-                }
-                is.close();
-                outStream.write(LINEND.getBytes());
-            }
-            // 请求结束标志
-            byte[] end_data = (PREFIX + BOUNDARY + PREFIX + LINEND).getBytes();
-            outStream.write(end_data);
-            outStream.flush();
-            // 得到响应码
-            int res = conn.getResponseCode();
-            StringBuilder sb2 = new StringBuilder();
-            Log.e("ZhuCe4Activity", res + "");
-            if (res == 200) {
-                in = conn.getInputStream();
-                int ch;
-                while ((ch = in.read()) != -1) {
-                    sb2.append((char) ch);
-                }
-            } else {
-                Log.e("ZhuCe4Activity", "访问出错");
-            }
-            outStream.close();
-            conn.disconnect();
-            return sb2.toString();
-        }
-//         return in.toString();
-        return BOUNDARY;
     }
 
 }

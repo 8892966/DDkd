@@ -146,33 +146,37 @@ public class details extends Activity implements View.OnClickListener {
         //Log.i("Get_details_token",token);
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/state/" + Static + "/token/" + token;
         Log.i("Details", url);
-        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        StringRequest request=new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
-            public void onResponse(String s) {
-                if (!s.equals("\"token outtime\"")) {
-                    if (!s.equals("\"ERROR\"")) {
-                        Type listv = new TypeToken<LinkedList<DetailsInfo>>() {
-                        }.getType();
-                        Gson gson = new Gson();
-                        detailsinfolist = gson.fromJson(s, listv);
-                        //转化时间轴
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyy/mm/dd  HH:mm:ss");
-                        for (DetailsInfo detailsInfo2 : detailsinfolist) {
-                            detailsInfo2.setTime(dateFormat.format(Long.valueOf(detailsInfo2.getTime())));
-                        }
-                        tongzhi.setVisibility(View.GONE);
-                        myAdater.notifyDataSetChanged();
-                    } else {
-                        Toast.makeText(details.this, "网络连接出错", Toast.LENGTH_SHORT).show();
+            public void success(Object o) {
+                String s= (String) o;
+                if (!s.equals("\"ERROR\"")) {
+                    Type listv = new TypeToken<LinkedList<DetailsInfo>>() {
+                    }.getType();
+                    Gson gson = new Gson();
+                    detailsinfolist = gson.fromJson(s, listv);
+                    //转化时间轴
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyy/mm/dd  HH:mm:ss");
+                    for (DetailsInfo detailsInfo2 : detailsinfolist) {
+                        detailsInfo2.setTime(dateFormat.format(Long.valueOf(detailsInfo2.getTime())));
                     }
+                    tongzhi.setVisibility(View.GONE);
+                    myAdater.notifyDataSetChanged();
                 } else {
-                    Log.e("Main_balance", "token outtime");
-                    Object[] objects = {detailsInfo, Static};
-                    AutologonUtil autologonUtil = new AutologonUtil(details.this, handler, objects);
-                    autologonUtil.volley_Get_TOKEN();
+                    Toast.makeText(details.this, "网络连接出错", Toast.LENGTH_SHORT).show();
                 }
+            }
 
-
+            @Override
+            public void tokenouttime() {
+                Log.e("Main_balance", "token outtime");
+                Object[] objects = {detailsInfo, Static};
+                AutologonUtil autologonUtil = new AutologonUtil(details.this, handler, objects);
+                autologonUtil.volley_Get_TOKEN();
+            }
+            @Override
+            public void yidiensdfsdf() {
+                Toast.makeText(details.this, "您的账户已在异地登录", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override

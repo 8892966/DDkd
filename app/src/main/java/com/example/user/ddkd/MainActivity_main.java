@@ -24,6 +24,7 @@ import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.text.UserInfo;
 import com.example.user.ddkd.utils.AutologonUtil;
 import com.example.user.ddkd.utils.BitmaoCache;
+import com.example.user.ddkd.utils.MyStringRequest;
 import com.google.gson.Gson;
 
 import org.w3c.dom.Text;
@@ -125,11 +126,11 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
         SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
         String token=sharedPreferences.getString("token",null);
         String url="http://www.louxiago.com/wc/ddkd/admin.php/Turnover/center/token/"+token;
-        StringRequest request=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        StringRequest request=new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
-            public void onResponse(String s) {
-                if (!s.equals("\"token outtime\"")) {
-                    if (!s.equals("\"ERROR\"")) {
+            public void success(Object o) {
+                String s= (String) o;
+                if (!s.equals("\"ERROR\"")) {
                         Gson gson = new Gson();
                         UserInfo userInfo = gson.fromJson(s, UserInfo.class);
                         if (userInfo != null) {
@@ -159,17 +160,21 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
                     } else {
                         Toast.makeText(MainActivity_main.this, "网络连接出错", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Log.e("MainActivity_main", "token过期");
-                    AutologonUtil autologonUtil=new AutologonUtil(MainActivity_main.this,handler,userInfo);
-                    autologonUtil.volley_Get_TOKEN();
-                }
             }
-
+            @Override
+            public void tokenouttime() {
+                Log.e("MainActivity_main", "token过期");
+                AutologonUtil autologonUtil=new AutologonUtil(MainActivity_main.this,handler,userInfo);
+                autologonUtil.volley_Get_TOKEN();
+            }
+            @Override
+            public void yidiensdfsdf() {
+                Toast.makeText(MainActivity_main.this, "您的账户已在异地登录", Toast.LENGTH_SHORT).show();
+            }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                Toast.makeText(MainActivity_main.this, "网络连接中断", Toast.LENGTH_SHORT).show();
             }
         });
         request.setTag("Get_main");

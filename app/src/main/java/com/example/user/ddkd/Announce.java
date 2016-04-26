@@ -19,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.baidu.mobstat.StatService;
+import com.example.user.ddkd.utils.MyStringRequest;
 
 import org.w3c.dom.Text;
 
@@ -95,10 +96,20 @@ public class Announce extends Activity implements View.OnClickListener {
     }
     public void voll_Get(){
         String url="";
-        StringRequest request=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        StringRequest request=new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
-            public void onResponse(String s) {
-                //*****************解析后台传递进来的公告信息*********************
+            public void success(Object o) {
+
+            }
+
+            @Override
+            public void tokenouttime() {
+
+            }
+
+            @Override
+            public void yidiensdfsdf() {
+                Toast.makeText(Announce.this, "您的账户已在异地登录", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override

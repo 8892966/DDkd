@@ -13,6 +13,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.user.ddkd.utils.MyStringRequest;
 
 /**
  * Created by Administrator on 2016/4/24.
@@ -30,16 +31,13 @@ public class Activity_feedback extends Activity implements View.OnClickListener 
         exit= (ImageView) findViewById(R.id.setExit);
         exit.setOnClickListener(this);
         Fcommit.setOnClickListener(this);
-
     }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.Fcommit:
                 String message=messageedit.getText().toString();
                 volley_Get(message);
-
                 Toast.makeText(Activity_feedback.this,"commie success",Toast.LENGTH_SHORT).show();
                 finish();
                 break;
@@ -50,11 +48,20 @@ public class Activity_feedback extends Activity implements View.OnClickListener 
     }
     public void volley_Get(String message){
         SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
-        String token=sharedPreferences.getString("token","");
+        String token=sharedPreferences.getString("token", "");
         String url="";
-        StringRequest request=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        StringRequest request=new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
-            public void onResponse(String s) {
+            public void success(Object o) {
+
+            }
+            @Override
+            public void tokenouttime() {
+
+            }
+            @Override
+            public void yidiensdfsdf() {
+                Toast.makeText(Activity_feedback.this, "您的账户已在异地登录", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override

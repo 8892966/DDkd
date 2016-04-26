@@ -25,8 +25,10 @@ import com.example.user.ddkd.text.DetailsInfo;
 import com.example.user.ddkd.text.Payment;
 import com.example.user.ddkd.text.UserInfo;
 import com.example.user.ddkd.utils.AutologonUtil;
+import com.example.user.ddkd.utils.MyStringRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,13 +44,13 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
     private MyAdapter myAdapter;
     private TextView balance;
     private UserInfo userInfo;
-    private Handler handler1=new Handler(){
+    private Handler handler1 = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case MyApplication.GET_TOKEN_SUCCESS:
-                    UserInfo userInfo= (UserInfo) msg.obj;
+                    UserInfo userInfo = (UserInfo) msg.obj;
                     volley_Get_Balance(userInfo);
                     break;
                 case MyApplication.GET_TOKEN_ERROR:
@@ -56,13 +58,13 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
             }
         }
     };
-    private Handler handler2=new Handler(){
+    private Handler handler2 = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case MyApplication.GET_TOKEN_SUCCESS:
-                    List<Payment> paymentList= (List<Payment>) msg.obj;
+                    List<Payment> paymentList = (List<Payment>) msg.obj;
                     Volley_Get(paymentList);
                     break;
                 case MyApplication.GET_TOKEN_ERROR:
@@ -70,20 +72,21 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
             }
         }
     };
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_balance);
-        balance= (TextView) findViewById(R.id.balance);
-        TextView exit=(TextView)findViewById(R.id.tv_head_fanghui);
+        balance = (TextView) findViewById(R.id.balance);
+        TextView exit = (TextView) findViewById(R.id.tv_head_fanghui);
         exit.setOnClickListener(this);
 
-        textView=(TextView)findViewById(R.id.getmoney);
+        textView = (TextView) findViewById(R.id.getmoney);
         textView.setOnClickListener(this);
         ListView viewById = (ListView) findViewById(R.id.listviewbalance);
-        paymentslist=new ArrayList<Payment>();
+        paymentslist = new ArrayList<Payment>();
         Volley_Get(paymentslist);
         volley_Get_Balance(userInfo);
-        myAdapter=new MyAdapter();
+        myAdapter = new MyAdapter();
         viewById.setAdapter(myAdapter);
         ExitApplication.getInstance().addActivity(this);
     }
@@ -91,103 +94,120 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         Intent intent;
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.getmoney:
-                intent=new Intent(this,MainActivity_getmoney.class);
+                intent = new Intent(this, MainActivity_getmoney.class);
                 startActivity(intent);
                 Log.i("getmoney", "getmoney");
                 break;
             case R.id.tv_head_fanghui:
                 finish();
-                Log.i("exit","exit");
+                Log.i("exit", "exit");
                 break;
         }
     }
 
-    public void Volley_Get(final List<Payment> paymentslist2){
-        SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
-        String token=sharedPreferences.getString("token",null);
-        String url="http://www.louxiago.com/wc/ddkd/admin.php/Turnover/takeoutrecord/token/"+token;
-        StringRequest request=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+    public void Volley_Get(final List<Payment> paymentslist2) {
+        SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
+        String token = sharedPreferences.getString("token", null);
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/takeoutrecord/token/" + token;
+        //**********从后台返回一个参数来说明数据的获取状况**********
+        StringRequest request = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
-            public void onResponse(String s) {
-                Log.i("Json",s);
-                //**********从后台返回一个参数来说明数据的获取状况**********
-                if(!s.equals("\"token outtime\"")){
-                    if(!s.equals("\"ERROR\"")){
-                        Type listv=new TypeToken<LinkedList<Payment>>(){}.getType();
-                        Gson gson=new Gson();
-                        paymentslist=gson.fromJson(s,listv);
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyy/mm/dd  HH:mm:ss");
-                        for (Payment paymentslist2 : paymentslist) {
-                            paymentslist2.setTime1(dateFormat.format(Long.valueOf(paymentslist2.getTime1())));
-                        }
-                        myAdapter.notifyDataSetChanged();
-                    }else{
-                        Toast.makeText(MainActivity_balance.this,"网络连接出错",Toast.LENGTH_SHORT).show();
+            public void success(Object o) {
+                String s = (String) o;
+                if (!s.equals("\"ERROR\"")) {
+                    Type listv = new TypeToken<LinkedList<Payment>>() {
+                    }.getType();
+                    Gson gson = new Gson();
+                    paymentslist = gson.fromJson(s, listv);
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyy/mm/dd  HH:mm:ss");
+                    for (Payment paymentslist2 : paymentslist) {
+                        paymentslist2.setTime1(dateFormat.format(Long.valueOf(paymentslist2.getTime1())));
                     }
-                }else{
-                    Log.i("token outtime","token outtime");
-                    AutologonUtil autologonUtil=new AutologonUtil(MainActivity_balance.this,handler2,paymentslist2);
-                    autologonUtil.volley_Get_TOKEN();
-
+                    myAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(MainActivity_balance.this, "网络连接出错", Toast.LENGTH_SHORT).show();
                 }
+            }
+
+            @Override
+            public void tokenouttime() {
+                Log.i("token outtime", "token outtime");
+                AutologonUtil autologonUtil = new AutologonUtil(MainActivity_balance.this, handler2, paymentslist2);
+                autologonUtil.volley_Get_TOKEN();
+            }
+
+            @Override
+            public void yidiensdfsdf() {
+                Toast.makeText(MainActivity_balance.this, "您的账户已在异地登录", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.i("onErrorResponse","onErrorResponse");
+                Toast.makeText(MainActivity_balance.this, "网络连接中断", Toast.LENGTH_SHORT).show();
             }
         });
         request.setTag("abcGet_balance");
         MyApplication.getQueue().add(request);
     }
-    public void volley_Get_Balance(final UserInfo userInfo1){
-        SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
-        String token=sharedPreferences.getString("token",null);
-        String url="http://www.louxiago.com/wc/ddkd/admin.php/Turnover/center/token/"+token;
-        final StringRequest balance_request=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+
+    public void volley_Get_Balance(final UserInfo userInfo1) {
+        SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
+        String token = sharedPreferences.getString("token", null);
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/center/token/" + token;
+        StringRequest balance_request = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
-            public void onResponse(String s) {
-                Log.i("Userinfo",s);
-                if (!s.equals("\"token outtime\"")){
-                    if (!s.equals("\"ERROR\"")){
-                        Gson gson=new Gson();
-                        UserInfo userInfo=gson.fromJson(s,UserInfo.class);
-                        if (userInfo!=null){
-                            balance.setText(String.valueOf(userInfo.getBalance()));
-                        }
-                    }else{
-                        Toast.makeText(MainActivity_balance.this,"网络连接异常",Toast.LENGTH_SHORT).show();
+            public void success(Object o) {
+                String s = (String) o;
+                if (!s.equals("\"ERROR\"")) {
+                    Gson gson = new Gson();
+                    UserInfo userInfo = gson.fromJson(s, UserInfo.class);
+                    if (userInfo != null) {
+                        balance.setText(String.valueOf(userInfo.getBalance()));
                     }
-                }else{
-                    Log.i("TOKEN","token outtime");
-                    AutologonUtil autologonUtil=new AutologonUtil(MainActivity_balance.this,handler1,userInfo1);
-                    autologonUtil.volley_Get_TOKEN();
+                } else {
+                    Toast.makeText(MainActivity_balance.this, "网络连接异常", Toast.LENGTH_SHORT).show();
                 }
+            }
+
+            @Override
+            public void tokenouttime() {
+                Log.i("TOKEN", "token outtime");
+                AutologonUtil autologonUtil = new AutologonUtil(MainActivity_balance.this, handler1, userInfo1);
+                autologonUtil.volley_Get_TOKEN();
+            }
+
+            @Override
+            public void yidiensdfsdf() {
+                Toast.makeText(MainActivity_balance.this, "您的账户已在异地登录", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(MainActivity_balance.this,"网络连接中断",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity_balance.this, "网络连接中断", Toast.LENGTH_SHORT).show();
             }
         });
         balance_request.setTag("get_main");
         MyApplication.getQueue().add(balance_request);
     }
+
     class MyAdapter extends BaseAdapter {
         @Override
         public int getCount() {
             return paymentslist.size();
         }
+
         @Override
         public Object getItem(int position) {
             return null;
         }
+
         @Override
         public long getItemId(int position) {
             return 0;
         }
+
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View view;
@@ -208,12 +228,13 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
                 view3.setText(payment.getCounter());
                 view4.setText(String.valueOf(payment.getTime1()));
 
-            }else {
-                Log.i("ERROR","payment的内容为空");
+            } else {
+                Log.i("ERROR", "payment的内容为空");
             }
             return view;
         }
     }
+
     protected void onDestroy() {
         super.onDestroy();
         MyApplication.getQueue().cancelAll("get_main");

@@ -20,6 +20,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.text.UserInfo;
 import com.example.user.ddkd.utils.AutologonUtil;
+import com.example.user.ddkd.utils.MyStringRequest;
 import com.google.gson.Gson;
 
 /**
@@ -62,57 +63,64 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
         String token=sharedPreferences.getString("token", null);
 //        Log.i("Volley_Get",token);
         String url="http://www.louxiago.com/wc/ddkd/admin.php/Turnover/center/token/"+token;
-        StringRequest request=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        StringRequest request=new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
-            public void onResponse(String s) {
-                if (!s.equals("\"token outtime\"")){
-                    if(!s.equals("\"ERROR\"")){
-                        Gson gson=new Gson();
-                        UserInfo userInfo=gson.fromJson(s,UserInfo.class);
-                        if(userInfo!=null){
-                            boolean network=isNetworkConnected();
-                            if (network){
-                                //**********当网络连接存在时，从后台获取用户信息***********
-                                Log.i("SUCCESS","SUCCESS");
-                                //*****************根据Json中的数据回显用户的信息********************
-                                username.setText(userInfo.getUsername());
-                                collage.setText(userInfo.getCollege());
-                                number.setText(userInfo.getNumber()+"");
-                                phone.setText(userInfo.getPhone()+"");
-                                shortphone.setText(userInfo.getShortphone()+"");
-                                level.setText(userInfo.getLevel());
-                            }else{
-                                //当网络连接不存在时，从手机的内存中获取用户信息
-                                Log.i("ERROR","ERROR");
-                                SharedPreferences sharedPreferences1=getSharedPreferences("user",MODE_PRIVATE);
-                                username.setText(sharedPreferences1.getString("username",null));
-                                collage.setText(sharedPreferences1.getString("collage", null));
-                                number.setText(sharedPreferences1.getString("number",null));
-                                phone.setText(sharedPreferences1.getString("phone",null));
-                                shortphone.setText(sharedPreferences1.getString("shortphone",null));
-                                level.setText(sharedPreferences1.getString("level",null));
-                            }
+            public void success(Object o) {
+                String s= (String) o;
+                if(!s.equals("\"ERROR\"")){
+                    Gson gson=new Gson();
+                    UserInfo userInfo=gson.fromJson(s,UserInfo.class);
+                    if(userInfo!=null){
+                        boolean network=isNetworkConnected();
+                        if (network){
+                            //**********当网络连接存在时，从后台获取用户信息***********
+                            Log.i("SUCCESS","SUCCESS");
+                            //*****************根据Json中的数据回显用户的信息********************
+                            username.setText(userInfo.getUsername());
+                            collage.setText(userInfo.getCollege());
+                            number.setText(userInfo.getNumber()+"");
+                            phone.setText(userInfo.getPhone()+"");
+                            shortphone.setText(userInfo.getShortphone()+"");
+                            level.setText(userInfo.getLevel());
                         }else{
-                            Log.i("Error","List is null");
+                            //当网络连接不存在时，从手机的内存中获取用户信息
+                            Log.i("ERROR","ERROR");
+                            SharedPreferences sharedPreferences1=getSharedPreferences("user",MODE_PRIVATE);
+                            username.setText(sharedPreferences1.getString("username",null));
+                            collage.setText(sharedPreferences1.getString("collage", null));
+                            number.setText(sharedPreferences1.getString("number",null));
+                            phone.setText(sharedPreferences1.getString("phone",null));
+                            shortphone.setText(sharedPreferences1.getString("shortphone",null));
+                            level.setText(sharedPreferences1.getString("level",null));
                         }
                     }else{
-                        Toast.makeText(MainActivity_userinfo.this, "网络连接出错", Toast.LENGTH_SHORT).show();
+                        Log.i("Error","List is null");
                     }
                 }else{
-                    Log.e("MainActivity_userinfo","token outtime");
-                    AutologonUtil autologonUtil=new AutologonUtil(MainActivity_userinfo.this,handler,userInfo);
-                    autologonUtil.volley_Get_TOKEN();
+                    Toast.makeText(MainActivity_userinfo.this, "网络连接出错", Toast.LENGTH_SHORT).show();
                 }
             }
-        },new Response.ErrorListener() {
+            @Override
+            public void tokenouttime() {
+                Log.e("MainActivity_userinfo","token outtime");
+                AutologonUtil autologonUtil=new AutologonUtil(MainActivity_userinfo.this,handler,userInfo);
+                autologonUtil.volley_Get_TOKEN();
+            }
+
+            @Override
+            public void yidiensdfsdf() {
+                Toast.makeText(MainActivity_userinfo.this, "您的账户已在异地登录", Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                Toast.makeText(MainActivity_userinfo.this, "网络连接中断", Toast.LENGTH_SHORT).show();
             }
         });
         request.setTag("abcPost_userinfo");
         MyApplication.getQueue().add(request);
     }
+
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_head_fanghui:

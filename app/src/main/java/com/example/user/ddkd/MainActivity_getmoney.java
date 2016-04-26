@@ -26,6 +26,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.text.UserInfo;
 import com.example.user.ddkd.utils.AutologonUtil;
+import com.example.user.ddkd.utils.MyStringRequest;
 import com.google.gson.Gson;
 
 import org.w3c.dom.Text;
@@ -188,30 +189,37 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/withdrawCash/money/" + getmoney + "/Tname/" + tname2 + "/counter/" + counter + "/name/" + username2 + "/extra/" + beizhu2 + "/token/" + token;
         Log.i("URL", url);
         //******************将用户的提现信息提交给服务器
-        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            public void onResponse(String s) {
-                Log.i("Get_gemoney", s);
+        StringRequest request=new StringRequest(Request.Method.GET, url, new MyStringRequest() {
+            @Override
+            public void success(Object o) {
+                String s= (String) o;
                 closeProgressDialog();
-                if (!s.equals("\"token outtime\"")) {
-                    if (!s.equals("\"ERROR\"")) {
-                        s = s.substring(1, s.length() - 1);
-                        //**************返回一个参数，说明提交的情况*****************
-                        finish();
-                        Toast.makeText(MainActivity_getmoney.this, "提现申请已提交", Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(MainActivity_getmoney.this, "提交内容有误，请核对您的信息", Toast.LENGTH_SHORT).show();
-                    }
+                if (!s.equals("\"ERROR\"")) {
+                    s = s.substring(1, s.length() - 1);
+                    //**************返回一个参数，说明提交的情况*****************
+                    finish();
+                    Toast.makeText(MainActivity_getmoney.this, "提现申请已提交", Toast.LENGTH_LONG).show();
                 } else {
-                    Log.e("MainActivity_getmoney", "token outtime");
-                    Object[] obj = {getmoney, counter, tname, username, beizhu};
-                    AutologonUtil autologonUtil = new AutologonUtil(MainActivity_getmoney.this, handler, obj);
-                    autologonUtil.volley_Get_TOKEN();
+                    Toast.makeText(MainActivity_getmoney.this, "提交内容有误，请核对您的信息", Toast.LENGTH_SHORT).show();
                 }
+            }
+
+            @Override
+            public void tokenouttime() {
+                Log.e("MainActivity_getmoney", "token outtime");
+                Object[] obj = {getmoney, counter, tname, username, beizhu};
+                AutologonUtil autologonUtil = new AutologonUtil(MainActivity_getmoney.this, handler, obj);
+                autologonUtil.volley_Get_TOKEN();
+            }
+
+            @Override
+            public void yidiensdfsdf() {
+                Toast.makeText(MainActivity_getmoney.this, "您的账户已在异地登录", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                Toast.makeText(MainActivity_getmoney.this, "网络连接中断", Toast.LENGTH_SHORT).show();
             }
         });
         request.setTag("abcGet_getmoney");
@@ -222,26 +230,30 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
         SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = sharedPreferences.getString("token", null);
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/center/token/" + token;
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        StringRequest stringRequest=new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
-            public void onResponse(String s) {
-
-                //*******判断当前网络是否可用********
-                    if (!s.equals("\"token outtime\"")) {
-                        if (!s.equals("\"ERROR\"")) {
-                            Gson gson = new Gson();
-                            userInfo = gson.fromJson(s, UserInfo.class);
+            public void success(Object o) {
+                String s= (String) o;
+                if (!s.equals("\"ERROR\"")) {
+                    Gson gson = new Gson();
+                    userInfo = gson.fromJson(s, UserInfo.class);
 //                        Log.i("Money", String.valueOf(userInfo.getBalance()));
-                            yue.setText(userInfo.getBalance());
-                        } else {
-                            Toast.makeText(MainActivity_getmoney.this, "网络连接出错", Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        Log.e("Main_balance", "token outtime");
-                        AutologonUtil autologonUtil = new AutologonUtil(MainActivity_getmoney.this, handler1, null);
-                        autologonUtil.volley_Get_TOKEN();
-                    }
+                    yue.setText(userInfo.getBalance());
+                } else {
+                    Toast.makeText(MainActivity_getmoney.this, "网络连接出错", Toast.LENGTH_SHORT).show();
+                }
+            }
 
+            @Override
+            public void tokenouttime() {
+                Log.e("Main_balance", "token outtime");
+                AutologonUtil autologonUtil = new AutologonUtil(MainActivity_getmoney.this, handler1, null);
+                autologonUtil.volley_Get_TOKEN();
+            }
+
+            @Override
+            public void yidiensdfsdf() {
+                Toast.makeText(MainActivity_getmoney.this, "您的账户已在异地登录", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override

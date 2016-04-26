@@ -106,7 +106,7 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
 
                 break;
             case R.id.updatepwd:
-                intent=new Intent(MainActivity_setting.this,Activity_updpwd.class);
+                intent=new Intent(MainActivity_setting.this,MainActivity_forget.class);
                 startActivity(intent);
                 break;
             case R.id.cline:
@@ -143,6 +143,7 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
             switch (which)
             {
                 case AlertDialog.BUTTON_POSITIVE:// "确认"按钮退出程序
+
                     //点击确定退出以后，重新将loginstatic的值设置为“1”
                     Exit.exit(MainActivity_setting.this);
                     break;
@@ -153,21 +154,6 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
             }
         }
     };
-
-//    private void exit() {
-//        SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
-//        SharedPreferences.Editor editor=sharedPreferences.edit();
-//        editor.putString("loginstatic","0");
-//        MyApplication.state=0;
-//        editor.commit();
-//        ExitApplication.getInstance().exit();
-//        Intent intent=new Intent(MainActivity_setting.this,MainActivity_login.class);
-//        startActivity(intent);
-//        XGPushManager.unregisterPush(MainActivity_setting.this);
-//        finish();
-//        Toast.makeText(MainActivity_setting.this, "退出成功", Toast.LENGTH_SHORT).show();
-//    }
-
     //*********************调用手机的相册********************************
     private void getImage(){
         Intent intent = new Intent(Intent.ACTION_PICK);// 打开相册
@@ -199,9 +185,8 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
                 if (cameraBitmap != null) {
                     SharedPreferences sharedPreferences1=getSharedPreferences("config",MODE_PRIVATE);
                     userimage.setImageBitmap(cameraBitmap);
-                    uri=saveBitmap(cameraBitmap);
                     Toast.makeText(MainActivity_setting.this,"图片修改成功",Toast.LENGTH_SHORT).show();
-
+                    uri=saveBitmap(cameraBitmap);
                     Map<String,String> map=new HashMap<String,String>();
                     map.put("name","touxiang");
                     map.put("phone",sharedPreferences1.getString("phone",""));

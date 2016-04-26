@@ -78,11 +78,15 @@ public class SplashActivity extends AppCompatActivity {
         StatService.setSessionTimeOut(0);
         Log.e("onCreate", getVersonName());
         ExitApplication.getInstance().addActivity(this);
-        try {
-            Thread.sleep(2000);
+        if(MyApplication.state==0) {
+            try {
+                Thread.sleep(2000);
+                enterhome();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }else{
             enterhome();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
     @Override

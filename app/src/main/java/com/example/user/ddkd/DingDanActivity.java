@@ -3,6 +3,8 @@ package com.example.user.ddkd;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -53,7 +55,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             super.handleMessage(msg);
             switch (msg.what) {
                 case MyApplication.GET_TOKEN_SUCCESS:
-                    String State= (String) msg.obj;
+                    String State = (String) msg.obj;
                     volley_getOrder_GET(State);
                     break;
                 case MyApplication.GET_TOKEN_ERROR:
@@ -68,12 +70,12 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             super.handleMessage(msg);
             switch (msg.what) {
                 case MyApplication.GET_TOKEN_SUCCESS:
-                    Object[] obj= (Object[]) msg.obj;
-                    OrderInfo info= (OrderInfo) obj[0];
-                    String State= (String) obj[1];
-                    TextView button= (TextView) obj[2];
-                    ProgressBar pb_button= (ProgressBar) obj[2];
-                    volley_OrderState_GET(info,State,pb_button,button);
+                    Object[] obj = (Object[]) msg.obj;
+                    OrderInfo info = (OrderInfo) obj[0];
+                    String State = (String) obj[1];
+                    TextView button = (TextView) obj[2];
+                    ProgressBar pb_button = (ProgressBar) obj[2];
+                    volley_OrderState_GET(info, State, pb_button, button);
                     break;
                 case MyApplication.GET_TOKEN_ERROR:
 
@@ -81,6 +83,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             }
         }
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +98,9 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
         tv_head_fanghui = (TextView) findViewById(R.id.tv_head_fanghui);
         rl_order_ProgressBar = (RelativeLayout) findViewById(R.id.rl_order_ProgressBar);//加载中显示的RelativeLayout
         //初始化选择页面
+
         xuanzhe = 1;
+        setEnableds(xuanzhe);
         //初始化list
         list = new ArrayList<OrderInfo>();
         tv_button_yijie.setOnClickListener(this);
@@ -105,6 +110,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
         tv_head_fanghui.setOnClickListener(this);
         baseAdapter = new MyBaseAdapter();
         listView.setAdapter(baseAdapter);
+
         listView.setEmptyView(findViewById(R.id.tv_default));
         listView.getEmptyView().setVisibility(View.GONE);
         //先隐藏listview，等加载数据后再显示出来
@@ -113,11 +119,13 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
         //初始化数据
 //        volley_getOrder_GET("", "1", "http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/state/0/uid/704");
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_button_yijie://查看以接单
                 xuanzhe = 1;
+                setEnableds(xuanzhe);
                 volley_getOrder_GET("1");
                 listView.getEmptyView().setVisibility(View.GONE);//跟新后显示
                 listView.setVisibility(View.GONE);//更新后再显示
@@ -125,6 +133,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.tv_button_daisong://查看待送单
                 xuanzhe = 2;
+                setEnableds(xuanzhe);
                 volley_getOrder_GET("2");
                 listView.getEmptyView().setVisibility(View.GONE);//跟新后显示
                 listView.setVisibility(View.GONE);//更新后再显示
@@ -132,6 +141,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.tv_button_wangchen://查看完成订单
                 xuanzhe = 3;
+                setEnableds(xuanzhe);
                 volley_getOrder_GET("3");
                 listView.getEmptyView().setVisibility(View.GONE);//跟新后显示
                 listView.setVisibility(View.GONE);//更新后再显示
@@ -139,6 +149,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.tv_button_quxiao://查看取消的订单
                 xuanzhe = 4;
+                setEnableds(xuanzhe);
                 volley_getOrder_GET("5");
                 listView.getEmptyView().setVisibility(View.GONE);//跟新后显示
                 listView.setVisibility(View.GONE);//更新后再显示
@@ -179,7 +190,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                 view = View.inflate(DingDanActivity.this, R.layout.dingdan_item, null);
                 //已拿件完成的按钮
 //                zhuanTai.textbutton = (TextView) view.findViewById(R.id.tv_dingdang_yina);
-                //退单的按钮(过时)，现在为已拿件完成的按钮
+                //已拿件完成的按钮
                 zhuanTai.button = (TextView) view.findViewById(R.id.tv_dingdang_tuidang);
                 //订单的id
                 zhuanTai.tv_dingdang_id = (TextView) view.findViewById(R.id.tv_dingdang_id);
@@ -232,9 +243,9 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             zhuanTai.tv_dingdang_liuyan.setText("留言：" + info.getEvaluate());
             zhuanTai.tv_dingdang_shijain.setText(info.getTime() + "");
             zhuanTai.tv_dingdang_nudi_dizhi.setText("   " + info.getReceivePlace());
-            zhuanTai.iv_call_phone.setOnClickListener(new MyOnClickListener(info,null,null));
+            zhuanTai.iv_call_phone.setOnClickListener(new MyOnClickListener(info, null, null));
 //            zhuanTai.textbutton.setOnClickListener(new MyOnClickListener(info));
-            zhuanTai.button.setOnClickListener(new MyOnClickListener(info,zhuanTai.pb_button,zhuanTai.button));
+            zhuanTai.button.setOnClickListener(new MyOnClickListener(info, zhuanTai.pb_button, zhuanTai.button));
             return view;
         }
 
@@ -243,16 +254,18 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             OrderInfo info;
             ProgressBar pb_button;
             TextView button;
+
             /**
              * 输入信息
              *
              * @param info
              */
-            public MyOnClickListener(OrderInfo info,ProgressBar pb_button,TextView button) {
+            public MyOnClickListener(OrderInfo info, ProgressBar pb_button, TextView button) {
                 this.info = info;
-                this.pb_button=pb_button;
-                this.button=button;
+                this.pb_button = pb_button;
+                this.button = button;
             }
+
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
@@ -268,12 +281,12 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                         if (xuanzhe == 2) {
                             button.setEnabled(false);
                             pb_button.setVisibility(View.VISIBLE);
-                            volley_OrderState_GET(info,"3",pb_button,button);
+                            volley_OrderState_GET(info, "3", pb_button, button);
                         }
                         if (xuanzhe == 1) {
                             button.setEnabled(false);
                             pb_button.setVisibility(View.VISIBLE);
-                            volley_OrderState_GET(info,"2",pb_button,button);
+                            volley_OrderState_GET(info, "2", pb_button, button);
                         }
                         break;
                 }
@@ -281,7 +294,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
         }
 
         class ZhuanTai {
-//            TextView textbutton;
+            //            TextView textbutton;
             TextView button;
             TextView tv_dingdang_id;
             TextView tv_money;
@@ -295,6 +308,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             ProgressBar pb_button;//当按钮被点击时出现的等待标志
         }
     }
+
     //网络申请得到相应状态的订单列表
     private void volley_getOrder_GET(final String State) {
         MyApplication.getQueue().cancelAll("volley_getOrder_GET");
@@ -307,7 +321,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             @Override
             public void onResponse(String s) {
                 Log.e("volley_getOrder_GET", s);
-                if (!s.equals("\"token outtime\"")) {
+                if (!s.equals("\"token outtime\"")) {//error"token outtime"
                     if (!s.equals("\"ERROR\"")) {
                         Gson gson = new Gson();
                         list = gson.fromJson(s, new TypeToken<List<OrderInfo>>() {
@@ -317,7 +331,6 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                         for (OrderInfo info : list) {
                             info.setTime(format.format(Long.valueOf(info.getTime())));
                         }
-
                     } else {
                         list.clear();
                     }
@@ -327,11 +340,11 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                     rl_order_ProgressBar.setVisibility(View.GONE);//隐藏加载页面
                 } else {
                     Log.e("volley_getOrder_GET", "token过时了");
-                    AutologonUtil autologonUtil = new AutologonUtil(DingDanActivity.this, handler1,State);
+                    AutologonUtil autologonUtil = new AutologonUtil(DingDanActivity.this, handler1, State);
                     autologonUtil.volley_Get_TOKEN();
                 }
             }
-        }, new Response.ErrorListener(){
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 baseAdapter.notifyDataSetChanged();
@@ -342,8 +355,9 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
         request_post.setTag("volley_getOrder_GET");
         MyApplication.getQueue().add(request_post);
     }
+
     //网络申请修改相应状态的订单列表
-    private void volley_OrderState_GET(final OrderInfo info, final String State,final ProgressBar pb_button, final TextView button) {
+    private void volley_OrderState_GET(final OrderInfo info, final String State, final ProgressBar pb_button, final TextView button) {
         preferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = preferences.getString("token", "");
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/setOrderState/id/" + info.getId() + "/state/" + State + "/token/" + token;
@@ -361,16 +375,16 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                     } else {
                         button.setEnabled(true);
                         pb_button.setVisibility(View.GONE);
-                        Toast.makeText(DingDanActivity.this,"网络连接错...",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DingDanActivity.this, "网络连接错...", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Log.e("volley_getOrder_GET", "token过时了");
-                    Object[] obj={info,State,pb_button,button};
-                    AutologonUtil autologonUtil = new AutologonUtil(DingDanActivity.this, handler2,obj);
+                    Object[] obj = {info, State, pb_button, button};
+                    AutologonUtil autologonUtil = new AutologonUtil(DingDanActivity.this, handler2, obj);
                     autologonUtil.volley_Get_TOKEN();
                 }
             }
-        },new Response.ErrorListener() {
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 button.setEnabled(true);
@@ -384,14 +398,15 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
         request_post.setTag("volley_OrderState_GET");
         MyApplication.getQueue().add(request_post);
     }
+
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         StatService.onResume(this);
     }
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
         StatService.onPause(this);
     }
@@ -401,5 +416,34 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
         super.onDestroy();
         MyApplication.getQueue().cancelAll("volley_OrderState_GET");
         MyApplication.getQueue().cancelAll("volley_getOrder_GET");
+    }
+
+    private void setEnableds(int i) {
+        switch (i) {
+            case 1:
+                tv_button_yijie.setTextColor(getResources().getColor(R.color.head));
+                tv_button_daisong.setTextColor(Color.BLACK);
+                tv_button_wangchen.setTextColor(Color.BLACK);
+                tv_button_quxiao.setTextColor(Color.BLACK);
+                break;
+            case 2:
+                tv_button_daisong.setTextColor(getResources().getColor(R.color.head));
+                tv_button_yijie.setTextColor(Color.BLACK);
+                tv_button_wangchen.setTextColor(Color.BLACK);
+                tv_button_quxiao.setTextColor(Color.BLACK);
+                break;
+            case 3:
+                tv_button_wangchen.setTextColor(getResources().getColor(R.color.head));
+                tv_button_daisong.setTextColor(Color.BLACK);
+                tv_button_yijie.setTextColor(Color.BLACK);
+                tv_button_quxiao.setTextColor(Color.BLACK);
+                break;
+            case 4:
+                tv_button_quxiao.setTextColor(getResources().getColor(R.color.head));
+                tv_button_daisong.setTextColor(Color.BLACK);
+                tv_button_wangchen.setTextColor(Color.BLACK);
+                tv_button_yijie.setTextColor(Color.BLACK);
+                break;
+        }
     }
 }

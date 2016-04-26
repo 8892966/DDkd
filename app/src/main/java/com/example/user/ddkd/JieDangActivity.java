@@ -38,6 +38,7 @@ import com.example.user.ddkd.beam.OrderInfo;
 import com.example.user.ddkd.beam.QOrderInfo;
 import com.example.user.ddkd.service.JieDanService;
 import com.example.user.ddkd.utils.AutologonUtil;
+import com.example.user.ddkd.utils.MyStringRequest;
 import com.example.user.ddkd.utils.ServiceUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -348,37 +349,42 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     };
 
     //网络申请获取主页面信息
-    private void volley_MSG_GET() {
+    private void volley_MSG_GET(){
         preferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = preferences.getString("token", "");
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/CountOrder/token/" + token;
         Log.e("volley_OrderState_GET",url);
-        StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        StringRequest request_post = new StringRequest(Request.Method.GET, url, new MyStringRequest(){
             @Override
-            public void onResponse(String s) {
-                Log.e("volley_OrderState_GET", s);
-                if (!s.endsWith("\"token outtime\"")) {
+            public void success(Object o) {
+                if("error".equals(o)){
                     Gson gson = new Gson();
-                    MainMsgInfo info = gson.fromJson(s,MainMsgInfo.class);
-                    tv_xiuxi_huodong_now_number.setText("接单"+info.getTodOrder()+"单");
+                    MainMsgInfo info = gson.fromJson((String)o, MainMsgInfo.class);
+                    tv_xiuxi_huodong_now_number.setText("接单" + info.getTodOrder() + "单");
                     tv_star.setText(info.getEvaluate());
-                    tv_sum_number.setText("总"+info.getTotalOrder()+"单");
-                    tv_xiuxi_huodong_yesterday_number.setText("昨天订单：" + info.getYstOrder()+"单");
-                    if(info.getYstTurnover()!=null) {
-                        tv_xiuxi_huodong_yesterday_money.setText("昨天营业额:"+info.getYstTurnover()+"元");
-                    }else{
+                    tv_sum_number.setText("总" + info.getTotalOrder() + "单");
+                    tv_xiuxi_huodong_yesterday_number.setText("昨天订单：" + info.getYstOrder() + "单");
+                    if (info.getYstTurnover() != null) {
+                        tv_xiuxi_huodong_yesterday_money.setText("昨天营业额:" + info.getYstTurnover() + "元");
+                    } else {
                         tv_xiuxi_huodong_yesterday_money.setText("昨天营业额:0元");
                     }
-                    if(info.getEvaluate()==null) {
+                    if (info.getEvaluate() == null) {
                         pb_star.setRating(0);
-                    }else{
+                    } else {
                         pb_star.setRating(Float.valueOf(info.getEvaluate()));
                     }
-                } else {
-                    Log.e("volley_getOrder_GET", "token过时了");
-                    AutologonUtil autologonUtil = new AutologonUtil(JieDangActivity.this,handler1,null);
-                    autologonUtil.volley_Get_TOKEN();
                 }
+            }
+
+            @Override
+            public void tokenouttime() {
+                AutologonUtil autologonUtil = new AutologonUtil(JieDangActivity.this,handler1,null);
+                autologonUtil.volley_Get_TOKEN();
+            }
+            @Override
+            public void yidiensdfsdf() {
+                Toast.makeText(JieDangActivity.this,"您的账号在其他地方被登陆，请在此登陆",Toast.LENGTH_SHORT).show();;
             }
         },new Response.ErrorListener(){
             @Override
@@ -386,6 +392,41 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 Toast.makeText(JieDangActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
             }
         });
+//        StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String s) {
+//                Log.e("volley_OrderState_GET", s);
+//                if (!s.endsWith("\"token outtime\"")) {
+//                    if("error".equals(s)){
+//                        Gson gson = new Gson();
+//                        MainMsgInfo info = gson.fromJson(s, MainMsgInfo.class);
+//                        tv_xiuxi_huodong_now_number.setText("接单" + info.getTodOrder() + "单");
+//                        tv_star.setText(info.getEvaluate());
+//                        tv_sum_number.setText("总" + info.getTotalOrder() + "单");
+//                        tv_xiuxi_huodong_yesterday_number.setText("昨天订单：" + info.getYstOrder() + "单");
+//                        if (info.getYstTurnover() != null) {
+//                            tv_xiuxi_huodong_yesterday_money.setText("昨天营业额:" + info.getYstTurnover() + "元");
+//                        } else {
+//                            tv_xiuxi_huodong_yesterday_money.setText("昨天营业额:0元");
+//                        }
+//                        if (info.getEvaluate() == null) {
+//                            pb_star.setRating(0);
+//                        } else {
+//                            pb_star.setRating(Float.valueOf(info.getEvaluate()));
+//                        }
+//                    }
+//                } else {
+//                    Log.e("volley_getOrder_GET", "token过时了");
+//                    AutologonUtil autologonUtil = new AutologonUtil(JieDangActivity.this,handler1,null);
+//                    autologonUtil.volley_Get_TOKEN();
+//                }
+//            }
+//        },new Response.ErrorListener(){
+//            @Override
+//            public void onErrorResponse(VolleyError volleyError){
+//                Toast.makeText(JieDangActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+//            }
+//        });
         request_post.setTag("volley_MSG_GET");
         MyApplication.getQueue().add(request_post);
     }
@@ -399,6 +440,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
+                Log.e("volley_QD_GET",s);
                 if (!s.equals("\"token outtime\"")) {
                     if(s.equals("\"ERROR\"")){
                         Toast.makeText(JieDangActivity.this,"网络异常",Toast.LENGTH_LONG).show();

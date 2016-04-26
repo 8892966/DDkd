@@ -66,7 +66,6 @@ public class Announce extends Activity implements View.OnClickListener {
 
             return announcelist.size();
         }
-
         @Override
         public Object getItem(int position) {
             return null;

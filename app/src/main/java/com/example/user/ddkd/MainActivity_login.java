@@ -53,21 +53,21 @@ public class MainActivity_login extends Activity implements View.OnClickListener
         password1 = (EditText) findViewById(R.id.passwordInfo);
         insert = (TextView) findViewById(R.id.insert);
         forget = (TextView) findViewById(R.id.forget);
-        rembpwd= (CheckBox) findViewById(R.id.rembpwd);
+        rembpwd = (CheckBox) findViewById(R.id.rembpwd);
 
-        SharedPreferences preferences01=getSharedPreferences("config",MODE_PRIVATE);
-        userid1.setText(preferences01.getString("phone",null));
-        password1.setText(preferences01.getString("password",null));
+        SharedPreferences preferences01 = getSharedPreferences("config", MODE_PRIVATE);
+        userid1.setText(preferences01.getString("phone", null));
+        password1.setText(preferences01.getString("password", null));
         button.setOnClickListener(this);
         insert.setOnClickListener(this);
         forget.setOnClickListener(this);
         ExitApplication.getInstance().addActivity(this);
 
         //**********点击图标判断当前是否为登录状态**********
-        SharedPreferences loginstatic=getSharedPreferences("config",MODE_PRIVATE);
-        String nowLoginstatic=loginstatic.getString("loginstatic","");
-        if(nowLoginstatic.equals("1")) {
-            Intent intent=new Intent(MainActivity_login.this,JieDangActivity.class);
+        SharedPreferences loginstatic = getSharedPreferences("config", MODE_PRIVATE);
+        String nowLoginstatic = loginstatic.getString("loginstatic", "");
+        if (nowLoginstatic.equals("1")) {
+            Intent intent = new Intent(MainActivity_login.this, JieDangActivity.class);
             startActivity(intent);
             finish();
         }
@@ -75,29 +75,28 @@ public class MainActivity_login extends Activity implements View.OnClickListener
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         StatService.onResume(this);
     }
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
         StatService.onPause(this);
     }
 
     public void volley_Get(final String userid, final String password) {
-
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/login/phone/" +userid+"/password/"+ password;
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/login/phone/" + userid + "/password/" + password;
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
 //                Log.e("Get_login", s);
                 closeProgressDialog();//*****关闭加载提示框*****
-                if(s.equals("\"WAIT PASS\"")) {
+                if (s.equals("\"WAIT PASS\"")) {
                     closeProgressDialog();
-                    Toast.makeText(MainActivity_login.this,"正在审核中，请耐心等候...",Toast.LENGTH_SHORT).show();
-                }else if (!s.equals("\"ERROR\"")){
+                    Toast.makeText(MainActivity_login.this, "正在审核中，请耐心等候...", Toast.LENGTH_SHORT).show();
+                } else if (!s.equals("\"ERROR\"")) {
                     s = s.substring(1, s.length() - 1);
                     //******************当提交成功以后，后台会返回一个参数来说明是否提交/验证成功******************
                     SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
@@ -105,6 +104,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                     edit.putString("token", s);
                     //****************保存登录状态，0为离线状态，1为在线状态************************
                     edit.putString("loginstatic", "1");
+                    MyApplication.state = 1;
 //                    MyApplication.state=1;
                     edit.commit();
                     // 开启logcat输出，方便debug，发布时请关闭
@@ -118,35 +118,38 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                         @Override
                         public void onSuccess(Object data, int flag) {
                             Log.d("TPush", "注册成功，设备token为：" + data);
-                            SharedPreferences preferences=getSharedPreferences("config", MODE_PRIVATE);
+                            SharedPreferences preferences = getSharedPreferences("config", MODE_PRIVATE);
                             SharedPreferences.Editor edit = preferences.edit();
-                            edit.putString("XGtoken",(String)data);
+                            edit.putString("XGtoken", (String) data);
                             edit.commit();
                         }
+
                         @Override
                         public void onFail(Object data, int errCode, String msg) {
                             Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
                         }
                     });
+                    closeProgressDialog();
                     Intent intent = new Intent(MainActivity_login.this, JieDangActivity.class);
                     startActivity(intent);
                     finish();
-                }else{
-                        closeProgressDialog();
-                        Toast.makeText(MainActivity_login.this,"您的信息有误",Toast.LENGTH_SHORT).show();
-                    }
+                } else {
+                    closeProgressDialog();
+                    Toast.makeText(MainActivity_login.this, "您的信息有误", Toast.LENGTH_SHORT).show();
                 }
+            }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 closeProgressDialog();
-                Toast.makeText(MainActivity_login.this,"网络连接出错",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity_login.this, "网络连接中断", Toast.LENGTH_SHORT).show();
                 Log.e("onErrorResponse", "onErrorResponse");
             }
         });
         request.setTag("abcGet_login");
         MyApplication.getQueue().add(request);
     }
+
     @Override
     public void onClick(View v) {
         Intent intent;
@@ -157,24 +160,24 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                 //***********判断服务器返回的参数，根据参数来判断验证是否通过**********
                 String phone = userid1.getText().toString();
                 String password = password1.getText().toString();
-                if(rembpwd.isChecked()){
-                    SharedPreferences preferences=getSharedPreferences("config",MODE_PRIVATE);
-                    SharedPreferences.Editor editor=preferences.edit();
-                    editor.putString("phone",phone);
-                    editor.putString("password",password);
+                if (rembpwd.isChecked()) {
+                    SharedPreferences preferences = getSharedPreferences("config", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("phone", phone);
+                    editor.putString("password", password);
                     editor.commit();
 //                    Log.i("save","保存成功");
                 }
-                if(!TextUtils.isEmpty(phone)){
-                    if(!TextUtils.isEmpty(password)){
-                        volley_Get(phone, password);
-                    }else{
+                if (!TextUtils.isEmpty(phone)) {
+                    if (!TextUtils.isEmpty(password)) {
+                        volley_phoExist_GET(phone, password);
+                    } else {
                         closeProgressDialog();
-                        Toast.makeText(MainActivity_login.this,"密码不能为空",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity_login.this, "密码不能为空", Toast.LENGTH_SHORT).show();
                     }
-                }else{
+                } else {
                     closeProgressDialog();
-                    Toast.makeText(MainActivity_login.this,"账号不能为空",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity_login.this, "账号不能为空", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.insert:
@@ -187,22 +190,45 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                 break;
         }
     }
-    private void showProgressDialog(){
-        if(progressDialog==null){
-            progressDialog=new ProgressDialog(MainActivity_login.this);
+
+    private void showProgressDialog() {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(MainActivity_login.this);
             progressDialog.setMessage("正在登陆.......");
             progressDialog.setCanceledOnTouchOutside(false);
         }
         progressDialog.show();
     }
-    private void closeProgressDialog(){
-        if(progressDialog!=null){
+
+    private void closeProgressDialog() {
+        if (progressDialog != null) {
             progressDialog.dismiss();
         }
     }
-    protected void onDestroy() {
-        super.onDestroy();
-        MyApplication.getQueue().cancelAll("abcGet_login");
-    }
 
+    //判断用户是否已注册
+    private void volley_phoExist_GET(final String phone, final String password) {
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/phoExist/phone/" + phone;
+//        参数一：方法 参数二：地址 参数三：成功回调 参数四：错误回调 。重写getParams 以post参数
+        StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                Log.e("volley_phoExist_GET", s);
+                if (!"\"SUCCESS\"".equals(s)) {
+                    volley_Get(phone, password);
+                } else {
+                    closeProgressDialog();
+                    Toast.makeText(MainActivity_login.this, "该用户还没注册！", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                closeProgressDialog();
+                Toast.makeText(MainActivity_login.this, "网络异常", Toast.LENGTH_SHORT).show();
+            }
+        });
+        request_post.setTag("volley_phoExist_GET");
+        MyApplication.getQueue().add(request_post);
+    }
 }

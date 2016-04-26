@@ -74,8 +74,8 @@ public class JieDanService extends Service {
                         } else {
                             NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                             Notification.Builder builder = new Notification.Builder(JieDanService.this);
-                            builder.setContentTitle("有单抢啦...");
-                            builder.setContentText("有"+o[o.length - 1].size()+"单可以抢");
+                            builder.setContentTitle("有快递单抢啦！");
+                            builder.setContentText("有"+o[o.length - 1].size()+"个快递单单可以抢！");
                             Intent notificationIntent = new Intent(JieDanService.this,JieDangActivity.class);
 //                          notificationIntent.putExtra("msg","FROM_QT");//标志强推信息
                             PendingIntent contentIntent = PendingIntent.getActivity(JieDanService.this, 0, notificationIntent, 0);
@@ -118,12 +118,13 @@ public class JieDanService extends Service {
         super.onCreate();
         o = new List[30];
         MyApplication.setHandler(handler1);
-        handler2.sendEmptyMessageDelayed(2, 1000);
+        handler2.sendEmptyMessageDelayed(2,1000);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.e("JieDanService","JieDanServiceonDestroy");
         b = false;
     }
 

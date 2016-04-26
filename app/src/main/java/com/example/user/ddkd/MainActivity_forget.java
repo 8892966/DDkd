@@ -2,6 +2,7 @@ package com.example.user.ddkd;
 
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -53,6 +54,7 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
     private EditText et_new_password2;
     private SharedPreferences preferences;
     private YanZhenMaUtil yanZhenMaUtil;
+    private ProgressDialog progressDialog;//修改等候页面
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.forget_password_activity);
@@ -100,6 +102,7 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
                     String password1 = et_new_password.getText().toString();
                     String password2 = et_new_password2.getText().toString();
                     if(PasswordUtil.isSame(this, password1, password2)) {
+                        showProgressDialog();
                         volley_XGMM_GET(et_phone_number.getText().toString(),et_new_password.getText().toString(),et_yanzhengma.getText().toString());
                     }
                 }
@@ -108,7 +111,7 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
                 finish();
                 break;
             case R.id.tv_button_yanzhengma:
-                yanZhenMaUtil.sendYZM(this,et_phone_number,tv_button_yanzhengma);
+                volley_getYZM_GET(et_phone_number.getText().toString());
                 countDown();
                 break;
         }
@@ -153,19 +156,22 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
             @Override
             public void onResponse(String s) {
                     if(s.equals("\"ERROR\"")){
+                        closeProgressDialog();
                         Intent intent;
                         Toast.makeText(MainActivity_forget.this, "密码修改成功，请重新登录", Toast.LENGTH_SHORT).show();
                         intent = new Intent(MainActivity_forget.this, MainActivity_login.class);
                         startActivity(intent);
                         finish();
                     }else{
+                        closeProgressDialog();
                         Toast.makeText(MainActivity_forget.this,"网络异常",Toast.LENGTH_SHORT).show();
                     }
             }
         },new Response.ErrorListener(){
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(MainActivity_forget.this,"网络异常",Toast.LENGTH_SHORT).show();
+                closeProgressDialog();
+                Toast.makeText(MainActivity_forget.this,"网络连接中断",Toast.LENGTH_SHORT).show();
             }
         });
         request_post.setTag("volley_XGMM_GET");
@@ -173,7 +179,7 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
     }
     //***************得到验证码*********************
     private void volley_getYZM_GET(String phone) {
-        String url = ""+"/phone"+phone;
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/modifyPsw/phone"+phone;
         StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
@@ -186,7 +192,7 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
         },new Response.ErrorListener(){
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(MainActivity_forget.this,"网络异常",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity_forget.this,"网络连接中断",Toast.LENGTH_SHORT).show();
             }
         });
         request_post.setTag("volley_getYZM_GET");
@@ -198,5 +204,19 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
         super.onDestroy();
         MyApplication.getQueue().cancelAll("volley_getYZM_GET");
         MyApplication.getQueue().cancelAll("volley_XGMM_GET");
+    }
+    private void showProgressDialog() {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(MainActivity_forget.this);
+            progressDialog.setMessage("正在登陆修改.......");
+            progressDialog.setCanceledOnTouchOutside(false);
+        }
+        progressDialog.show();
+    }
+
+    private void closeProgressDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
     }
 }

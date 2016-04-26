@@ -146,7 +146,7 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
                     SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
                     SharedPreferences.Editor editor=sharedPreferences.edit();
                     editor.putString("loginstatic","0");
-//                    MyApplication.state=0;
+                    MyApplication.state=0;
                     editor.commit();
                     ExitApplication.getInstance().exit();
                     Intent intent=new Intent(MainActivity_setting.this,MainActivity_login.class);

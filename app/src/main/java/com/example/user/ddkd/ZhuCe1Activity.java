@@ -43,6 +43,7 @@ import java.util.Map;
  * Created by User on 2016-04-03.
  */
 public class ZhuCe1Activity extends Activity implements View.OnClickListener {
+
     private EditText et_phone_number;
     private EditText et_yanzhengma;
     private CheckBox cb_xieyi;
@@ -149,7 +150,7 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
         }
     }
 
-    //网络申请修改相应状态的订单列表
+    //判断用户是否已注册
     private void volley_phoExist_GET(String phone) {
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/phoExist/phone/" + phone;
 //        参数一：方法 参数二：地址 参数三：成功回调 参数四：错误回调 。重写getParams 以post参数

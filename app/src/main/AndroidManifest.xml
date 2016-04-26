@@ -49,12 +49,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DingDanActivity" />
+        <activity android:name=".ZhuCe4Activity" />
         <activity android:name=".WebActivity" />
         <activity android:name=".JieDangActivity" />
         <activity android:name=".ZhuCe1Activity" />
         <activity android:name=".ZhuCe3Activity" />
-        <activity android:name=".ZhuCe4Activity" />
+        <activity android:name=".DingDanActivity" />
         <activity android:name=".details" />
         <activity android:name=".MainActivity_setting" />
         <activity android:name=".MainActivity_userinfo" />

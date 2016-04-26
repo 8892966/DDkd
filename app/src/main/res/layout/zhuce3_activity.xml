@@ -246,7 +246,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <EditText
-                    android:text="636555"
                     android:phoneNumber="true"
                     android:layout_marginRight="20dip"
                     android:textSize="20sp"
@@ -279,7 +278,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <EditText
-                    android:text="440881199412254213"
                     android:phoneNumber="true"
                     android:textSize="20sp"
                     android:layout_marginRight="20dip"

@@ -31,8 +31,7 @@
         android:max="100"
         android:id="@+id/ProgressBar1"
         android:layout_width="match_parent"
-        android:layout_height="5dip" />
-
+        android:layout_height="7dp" />
     <WebView
         android:id="@+id/wv_web"
         android:layout_width="match_parent"

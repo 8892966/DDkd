@@ -11,6 +11,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -53,7 +55,22 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
     private Uri uri;
     private File tempFile;
     private String fileName = "";
-
+    private Bitmap cameraBitmap;
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case MyApplication.GET_TOKEN_SUCCESS:
+                    userimage.setImageBitmap(cameraBitmap);
+                    Toast.makeText(MainActivity_setting.this, "图片修改成功", Toast.LENGTH_SHORT).show();
+                    break;
+                case MyApplication.GET_TOKEN_ERROR:
+                    Toast.makeText(MainActivity_setting.this, "图片修改失败，请重试", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+    };
     //获取图片之后的中转文件;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,12 +153,10 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
         super.onPause();
         StatService.onPause(this);
     }
-
     DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int which) {
             switch (which) {
                 case AlertDialog.BUTTON_POSITIVE:// "确认"按钮退出程序
-
                     //点击确定退出以后，重新将loginstatic的值设置为“1”
                     Exit.exit(MainActivity_setting.this);
                     break;
@@ -177,15 +192,12 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        System.out.println(resultCode);
         if (requestCode == 10) {
             if (data != null) {
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inSampleSize = 1;//图片的保存比例
-                Bitmap cameraBitmap = BitmapFactory.decodeFile(tempFile.getPath(), options);//设置图片的保存路径;
+                cameraBitmap = BitmapFactory.decodeFile(tempFile.getPath(), options);//设置图片的保存路径;
                 if (cameraBitmap != null) {
-                    userimage.setImageBitmap(cameraBitmap);
-                    Toast.makeText(MainActivity_setting.this, "图片修改成功", Toast.LENGTH_SHORT).show();
                     uri = saveBitmap(cameraBitmap);
                     new Thread(){
                         @Override
@@ -202,6 +214,14 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
                             try {
                                 String s=PostUtil.post("http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage/name/touxiang/phone/" + sharedPreferences1.getString("phone", "")+"/token/"+sharedPreferences1.getString("token",""), map, mapfile);
                                 Log.i("Image",s);
+                                Message message=new Message();
+                                if(s.equals("SUCCESS")){
+                                    message.what=MyApplication.GET_TOKEN_SUCCESS;
+                                    handler.sendMessage(message);
+                                }else{
+                                    message.what=MyApplication.GET_TOKEN_ERROR;
+                                    handler.sendMessage(message);
+                                }
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }

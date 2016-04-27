@@ -135,7 +135,6 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
                     Toast.makeText(MainActivity_balance.this, "网络连接出错", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void tokenouttime() {
                 Log.i("token outtime", "token outtime");

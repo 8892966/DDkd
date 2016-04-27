@@ -350,7 +350,8 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
 
             @Override
             public void yidiensdfsdf() {
-                Toast.makeText(DingDanActivity.this,"您的账号在其他地方被登陆，请在此登陆",Toast.LENGTH_SHORT).show();
+                Exit.exit(DingDanActivity.this);
+                Toast.makeText(DingDanActivity.this,"您的账户已在异地登录",Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -433,6 +434,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             @Override
             public void yidiensdfsdf() {
                 Exit.exit(DingDanActivity.this);
+                Toast.makeText(DingDanActivity.this, "您的账户已在异地登录", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override

@@ -91,7 +91,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-//                Log.e("Get_login", s);
+                Log.e("Get_login", s);
                 closeProgressDialog();//*****关闭加载提示框*****
                 if (s.equals("WAIT PASS")) {
                     closeProgressDialog();
@@ -213,7 +213,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
         StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("volley_phoExist_GET", s);
+//                Log.e("volley_phoExist_GET", s);
                 if (!"SUCCESS".equals(s)) {
                     volley_Get(phone, password);
                 } else {

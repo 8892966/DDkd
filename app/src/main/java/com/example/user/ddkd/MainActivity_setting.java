@@ -159,6 +159,7 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
                 case AlertDialog.BUTTON_POSITIVE:// "确认"按钮退出程序
                     //点击确定退出以后，重新将loginstatic的值设置为“1”
                     Exit.exit(MainActivity_setting.this);
+                    Toast.makeText(MainActivity_setting.this,"退出成功", Toast.LENGTH_SHORT).show();
                     break;
                 case AlertDialog.BUTTON_NEGATIVE:// "取消"第二个按钮取消对话框
                     break;

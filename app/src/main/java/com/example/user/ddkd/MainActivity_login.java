@@ -5,14 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
-import android.support.annotation.MainThread;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -21,29 +14,17 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.baidu.mobstat.StatService;
-import com.example.user.ddkd.utils.BitmaoCache;
-import com.example.user.ddkd.utils.Exit;
-import com.example.user.ddkd.utils.MyStringRequest;
+import com.example.user.ddkd.text.UserInfo;
+import com.google.gson.Gson;
 import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
-
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.text.DecimalFormat;
 
 
 /**
@@ -57,8 +38,6 @@ public class MainActivity_login extends Activity implements View.OnClickListener
     private TextView forget;
     private ProgressDialog progressDialog;
     private CheckBox rembpwd;
-    private File tempFile;
-    private BitmaoCache bitmaoCache;
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
@@ -153,6 +132,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                         }
                     });
                     volley_Get_Image();
+                    volley_Get_userInfo();
                     closeProgressDialog();
                     Intent intent = new Intent(MainActivity_login.this, JieDangActivity.class);
                     startActivity(intent);
@@ -255,24 +235,64 @@ public class MainActivity_login extends Activity implements View.OnClickListener
         request_post.setTag("volley_phoExist_GET");
         MyApplication.getQueue().add(request_post);
     }
-    //**********缓存并加载网络图片***********
-    public void volley_Get_Image(){
-        final SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
-        String url="http://www.louxiago.com/wc/ddkd/admin.php/User/getLogo/token/"+sharedPreferences.getString("token","");
-        StringRequest stringRequest=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+
+    //**********获得用户头像的路径***********
+    public void volley_Get_Image() {
+        final SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/getLogo/token/" + sharedPreferences.getString("token", "");
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                SharedPreferences.Editor editor=sharedPreferences.edit();
+                SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("imageuri", s);
                 editor.commit();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(MainActivity_login.this,"网络连接出错",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity_login.this, "网络连接出错", Toast.LENGTH_SHORT).show();
             }
         });
         stringRequest.setTag("volley_Get_Image_login");
+        MyApplication.getQueue().add(stringRequest);
+    }
+
+    //**********获得用户的基本信息***********
+    public void volley_Get_userInfo() {
+        SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
+        String token = sharedPreferences.getString("token", null);
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/center/token/" + token;
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                if (!s.equals("ERROR")) {
+                    Gson gson = new Gson();
+                    UserInfo userInfo = gson.fromJson(s, UserInfo.class);
+
+                    //**********保存用户的个人信息，断网时回显***********
+                    DecimalFormat decimalFormat = new DecimalFormat("0.00");
+                    SharedPreferences preferences = getSharedPreferences("user", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("username", userInfo.getUsername());
+                    editor.putString("collage", userInfo.getCollege());
+                    editor.putString("number", userInfo.getNumber() + "");
+                    editor.putString("phone", userInfo.getPhone() + "");
+                    editor.putString("shortphone", userInfo.getShortphone() + "");
+                    editor.putString("level", userInfo.getLevel());
+                    editor.putString("yingye",decimalFormat.format(Double.valueOf(userInfo.getYingye())));
+                    editor.putString("balance",decimalFormat.format(Double.valueOf(userInfo.getBalance())));
+                    editor.commit();
+                } else {
+                    Log.i("GetInfoError", "login failed to get information");
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.i("ERROR", "login failed to get information");
+            }
+        });
+        stringRequest.setTag("volley_Get_userInfo");
         MyApplication.getQueue().add(stringRequest);
     }
 }

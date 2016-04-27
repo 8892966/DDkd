@@ -161,7 +161,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
             @Override
             public void success(Object o) {
                 String s = (String) o;
-                Log.i("Balance",s);
+//                Log.i("Balance",s);
                 if (!s.equals("ERROR")) {
                     Gson gson = new Gson();
                     UserInfo userInfo = gson.fromJson(s, UserInfo.class);
@@ -175,7 +175,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
             }
             @Override
             public void tokenouttime() {
-                Log.i("TOKEN", "token outtime");
+                Log.i("TOKEN_balance", "token outtime");
                 AutologonUtil autologonUtil = new AutologonUtil(MainActivity_balance.this, handler1, userInfo1);
                 autologonUtil.volley_Get_TOKEN();
             }

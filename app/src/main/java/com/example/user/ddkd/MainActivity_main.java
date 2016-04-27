@@ -38,7 +38,7 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
     private RelativeLayout title;
     private NetworkImageView userimage;
     private TextView username;
-    private BitmaoCache bitmaoCache;
+    private BitmaoCache bitmaoCache =new BitmaoCache();
     private TextView turnover;
     private TextView moneysum;
     private TextView userphone;
@@ -55,19 +55,12 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
-                case MyApplication.GET_TOKEN_SUCCESS:
                     String imageurl= (String) msg.obj;
-                    bitmaoCache=new BitmaoCache();
                     ImageLoader imageLoader=new ImageLoader(MyApplication.getQueue(),bitmaoCache);
                     userimage.setDefaultImageResId(R.drawable.personinfo3);
                     userimage.setErrorImageResId(R.drawable.personinfo3);
                     userimage.setImageUrl(imageurl, imageLoader);
-                    break;
-                case MyApplication.GET_TOKEN_ERROR:
 
-                    break;
-            }
         }
     };
     public void onCreate(Bundle savedInstanceState){
@@ -94,19 +87,31 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
         userinfo.setOnClickListener(this);
         LinearLayout setting=(LinearLayout)findViewById(R.id.setting);
         setting.setOnClickListener(this);
-        volley_Get(userInfo);
+
         ExitApplication.getInstance().addActivity(this);
-        SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
+
+        SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
         String imageuri=sharedPreferences.getString("imageuri","");
         Log.i("URL",imageuri);
         if(!TextUtils.isEmpty(imageuri)){
-            bitmaoCache=new BitmaoCache();
             ImageLoader imageLoader=new ImageLoader(MyApplication.getQueue(),bitmaoCache);
             userimage.setDefaultImageResId(R.drawable.personinfo3);
             userimage.setErrorImageResId(R.drawable.personinfo3);
             userimage.setImageUrl(imageuri, imageLoader);
         }else{
             volley_Get_Image();
+        }
+
+        SharedPreferences ShareuserInfo=getSharedPreferences("user",MODE_PRIVATE);
+        if (ShareuserInfo!=null){
+            Log.i("turnover",ShareuserInfo.getString("yingye",""));
+            Log.i("moneysum",ShareuserInfo.getString("balance",""));
+            turnover.setText(ShareuserInfo.getString("yingye",""));
+            moneysum.setText(ShareuserInfo.getString("balance",""));
+            username.setText(ShareuserInfo.getString("username",""));
+            userphone.setText(ShareuserInfo.getString("phone",""));
+        }else{
+            volley_Get(userInfo);
         }
     }
 
@@ -153,7 +158,8 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
                 editor.commit();
                 String imageurl=s;
                 Message ms=new Message();
-                ms.obj=imageurl;
+//                ms.obj=imageurl;
+                ms.obj= s;
                 handler_image.sendMessage(ms);
                 //ImageLoader.ImageListener imageListener=ImageLoader.getImageListener(userimage,R.drawable.personinfo3,R.drawable.personinfo3);
                 //imageLoader.get(imageurl,imageListener);
@@ -193,9 +199,7 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
                             if (userInfo.getYingye() == null) {
                                 turnover.setText("0");
                             } else {
-
                                 //***********将数值类型定义为高精度*************
-
                                 DecimalFormat g = new DecimalFormat("0.00");//精确到两位小数
                                 g.format(Double.valueOf(userInfo.getYingye()));
                                 turnover.setText(g.format(Double.valueOf(userInfo.getYingye())));
@@ -206,7 +210,6 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
                             userphone.setText(String.valueOf(userInfo.getPhone()));
 
                             //**********保存用户的个人信息，断网时回显***********
-
                             SharedPreferences preferences = getSharedPreferences("user", MODE_PRIVATE);
                             SharedPreferences.Editor editor = preferences.edit();
                             editor.putString("username", userInfo.getUsername());

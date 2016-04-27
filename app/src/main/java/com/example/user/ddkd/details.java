@@ -164,7 +164,7 @@ public class details extends Activity implements View.OnClickListener {
                     tongzhi.setVisibility(View.GONE);
                     myAdater.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(details.this, "网络连接出错", Toast.LENGTH_SHORT).show();
+                    Log.i("OrderError","Failed to get the order information");
                 }
             }
 

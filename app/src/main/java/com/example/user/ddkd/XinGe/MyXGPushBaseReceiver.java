@@ -127,10 +127,9 @@ public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
             }.getType());
             QOrderInfo info = l.get(0);
             info.setOrderTime(System.currentTimeMillis()+"");
-//            Toast.makeText(context,xgPushTextMessage.getContent(),Toast.LENGTH_SHORT).show();
 
             SharedPreferences sharedPreferences=context.getSharedPreferences("qtmsg", context.MODE_PRIVATE);
-            String qt=sharedPreferences.getString("QT", "");
+            String qt=sharedPreferences.getString("QT","");
             List list = gson.fromJson(qt,new TypeToken<List<OrderInfo>>() {
             }.getType());
             if (list==null){
@@ -140,7 +139,6 @@ public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
             String QT=gson.toJson(list);
             SharedPreferences.Editor edit = sharedPreferences.edit();
             edit.putString("QT", QT);
-//            Log.e("QT",QT);
             edit.commit();
 
             NotificationManager nm = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
@@ -148,7 +146,7 @@ public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
             builder.setContentTitle("DD快递");
             builder.setContentText("有一个快递单没人抢，而且小费很高哦...亲！");
             Intent notificationIntent = new Intent(context, JieDangActivity.class);
-            notificationIntent.putExtra("info",info);
+            notificationIntent.putExtra("info",true);
             PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
             builder.setContentIntent(contentIntent);
             builder.setSmallIcon(R.mipmap.ic_launcher);

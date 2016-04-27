@@ -192,7 +192,6 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-
     public void initFile() {
         if (fileName.equals("")) {
             boolean sdCardExist = Environment.getExternalStorageState()
@@ -212,6 +211,7 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
             }
         }
     }
+
 
     @Override
     protected void onResume() {

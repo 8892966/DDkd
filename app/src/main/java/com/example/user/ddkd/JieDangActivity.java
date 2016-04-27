@@ -39,6 +39,7 @@ import com.example.user.ddkd.utils.ServiceUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -293,14 +294,15 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onResume(){
         StatService.onResume(this);
-        if(getIntent().getSerializableExtra("info")!=null){
-            Log.e("onResume","1111111111111111111111");
+        SharedPreferences sharedPreferences=getSharedPreferences("qtmsg", MODE_PRIVATE);
+        if(!sharedPreferences.getString("QT", "").equals("")){
+//            Log.e("onResume","1111111111111111111111");
             jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
             startService(jieDanServiceIntent);
-            bindService(jieDanServiceIntent,sc,BIND_AUTO_CREATE);
+//            bindService(jieDanServiceIntent,sc,BIND_AUTO_CREATE);
         }
         sreviceisrunning=ServiceUtils.isRunning(this,"com.example.user.ddkd.service.JieDanService");
-//        Log.e("isRunning",sreviceisrunning+"");
+        Log.e("isRunning",sreviceisrunning+"");
         if(sreviceisrunning){
             listView.setVisibility(View.VISIBLE);
             but_jiedang.setText("休息");
@@ -309,12 +311,12 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
             bindService(jieDanServiceIntent,sc,BIND_AUTO_CREATE);
         }
-
         super.onResume();
     }
     @Override
     protected void onPause() {
         super.onPause();
+        Log.e("onPause","2222222222222222");
         if(sreviceisrunning){
             unbindService(sc);
         }
@@ -326,6 +328,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         MyApplication.getQueue().cancelAll("volley_MSG_GET");
         MyApplication.getQueue().cancelAll("volley_QD_GET");
     }
+
     //绑定服务
     private ServiceConnection sc=new ServiceConnection(){
         @Override
@@ -383,7 +386,8 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                     tv_sum_number.setText("总" + info.getTotalOrder() + "单");
                     tv_xiuxi_huodong_yesterday_number.setText("昨天订单：" + info.getYstOrder() + "单");
                     if (info.getYstTurnover() != null) {
-                        tv_xiuxi_huodong_yesterday_money.setText("昨天营业额:" + info.getYstTurnover() + "元");
+                        DecimalFormat g = new DecimalFormat("0.00");//精确到两位小数
+                        tv_xiuxi_huodong_yesterday_money.setText("昨天营业额:" +  g.format(Double.valueOf(info.getYstTurnover())) + "元");
                     } else {
                         tv_xiuxi_huodong_yesterday_money.setText("昨天营业额:0元");
                     }

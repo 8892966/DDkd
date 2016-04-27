@@ -134,6 +134,7 @@ public class JieDanService extends Service {
 
         public void setMsg(List<QOrderInfo> msg){
             for (QOrderInfo q:msg){
+                Log.e("setMsg",q.getOrderTime()+"");
                 long time = System.currentTimeMillis() - Long.valueOf(q.getOrderTime());
                 int t= (int) ((30*1000-time))/1000;
                 Log.e("setMsg",t+"");

@@ -21,8 +21,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.baidu.mobstat.StatService;
+import com.example.user.ddkd.utils.AutologonUtil;
 import com.example.user.ddkd.utils.Exit;
+import com.example.user.ddkd.utils.MyStringRequest;
 import com.example.user.ddkd.utils.PostUtil;
 import com.tencent.android.tpush.XGPushManager;
 
@@ -39,6 +45,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by Administrator on 2016/4/4.
@@ -48,7 +55,8 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
     private ImageView userimage;
     private TextView updatepwd;
     private TextView clime;
-    private TextView updateapp;
+    private TextView version;
+    private RelativeLayout updateapp;
     private TextView aboutDD;
     private ImageView imageView;
     private RelativeLayout changeimage;
@@ -71,6 +79,19 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
             }
         }
     };
+    private Handler handler1=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case MyApplication.GET_TOKEN_SUCCESS:
+
+                    break;
+                case MyApplication.GET_TOKEN_ERROR:
+                    break;
+            }
+        }
+    };
     //获取图片之后的中转文件;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,13 +106,16 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
         updatepwd.setOnClickListener(this);
         clime = (TextView) findViewById(R.id.cline);
         clime.setOnClickListener(this);
-        updateapp = (TextView) findViewById(R.id.updateApp);
+        updateapp = (RelativeLayout) findViewById(R.id.updateApp);
+        version= (TextView) findViewById(R.id.version);
         updateapp.setOnClickListener(this);
         aboutDD = (TextView) findViewById(R.id.aboutDD);
         aboutDD.setOnClickListener(this);
         changeimage = (RelativeLayout) findViewById(R.id.changeimage);
         changeimage.setOnClickListener(this);
         ExitApplication.getInstance().addActivity(this);
+        SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
+        version.setText(sharedPreferences.getString("version",""));
     }
 
     @Override
@@ -131,7 +155,7 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
                 startActivity(intent);
                 break;
             case R.id.updateApp:
-                new AlertDialog.Builder(this).setTitle("系统提示").setMessage("当前已是最新版本").show();
+                volley_Get();
                 break;
             case R.id.aboutDD:
                 intent = new Intent(MainActivity_setting.this, WebActivity.class);
@@ -205,23 +229,24 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
                         public void run() {
                             super.run();
                             SharedPreferences sharedPreferences1 = getSharedPreferences("config", MODE_PRIVATE);
-                            Map<String, String> map = new HashMap<String, String>();
-                            map.put("name", "touxiang");
-                            map.put("phone", sharedPreferences1.getString("phone", ""));
+//                            Map<String, String> map = new HashMap<String, String>();
+//                            map.put("phone", sharedPreferences1.getString("phone", ""));
+//                            map.put("token", sharedPreferences1.getString("token", ""));
+                            Map<String, String> map1 = new HashMap<String, String>();
+                            map1.put("phone", sharedPreferences1.getString("phone", ""));
+                            map1.put("name", "touxiang");
                             File file = new File(uri.getPath());
                             Map<String, File> mapfile = new HashMap<String, File>();
                             mapfile.put("touxiang", file);
                             //**********************图片修改成功之后就开始上传图片*********************************
                             try {
-                                String s=PostUtil.post("http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage/name/touxiang/phone/" + sharedPreferences1.getString("phone", "")+"/token/"+sharedPreferences1.getString("token",""), map, mapfile);
-                                Log.i("Image",s);
-                                Message message=new Message();
-                                if(s.equals("SUCCESS")){
-                                    message.what=MyApplication.GET_TOKEN_SUCCESS;
-                                    handler.sendMessage(message);
+//                                Log.e("Phone",sharedPreferences1.getString("phone", ""));
+                                String msg1 = PostUtil.post("http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage/name/touxiang/phone/" + sharedPreferences1.getString("phone", ""), map1, mapfile);
+                                Log.i("Msg1",msg1);
+                                if(msg1.equals("SUSSESS")) {
+                                    volley_change_Get(sharedPreferences1.getString("phone", ""),sharedPreferences1.getString("token", ""));
                                 }else{
-                                    message.what=MyApplication.GET_TOKEN_ERROR;
-                                    handler.sendMessage(message);
+                                    Log.i("Image", msg1);
                                 }
                             } catch (IOException e) {
                                 e.printStackTrace();
@@ -269,7 +294,7 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
     }
-
+    //保存图片
     private Uri saveBitmap(Bitmap bm) {
         File tmpDir = new File(Environment.getExternalStorageDirectory() + "/DDkdphoto");
         if (!tmpDir.exists()) {
@@ -289,5 +314,92 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
             e.printStackTrace();
             return null;
         }
+    }
+    public void volley_Get(){
+        SharedPreferences sharedPreferences01=getSharedPreferences("config", MODE_PRIVATE);
+        SharedPreferences.Editor editor=sharedPreferences01.edit();
+        editor.putString("version","1");
+        String url="http://www.louxiago.com/wc/ddkd/admin.php/User/update";
+        StringRequest request=new StringRequest(Request.Method.GET, url, new MyStringRequest() {
+            @Override
+            public void success(Object o) {
+                String s= (String) o;
+                Log.i("version", s);
+                SharedPreferences sharedPreferences02=getSharedPreferences("config",MODE_PRIVATE);
+                if(sharedPreferences02.getString("version","").equals(s)){
+                    new AlertDialog.Builder(MainActivity_setting.this).setTitle("系统提示").setMessage("当前已是最新版本").show();
+                }else{
+                    Toast.makeText(MainActivity_setting.this,"DD快递更新啦，快去应用商店下载吧",Toast.LENGTH_SHORT).show();
+                    SharedPreferences.Editor editor1=sharedPreferences02.edit();
+                    editor1.putString("version",s);
+                    editor1.commit();
+                }
+                version.setText(s);
+
+            }
+
+            @Override
+            public void tokenouttime() {
+                Log.i("Token","token outtime");
+                AutologonUtil autologonUtil=new AutologonUtil(MainActivity_setting.this,handler1, null);
+                autologonUtil.volley_Get_TOKEN();
+            }
+
+            @Override
+            public void yidiensdfsdf() {
+                Exit.exit(MainActivity_setting.this);
+                Toast.makeText(MainActivity_setting.this,"您的账户已在异地登录",Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(MainActivity_setting.this,"网络连接出错",Toast.LENGTH_SHORT).show();
+            }
+        });
+        request.setTag("Get_Setting");
+        MyApplication.getQueue().add(request);
+    }
+
+    public void volley_change_Get(String phone ,String token){
+        String url="http://www.louxiago.com/wc/ddkd/admin.php/User/updateLogo/phone/"+phone+"/token/"+token;
+        StringRequest request=new StringRequest(Request.Method.GET, url, new MyStringRequest() {
+            @Override
+            public void success(Object o) {
+                String s= (String) o;
+                Log.i("Result", s);
+                Message message = new Message();
+                if (s.equals("SUCCESS")) {
+                    message.what = MyApplication.GET_TOKEN_SUCCESS;
+                    handler.sendMessage(message);
+                } else {
+                    message.what = MyApplication.GET_TOKEN_ERROR;
+                    handler.sendMessage(message);
+                }
+            }
+            @Override
+            public void tokenouttime() {
+                Log.i("Token","token outtime");
+                AutologonUtil autologonUtil=new AutologonUtil(MainActivity_setting.this,handler1, null);
+                autologonUtil.volley_Get_TOKEN();
+            }
+
+            @Override
+            public void yidiensdfsdf() {
+                Exit.exit(MainActivity_setting.this);
+                Toast.makeText(MainActivity_setting.this,"您的账户已在异地登录",Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(MainActivity_setting.this,"网络连接出错",Toast.LENGTH_SHORT).show();
+            }
+        });
+        request.setTag("Get_Setting");
+        MyApplication.getQueue().add(request);
+    }
+
+    public void onDestroy(){
+        super.onDestroy();
+        MyApplication.getQueue().cancelAll("Get_Setting");
     }
 }

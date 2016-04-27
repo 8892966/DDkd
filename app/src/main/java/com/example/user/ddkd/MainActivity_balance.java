@@ -21,8 +21,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.baidu.mobstat.StatService;
-import com.example.user.ddkd.text.DetailsInfo;
 import com.example.user.ddkd.text.Payment;
 import com.example.user.ddkd.text.UserInfo;
 import com.example.user.ddkd.utils.AutologonUtil;
@@ -32,6 +30,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -119,17 +118,18 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
             @Override
             public void success(Object o) {
                 String s = o.toString();
-//                Log.i("Payment",s);
+                Log.i("Payment",s);
                 if (!s.equals("ERROR")) {
                     Log.i("Balance",s);
                     Type listv = new TypeToken<LinkedList<Payment>>() {
                     }.getType();
                     Gson gson = new Gson();
                     paymentslist = gson.fromJson(s, listv);
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyy/mm/dd  HH:mm:ss");
-                    for (Payment paymentslist2 : paymentslist) {
-                        paymentslist2.setTime1(dateFormat.format(Long.valueOf(paymentslist2.getTime1())));
-                    }
+//                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyy/mm/dd  HH:mm:ss");
+//                    for (Payment paymentslist2 : paymentslist) {
+//                        paymentslist2.setChutime(dateFormat.format(Long.valueOf(paymentslist2.getChutime())));
+//                        paymentslist2.setRutime(dateFormat.format(Long.valueOf(paymentslist2.getRutime())));
+//                    }
                     myAdapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(MainActivity_balance.this, "网络连接出错", Toast.LENGTH_SHORT).show();
@@ -170,7 +170,8 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
                     Gson gson = new Gson();
                     UserInfo userInfo = gson.fromJson(s, UserInfo.class);
                     if (userInfo != null) {
-                        balance.setText(String.valueOf(userInfo.getBalance()));
+                        DecimalFormat decimalFormat=new DecimalFormat("0.00");
+                        balance.setText(decimalFormat.format(Double.valueOf(userInfo.getBalance())));
                     }
                 } else {
                     Toast.makeText(MainActivity_balance.this, "网络连接异常", Toast.LENGTH_SHORT).show();
@@ -223,27 +224,56 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
             } else {
                 view = convertView;
             }
-            TextView view2 = (TextView) view.findViewById(R.id.money);
-            TextView view1 = (TextView) view.findViewById(R.id.Tname);
-            TextView view3 = (TextView) view.findViewById(R.id.counter);
-            TextView view4 = (TextView) view.findViewById(R.id.time1);
-            TextView view5= (TextView) view.findViewById(R.id.getstatic);
+            //提现
+            TextView moneyout = (TextView) view.findViewById(R.id.moneyout);
+            TextView outStatic = (TextView) view.findViewById(R.id.outStatic);
+            TextView counter = (TextView) view.findViewById(R.id.counter);
+            TextView time1 = (TextView) view.findViewById(R.id.time1);
+            //收入
+            TextView moneyin= (TextView) view.findViewById(R.id.moneyin);
+            TextView inStatic= (TextView) view.findViewById(R.id.inStaric);
+            TextView phone= (TextView) view.findViewById(R.id.phone);
+            TextView time2= (TextView) view.findViewById(R.id.time2);
+
             Payment payment = paymentslist.get(position);
             if (payment != null) {
-                view1.setText(payment.getTname());
-                view2.setText(String.valueOf(payment.getMoney()));
-                view3.setText(payment.getCounter());
-                view4.setText(String.valueOf(payment.getTime1()));
-                //*****************根据返回的Static状态来判断当前的体现状态***************
-                //1表示审核中；2表示通过；3表示失败
-//                if(){
-//                    view5.setText("审核中");
-//                }else if(){
-//                    view5.setText("提现成功");
+                counter.setText(payment.getCounter());
+                moneyout.setText(payment.getZhichu());
+                outStatic.setText("审核中");
+                time1.setText(payment.getChutime());
+//                if (payment.getLstate()==null) {
+//                    payment.setLstate("3");
+//                    inStatic.setText("数据有误");
 //                }else{
-//                    view5.setText("提现失败");
+//                    if (payment.getLstate().equals("1")) {
+//                        inStatic.setText("审核中");
+//                    } else if (payment.getLstate().equals("2")) {
+//                        inStatic.setText("提现成功");
+//                    } else {
+//                        inStatic.setText("提现失败");
+//                    }
 //                }
 
+                SharedPreferences preferences=getSharedPreferences("config",MODE_PRIVATE);
+                moneyin.setText(payment.getShouru());
+                inStatic.setText("审核中");
+                phone.setText(preferences.getString("phone", ""));
+                time2.setText(payment.getRutime());
+
+                //*****************根据返回的Static状态来判断当前的体现状态***************
+                //  1表示审核中；2表示通过；3表示失败
+//                if(payment.getLstate()==null) {
+//                    payment.setLstate("0");
+//                    inStatic.setText("数据有误");
+//                }else{
+//                    if (payment.getOstate().equals("1")) {
+//                        inStatic.setText("审核中");
+//                    } else if (payment.getOstate().equals("2")) {
+//                        inStatic.setText("提现成功");
+//                    } else {
+//                        inStatic.setText("提现失败");
+//                    }
+//                }
             } else {
                 Log.i("ERROR", "payment的内容为空");
             }

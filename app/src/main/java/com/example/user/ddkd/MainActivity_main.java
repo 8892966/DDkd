@@ -111,12 +111,36 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
 
     //**********缓存并加载网络图片***********
     public void volley_Get_Image(){
-        bitmaoCache=new BitmaoCache();
         SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
-        String url="http://www.louxiago.com/wc/ddkd/admin.php/User/getLogo/token/"+sharedPreferences.getString("token",null);
-        ImageLoader imageLoader=new ImageLoader(MyApplication.getQueue(),bitmaoCache);
-        ImageLoader.ImageListener imageListener=ImageLoader.getImageListener(userimage,R.drawable.personinfo3,R.drawable.personinfo3);
-        imageLoader.get(url,imageListener);
+        String url="http://www.louxiago.com/wc/ddkd/admin.php/User/getLogo/token/"+sharedPreferences.getString("token","");
+        StringRequest stringRequest=new StringRequest(Request.Method.GET, url, new MyStringRequest() {
+            @Override
+            public void success(Object o) {
+                String s= (String) o;
+                bitmaoCache=new BitmaoCache();
+                String imageurl=s;
+                ImageLoader imageLoader=new ImageLoader(MyApplication.getQueue(),bitmaoCache);
+                ImageLoader.ImageListener imageListener=ImageLoader.getImageListener(userimage,R.drawable.personinfo3,R.drawable.personinfo3);
+                imageLoader.get(imageurl,imageListener);
+//                userimage.getDrawable();
+            }
+            @Override
+            public void tokenouttime() {
+
+            }
+
+            @Override
+            public void yidiensdfsdf() {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+        stringRequest.setTag("volley_Get_Image");
+        MyApplication.getQueue().add(stringRequest);
     }
 
     public void volley_Get(final UserInfo userInfo){
@@ -127,6 +151,7 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
             @Override
             public void success(Object o) {
                 String s= (String) o;
+                Log.i("Main",s);
                 if (!s.equals("ERROR")) {
                         Gson gson = new Gson();
                         UserInfo userInfo = gson.fromJson(s, UserInfo.class);
@@ -141,8 +166,9 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
                                 g.format(Double.valueOf(userInfo.getYingye()));
                                 turnover.setText(g.format(Double.valueOf(userInfo.getYingye())));
                             }
+                            DecimalFormat decimalFormat=new DecimalFormat("0.00");
+                            moneysum.setText(decimalFormat.format(Double.valueOf(userInfo.getBalance())));
                             username.setText(userInfo.getUsername());
-                            moneysum.setText(String.valueOf(userInfo.getBalance()));
                             userphone.setText(String.valueOf(userInfo.getPhone()));
 
                             //**********保存用户的个人信息，断网时回显***********
@@ -195,6 +221,6 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
     protected void onDestroy() {
         super.onDestroy();
         MyApplication.getQueue().cancelAll("Get_main");
-
+        MyApplication.getQueue().cancelAll("volley_Get_Image");
     }
 }

@@ -76,6 +76,7 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
                 case MyApplication.GET_TOKEN_SUCCESS:
                     userimage.setImageBitmap(cameraBitmap);
                     Toast.makeText(MainActivity_setting.this, "图片修改成功", Toast.LENGTH_SHORT).show();
+                    volley_Get_Image();
                     break;
                 case MyApplication.GET_TOKEN_ERROR:
                     Toast.makeText(MainActivity_setting.this, "图片修改失败，请重试", Toast.LENGTH_SHORT).show();
@@ -89,7 +90,6 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
             super.handleMessage(msg);
             switch (msg.what){
                 case MyApplication.GET_TOKEN_SUCCESS:
-
                     break;
                 case MyApplication.GET_TOKEN_ERROR:
                     break;
@@ -364,7 +364,6 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
         request.setTag("Get_Setting");
         MyApplication.getQueue().add(request);
     }
-
     public void volley_change_Get(String phone ,String token){
         String url="http://www.louxiago.com/wc/ddkd/admin.php/User/updateLogo/phone/"+phone+"/token/"+token;
         StringRequest request=new StringRequest(Request.Method.GET, url, new MyStringRequest() {
@@ -401,6 +400,25 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
         });
         request.setTag("Get_Setting_changImage");
         MyApplication.getQueue().add(request);
+    }
+    public void volley_Get_Image() {
+        final SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/getLogo/token/" + sharedPreferences.getString("token", "");
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("imageuri", s);
+                editor.commit();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(MainActivity_setting.this, "网络连接出错", Toast.LENGTH_SHORT).show();
+            }
+        });
+        stringRequest.setTag("volley_Get_Image_login");
+        MyApplication.getQueue().add(stringRequest);
     }
 
     public void onDestroy(){

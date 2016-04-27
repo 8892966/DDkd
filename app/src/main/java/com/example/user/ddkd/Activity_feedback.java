@@ -43,7 +43,6 @@ public class Activity_feedback extends Activity implements View.OnClickListener 
             case R.id.Fcommit:
                 String message=messageedit.getText().toString();
                 volley_Get(message);
-
                 finish();
                 break;
             case R.id.setExit:

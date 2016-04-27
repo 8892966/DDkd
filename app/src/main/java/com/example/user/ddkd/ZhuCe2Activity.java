@@ -54,6 +54,15 @@ public class ZhuCe2Activity extends Activity implements View.OnClickListener {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        Intent intent = new Intent(ZhuCe2Activity.this, ZhuCe1Activity.class);
+        intent.putExtra("SignUpInfo", getIntent().getSerializableExtra("SignUpInfo"));
+        startActivity(intent);
+        finish();
+    }
+
     //获取已有信息并添加新的信息
     private SignUpInfo getSignUpInfo(String password1) {
         SignUpInfo signUpInfo = (SignUpInfo) getIntent().getSerializableExtra("SignUpInfo");

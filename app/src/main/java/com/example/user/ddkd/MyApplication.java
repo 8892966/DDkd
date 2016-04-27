@@ -15,6 +15,10 @@ public class MyApplication extends Application {
     public static final int XG_TEXT_MESSAGE=1;
     public static final int GET_TOKEN_SUCCESS=2;
     public static final int GET_TOKEN_ERROR=3;
+    public static int touxiang=0;
+    public static int IdCard=0;
+    public static  int IdCardBack=0;
+    public static  int StudentCard=0;
     public static int state = 0;//0为非登录状态，1为登录状态
     @Override
     public void onCreate() {

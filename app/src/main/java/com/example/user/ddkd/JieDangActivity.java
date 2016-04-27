@@ -458,25 +458,30 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         String XGtoken=preferences.getString("XGtoken","");
         Log.e("volley_QD_GET",XGtoken);
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/RobOrder/orderId/"+id+"/token/" + token+"/deviceId/"+XGtoken;
-        StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        StringRequest request_post = new StringRequest(Request.Method.GET, url,new MyStringRequest(){
             @Override
-            public void onResponse(String s) {
-                Log.e("volley_QD_GET",s);
-                if (!s.equals("token outtime")) {
-                    if(s.equals("ERROR")){
-                        Toast.makeText(JieDangActivity.this,"网络异常",Toast.LENGTH_LONG).show();
-                    }else{
-                        button.setEnabled(false);
-                        button.setTextColor(Color.BLACK);
-                        button.setText("等待");
-                        Toast.makeText(JieDangActivity.this,"请等待抢单信息",Toast.LENGTH_LONG).show();
-                    }
-                } else {
-                    Log.e("volley_QD_GET", "token过时了");
-                    Object[] obj={id,button};
-                    AutologonUtil autologonUtil = new AutologonUtil(JieDangActivity.this,handler2,obj);
-                    autologonUtil.volley_Get_TOKEN();
+            public void success(Object o) {
+                String s= (String) o;
+                if(s.equals("ERROR")){
+                    Toast.makeText(JieDangActivity.this,"网络异常",Toast.LENGTH_LONG).show();
+                }else{
+                    button.setEnabled(false);
+                    button.setTextColor(Color.BLACK);
+                    button.setText("等待");
+                    Toast.makeText(JieDangActivity.this,"请等待抢单信息",Toast.LENGTH_LONG).show();
                 }
+            }
+            @Override
+            public void tokenouttime() {
+                Log.e("volley_QD_GET", "token过时了");
+                Object[] obj={id,button};
+                AutologonUtil autologonUtil = new AutologonUtil(JieDangActivity.this,handler2,obj);
+                autologonUtil.volley_Get_TOKEN();
+            }
+            @Override
+            public void yidiensdfsdf() {
+                Toast.makeText(JieDangActivity.this,"您的账户已在异地登录",Toast.LENGTH_SHORT).show();
+                Exit.exit(JieDangActivity.this);
             }
         },new Response.ErrorListener() {
             @Override
@@ -484,9 +489,9 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 Toast.makeText(JieDangActivity.this,"网络异常",Toast.LENGTH_LONG).show();
             }
         });
-        request_post.setTag("volley_QD_GET");
-        MyApplication.getQueue().add(request_post);
-    }
+            request_post.setTag("volley_QD_GET");
+            MyApplication.getQueue().add(request_post);
+        }
     long[] djtime =new long[2];
     @Override
     public void onBackPressed(){

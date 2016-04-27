@@ -1,13 +1,11 @@
 package com.example.user.ddkd;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +29,6 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -45,7 +42,6 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
     private MyAdapter myAdapter;
     private TextView balance;
     private UserInfo userInfo;
-    private ProgressDialog progressDialog;
     private Handler handler1 = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -165,7 +161,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
             @Override
             public void success(Object o) {
                 String s = (String) o;
-                Log.i("Balance",s);
+//                Log.i("Balance",s);
                 if (!s.equals("ERROR")) {
                     Gson gson = new Gson();
                     UserInfo userInfo = gson.fromJson(s, UserInfo.class);
@@ -179,7 +175,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
             }
             @Override
             public void tokenouttime() {
-                Log.i("TOKEN", "token outtime");
+                Log.i("TOKEN_balance", "token outtime");
                 AutologonUtil autologonUtil = new AutologonUtil(MainActivity_balance.this, handler1, userInfo1);
                 autologonUtil.volley_Get_TOKEN();
             }

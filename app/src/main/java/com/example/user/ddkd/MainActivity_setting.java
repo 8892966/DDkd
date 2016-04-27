@@ -24,9 +24,11 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.utils.AutologonUtil;
+import com.example.user.ddkd.utils.BitmaoCache;
 import com.example.user.ddkd.utils.Exit;
 import com.example.user.ddkd.utils.MyStringRequest;
 import com.example.user.ddkd.utils.PostUtil;
@@ -40,6 +42,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.util.HashMap;
@@ -64,6 +67,7 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
     private File tempFile;
     private String fileName = "";
     private Bitmap cameraBitmap;
+    private BitmaoCache bitmaoCache;
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -114,8 +118,16 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
         changeimage = (RelativeLayout) findViewById(R.id.changeimage);
         changeimage.setOnClickListener(this);
         ExitApplication.getInstance().addActivity(this);
-        SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
-        version.setText(sharedPreferences.getString("version",""));
+        SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
+        version.setText(sharedPreferences.getString("version", ""));
+
+        //复用bitmaoCache的缓存;
+        bitmaoCache=new BitmaoCache();
+        String imageuri=sharedPreferences.getString("imageuri","");
+        ImageLoader imageLoader=new ImageLoader(MyApplication.getQueue(),bitmaoCache);
+        Log.i("Imageuri",imageuri);
+        ImageLoader.ImageListener imageListener=ImageLoader.getImageListener(userimage, R.drawable.personinfo3, R.drawable.personinfo3);
+        imageLoader.get(imageuri,imageListener);
     }
 
     @Override
@@ -229,9 +241,6 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
                         public void run() {
                             super.run();
                             SharedPreferences sharedPreferences1 = getSharedPreferences("config", MODE_PRIVATE);
-//                            Map<String, String> map = new HashMap<String, String>();
-//                            map.put("phone", sharedPreferences1.getString("phone", ""));
-//                            map.put("token", sharedPreferences1.getString("token", ""));
                             Map<String, String> map1 = new HashMap<String, String>();
                             map1.put("phone", sharedPreferences1.getString("phone", ""));
                             map1.put("name", "touxiang");
@@ -240,13 +249,11 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
                             mapfile.put("touxiang", file);
                             //**********************图片修改成功之后就开始上传图片*********************************
                             try {
-//                                Log.e("Phone",sharedPreferences1.getString("phone", ""));
                                 String msg1 = PostUtil.post("http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage/name/touxiang/phone/" + sharedPreferences1.getString("phone", ""), map1, mapfile);
-                                Log.i("Msg1",msg1);
-                                if(msg1.equals("SUSSESS")) {
-                                    volley_change_Get(sharedPreferences1.getString("phone", ""),sharedPreferences1.getString("token", ""));
+                                if(msg1.equals("SUCCESS")) {
+                                    volley_change_Get(sharedPreferences1.getString("phone", ""), sharedPreferences1.getString("token", ""));
                                 }else{
-                                    Log.i("Image", msg1);
+                                    Log.i("Image_Get", msg1);
                                 }
                             } catch (IOException e) {
                                 e.printStackTrace();
@@ -335,9 +342,7 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
                     editor1.commit();
                 }
                 version.setText(s);
-
             }
-
             @Override
             public void tokenouttime() {
                 Log.i("Token","token outtime");
@@ -394,12 +399,13 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
                 Toast.makeText(MainActivity_setting.this,"网络连接出错",Toast.LENGTH_SHORT).show();
             }
         });
-        request.setTag("Get_Setting");
+        request.setTag("Get_Setting_changImage");
         MyApplication.getQueue().add(request);
     }
 
     public void onDestroy(){
         super.onDestroy();
+        MyApplication.getQueue().cancelAll("Get_Setting_changImage");
         MyApplication.getQueue().cancelAll("Get_Setting");
     }
 }

@@ -36,6 +36,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.security.Principal;
+import java.text.DecimalFormat;
 
 /**
  * Created by Administrator on 2016/4/5.
@@ -241,7 +242,8 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
                     Gson gson = new Gson();
                     userInfo = gson.fromJson(s, UserInfo.class);
 //                        Log.i("Money", String.valueOf(userInfo.getBalance()));
-                    yue.setText(userInfo.getBalance());
+                    DecimalFormat decimalFormat=new DecimalFormat("0.00");
+                    yue.setText(decimalFormat.format(Double.valueOf(userInfo.getBalance())));
                 } else {
                     Toast.makeText(MainActivity_getmoney.this, "网络连接出错", Toast.LENGTH_SHORT).show();
                 }

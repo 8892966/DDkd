@@ -23,17 +23,22 @@
             android:text="个人信息"
             android:textSize="25sp" />
     </RelativeLayout>
-    <ImageView
-        android:id="@+id/userimage"
+    <RelativeLayout
+        android:id="@+id/title2"
+        android:padding="10dip"
         android:layout_below="@id/title"
         android:layout_width="match_parent"
-        android:layout_height="120dip"
-        android:padding="10dip"
-        android:src="@drawable/personinfo3" />
-
+        android:layout_height="120dip">
+        <ImageView
+            android:layout_centerInParent="true"
+            android:id="@+id/userimage"
+            android:layout_width="100dip"
+            android:layout_height="100dip"
+            android:src="@drawable/personinfo3" />
+    </RelativeLayout>
     <ScrollView
         android:layout_above="@id/bottom"
-        android:layout_below="@id/userimage"
+        android:layout_below="@id/title2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     <LinearLayout

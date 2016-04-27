@@ -3,6 +3,7 @@ package com.example.user.ddkd;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -15,6 +16,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.user.ddkd.utils.Exit;
 import com.example.user.ddkd.utils.MyStringRequest;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 /**
  * Created by Administrator on 2016/4/24.
@@ -39,7 +43,7 @@ public class Activity_feedback extends Activity implements View.OnClickListener 
             case R.id.Fcommit:
                 String message=messageedit.getText().toString();
                 volley_Get(message);
-                Toast.makeText(Activity_feedback.this,"commie success",Toast.LENGTH_SHORT).show();
+
                 finish();
                 break;
             case R.id.setExit:
@@ -50,11 +54,18 @@ public class Activity_feedback extends Activity implements View.OnClickListener 
     public void volley_Get(String message){
         SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
         String token=sharedPreferences.getString("token", "");
-        String url="";
+        String ms = null;
+        try {
+            ms =URLEncoder.encode(message, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String url="www.louxiago.com/wc/ddkd/admin.php/YiJian/index/YiJian/"+ms+"/did/1/token/"+token;
+        Log.i("Feedback",url);
         StringRequest request=new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
-
+                Toast.makeText(Activity_feedback.this,"您的建议已提交",Toast.LENGTH_SHORT).show();
             }
             @Override
             public void tokenouttime() {

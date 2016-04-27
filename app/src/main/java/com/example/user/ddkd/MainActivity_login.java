@@ -128,7 +128,6 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                     //****************保存登录状态，0为离线状态，1为在线状态************************
                     edit.putString("loginstatic", "1");
                     MyApplication.state = 1;
-//                    MyApplication.state=1;
                     edit.commit();
                     // 开启logcat输出，方便debug，发布时请关闭
                     XGPushConfig.enableDebug(MainActivity_login.this, true);

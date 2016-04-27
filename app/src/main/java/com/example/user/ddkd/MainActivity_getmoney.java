@@ -180,7 +180,6 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
         String tname2 = null;
         String username2 = null;
         String beizhu2 = null;
-
         try {
             tname2 = URLEncoder.encode(tname, "utf-8");
             username2 = URLEncoder.encode(username, "utf-8");

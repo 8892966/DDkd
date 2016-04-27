@@ -53,11 +53,12 @@
         <activity android:name=".WebActivity" />
         <activity
             android:launchMode="singleTask"
-            android:name=".JieDangActivity" />
+            android:name=".JieDangActivity"
+            />
         <activity android:name=".ZhuCe1Activity" />
         <activity android:name=".ZhuCe3Activity" />
         <activity android:name=".DingDanActivity" />
-        <activity android:name=".details" />
+        <activity android:name=".details"/>
         <activity android:name=".MainActivity_setting" />
         <activity android:name=".MainActivity_userinfo" />
         <activity android:name=".MainActivity_getmoney" />
@@ -68,17 +69,12 @@
         <activity android:name=".MainActivity_login" />
         <activity android:name=".Announce"/>
         <activity android:name=".Activity_feedback"/>
-
-
         <!-- APP项目的其它配置... -->
-
-
         <!-- 【必须】 信鸽receiver广播接收 -->
         <receiver
             android:name="com.tencent.android.tpush.XGPushReceiver"
             android:process=":xg_service_v2" >
             <intent-filter android:priority="0x7fffffff" >
-
                 <!-- 【必须】 信鸽SDK的内部广播 -->
                 <action android:name="com.tencent.android.tpush.action.SDK" />
                 <action android:name="com.tencent.android.tpush.action.INTERNAL_PUSH_MESSAGE" />

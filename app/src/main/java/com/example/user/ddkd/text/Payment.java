@@ -14,6 +14,56 @@ public class Payment {
     private String zhichu;
     private String chutime;
     private String rutime;
+    private String lstate;
+    private String ostate;
+
+    public String getChutime() {
+        return chutime;
+    }
+
+    public String getLstate() {
+        return lstate;
+    }
+
+    public String getOstate() {
+        return ostate;
+    }
+
+    public String getRutime() {
+        return rutime;
+    }
+
+    public String getShouru() {
+        return shouru;
+    }
+
+    public String getZhichu() {
+        return zhichu;
+    }
+
+    public void setChutime(String chutime) {
+        this.chutime = chutime;
+    }
+
+    public void setLstate(String lstate) {
+        this.lstate = lstate;
+    }
+
+    public void setOstate(String ostate) {
+        this.ostate = ostate;
+    }
+
+    public void setRutime(String rutime) {
+        this.rutime = rutime;
+    }
+
+    public void setShouru(String shouru) {
+        this.shouru = shouru;
+    }
+
+    public void setZhichu(String zhichu) {
+        this.zhichu = zhichu;
+    }
 
     public String getCounter() {
         return counter;

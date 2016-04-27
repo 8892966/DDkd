@@ -5,7 +5,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -18,11 +22,24 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.baidu.mobstat.StatService;
+import com.example.user.ddkd.utils.BitmaoCache;
+import com.example.user.ddkd.utils.MyStringRequest;
 import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 
 /**
@@ -36,6 +53,8 @@ public class MainActivity_login extends Activity implements View.OnClickListener
     private TextView forget;
     private ProgressDialog progressDialog;
     private CheckBox rembpwd;
+    private File tempFile;
+    private BitmaoCache bitmaoCache;
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
@@ -230,5 +249,55 @@ public class MainActivity_login extends Activity implements View.OnClickListener
         });
         request_post.setTag("volley_phoExist_GET");
         MyApplication.getQueue().add(request_post);
+    }
+    public void volley_Get_Image(){
+        SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
+        String url="http://www.louxiago.com/wc/ddkd/admin.php/User/getLogo/token/"+sharedPreferences.getString("token","");
+        StringRequest stringRequest=new StringRequest(Request.Method.GET, url, new MyStringRequest() {
+            @Override
+            public void success(Object o) {
+//                String s= (String) o;
+//                bitmaoCache=new BitmaoCache();
+//                String imageurl=s;
+//                ImageLoader imageLoader=new ImageLoader(MyApplication.getQueue(),bitmaoCache);
+//                ImageLoader.ImageListener imageListener=ImageLoader.getImageListener(userimage,R.drawable.personinfo3,R.drawable.personinfo3);
+//                imageLoader.get(imageurl,);
+////                userimage.getDrawable();
+//                Bitmap bm = null;
+//                File tmpDir = new File(Environment.getExternalStorageDirectory() + "/DDkdphoto");
+//                imageLoader.get(imageurl,);
+//                if (!tmpDir.exists()) {
+//                    tmpDir.mkdir();
+//                }
+//                tempFile = new File(tmpDir, System.currentTimeMillis() + ".png");
+//                try {
+//                    FileOutputStream fos = new FileOutputStream(tempFile);
+//                    bm.compress(Bitmap.CompressFormat.PNG, 85, fos);
+//                    fos.flush();
+//                    fos.close();
+//                } catch (FileNotFoundException e) {
+//                    e.printStackTrace();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+
+            }
+            @Override
+            public void tokenouttime() {
+
+            }
+
+            @Override
+            public void yidiensdfsdf() {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+        stringRequest.setTag("volley_Get_Image_login");
+        MyApplication.getQueue().add(stringRequest);
     }
 }

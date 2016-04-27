@@ -109,28 +109,33 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
         String token = sharedPreferences.getString("token", null);
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/takeoutrecord/token/" + token;
         //**********从后台返回一个参数来说明数据的获取状况**********
-        Log.i("Payment",url);
+        Log.i("Payment", url);
         StringRequest request = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
                 String s = o.toString();
-                Log.i("Payment",s);
-                if (!s.equals("ERROR")) {
-                    Log.i("Balance",s);
-                    Type listv = new TypeToken<LinkedList<Payment>>() {
-                    }.getType();
-                    Gson gson = new Gson();
-                    paymentslist = gson.fromJson(s, listv);
+                Log.i("Payment", s);
+                if (s.equals("")) {
+                    if (!s.equals("ERROR")) {
+                        Log.i("Balance", s);
+                        Type listv = new TypeToken<LinkedList<Payment>>() {
+                        }.getType();
+                        Gson gson = new Gson();
+                        paymentslist = gson.fromJson(s, listv);
 //                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyy/mm/dd  HH:mm:ss");
 //                    for (Payment paymentslist2 : paymentslist) {
 //                        paymentslist2.setChutime(dateFormat.format(Long.valueOf(paymentslist2.getChutime())));
 //                        paymentslist2.setRutime(dateFormat.format(Long.valueOf(paymentslist2.getRutime())));
 //                    }
-                    myAdapter.notifyDataSetChanged();
-                } else {
-                    Toast.makeText(MainActivity_balance.this, "网络连接出错", Toast.LENGTH_SHORT).show();
+                        myAdapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(MainActivity_balance.this, "网络连接出错", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Log.i("Error_Payment","Payment is null");
                 }
             }
+
             @Override
             public void tokenouttime() {
                 Log.i("token outtime", "token outtime");
@@ -166,13 +171,14 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
                     Gson gson = new Gson();
                     UserInfo userInfo = gson.fromJson(s, UserInfo.class);
                     if (userInfo != null) {
-                        DecimalFormat decimalFormat=new DecimalFormat("0.00");
+                        DecimalFormat decimalFormat = new DecimalFormat("0.00");
                         balance.setText(decimalFormat.format(Double.valueOf(userInfo.getBalance())));
                     }
                 } else {
                     Toast.makeText(MainActivity_balance.this, "网络连接异常", Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void tokenouttime() {
                 Log.i("TOKEN_balance", "token outtime");
@@ -226,10 +232,10 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
             TextView counter = (TextView) view.findViewById(R.id.counter);
             TextView time1 = (TextView) view.findViewById(R.id.time1);
             //收入
-            TextView moneyin= (TextView) view.findViewById(R.id.moneyin);
-            TextView inStatic= (TextView) view.findViewById(R.id.inStaric);
-            TextView phone= (TextView) view.findViewById(R.id.phone);
-            TextView time2= (TextView) view.findViewById(R.id.time2);
+            TextView moneyin = (TextView) view.findViewById(R.id.moneyin);
+            TextView inStatic = (TextView) view.findViewById(R.id.inStaric);
+            TextView phone = (TextView) view.findViewById(R.id.phone);
+            TextView time2 = (TextView) view.findViewById(R.id.time2);
 
             Payment payment = paymentslist.get(position);
             if (payment != null) {
@@ -250,7 +256,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
 //                    }
 //                }
 
-                SharedPreferences preferences=getSharedPreferences("config",MODE_PRIVATE);
+                SharedPreferences preferences = getSharedPreferences("config", MODE_PRIVATE);
                 moneyin.setText(payment.getShouru());
                 inStatic.setText("审核中");
                 phone.setText(preferences.getString("phone", ""));

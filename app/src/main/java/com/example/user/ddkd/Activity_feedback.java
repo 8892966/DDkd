@@ -3,6 +3,8 @@ package com.example.user.ddkd;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -14,6 +16,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.user.ddkd.utils.AutologonUtil;
 import com.example.user.ddkd.utils.Exit;
 import com.example.user.ddkd.utils.MyStringRequest;
 
@@ -27,6 +30,22 @@ public class Activity_feedback extends Activity implements View.OnClickListener 
     private TextView Fcommit;
     private EditText messageedit;
     private ImageView exit;
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case MyApplication.GET_TOKEN_SUCCESS:
+                    Object[] objects= (Object[]) msg.obj;
+                    String ms= (String) objects[0];
+                    volley_Get(ms);
+                    break;
+                case MyApplication.GET_TOKEN_ERROR:
+
+                    break;
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +69,7 @@ public class Activity_feedback extends Activity implements View.OnClickListener 
                 break;
         }
     }
-    public void volley_Get(String message){
+    public void volley_Get(final String message){
         SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
         String token=sharedPreferences.getString("token", "");
         String ms = null;
@@ -59,7 +78,7 @@ public class Activity_feedback extends Activity implements View.OnClickListener 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        String url="www.louxiago.com/wc/ddkd/admin.php/YiJian/index/YiJian/"+ms+"/did/1/token/"+token;
+        String url="http://www.louxiago.com/wc/ddkd/admin.php/YiJian/index/YiJian/"+ms+"/did/1/token/"+token;
         Log.i("Feedback",url);
         StringRequest request=new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
@@ -68,7 +87,10 @@ public class Activity_feedback extends Activity implements View.OnClickListener 
             }
             @Override
             public void tokenouttime() {
-
+                Log.i("Feedback", "token outtime");
+                Object[] obj={message};
+                AutologonUtil autologonUtil=new AutologonUtil(Activity_feedback.this,handler,obj);
+                autologonUtil.volley_Get_TOKEN();
             }
             @Override
             public void yidiensdfsdf() {

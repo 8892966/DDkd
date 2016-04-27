@@ -1,6 +1,7 @@
 package com.example.user.ddkd.utils;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.util.LruCache;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -17,11 +18,13 @@ public class BitmaoCache implements ImageLoader.ImageCache {
                 return values.getRowBytes()*values.getHeight();
             }
         };
+        Log.e("cache====","bitmao");
     }
     @Override
     public Bitmap getBitmap(String s) {
-
+        Log.e("cache====","getBimap");
         return cache.get(s);
+
     }
 
     @Override

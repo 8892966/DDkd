@@ -10,6 +10,9 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
+import android.support.annotation.MainThread;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -26,6 +29,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.utils.BitmaoCache;
+import com.example.user.ddkd.utils.Exit;
 import com.example.user.ddkd.utils.MyStringRequest;
 import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGPushConfig;
@@ -148,6 +152,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                             Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
                         }
                     });
+                    volley_Get_Image();
                     closeProgressDialog();
                     Intent intent = new Intent(MainActivity_login.this, JieDangActivity.class);
                     startActivity(intent);
@@ -250,51 +255,21 @@ public class MainActivity_login extends Activity implements View.OnClickListener
         request_post.setTag("volley_phoExist_GET");
         MyApplication.getQueue().add(request_post);
     }
+    //**********缓存并加载网络图片***********
     public void volley_Get_Image(){
-        SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
+        final SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
         String url="http://www.louxiago.com/wc/ddkd/admin.php/User/getLogo/token/"+sharedPreferences.getString("token","");
-        StringRequest stringRequest=new StringRequest(Request.Method.GET, url, new MyStringRequest() {
+        StringRequest stringRequest=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
-            public void success(Object o) {
-//                String s= (String) o;
-//                bitmaoCache=new BitmaoCache();
-//                String imageurl=s;
-//                ImageLoader imageLoader=new ImageLoader(MyApplication.getQueue(),bitmaoCache);
-//                ImageLoader.ImageListener imageListener=ImageLoader.getImageListener(userimage,R.drawable.personinfo3,R.drawable.personinfo3);
-//                imageLoader.get(imageurl,);
-////                userimage.getDrawable();
-//                Bitmap bm = null;
-//                File tmpDir = new File(Environment.getExternalStorageDirectory() + "/DDkdphoto");
-//                imageLoader.get(imageurl,);
-//                if (!tmpDir.exists()) {
-//                    tmpDir.mkdir();
-//                }
-//                tempFile = new File(tmpDir, System.currentTimeMillis() + ".png");
-//                try {
-//                    FileOutputStream fos = new FileOutputStream(tempFile);
-//                    bm.compress(Bitmap.CompressFormat.PNG, 85, fos);
-//                    fos.flush();
-//                    fos.close();
-//                } catch (FileNotFoundException e) {
-//                    e.printStackTrace();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-
-            }
-            @Override
-            public void tokenouttime() {
-
-            }
-
-            @Override
-            public void yidiensdfsdf() {
-
+            public void onResponse(String s) {
+                SharedPreferences.Editor editor=sharedPreferences.edit();
+                editor.putString("imageuri", s);
+                editor.commit();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                Toast.makeText(MainActivity_login.this,"网络连接出错",Toast.LENGTH_SHORT).show();
             }
         });
         stringRequest.setTag("volley_Get_Image_login");

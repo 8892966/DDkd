@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,6 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.text.UserInfo;
@@ -34,7 +36,7 @@ import java.text.DecimalFormat;
 public class MainActivity_main extends Activity implements View.OnClickListener {
     private ImageView announce;
     private RelativeLayout title;
-    private ImageView userimage;
+    private NetworkImageView userimage;
     private TextView username;
     private BitmaoCache bitmaoCache;
     private TextView turnover;
@@ -49,12 +51,31 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
             volley_Get(userInfo);
         }
     };
+    private Handler handler_image=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case MyApplication.GET_TOKEN_SUCCESS:
+                    String imageurl= (String) msg.obj;
+                    bitmaoCache=new BitmaoCache();
+                    ImageLoader imageLoader=new ImageLoader(MyApplication.getQueue(),bitmaoCache);
+                    userimage.setDefaultImageResId(R.drawable.personinfo3);
+                    userimage.setErrorImageResId(R.drawable.personinfo3);
+                    userimage.setImageUrl(imageurl, imageLoader);
+                    break;
+                case MyApplication.GET_TOKEN_ERROR:
+
+                    break;
+            }
+        }
+    };
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_userinfo);
 
         //*******个人中心的信息回显*********
-        userimage= (ImageView) findViewById(R.id.userimage);
+        userimage= (NetworkImageView) findViewById(R.id.userimage);
         username= (TextView) findViewById(R.id.username);
         userphone= (TextView) findViewById(R.id.userphone);
         turnover= (TextView) findViewById(R.id.turnover);
@@ -73,10 +94,20 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
         userinfo.setOnClickListener(this);
         LinearLayout setting=(LinearLayout)findViewById(R.id.setting);
         setting.setOnClickListener(this);
-
-        volley_Get_Image();
         volley_Get(userInfo);
         ExitApplication.getInstance().addActivity(this);
+        SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
+        String imageuri=sharedPreferences.getString("imageuri","");
+        Log.i("URL",imageuri);
+        if(!TextUtils.isEmpty(imageuri)){
+            bitmaoCache=new BitmaoCache();
+            ImageLoader imageLoader=new ImageLoader(MyApplication.getQueue(),bitmaoCache);
+            userimage.setDefaultImageResId(R.drawable.personinfo3);
+            userimage.setErrorImageResId(R.drawable.personinfo3);
+            userimage.setImageUrl(imageuri, imageLoader);
+        }else{
+            volley_Get_Image();
+        }
     }
 
     @Override
@@ -111,32 +142,35 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
 
     //**********缓存并加载网络图片***********
     public void volley_Get_Image(){
-        SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
+        final SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
         String url="http://www.louxiago.com/wc/ddkd/admin.php/User/getLogo/token/"+sharedPreferences.getString("token","");
         StringRequest stringRequest=new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
                 String s= (String) o;
-                bitmaoCache=new BitmaoCache();
+                SharedPreferences.Editor editor=sharedPreferences.edit();
+                editor.putString("imageuri", s);
+                editor.commit();
                 String imageurl=s;
-                ImageLoader imageLoader=new ImageLoader(MyApplication.getQueue(),bitmaoCache);
-                ImageLoader.ImageListener imageListener=ImageLoader.getImageListener(userimage,R.drawable.personinfo3,R.drawable.personinfo3);
-                imageLoader.get(imageurl,imageListener);
-//                userimage.getDrawable();
+                Message ms=new Message();
+                ms.obj=imageurl;
+                handler_image.sendMessage(ms);
+                //ImageLoader.ImageListener imageListener=ImageLoader.getImageListener(userimage,R.drawable.personinfo3,R.drawable.personinfo3);
+                //imageLoader.get(imageurl,imageListener);
             }
             @Override
             public void tokenouttime() {
 
             }
-
             @Override
             public void yidiensdfsdf() {
-
+                Exit.exit(MainActivity_main.this);
+                Toast.makeText(MainActivity_main.this,"您的账户已在异地登录",Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                Log.e("ERROR","====>");
             }
         });
         stringRequest.setTag("volley_Get_Image");

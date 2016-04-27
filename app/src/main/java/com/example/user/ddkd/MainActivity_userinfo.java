@@ -10,16 +10,19 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.text.UserInfo;
 import com.example.user.ddkd.utils.AutologonUtil;
+import com.example.user.ddkd.utils.BitmaoCache;
 import com.example.user.ddkd.utils.Exit;
 import com.example.user.ddkd.utils.MyStringRequest;
 import com.google.gson.Gson;
@@ -35,7 +38,9 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
     private TextView phone;
     private TextView shortphone;
     private TextView level;
+    private ImageView userimage;
     private UserInfo userInfo;
+    private BitmaoCache bitmaoCache =new BitmaoCache();
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -53,10 +58,17 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
         collage= (TextView) findViewById(R.id.collage);
         number= (TextView) findViewById(R.id.number);
         phone= (TextView) findViewById(R.id.phone);
+        userimage= (ImageView) findViewById(R.id.userimage);
         shortphone= (TextView) findViewById(R.id.shortphone);
         level= (TextView) findViewById(R.id.level);
         Voley_Get(userInfo);
         ExitApplication.getInstance().addActivity(this);
+
+        SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
+        String url=sharedPreferences.getString("imageuri", "");
+        ImageLoader imageLoader=new ImageLoader(MyApplication.getQueue(),bitmaoCache);
+        ImageLoader.ImageListener imageListener=ImageLoader.getImageListener(userimage,R.drawable.userimage,R.drawable.userimage);
+        imageLoader.get(url,imageListener);
     }
 
     public void Voley_Get(final UserInfo userInfo){
@@ -75,24 +87,27 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
                         boolean network=isNetworkConnected();
                         if (network){
                             //**********当网络连接存在时，从后台获取用户信息***********
-                            Log.i("SUCCESS","SUCCESS");
+                            Log.i("SUCCESS", "SUCCESS");
                             //*****************根据Json中的数据回显用户的信息********************
                             username.setText(userInfo.getUsername());
                             collage.setText(userInfo.getCollege());
                             number.setText(userInfo.getNumber()+"");
                             phone.setText(userInfo.getPhone()+"");
                             shortphone.setText(userInfo.getShortphone()+"");
-                            level.setText(userInfo.getLevel());
-                        }else{
+                            String name=getLevel(userInfo.getLevel());
+                            level.setText(name);
+                        }else {
                             //当网络连接不存在时，从手机的内存中获取用户信息
-                            Log.i("ERROR","ERROR");
-                            SharedPreferences sharedPreferences1=getSharedPreferences("user",MODE_PRIVATE);
-                            username.setText(sharedPreferences1.getString("username",null));
-                            collage.setText(sharedPreferences1.getString("collage", null));
-                            number.setText(sharedPreferences1.getString("number",null));
-                            phone.setText(sharedPreferences1.getString("phone",null));
-                            shortphone.setText(sharedPreferences1.getString("shortphone",null));
-                            level.setText(sharedPreferences1.getString("level",null));
+                            Log.i("ERROR", "ERROR");
+                            SharedPreferences sharedPreferences1 = getSharedPreferences("user", MODE_PRIVATE);
+                            username.setText(sharedPreferences1.getString("username", ""));
+                            collage.setText(sharedPreferences1.getString("collage", ""));
+                            number.setText(sharedPreferences1.getString("number", ""));
+                            phone.setText(sharedPreferences1.getString("phone", ""));
+                            shortphone.setText(sharedPreferences1.getString("shortphone", ""));
+                            String name=getLevel(sharedPreferences1.getString("shortphone", ""));
+                            level.setText(name);
+
                         }
                     }else{
                         Log.i("Error","List is null");
@@ -157,5 +172,17 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
         MyApplication.getQueue().cancelAll("abcPost_userinfo");
+    }
+    public String getLevel(String level){
+        String dengji=level;
+        if (dengji.equals("0")) {
+            return dengji="铁牌快递员";
+        } else if (dengji.equals("1")) {
+            return dengji="铜牌快递员";
+        } else if (dengji.equals("2")) {
+            return dengji="银牌快递员";
+        } else{
+            return dengji="金牌快递员";
+        }
     }
 }

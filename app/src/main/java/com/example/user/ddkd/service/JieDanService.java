@@ -58,11 +58,11 @@ public class JieDanService extends Service {
                     if (o[0] != null) {
                         ijd.Delete(o[0]);
                         int i = 0;
-//                        for (QOrderInfo xgp : o[0]) {
-//                            Log.e("JieDanService", xgp.toString() + 0 + (i++));
-//                        }
+                        for (QOrderInfo xgp : o[0]) {
+                            Log.e("JieDanService", xgp.toString() + 0 + (i++));
+                        }
                     } else {
-//                        Log.e("JieDanService", "时间还没到");
+                        Log.e("JieDanService", "时间还没到");
                     }
                     if (o[o.length - 1] != null) {
                         //判断抢单页面是否在前台

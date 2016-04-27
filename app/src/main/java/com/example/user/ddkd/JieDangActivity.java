@@ -295,6 +295,9 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     protected void onResume(){
         StatService.onResume(this);
         SharedPreferences sharedPreferences=getSharedPreferences("qtmsg", MODE_PRIVATE);
+
+        Log.e("JieDangActivity", getIntent().getBooleanExtra("info", false)+"");
+
         if(!sharedPreferences.getString("QT", "").equals("")){
 //            Log.e("onResume","1111111111111111111111");
             jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
@@ -316,7 +319,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onPause() {
         super.onPause();
-        Log.e("onPause","2222222222222222");
+//        Log.e("onPause","2222222222222222");
         if(sreviceisrunning){
             unbindService(sc);
         }

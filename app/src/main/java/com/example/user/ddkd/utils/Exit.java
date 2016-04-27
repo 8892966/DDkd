@@ -26,6 +26,6 @@ public class Exit {
         activity.startActivity(intent);
         XGPushManager.unregisterPush(activity);
         activity.finish();
-        Toast.makeText(activity, "退出成功", Toast.LENGTH_SHORT).show();
+
     }
 }

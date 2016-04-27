@@ -29,9 +29,11 @@ import com.example.user.ddkd.beam.OrderInfo;
 import com.example.user.ddkd.utils.AutologonUtil;
 import com.example.user.ddkd.utils.Exit;
 import com.example.user.ddkd.utils.MyStringRequest;
+import com.example.user.ddkd.utils.TimeUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -223,26 +225,31 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                 zhuanTai.button.setText("已拿件");
 //                zhuanTai.textbutton.setVisibility(View.VISIBLE);
                 zhuanTai.button.setVisibility(View.VISIBLE);
+                zhuanTai.tv_dingdang_liuyan.setText("留言：" + info.getEvaluate());
             } else if (xuanzhe == 2) {
 //                zhuanTai.tv_dingdang_liyou.setVisibility(View.GONE);
                 zhuanTai.button.setText("完成");
 //                zhuanTai.textbutton.setVisibility(View.GONE);
                 zhuanTai.button.setVisibility(View.VISIBLE);
+                zhuanTai.tv_dingdang_liuyan.setText("留言：" + info.getEvaluate());
             } else if (xuanzhe == 3) {
 //                zhuanTai.tv_dingdang_liyou.setVisibility(View.GONE);
 //                zhuanTai.textbutton.setVisibility(View.GONE);
                 zhuanTai.button.setVisibility(View.GONE);
+                zhuanTai.tv_dingdang_liuyan.setText("留言：" + info.getEvaluate());
             } else if (xuanzhe == 4) {
 //                zhuanTai.tv_dingdang_liyou.setVisibility(View.VISIBLE);
 //                zhuanTai.textbutton.setVisibility(View.GONE);
                 zhuanTai.button.setVisibility(View.GONE);
+                zhuanTai.tv_dingdang_liuyan.setText("留言：" + info.getEvaluate()+
+                        "\n退单理由：");
 //                zhuanTai.tv_dingdang_liyou.setText();
             }
             zhuanTai.tv_dingdang_id.setText("订单：" + info.getId());
             zhuanTai.tv_money.setText(info.getPrice() + "元");
             zhuanTai.tv_dingdang_kehu.setText("   " + info.getUsername() + "   " + info.getPhone());
             zhuanTai.tv_dingdang_kuaidi_dizhi.setText("   " + info.getAddressee() + "   " + info.getExpressCompany() + "快递");
-            zhuanTai.tv_dingdang_liuyan.setText("留言：" + info.getEvaluate());
+//            zhuanTai.tv_dingdang_liuyan.setText("留言：" + info.getEvaluate());
             zhuanTai.tv_dingdang_shijain.setText(info.getTime() + "");
             zhuanTai.tv_dingdang_nudi_dizhi.setText("   " + info.getReceivePlace());
             zhuanTai.iv_call_phone.setOnClickListener(new MyOnClickListener(info, null, null));
@@ -328,9 +335,9 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                     list = gson.fromJson((String)o, new TypeToken<List<OrderInfo>>() {
                     }.getType());
                     //转化时间戳
-                    SimpleDateFormat format = new SimpleDateFormat("MM月dd日 HH:mm");
                     for (OrderInfo info : list) {
-                        info.setTime(format.format(Long.valueOf(info.getTime())));
+                        info.setTime(TimeUtil.getStrTime(info.getTime()));
+//                        info.setTime(format.format(Long.valueOf(info.getTime())));
                     }
                 } else {
                     list.clear();

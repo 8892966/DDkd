@@ -78,6 +78,7 @@ public class SplashActivity extends AppCompatActivity {
         StatService.setSessionTimeOut(0);
         Log.e("onCreate", getVersonName());
         ExitApplication.getInstance().addActivity(this);
+
         if(MyApplication.state==0) {
             try {
                 Thread.sleep(2000);

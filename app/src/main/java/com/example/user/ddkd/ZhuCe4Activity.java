@@ -61,6 +61,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
     public static final int SUCCESS = 1;//提交数据成功：
     public static final int ERROR = 2;//提交数据成功：
     public static final int NEXT = 3;//提交图片成功，进行下一个
+    public static int Static = 0;
     //    //放照片文件
 //    private File file;
     //放照片的控件
@@ -81,16 +82,100 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
             super.handleMessage(msg);
             switch (msg.what) {
                 case SUCCESS:
-                        Toast.makeText(getApplication(), "提交成功，请登录", Toast.LENGTH_SHORT).show();
-                        closeProgressDialog();
-                        finish();
+                    Toast.makeText(getApplication(), "提交成功，请登录", Toast.LENGTH_SHORT).show();
+                    closeProgressDialog();
+                    finish();
                     break;
                 case ERROR:
-                    Toast.makeText(getApplication(), "网络异常请稍后再注册", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplication(), "提交失败，请重新提交", Toast.LENGTH_SHORT).show();
                     closeProgressDialog();
                     break;
                 case NEXT:
-                    progressDialog.setProgress(msg.arg1);
+                    if (Static == 0) {
+                        Static++;
+                        progressDialog.setProgress(Static);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                File file1 = new File(getRealFilePath(ZhuCe4Activity.this, uri1));
+                                Map<String, File> mapfile2 = new HashMap<String, File>();
+                                mapfile2.put("IdCard", file1);
+                                Map<String, String> map2 = new HashMap<String, String>();
+                                map2.put("name", "IdCard");
+                                map2.put("phone", signUpInfo.getPhone());
+                                Message message = new Message();
+                                String msg2 = null;
+                                try {
+                                    msg2 = PostUtil.post("http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage/name/IdCard/phone/" + signUpInfo.getPhone(), map2, mapfile2);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    handler.sendEmptyMessage(ERROR);
+                                }
+                                Log.e("msg2", msg2);
+                                message.what = NEXT;
+                                handler.sendMessage(message);
+                            }
+                        }).start();
+                    }else
+                    if (Static == 1) {
+                        Static++;
+                        progressDialog.setProgress(Static);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Message message = new Message();
+                                File file2 = new File(getRealFilePath(ZhuCe4Activity.this, uri2));
+                                Map<String, File> mapfile3 = new HashMap<String, File>();
+                                mapfile3.put("IdCardBack", file2);
+                                Map<String, String> map3 = new HashMap<String, String>();
+                                map3.put("name", "IdCardBack");
+                                map3.put("phone", signUpInfo.getPhone());
+                                String msg3 = null;
+                                try {
+                                    msg3 = PostUtil.post("http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage/name/IdCardBack/phone/" + signUpInfo.getPhone(), map3, mapfile3);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    handler.sendEmptyMessage(ERROR);
+                                }
+                                Log.e("msg3", msg3);
+                                message.what = NEXT;
+                                handler.sendMessage(message);
+                            }
+                        }).start();
+
+                    }else
+                    if (Static == 2) {
+                        Static++;
+                        progressDialog.setProgress(Static);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Message message = new Message();
+                                File file3 = new File(getRealFilePath(ZhuCe4Activity.this, uri3));
+                                Map<String, File> mapfile4 = new HashMap<String, File>();
+                                mapfile4.put("StudentCard", file3);
+                                Map<String, String> map4 = new HashMap<String, String>();
+                                map4.put("name", "StudentCard");
+                                map4.put("phone", signUpInfo.getPhone());
+                                String msg4 = null;
+                                try {
+                                    msg4 = PostUtil.post("http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage/name/StudentCard/phone/" + signUpInfo.getPhone(), map4, mapfile4);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    handler.sendEmptyMessage(ERROR);
+                                }
+                                Log.e("msg4", msg4);
+                                message.what = NEXT;
+                                handler.sendMessage(message);
+                            }
+                        }).start();
+                    }else if(Static == 3){
+                        progressDialog.setProgress(Static++);
+                        volley_ZC_GET(map);
+                        handler.sendEmptyMessage(SUCCESS);
+                        Static=0;
+                    }
+                    break;
             }
         }
     };
@@ -101,8 +186,6 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.zhuce4_activity);
-
-        signUpInfo = (SignUpInfo) getIntent().getSerializableExtra("SignUpInfo");
 
 //        initFile();//初始化文件
         //拍照
@@ -151,6 +234,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 paizhao(103);
                 break;
             case R.id.tv_button_next:
+                signUpInfo = (SignUpInfo) getIntent().getSerializableExtra("SignUpInfo");
                 picture = getIntent().getStringExtra("picture");
                 map = new HashMap<String, String>();
 //                Log.e("map", signUpInfo.getClazz());
@@ -164,50 +248,44 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 map.put("shortphone", signUpInfo.getShortnumber());
                 map.put("username", signUpInfo.getUsername());
                 showProgressDialog(4);
-                volley_ZC_GET(map);
+                handler.sendEmptyMessage(NEXT);
 //                new Thread(new Runnable() {
 //                    @Override
 //                    public void run() {
 //                        int i = 0;
-//                        File file = new File(picture);
-//                        File file1 = new File(uri1.getPath());
-//                        File file2 = new File(uri2.getPath());
-//                        File file3 = new File(uri3.getPath());
+////                        File file = new File(picture);
+////                        File file1 = new File(uri1.getPath());
+////                        File file2 = new File(uri2.getPath());
+////                        File file3 = new File(uri3.getPath());
 //                        File file1 = new File(getRealFilePath(ZhuCe4Activity.this, uri1));
-//                        File file2 = new File(getRealFilePath(ZhuCe4Activity.this, uri2));
-//                        File file3 = new File(getRealFilePath(ZhuCe4Activity.this, uri3));
-//                        Log.e("name", picture);
-//                        Log.e("name", uri1.getPath());
-//                        Log.e("name", uri2.getPath());
-//                        Log.e("name", uri3.getPath());
-//                        Map<String, File> mapfile1 = new HashMap<String, File>();
 //                        Map<String, File> mapfile2 = new HashMap<String, File>();
-//                        Map<String, File> mapfile3 = new HashMap<String, File>();
-//                        Map<String, File> mapfile4 = new HashMap<String, File>();
-//                        mapfile1.put("touxiang", file);
 //                        mapfile2.put("IdCard", file1);
-//                        mapfile3.put("IdCardBack", file2);
-//                        mapfile4.put("StudentCard", file3);
-//                        Map<String, String> map1 = new HashMap<String, String>();
-//                        map1.put("name", "touxiang");
-//                        map1.put("phone", signUpInfo.getPhone());
 //                        Map<String, String> map2 = new HashMap<String, String>();
 //                        map2.put("name", "IdCard");
 //                        map2.put("phone", signUpInfo.getPhone());
+//
+//                        File file2 = new File(getRealFilePath(ZhuCe4Activity.this, uri2));
+//                        Map<String, File> mapfile3 = new HashMap<String, File>();
+//                        mapfile3.put("IdCardBack", file2);
 //                        Map<String, String> map3 = new HashMap<String, String>();
 //                        map3.put("name", "IdCardBack");
 //                        map3.put("phone", signUpInfo.getPhone());
+//
+//                        File file3 = new File(getRealFilePath(ZhuCe4Activity.this, uri3));
+//                        Map<String, File> mapfile4 = new HashMap<String, File>();
+//                        mapfile4.put("StudentCard", file3);
 //                        Map<String, String> map4 = new HashMap<String, String>();
 //                        map4.put("name", "StudentCard");
 //                        map4.put("phone", signUpInfo.getPhone());
+//
 //                        try {
-//                            String msg1 = PostUtil.post("http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage/name/touxiang/phone/" + signUpInfo.getPhone(), map1, mapfile1);
-//                            Log.e("msg1", msg1);
+////                            String msg1 = PostUtil.post("http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage/name/touxiang/phone/" + signUpInfo.getPhone(), map1, mapfile1);
+////                            Log.e("msg1", msg1);
 //                            Message message = new Message();
-//                            message.arg1 = i;
-//                            message.what = NEXT;
-//                            handler.sendMessage(message);
-//                            i++;
+////                            message.arg1 = i;
+////                            message.what = NEXT;
+////                            handler.sendMessage(message);
+////                            i++;
 //                            String msg2 = PostUtil.post("http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage/name/IdCard/phone/" + signUpInfo.getPhone(), map2, mapfile2);
 //                            Log.e("msg2", msg2);
 //                            message.arg1 = i;
@@ -225,7 +303,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
 //                            message.arg1 = i;
 //                            message.what = NEXT;
 //                            handler.sendMessage(message);
-//                            volley_ZC_GET(map);
+
 //                        } catch (IOException e) {
 //                            e.printStackTrace();
 //                            handler.sendEmptyMessage(ERROR);
@@ -246,7 +324,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
 //        startActivityForResult(intent, code);
         Intent intent = new Intent(Intent.ACTION_PICK);// 打开相册
         intent.setDataAndType(MediaStore.Images.Media.INTERNAL_CONTENT_URI, "image/*");
-        intent.putExtra("output",Uri.fromFile(tempFile));
+        intent.putExtra("output", Uri.fromFile(tempFile));
         startActivityForResult(intent, code);
     }
 
@@ -256,39 +334,15 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
         if (requestCode == 100) {
             if (data != null) {
                 Uri data1 = data.getData();
-                Log.e("onActivityResult",data1.getPath()+"...."+getRealFilePath(this, data1));
-                String path=getRealFilePath(this, data1);
+                Log.e("onActivityResult", data1.getPath() + "...." + getRealFilePath(this, data1));
+                String path = getRealFilePath(this, data1);
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inSampleSize = 1;
                 Bitmap cameraBitmap = BitmapFactory.decodeFile(path, options);
 //                Bitmap cameraBitmap = (Bitmap) data.getExtras().get("data");
                 if (cameraBitmap != null) {
                     iv_zhuce4_zhaopian1.setImageBitmap(cameraBitmap);
-                    uri1 =data1;
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Map<String, String> map2 = new HashMap<String, String>();
-                            map2.put("name", "IdCard");
-                            map2.put("phone", signUpInfo.getPhone());
-                            Map<String, File> mapfile2 = new HashMap<String, File>();
-                            File file = new File(getRealFilePath(ZhuCe4Activity.this, uri1));
-                            mapfile2.put("IdCard", file);
-                            try {
-                                String msg2 = PostUtil.post("http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage/name/IdCard/phone/" + signUpInfo.getPhone(), map2, mapfile2);
-                               Log.e("Runnable",msg2);
-                                if(msg2.equals("SUCCESS")){
-                                    MyApplication.IdCard=1;
-                                }else {
-                                    MyApplication.IdCard=-1;
-                                }
-                            } catch (IOException e) {
-                                e.printStackTrace();
-//                                handler.sendEmptyMessage(ERROR);
-                                Log.e("ZhuCe4Activity", "出错");
-                            }
-                        }
-                    }).start();
+                    uri1 = data1;
                 } else {
                     Toast.makeText(ZhuCe4Activity.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
                 }
@@ -296,8 +350,8 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
         } else if (requestCode == 102) {
             if (data != null) {
                 Uri data1 = data.getData();
-                Log.e("onActivityResult",data1.getPath()+"...."+getRealFilePath(this, data1));
-                String path=getRealFilePath(this, data1);
+                Log.e("onActivityResult", data1.getPath() + "...." + getRealFilePath(this, data1));
+                String path = getRealFilePath(this, data1);
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inSampleSize = 1;
                 Bitmap cameraBitmap = BitmapFactory.decodeFile(path, options);
@@ -305,31 +359,6 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 if (cameraBitmap != null) {
                     iv_zhuce4_zhaopian2.setImageBitmap(cameraBitmap);
                     uri2 = data1;
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Map<String, String> map3 = new HashMap<String, String>();
-                            map3.put("name", "IdCardBack");
-                            map3.put("phone", signUpInfo.getPhone());
-                            Map<String, File> mapfile3 = new HashMap<String, File>();
-                            File file = new File(getRealFilePath(ZhuCe4Activity.this, uri2));
-                            mapfile3.put("IdCardBack", file);
-                            try {
-                                String msg3 = PostUtil.post("http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage/name/IdCardBack/phone/" + signUpInfo.getPhone(), map3, mapfile3);
-                                Log.e("Runnable",msg3);
-                                if(msg3.equals("SUCCESS")){
-                                    MyApplication.IdCardBack=1;
-                                }else {
-                                    MyApplication.IdCardBack=-1;
-                                }
-                                MyApplication.IdCard=1;
-                            } catch (IOException e) {
-                                e.printStackTrace();
-//                                handler.sendEmptyMessage(ERROR);
-                                Log.e("ZhuCe4Activity", "出错");
-                            }
-                        }
-                    }).start();
                 } else {
                     Toast.makeText(ZhuCe4Activity.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
                 }
@@ -337,8 +366,8 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
         } else if (requestCode == 103) {
             if (data != null) {
                 Uri data1 = data.getData();
-                Log.e("onActivityResult",data1.getPath()+"...."+getRealFilePath(this, data1));
-                String path=getRealFilePath(this, data1);
+                Log.e("onActivityResult", data1.getPath() + "...." + getRealFilePath(this, data1));
+                String path = getRealFilePath(this, data1);
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inSampleSize = 1;
                 Bitmap cameraBitmap = BitmapFactory.decodeFile(path, options);
@@ -346,30 +375,6 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 if (cameraBitmap != null) {
                     iv_zhuce4_zhaopian3.setImageBitmap(cameraBitmap);
                     uri3 = data1;
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Map<String, String> map4 = new HashMap<String, String>();
-                            map4.put("name", "StudentCard");
-                            map4.put("phone", signUpInfo.getPhone());
-                            Map<String, File> mapfile4 = new HashMap<String, File>();
-                            File file = new File(getRealFilePath(ZhuCe4Activity.this, uri3));
-                            mapfile4.put("StudentCard", file);
-                            try {
-                                String msg4 = PostUtil.post("http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage/name/StudentCard/phone/" + signUpInfo.getPhone(), map4, mapfile4);
-                                Log.e("Runnable",msg4);
-                                if(!msg4.equals("SUCCESS")){
-                                    MyApplication.StudentCard=1;
-                                }else {
-                                    MyApplication.StudentCard=-1;
-                                }
-                            } catch (IOException e) {
-                                e.printStackTrace();
-//                                handler.sendEmptyMessage(ERROR);
-                                Log.e("ZhuCe4Activity", "出错");
-                            }
-                        }
-                    }).start();
                 } else {
                     Toast.makeText(ZhuCe4Activity.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
                 }
@@ -412,8 +417,8 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
     private void showProgressDialog(int max) {
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(this);
-//            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-//            progressDialog.setMax(max);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.setMax(max);
             progressDialog.setMessage("正在提交.......");
             progressDialog.setCanceledOnTouchOutside(false);
         }
@@ -430,29 +435,10 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/register";
         StringRequest request_post = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
-            public void onResponse(final String s) {
+            public void onResponse(String s) {
 //                Log.e("volley_OrderState_GET", s);
                 Log.e("msg5", s);
-                final String S=s;
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        while (MyApplication.touxiang==0||MyApplication.IdCard==0||MyApplication.IdCardBack==0||MyApplication.StudentCard==0){
 
-                        }
-                        if((MyApplication.touxiang+MyApplication.IdCard+MyApplication.IdCardBack+MyApplication.StudentCard)==4)
-                        {   Log.e("onResponse",(MyApplication.touxiang+MyApplication.IdCard+MyApplication.IdCardBack+MyApplication.StudentCard)+"");
-                            if ("SUCCESS".equals(S)) {
-                                handler.sendEmptyMessage(SUCCESS);
-                            } else {
-                                handler.sendEmptyMessage(ERROR);
-                            }
-                        }else
-                        {
-                            handler.sendEmptyMessage(ERROR);
-                        }
-                    }
-                }).start();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -640,8 +626,9 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
         }
         return data;
     }
+
     public void initFile(String TPname) {
-        String fileName="";
+        String fileName = "";
         if (fileName.equals("")) {
             boolean sdCardExist = Environment.getExternalStorageState()
                     .equals(android.os.Environment.MEDIA_MOUNTED);
@@ -650,10 +637,10 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
 //                FileUtil.mkdir(path);
 //                Logger.i("path:" + path);
                 tempFile = new File(path);
-                if (!tempFile.exists()){
+                if (!tempFile.exists()) {
                     tempFile.mkdir();
                 }
-                fileName = path + "/"+TPname+".png";
+                fileName = path + "/" + TPname + ".png";
                 tempFile = new File(fileName);
             } else {
                 Toast.makeText(this, "请插入SD卡", Toast.LENGTH_SHORT).show();

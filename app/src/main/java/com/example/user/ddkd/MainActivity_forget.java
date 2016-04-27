@@ -210,7 +210,7 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
     private void showProgressDialog() {
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(MainActivity_forget.this);
-            progressDialog.setMessage("正在登陆修改.......");
+            progressDialog.setMessage("正在修改.......");
             progressDialog.setCanceledOnTouchOutside(false);
         }
         progressDialog.show();

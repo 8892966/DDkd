@@ -183,7 +183,7 @@ public class details extends Activity implements View.OnClickListener {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(details.this, "网络连接中断", Toast.LENGTH_SHORT).show();
+                Log.i("Error_details","faile to get order information");
             }
         });
         request.setTag("abcGet_details");

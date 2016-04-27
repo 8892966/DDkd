@@ -164,6 +164,7 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
                 Log.e("volley_phoExist_GET", s);
                 if ("SUCCESS".equals(s)) {
                     tv_button_yanzhengma.setEnabled(true);
+
                 } else {
                     tv_button_yanzhengma.setEnabled(false);
                     Toast.makeText(ZhuCe1Activity.this, "用户已存在！", Toast.LENGTH_SHORT).show();

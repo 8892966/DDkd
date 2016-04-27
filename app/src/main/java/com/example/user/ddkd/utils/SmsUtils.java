@@ -32,9 +32,9 @@ public class SmsUtils {
                 SmsMessage message = SmsMessage.createFromPdu(pdu);
                 String content = message.getMessageBody();
                 if(content.startsWith("【楼下购】")){
-                    int i=content.indexOf(":");
+                    int i=content.indexOf("：");
                     String s=content.substring(i+1,i+7);
-                    Toast.makeText(context,s,Toast.LENGTH_LONG).show();
+                    Toast.makeText(context,"您的验证码是："+s,Toast.LENGTH_LONG).show();
                 }
             }
         }

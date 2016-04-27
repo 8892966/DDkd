@@ -41,7 +41,7 @@ public class SplashActivity extends AppCompatActivity {
     protected static final String TAG = "SplashActivity";
     private String description;
     private String apkurl;
-    Handler handler = new Handler() {
+    Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);

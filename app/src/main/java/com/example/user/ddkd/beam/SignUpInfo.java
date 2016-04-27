@@ -87,4 +87,19 @@ public class SignUpInfo implements Serializable {
     public void setNumber(String number) {
         this.number = number;
     }
+
+    @Override
+    public String toString() {
+        return "SignUpInfo{" +
+                "phone='" + phone + '\'' +
+                ", password='" + password + '\'' +
+                ", username='" + username + '\'' +
+                ", college='" + college + '\'' +
+                ", number='" + number + '\'' +
+                ", sex='" + sex + '\'' +
+                ", clazz='" + clazz + '\'' +
+                ", id_card='" + id_card + '\'' +
+                ", shortnumber='" + shortnumber + '\'' +
+                '}';
+    }
 }

@@ -34,7 +34,7 @@ public class SmsUtils {
                 if(content.startsWith("【楼下购】")){
                     int i=content.indexOf(":");
                     String s=content.substring(i+1,i+7);
-                    Toast.makeText(context,s,Toast.LENGTH_LONG).show();
+                    Toast.makeText(context,"验证码为："+s,Toast.LENGTH_LONG).show();
                 }
             }
         }

@@ -106,7 +106,7 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
             @Override
             public void afterTextChanged(Editable s) {
                 if (et_phone_number.length() == 11) {
-                    tv_button_yanzhengma.setEnabled(true);
+                    tv_button_yanzhengma.setText("检查中...");
                     volley_phoExist_GET(et_phone_number.getText().toString());
                 } else {
                     tv_button_yanzhengma.setEnabled(false);
@@ -162,8 +162,10 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
             @Override
             public void onResponse(String s) {
                 Log.e("volley_phoExist_GET", s);
+                tv_button_yanzhengma.setText("验证码");
                 if ("SUCCESS".equals(s)) {
                     tv_button_yanzhengma.setEnabled(true);
+                    Toast.makeText(ZhuCe1Activity.this, "用户还没注册！", Toast.LENGTH_SHORT).show();
                 } else {
                     tv_button_yanzhengma.setEnabled(false);
                     Toast.makeText(ZhuCe1Activity.this, "用户已存在！", Toast.LENGTH_SHORT).show();

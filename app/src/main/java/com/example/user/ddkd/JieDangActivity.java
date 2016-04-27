@@ -14,6 +14,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.SystemClock;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -42,6 +43,8 @@ import com.google.gson.reflect.TypeToken;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.user.ddkd.ExitApplication.*;
 
 /**
  * Created by User on 2016-04-02.
@@ -123,6 +126,15 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     };
 
     @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            ExitApplication.getInstance().exit();
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.jiedang_activity);
@@ -152,7 +164,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         myBaseAdapter = new MyBaseAdapter();
         listView.setAdapter(myBaseAdapter);
         listView.setEmptyView(findViewById(R.id.tv_jiedang));
-        ExitApplication.getInstance().addActivity(this);
+        getInstance().addActivity(this);
         //判断是否有开启信鸽和服务
 //        sreviceisrunning=ServiceUtils.isRunning(this,"com.example.user.ddkd.service.JieDanService");
 //        if(sreviceisrunning){
@@ -241,6 +253,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             return 0;
         }
 
+
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View view;
@@ -317,7 +330,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         super.onResume();
     }
     @Override
-    protected void onPause() {
+    protected void onPause(){
         super.onPause();
 //        Log.e("onPause","2222222222222222");
         if(sreviceisrunning){
@@ -381,9 +394,9 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         Log.e("volley_OrderState_GET",url);
         StringRequest request_post = new StringRequest(Request.Method.GET, url, new MyStringRequest(){
             @Override
-            public void success(Object o) {
+            public void success(Object o){
                     Gson gson = new Gson();
-                    MainMsgInfo info = gson.fromJson((String)o, MainMsgInfo.class);
+                    MainMsgInfo info = gson.fromJson((String)o,MainMsgInfo.class);
                     tv_xiuxi_huodong_now_number.setText("接单" + info.getTodOrder() + "单");
                     tv_star.setText(info.getEvaluate());
                     tv_sum_number.setText("总" + info.getTotalOrder() + "单");
@@ -394,7 +407,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                     } else {
                         tv_xiuxi_huodong_yesterday_money.setText("昨天营业额:0元");
                     }
-                    if (info.getEvaluate() == null) {
+                    if (info.getEvaluate() == null){
                         pb_star.setRating(0);
                     } else {
                         pb_star.setRating(Float.valueOf(info.getEvaluate()));

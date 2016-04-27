@@ -113,7 +113,9 @@ public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
         } else if (ServiceUtils.isRunning(context,"com.example.user.ddkd.service.JieDanService")) {
             String s = xgPushTextMessage.getContent();
             Gson gson = new Gson();
-            QOrderInfo info = gson.fromJson(s, QOrderInfo.class);
+            List<QOrderInfo> l=gson.fromJson(s, new TypeToken<List<QOrderInfo>>() {
+            }.getType());
+            QOrderInfo info = l.get(0);
             Handler handler = MyApplication.getHandler();
             Message message = new Message();
             message.obj = info;
@@ -147,7 +149,9 @@ public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
             builder.setContentText("有一个快递单没人抢，而且小费很高哦...亲！");
             Intent notificationIntent = new Intent(context, JieDangActivity.class);
             notificationIntent.putExtra("info",true);
-            PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+
+            PendingIntent contentIntent = PendingIntent.getActivity(context, (int)(Math.random()*100000), notificationIntent,PendingIntent.FLAG_UPDATE_CURRENT );
+
             builder.setContentIntent(contentIntent);
             builder.setSmallIcon(R.mipmap.ic_launcher);
             Notification notification = builder.getNotification();

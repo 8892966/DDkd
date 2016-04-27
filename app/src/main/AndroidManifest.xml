@@ -7,11 +7,11 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/><!-- 接收短信权限 -->
 
     <!--  百度可选的权限   -->
     <!-- <uses-permission -->
     <!-- android:name="android.permission.ACCESS_FINE_LOCATION"/> -->
-
 
     <!-- 【必须】 信鸽SDK所需权限 -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -51,7 +51,7 @@
         <activity android:name=".WebActivity" />
         <activity
             android:name=".JieDangActivity"
-            android:launchMode="singleTask" />
+    />
         <activity android:name=".ZhuCe1Activity" />
         <activity android:name=".ZhuCe3Activity" />
         <activity android:name=".DingDanActivity" />
@@ -150,11 +150,6 @@
 
         <service
             android:name=".service.JieDanService"
-            android:enabled="true"
-            android:exported="true" >
-        </service>
-        <service
-            android:name=".service.UplogService"
             android:enabled="true"
             android:exported="true" >
         </service>

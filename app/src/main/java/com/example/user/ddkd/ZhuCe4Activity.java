@@ -236,6 +236,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
             case R.id.tv_button_next:
                 signUpInfo = (SignUpInfo) getIntent().getSerializableExtra("SignUpInfo");
                 picture = getIntent().getStringExtra("picture");
+                Log.e("signUpInfo",signUpInfo.toString());
                 map = new HashMap<String, String>();
 //                Log.e("map", signUpInfo.getClazz());
                 map.put("class", signUpInfo.getClazz());

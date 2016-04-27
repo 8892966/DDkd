@@ -143,11 +143,13 @@ public class JieDanService extends Service {
                 Log.e("setMsg",q.getOrderTime()+"");
                 long time = System.currentTimeMillis() - Long.valueOf(q.getOrderTime());
                 int t= (int) ((30*1000-time))/1000;
-                Log.e("setMsg",t+"");
-                if(o[t]==null){
-                    o[t]=new ArrayList<>();
+                if(t>0) {
+                    Log.e("setMsg", t + "");
+                    if (o[t] == null) {
+                        o[t] = new ArrayList<>();
+                    }
+                    o[t].add(q);
                 }
-                o[t].add(q);
             }
         }
 
@@ -164,7 +166,6 @@ public class JieDanService extends Service {
 
     public interface IJD {
         public void Delete(List list);
-
         public void Add(List list);
     }
 }

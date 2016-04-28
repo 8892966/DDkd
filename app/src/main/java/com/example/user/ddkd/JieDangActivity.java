@@ -126,15 +126,6 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     };
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-            ExitApplication.getInstance().exit();
-            return false;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.jiedang_activity);
@@ -514,9 +505,19 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             System.arraycopy(djtime,1,djtime,0,djtime.length-1);
             djtime[djtime.length-1]= SystemClock.uptimeMillis();
             if(djtime[0]>=(SystemClock.uptimeMillis()-1000)){
-                super.onBackPressed();
+//                super.onBackPressed();
+                ExitApplication.getInstance().exit();
             }else{
                 Toast.makeText(this,"在按一次返回键退出应用",Toast.LENGTH_SHORT).show();
             }
     }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            ExitApplication.getInstance().exit();
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 }

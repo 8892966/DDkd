@@ -19,6 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.text.Payment;
 import com.example.user.ddkd.text.UserInfo;
 import com.example.user.ddkd.utils.AutologonUtil;
@@ -29,6 +30,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -37,11 +39,12 @@ import java.util.List;
  * Created by Administrator on 2016/4/5.
  */
 public class MainActivity_balance extends Activity implements View.OnClickListener {
-    private List<Payment> paymentslist;
+    private List<Payment> paymentlist=new ArrayList<Payment>();
     private TextView textView;
-    private MyAdapter myAdapter;
+    private MyAdapter myAdapter = new MyAdapter();;
     private TextView balance;
     private UserInfo userInfo;
+    private ListView viewById;
     private Handler handler1 = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -79,15 +82,11 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
         exit.setOnClickListener(this);
         textView = (TextView) findViewById(R.id.getmoney);
         textView.setOnClickListener(this);
-        ListView viewById = (ListView) findViewById(R.id.listviewbalance);
-        paymentslist = new ArrayList<Payment>();
-        Volley_Get(paymentslist);
+        viewById = (ListView) findViewById(R.id.listviewbalance);
+        Volley_Get(paymentlist);
         volley_Get_Balance(userInfo);
-        myAdapter = new MyAdapter();
-        viewById.setAdapter(myAdapter);
         ExitApplication.getInstance().addActivity(this);
     }
-
     @Override
     public void onClick(View v) {
         Intent intent;
@@ -95,7 +94,6 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
             case R.id.getmoney:
                 intent = new Intent(this, MainActivity_getmoney.class);
                 startActivity(intent);
-                Log.i("getmoney", "getmoney");
                 break;
             case R.id.tv_head_fanghui:
                 finish();
@@ -104,42 +102,46 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
         }
     }
 
-    public void Volley_Get(final List<Payment> paymentslist2) {
+    public void Volley_Get(final List<Payment> paymentlist2) {
         SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = sharedPreferences.getString("token", null);
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/takeoutrecord/token/" + token;
         //**********从后台返回一个参数来说明数据的获取状况**********
-        Log.i("Payment", url);
         StringRequest request = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
                 String s = o.toString();
                 Log.i("Payment", s);
-                if (s.equals("")) {
+                if (!s.equals("")) {
                     if (!s.equals("ERROR")) {
-                        Log.i("Balance", s);
                         Type listv = new TypeToken<LinkedList<Payment>>() {
                         }.getType();
                         Gson gson = new Gson();
-                        paymentslist = gson.fromJson(s, listv);
-//                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyy/mm/dd  HH:mm:ss");
-//                    for (Payment paymentslist2 : paymentslist) {
-//                        paymentslist2.setChutime(dateFormat.format(Long.valueOf(paymentslist2.getChutime())));
-//                        paymentslist2.setRutime(dateFormat.format(Long.valueOf(paymentslist2.getRutime())));
-//                    }
-                        myAdapter.notifyDataSetChanged();
+                        paymentlist = gson.fromJson(s, listv);
+                        if(paymentlist!=null){
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyy/mm/dd  HH:mm:ss");
+                            for (Payment payments2 : paymentlist) {
+                                payments2.setTime(dateFormat.format(Long.valueOf(payments2.getTime())));
+                            }
+                            viewById.setAdapter(myAdapter);
+                            myAdapter.notifyDataSetChanged();
+                        }else{
+                            Toast.makeText(MainActivity_balance.this,"暂时无收支明细",Toast.LENGTH_SHORT).show();
+                        }
+
                     } else {
                         Toast.makeText(MainActivity_balance.this, "网络连接出错", Toast.LENGTH_SHORT).show();
                     }
-                }else{
-                    Log.i("Error_Payment","Payment is null");
+                } else {
+                    Toast.makeText(MainActivity_balance.this,"暂时无收支明细",Toast.LENGTH_SHORT).show();
+                    Log.i("Error_Payment", "Payment is null");
                 }
             }
 
             @Override
             public void tokenouttime() {
                 Log.i("token outtime", "token outtime");
-                AutologonUtil autologonUtil = new AutologonUtil(MainActivity_balance.this, handler2, paymentslist2);
+                AutologonUtil autologonUtil = new AutologonUtil(MainActivity_balance.this, handler2, paymentlist2);
                 autologonUtil.volley_Get_TOKEN();
             }
 
@@ -166,7 +168,6 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
             @Override
             public void success(Object o) {
                 String s = (String) o;
-//                Log.i("Balance",s);
                 if (!s.equals("ERROR")) {
                     Gson gson = new Gson();
                     UserInfo userInfo = gson.fromJson(s, UserInfo.class);
@@ -204,7 +205,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
     class MyAdapter extends BaseAdapter {
         @Override
         public int getCount() {
-            return paymentslist.size();
+            return paymentlist.size();
         }
 
         @Override
@@ -230,57 +231,46 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
             TextView moneyout = (TextView) view.findViewById(R.id.moneyout);
             TextView outStatic = (TextView) view.findViewById(R.id.outStatic);
             TextView counter = (TextView) view.findViewById(R.id.counter);
-            TextView time1 = (TextView) view.findViewById(R.id.time1);
+            TextView time = (TextView) view.findViewById(R.id.time1);
             //收入
-            TextView moneyin = (TextView) view.findViewById(R.id.moneyin);
-            TextView inStatic = (TextView) view.findViewById(R.id.inStaric);
-            TextView phone = (TextView) view.findViewById(R.id.phone);
-            TextView time2 = (TextView) view.findViewById(R.id.time2);
-
-            Payment payment = paymentslist.get(position);
+            Payment payment = paymentlist.get(position);
             if (payment != null) {
-                counter.setText(payment.getCounter());
-                moneyout.setText(payment.getZhichu());
-                outStatic.setText("审核中");
-                time1.setText(payment.getChutime());
-//                if (payment.getLstate()==null) {
-//                    payment.setLstate("3");
-//                    inStatic.setText("数据有误");
-//                }else{
-//                    if (payment.getLstate().equals("1")) {
-//                        inStatic.setText("审核中");
-//                    } else if (payment.getLstate().equals("2")) {
-//                        inStatic.setText("提现成功");
-//                    } else {
-//                        inStatic.setText("提现失败");
-//                    }
-//                }
-
-                SharedPreferences preferences = getSharedPreferences("config", MODE_PRIVATE);
-                moneyin.setText(payment.getShouru());
-                inStatic.setText("审核中");
-                phone.setText(preferences.getString("phone", ""));
-                time2.setText(payment.getRutime());
-
-                //*****************根据返回的Static状态来判断当前的体现状态***************
-                //  1表示审核中；2表示通过；3表示失败
-//                if(payment.getLstate()==null) {
-//                    payment.setLstate("0");
-//                    inStatic.setText("数据有误");
-//                }else{
-//                    if (payment.getOstate().equals("1")) {
-//                        inStatic.setText("审核中");
-//                    } else if (payment.getOstate().equals("2")) {
-//                        inStatic.setText("提现成功");
-//                    } else {
-//                        inStatic.setText("提现失败");
-//                    }
-//                }
+                Log.i("Falg",payment.getFlag());
+                if (payment.getFlag().equals("OUT")) {
+                    if (payment.getStatus().equals("1")) {
+                        outStatic.setText("审核中");
+                    } else if (payment.getStatus().equals("2")) {
+                        outStatic.setText("已通过");
+                    } else {
+                        outStatic.setText("操作失败");
+                    }
+                    moneyout.setText("-"+String.valueOf(payment.getMoney()));
+                    counter.setText(payment.getCounter());
+                }else{
+                    SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
+                    counter.setText(sharedPreferences.getString("phone",""));
+                    outStatic.setText("已到账");
+                    moneyout.setText("+"+String.valueOf(payment.getMoney()));
+                }
+                time.setText(payment.getTime());
             } else {
                 Log.i("ERROR", "payment的内容为空");
             }
             return view;
         }
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        StatService.onResume(this);
+        Volley_Get(paymentlist);
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        StatService.onPause(this);
     }
 
     protected void onDestroy() {

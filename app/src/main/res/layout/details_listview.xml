@@ -45,8 +45,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="20sp"
-                android:numStars="5"
-                android:rating="4" />
+                android:numStars="5" />
+                <!--设置星星的个数：android:rating="4"-->
         </LinearLayout>
 
         <TextView

@@ -133,7 +133,7 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
                 beizhu1 = beizhu.getText().toString();
 //                if (beizhu1.length() <= 10) {
                 Log.i("Money2", userInfo.getBalance());
-                if (!TextUtils.isEmpty(getmoney1)&&Double.valueOf(getmoney1)>100) {
+                if (!TextUtils.isEmpty(getmoney1)&&Double.valueOf(getmoney1)>=100) {
                     if (Double.valueOf(userInfo.getBalance()) > 100) {
                         if (Double.valueOf(getmoney1) < Double.valueOf(userInfo.getBalance())) {
                             if (!TextUtils.isEmpty(counter1)) {

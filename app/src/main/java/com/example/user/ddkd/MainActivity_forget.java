@@ -192,11 +192,40 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
             @Override
             public void onResponse(String s) {
                     Log.e("volley_getYZM_GET",s);
-                    if(s.equals("SUCCESS")){
-                        Toast.makeText(MainActivity_forget.this, "请留意您的短信", Toast.LENGTH_SHORT).show();
-                    }else{
-                        Toast.makeText(MainActivity_forget.this,"网络异常", Toast.LENGTH_SHORT).show();
+                try {
+                    InputStream is = new ByteArrayInputStream(s.getBytes("utf-8"));
+                    XmlPullParser parser = Xml.newPullParser();
+                    parser.setInput(is, "UTF-8");
+                    int eventType = parser.getEventType();
+                    while (eventType != XmlPullParser.END_DOCUMENT) {
+                        switch (eventType) {
+                            case XmlPullParser.START_TAG:
+                                if (parser.getName().equals("code")) {
+                                    eventType=parser.next();
+                                    String code = parser.getText();
+                                    if ("2".equals(code)) {
+                                        Log.i("ZhuCe1Activity", "请留意您的短信");
+                                        Toast.makeText(MainActivity_forget.this, "请留意您的短信", Toast.LENGTH_SHORT).show();
+                                    } else if("4085".equals(code)){
+                                        Log.i("ZhuCe1Activity", "同一手机号验证码短信发送超出5条");
+                                        Toast.makeText(MainActivity_forget.this, "同一手机号验证码短信发送超出5条", Toast.LENGTH_SHORT).show();
+                                    }else
+                                    {
+                                        Toast.makeText(MainActivity_forget.this, "获取验证码失败", Toast.LENGTH_SHORT).show();
+                                        Log.i("ZhuCe1Activity", "获取验证码失败");
+                                    }
+                                }
+                                break;
+                        }
+                        eventType = parser.next();
                     }
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (XmlPullParserException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         },new Response.ErrorListener(){
             @Override

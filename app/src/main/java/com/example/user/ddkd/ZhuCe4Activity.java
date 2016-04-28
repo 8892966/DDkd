@@ -92,7 +92,6 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                     break;
                 case NEXT:
                     if (Static == 0) {
-                        Static++;
                         progressDialog.setProgress(Static);
                         new Thread(new Runnable() {
                             @Override
@@ -107,18 +106,18 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                                 String msg2 = null;
                                 try {
                                     msg2 = PostUtil.post("http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage/name/IdCard/phone/" + signUpInfo.getPhone(), map2, mapfile2);
+                                    Log.e("msg2", msg2);
+                                    Static++;
+                                    message.what = NEXT;
+                                    handler.sendMessage(message);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                     handler.sendEmptyMessage(ERROR);
                                 }
-                                Log.e("msg2", msg2);
-                                message.what = NEXT;
-                                handler.sendMessage(message);
                             }
                         }).start();
                     }else
                     if (Static == 1) {
-                        Static++;
                         progressDialog.setProgress(Static);
                         new Thread(new Runnable() {
                             @Override
@@ -133,19 +132,19 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                                 String msg3 = null;
                                 try {
                                     msg3 = PostUtil.post("http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage/name/IdCardBack/phone/" + signUpInfo.getPhone(), map3, mapfile3);
+                                    Log.e("msg3", msg3);
+                                    Static++;
+                                    message.what = NEXT;
+                                    handler.sendMessage(message);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                     handler.sendEmptyMessage(ERROR);
                                 }
-                                Log.e("msg3", msg3);
-                                message.what = NEXT;
-                                handler.sendMessage(message);
                             }
                         }).start();
 
                     }else
                     if (Static == 2) {
-                        Static++;
                         progressDialog.setProgress(Static);
                         new Thread(new Runnable() {
                             @Override
@@ -160,19 +159,19 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                                 String msg4 = null;
                                 try {
                                     msg4 = PostUtil.post("http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage/name/StudentCard/phone/" + signUpInfo.getPhone(), map4, mapfile4);
+                                    Log.e("msg4", msg4);
+                                    Static++;
+                                    message.what = NEXT;
+                                    handler.sendMessage(message);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                     handler.sendEmptyMessage(ERROR);
                                 }
-                                Log.e("msg4", msg4);
-                                message.what = NEXT;
-                                handler.sendMessage(message);
                             }
                         }).start();
                     }else if(Static == 3){
-                        progressDialog.setProgress(Static++);
+                        progressDialog.setProgress(Static);
                         volley_ZC_GET(map);
-                        handler.sendEmptyMessage(SUCCESS);
                         Static=0;
                     }
                     break;
@@ -444,7 +443,11 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
             public void onResponse(String s) {
 //                Log.e("volley_OrderState_GET", s);
                 Log.e("msg5", s);
-
+                if("SUCCESS".equals(s)){
+                    handler.sendEmptyMessage(SUCCESS);
+                }else{
+                    handler.sendEmptyMessage(ERROR);
+                }
             }
         }, new Response.ErrorListener() {
             @Override

@@ -96,7 +96,7 @@ public class SplashActivity extends AppCompatActivity {
             tv = (TextView) findViewById(R.id.tv_splash_verson);
             tv.setText("版本号:"+getVersonName());
             preferences=getSharedPreferences("config",MODE_PRIVATE);
-            boolean boolean1 = preferences.getBoolean("update", false);
+            boolean boolean1 = preferences.getBoolean("update",true);
             if(boolean1){
                 CheckUpdate();
             }else{
@@ -164,7 +164,6 @@ public class SplashActivity extends AppCompatActivity {
     private void CheckUpdate() {
         new Thread(new Runnable() {
             long start=java.lang.System.currentTimeMillis();
-
             @Override
             public void run() {
                 Message message=Message.obtain();
@@ -175,12 +174,12 @@ public class SplashActivity extends AppCompatActivity {
                     connection.setConnectTimeout(4000);
                     connection.setReadTimeout(4000);
                     int code = connection.getResponseCode();
+                    Log.i(TAG, code+"");
                     if(code==200){
                         InputStream inputStream = connection.getInputStream();
                         String readFromStream = StreamTools.readFromStream(inputStream);
                         Log.i(TAG, "联网成功！"+readFromStream);
                         //json解析
-
                         if(getVersonName().equals(readFromStream)){
                             //相同版本号
                             Log.i(TAG, "版本相同");

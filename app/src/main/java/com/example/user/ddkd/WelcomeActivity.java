@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.Adapter.ViewPagerAdapter;
 
 import java.util.ArrayList;
@@ -184,5 +185,16 @@ public class WelcomeActivity extends Activity implements View.OnClickListener, V
             tv_button_next.setVisibility(View.GONE);
         }
 
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        StatService.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        StatService.onPause(this);
     }
 }

@@ -9,7 +9,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.user.ddkd"
+        applicationId "com.louxiago.user.ddkd"
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 1

@@ -288,7 +288,6 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                 if (!s.equals("ERROR")) {
                     Gson gson = new Gson();
                     UserInfo userInfo = gson.fromJson(s, UserInfo.class);
-
                     //**********保存用户的个人信息，断网时回显***********
                     DecimalFormat decimalFormat = new DecimalFormat("0.00");
                     SharedPreferences preferences = getSharedPreferences("user", MODE_PRIVATE);

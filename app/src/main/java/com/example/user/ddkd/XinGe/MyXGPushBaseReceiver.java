@@ -113,9 +113,7 @@ public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
         } else if (ServiceUtils.isRunning(context,"com.example.user.ddkd.service.JieDanService")) {
             String s = xgPushTextMessage.getContent();
             Gson gson = new Gson();
-            List<QOrderInfo> l=gson.fromJson(s, new TypeToken<List<QOrderInfo>>() {
-            }.getType());
-            QOrderInfo info = l.get(0);
+            QOrderInfo info = gson.fromJson(s, QOrderInfo.class);
             Handler handler = MyApplication.getHandler();
             Message message = new Message();
             message.obj = info;
@@ -125,9 +123,8 @@ public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
             Log.e("FORCEPUSH", xgPushTextMessage.getContent());
             String s = xgPushTextMessage.getContent();
             Gson gson = new Gson();
-            List<QOrderInfo> l=gson.fromJson(s, new TypeToken<List<QOrderInfo>>() {
-            }.getType());
-            QOrderInfo info = l.get(0);
+
+            QOrderInfo info =gson.fromJson(s, QOrderInfo.class);
             info.setOrderTime(System.currentTimeMillis()+"");
 
             SharedPreferences sharedPreferences=context.getSharedPreferences("qtmsg", context.MODE_PRIVATE);

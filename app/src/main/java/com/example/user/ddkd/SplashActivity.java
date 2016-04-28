@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -38,6 +39,7 @@ public class SplashActivity extends AppCompatActivity {
     protected static final int URL_ERROR = 2;
     protected static final int NETWORK_ERROR = 3;
     protected static final int JSON_ERROR = 4;
+    protected static final int Home=5;
     protected static final String TAG = "SplashActivity";
     private String description;
     private String apkurl;
@@ -65,6 +67,9 @@ public class SplashActivity extends AppCompatActivity {
                     enterhome();
                     Log.i(TAG, "json解析错误");
                     break;
+                case Home:
+                    enterhome();
+                    break;
             }
         }
     };
@@ -78,15 +83,9 @@ public class SplashActivity extends AppCompatActivity {
         StatService.setSessionTimeOut(0);
         Log.e("onCreate", getVersonName());
         ExitApplication.getInstance().addActivity(this);
-
-        if(MyApplication.state==0) {
-            try {
-                Thread.sleep(2000);
-                enterhome();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }else{
+        if(MyApplication.state==0){
+            handler.sendEmptyMessageDelayed(Home,2000);
+        } else {
             enterhome();
         }
     }
@@ -102,7 +101,7 @@ public class SplashActivity extends AppCompatActivity {
 //        StatService.onPause(this);
     }
 
-    protected void showupdateDialog() {
+    protected void showupdateDialog(){
         // TODO Auto-generated method stub
         AlertDialog.Builder builder=new Builder(this);
         builder.setTitle("提醒升级");
@@ -227,9 +226,17 @@ public class SplashActivity extends AppCompatActivity {
         }).start();
     }
     protected void enterhome() {
-        Intent intent = new Intent(getApplicationContext(), MainActivity_login.class);
-        startActivity(intent);
-        finish();
+        SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
+        Boolean b=sharedPreferences.getBoolean("KYYMA", false);
+        if(b) {
+            Intent intent = new Intent(getApplicationContext(), MainActivity_login.class);
+            startActivity(intent);
+            finish();
+        }else {
+            Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     /**

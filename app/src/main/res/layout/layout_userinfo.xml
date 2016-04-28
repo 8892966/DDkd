@@ -7,7 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="45dip"
-        android:background="#0767c8">
+        android:background="@color/head2">
 
         <ImageView
             android:id="@+id/exituserinfo"
@@ -18,7 +18,6 @@
             android:src="@drawable/head_fanghui" />
 
         <TextView
-            android:textColor="#ffffff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -34,7 +33,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dip"
-            android:src="@drawable/info2" />
+            android:src="@drawable/xiaoxi" />
     </RelativeLayout>
     <!--账户详情-->
     <TextView

@@ -87,7 +87,6 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                     finish();
                     break;
                 case ERROR:
-                    Toast.makeText(getApplication(), "提交失败，请重新提交", Toast.LENGTH_SHORT).show();
                     closeProgressDialog();
                     break;
                 case NEXT:
@@ -107,9 +106,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                                 try {
                                     msg2 = PostUtil.post("http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage/name/IdCard/phone/" + signUpInfo.getPhone(), map2, mapfile2);
                                     Log.e("msg2", msg2);
-                                    Static++;
-                                    message.what = NEXT;
-                                    handler.sendMessage(message);
+                                    error(message, msg2);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                     handler.sendEmptyMessage(ERROR);
@@ -133,9 +130,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                                 try {
                                     msg3 = PostUtil.post("http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage/name/IdCardBack/phone/" + signUpInfo.getPhone(), map3, mapfile3);
                                     Log.e("msg3", msg3);
-                                    Static++;
-                                    message.what = NEXT;
-                                    handler.sendMessage(message);
+                                    error(message, msg3);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                     handler.sendEmptyMessage(ERROR);
@@ -160,9 +155,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                                 try {
                                     msg4 = PostUtil.post("http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage/name/StudentCard/phone/" + signUpInfo.getPhone(), map4, mapfile4);
                                     Log.e("msg4", msg4);
-                                    Static++;
-                                    message.what = NEXT;
-                                    handler.sendMessage(message);
+                                    error(message, msg4);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                     handler.sendEmptyMessage(ERROR);
@@ -177,9 +170,28 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                     break;
             }
         }
+
+        private void error(Message message, String msg2) {
+            if("SUCCESS".equals(msg2)){
+                Static++;
+                message.what = NEXT;
+                handler.sendMessage(message);
+            }else if("MAXSIZE OUT".equals(msg2)){
+                Toast.makeText(ZhuCe4Activity.this, "图片内存过大", Toast.LENGTH_SHORT).show();
+                handler.sendEmptyMessage(ERROR);
+            }else if("UPLOAD FILE FORMAT ERROR".equals(msg2)){
+                Toast.makeText(ZhuCe4Activity.this,"上传文件格式错误",Toast.LENGTH_SHORT).show();
+                handler.sendEmptyMessage(ERROR);
+            }else if("UPLOAD FAIL".equals(msg2)){
+                Toast.makeText(ZhuCe4Activity.this,"上传失败",Toast.LENGTH_SHORT).show();
+                handler.sendEmptyMessage(ERROR);
+            }else{
+                Toast.makeText(getApplication(), "提交失败，请重新提交", Toast.LENGTH_SHORT).show();
+                handler.sendEmptyMessage(ERROR);
+            }
+        }
     };
     private SignUpInfo signUpInfo;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -335,7 +347,6 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if (requestCode == 100) {
             if (data != null) {
                 Uri data1 = data.getData();
@@ -386,6 +397,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
             }
         }
     }
+
 //    private Uri saveBitmap(Bitmap bm) {
 //        File tmpDir = new File(Environment.getExternalStorageDirectory() + "/DDkdphoto");
 //        if (!tmpDir.exists()) {

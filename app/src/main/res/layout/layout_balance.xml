@@ -5,7 +5,7 @@
     android:orientation="vertical">
     <RelativeLayout
         android:id="@+id/title"
-        android:background="#0767c8"
+        android:background="@color/head2"
         android:layout_width="match_parent"
         android:layout_height="45dip">
         <TextView
@@ -15,7 +15,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
-            android:textColor="#ffffff"
             android:layout_centerInParent="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,7 +44,6 @@
             android:src="@drawable/moneysum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
 
         <TextView
             android:id="@+id/getmoney"

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <RelativeLayout
-        android:background="#0767c8"
+        android:background="@color/head2"
         android:layout_width="match_parent"
         android:layout_height="45dip">
         <ImageView
@@ -14,7 +14,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            android:textColor="#ffffff"
             android:layout_centerInParent="true"
             android:textSize="25dip"
             android:text="关于DD快递"

@@ -6,5 +6,6 @@
     <color name="biankuan">#88000000</color>
     <color name="text">#000000</color>
     <color name="orange">#55abed</color>
-    <color name="head">#0767c8</color>
+    <color name="head">#ffd900</color>
+    <color name="head2">#ffb500</color>
 </resources>

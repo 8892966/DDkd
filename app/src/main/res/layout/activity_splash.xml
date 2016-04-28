@@ -5,10 +5,9 @@
     android:id="@+id/rl_root_splash"
     android:background="@drawable/ddkd_kyym"
     >
-
     <ProgressBar
         android:id="@+id/pb_star_wei"
-        android:layout_marginBottom="170dp"
+        android:layout_marginBottom="140dp"
         android:layout_alignParentBottom="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

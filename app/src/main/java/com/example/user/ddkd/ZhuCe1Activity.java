@@ -125,7 +125,7 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
             case R.id.tv_button_yuedu:
                 intent = new Intent(this, WebActivity.class);
                 intent.putExtra("title", "DD快递服务协议");
-                intent.putExtra("url", "http://www.baidu.com");
+                intent.putExtra("url", "http://www.louxiago.com/wc/ddkd/index.php/Agreement/index.html");
                 startActivity(intent);
                 break;
             case R.id.cb_xieyi:

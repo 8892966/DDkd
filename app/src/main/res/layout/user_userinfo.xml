@@ -5,10 +5,11 @@
     android:orientation="vertical">
 
     <RelativeLayout
+
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="45dip"
-        android:background="#0767c8">
+        android:background="@color/head2">
         <TextView
             android:id="@+id/tv_head_fanghui"
             style="@style/head_button_back"
@@ -17,7 +18,6 @@
             android:layout_centerVertical="true" />
 
         <TextView
-            android:textColor="#ffffff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -61,9 +61,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="姓名："
+                android:text="姓名"
                 android:textSize="20sp" />
             <TextView
+                android:gravity="right"
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -84,10 +85,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="学院："
+                android:text="学院"
                 android:textSize="20sp" />
 
             <TextView
+                android:gravity="right"
                 android:id="@+id/collage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -108,10 +110,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="学号："
+                android:text="学号"
                 android:textSize="20sp" />
 
             <TextView
+                android:gravity="right"
                 android:id="@+id/number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -133,10 +136,11 @@
                 android:id="@+id/detailsnum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="长号："
+                android:text="长号"
                 android:textSize="20sp" />
 
             <TextView
+                android:gravity="right"
                 android:id="@+id/phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -156,9 +160,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="短号："
+                android:text="短号"
                 android:textSize="20sp" />
             <TextView
+                android:gravity="right"
                 android:id="@+id/shortphone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -178,9 +183,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="等级："
+                android:text="等级"
                 android:textSize="20sp" />
             <TextView
+                android:gravity="right"
                 android:id="@+id/level"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

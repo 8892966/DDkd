@@ -8,7 +8,7 @@
         android:id="@+id/rl_head"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="@color/head">
+        android:background="@color/head2">
 
         <TextView
             android:id="@+id/tv_head_fanghui"
@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="注册"
-            android:textSize="20sp" />
+            android:textSize="25sp" />
     </RelativeLayout>
 
     <ImageView

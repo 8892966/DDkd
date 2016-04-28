@@ -4,10 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <RelativeLayout
-        android:id="@+id/rl_head"
+        android:id="@+id/rl_head2"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="@color/head"
+        android:background="@color/head2"
         >
         <TextView
             android:clickable="true"

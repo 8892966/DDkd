@@ -7,7 +7,7 @@
         android:id="@+id/rl_head"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="@color/head">
+        android:background="@color/head2">
         <TextView
             style="@style/head_button_back"
             android:id="@+id/tv_head_fanghui"
@@ -16,14 +16,12 @@
             android:layout_height="wrap_content"
             />
         <TextView
-            android:textColor="#ffffff"
             android:layout_centerInParent="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="注册"
             android:textSize="25sp" />
         <TextView
-            android:textColor="#ffffff"
             android:onClick="next"
             android:layout_marginRight="5dip"
             android:layout_centerVertical="true"
@@ -87,11 +85,12 @@
                 android:orientation="horizontal">
                 <TextView
                     android:layout_marginLeft="10dip"
-                    android:text="  姓   名："
+                    android:text="  姓   名"
                     android:textSize="20dip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <EditText
+                    android:gravity="right"
                     android:layout_marginRight="20dip"
                     android:layout_marginLeft="10dip"
                     android:background="@null"
@@ -118,11 +117,12 @@
                 android:orientation="horizontal">
                 <TextView
                     android:layout_marginLeft="10dip"
-                    android:text="  性   别："
+                    android:text="  性   别"
                     android:textSize="20dip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <EditText
+                    android:gravity="right"
                     android:layout_marginLeft="10dip"
                     android:layout_marginRight="20dip"
                     android:background="@null"
@@ -149,11 +149,12 @@
                 android:orientation="horizontal">
                 <TextView
                     android:layout_marginLeft="10dip"
-                    android:text="  学   院："
+                    android:text="  学   院"
                     android:textSize="20dip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <EditText
+                    android:gravity="right"
                     android:layout_marginRight="20dip"
                     android:layout_marginLeft="10dip"
                     android:textSize="20sp"
@@ -180,11 +181,12 @@
                 android:orientation="horizontal">
                 <TextView
                     android:layout_marginLeft="10dip"
-                    android:text="  班   级："
+                    android:text="  班   级"
                     android:textSize="20dip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <EditText
+                    android:gravity="right"
                     android:layout_marginRight="20dip"
                     android:textSize="20sp"
                     android:background="@null"
@@ -211,11 +213,12 @@
                 android:orientation="horizontal">
                 <TextView
                     android:layout_marginLeft="10dip"
-                    android:text="  学   号："
+                    android:text="  学   号"
                     android:textSize="20dip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <EditText
+                    android:gravity="right"
                     android:phoneNumber="true"
                     android:layout_marginRight="20dip"
                     android:textSize="20sp"
@@ -243,11 +246,12 @@
                 android:orientation="horizontal">
                 <TextView
                     android:layout_marginLeft="10dip"
-                    android:text="手机短号："
+                    android:text="手机短号"
                     android:textSize="20dip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <EditText
+                    android:gravity="right"
                     android:phoneNumber="true"
                     android:layout_marginRight="20dip"
                     android:textSize="20sp"
@@ -275,11 +279,12 @@
                 android:orientation="horizontal">
                 <TextView
                     android:layout_marginLeft="10dip"
-                    android:text="身份证号："
+                    android:text="身份证号"
                     android:textSize="20dip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <EditText
+                    android:gravity="right"
                     android:phoneNumber="true"
                     android:textSize="20sp"
                     android:layout_marginRight="20dip"

@@ -186,7 +186,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             case R.id.ll_jianlihuodong:
                 intent = new Intent(this, WebActivity.class);
                 intent.putExtra("title", "奖励活动");
-                intent.putExtra("url", "http://www.baidu.com");
+                intent.putExtra("url", "http://www.louxiago.com/wc/ddkd/index.php/RewardAct/index.html");
                 startActivity(intent);
                 break;
             case R.id.tv_to_dingdang:

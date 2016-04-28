@@ -511,13 +511,5 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 Toast.makeText(this,"在按一次返回键退出应用",Toast.LENGTH_SHORT).show();
             }
     }
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-            ExitApplication.getInstance().exit();
-            return false;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
 
 }

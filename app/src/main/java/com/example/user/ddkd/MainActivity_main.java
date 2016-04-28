@@ -244,6 +244,7 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
         request.setTag("Get_main");
         MyApplication.getQueue().add(request);
     }
+
     @Override
     protected void onResume(){
         super.onResume();
@@ -255,6 +256,7 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
         super.onPause();
         StatService.onPause(this);
     }
+
     protected void onDestroy() {
         super.onDestroy();
         MyApplication.getQueue().cancelAll("Get_main");

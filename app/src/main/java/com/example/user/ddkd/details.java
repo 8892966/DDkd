@@ -16,6 +16,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -122,10 +123,10 @@ public class details extends Activity implements View.OnClickListener {
             TextView telephone = (TextView) view.findViewById(R.id.userphone);
             TextView addr = (TextView) view.findViewById(R.id.addr);
             TextView date = (TextView) view.findViewById(R.id.date);
+            RatingBar ratingBar= (RatingBar) view.findViewById(R.id.ratingbar);
 
             DetailsInfo detailsInfo = detailsinfolist.get(position);
             if (detailsInfo != null) {
-
                 orderid.setText(detailsInfo.getId() + "");
                 orderprice.setText(detailsInfo.getPrice() + "");
                 username.setText(detailsInfo.getUsername());
@@ -134,6 +135,11 @@ public class details extends Activity implements View.OnClickListener {
                 addr.setText(detailsInfo.getReceivePlace());
                 //回显时间
                 date.setText(detailsInfo.getTime());
+                if(detailsInfo.getEvaluate()==""){
+                    ratingBar.setRating(0);
+                }else{
+                    ratingBar.setRating(Float.valueOf(detailsInfo.getEvaluate()));
+                }
             } else {
                 Log.i("Error", "fsdfaffsda");
             }

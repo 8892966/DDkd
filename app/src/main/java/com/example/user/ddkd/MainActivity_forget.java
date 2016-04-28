@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Xml;
@@ -28,6 +29,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.beam.OrderInfo;
 import com.example.user.ddkd.utils.AutologonUtil;
+import com.example.user.ddkd.utils.Exit;
 import com.example.user.ddkd.utils.PasswordUtil;
 import com.example.user.ddkd.utils.YanZhenMaUtil;
 
@@ -100,12 +102,16 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.commitpassword:
+                if(!TextUtils.isEmpty(et_yanzhengma.getText().toString())) {
                     String password1 = et_new_password.getText().toString();
                     String password2 = et_new_password2.getText().toString();
-                    if(PasswordUtil.isSame(this, password1, password2)) {
+                    if (PasswordUtil.isSame(this, password1, password2)) {
                         showProgressDialog();
-                        volley_XGMM_GET(et_phone_number.getText().toString(),et_new_password.getText().toString(),et_yanzhengma.getText().toString());
+                        volley_XGMM_GET(et_phone_number.getText().toString(), et_new_password.getText().toString(), et_yanzhengma.getText().toString());
                     }
+                }else {
+                    Toast.makeText(MainActivity_forget.this, "请输入验证码", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.tv_head_fanghui:
                 finish();
@@ -156,16 +162,17 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
             @Override
             public void onResponse(String s) {
                 Log.e("onResponse",s);
-                    if(!s.equals("ERROR")){
+                    if(s.equals("SUCCESS")){
                         closeProgressDialog();
-                        Intent intent;
                         Toast.makeText(MainActivity_forget.this, "密码修改成功，请重新登录", Toast.LENGTH_SHORT).show();
-                        intent = new Intent(MainActivity_forget.this, MainActivity_login.class);
-                        startActivity(intent);
-                        finish();
-                    }else{
+                        Exit.exit(MainActivity_forget.this);
+                    }else if(s.equals("verify ERROR")){
                         closeProgressDialog();
-                        Toast.makeText(MainActivity_forget.this,"网络异常",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity_forget.this,"密码修改失败，验证码错误",Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        closeProgressDialog();
+                        Toast.makeText(MainActivity_forget.this,"密码修改失败，原密码与新密码相同",Toast.LENGTH_SHORT).show();
                     }
             }
         },new Response.ErrorListener(){
@@ -185,7 +192,7 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
             @Override
             public void onResponse(String s) {
                     Log.e("volley_getYZM_GET",s);
-                    if(!s.equals("ERROR")){
+                    if(s.equals("SUCCESS")){
                         Toast.makeText(MainActivity_forget.this, "请留意您的短信", Toast.LENGTH_SHORT).show();
                     }else{
                         Toast.makeText(MainActivity_forget.this,"网络异常", Toast.LENGTH_SHORT).show();

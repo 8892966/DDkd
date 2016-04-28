@@ -300,7 +300,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         StatService.onResume(this);
         SharedPreferences sharedPreferences=getSharedPreferences("qtmsg", MODE_PRIVATE);
 
-        Log.e("JieDangActivity", getIntent().getBooleanExtra("info", false)+"");
+        Log.e("JieDangActivity", getIntent().getBooleanExtra("info", false) + "");
 
         if(!sharedPreferences.getString("QT", "").equals("")){
 //            Log.e("onResume","1111111111111111111111");
@@ -309,7 +309,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 //            bindService(jieDanServiceIntent,sc,BIND_AUTO_CREATE);
         }
         sreviceisrunning=ServiceUtils.isRunning(this,"com.example.user.ddkd.service.JieDanService");
-        Log.e("isRunning",sreviceisrunning+"");
+        Log.e("isRunning", sreviceisrunning + "");
         if(sreviceisrunning){
             listView.setVisibility(View.VISIBLE);
             but_jiedang.setText("休息");
@@ -469,7 +469,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             @Override
             public void success(Object o) {
                 String s= (String) o;
-                if(s.equals("ERROR")){
+                if(!s.equals("SUCCESS")){
                     Toast.makeText(JieDangActivity.this,"网络异常",Toast.LENGTH_LONG).show();
                 }else{
                     button.setEnabled(false);
@@ -508,7 +508,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 //                super.onBackPressed();
                 ExitApplication.getInstance().exit();
             }else{
-                Toast.makeText(this,"在按一次返回键退出应用",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "在按一次返回键退出应用", Toast.LENGTH_SHORT).show();
             }
     }
 

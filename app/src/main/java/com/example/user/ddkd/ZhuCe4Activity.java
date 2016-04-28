@@ -234,22 +234,26 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 paizhao(103);
                 break;
             case R.id.tv_button_next:
-                signUpInfo = (SignUpInfo) getIntent().getSerializableExtra("SignUpInfo");
-                picture = getIntent().getStringExtra("picture");
-                Log.e("signUpInfo",signUpInfo.toString());
-                map = new HashMap<String, String>();
+                if(uri1==null||uri2==null||uri3==null){
+                    Toast.makeText(ZhuCe4Activity.this, "请把需要的信息填上", Toast.LENGTH_SHORT).show();
+                    break;
+                }else {
+                    signUpInfo = (SignUpInfo) getIntent().getSerializableExtra("SignUpInfo");
+                    picture = getIntent().getStringExtra("picture");
+                    Log.e("signUpInfo", signUpInfo.toString());
+                    map = new HashMap<String, String>();
 //                Log.e("map", signUpInfo.getClazz());
-                map.put("class", signUpInfo.getClazz());
-                map.put("college", signUpInfo.getCollege());
-                map.put("number", signUpInfo.getNumber());
-                map.put("password", signUpInfo.getPassword());
-                map.put("IdCardNum", signUpInfo.getId_card());
-                map.put("phone", signUpInfo.getPhone());
-                map.put("sex", signUpInfo.getSex());
-                map.put("shortphone", signUpInfo.getShortnumber());
-                map.put("username", signUpInfo.getUsername());
-                showProgressDialog(4);
-                handler.sendEmptyMessage(NEXT);
+                    map.put("class", signUpInfo.getClazz());
+                    map.put("college", signUpInfo.getCollege());
+                    map.put("number", signUpInfo.getNumber());
+                    map.put("password", signUpInfo.getPassword());
+                    map.put("IdCardNum", signUpInfo.getId_card());
+                    map.put("phone", signUpInfo.getPhone());
+                    map.put("sex", signUpInfo.getSex());
+                    map.put("shortphone", signUpInfo.getShortnumber());
+                    map.put("username", signUpInfo.getUsername());
+                    showProgressDialog(4);
+                    handler.sendEmptyMessage(NEXT);
 //                new Thread(new Runnable() {
 //                    @Override
 //                    public void run() {
@@ -313,6 +317,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
 //                    }
 //                }
 //                ).start();
+                }
                 break;
         }
     }

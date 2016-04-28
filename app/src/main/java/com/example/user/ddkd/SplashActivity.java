@@ -15,11 +15,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.content.DialogInterface.OnClickListener;
+import android.view.animation.AlphaAnimation;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.content.DialogInterface.OnCancelListener;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.baidu.mobstat.SendStrategyEnum;
 import com.baidu.mobstat.StatService;
+import com.example.user.ddkd.utils.AutologonUtil;
+import com.example.user.ddkd.utils.Exit;
+import com.example.user.ddkd.utils.MyStringRequest;
 import com.example.user.ddkd.utils.StreamTools;
 import net.tsz.afinal.FinalHttp;
 import net.tsz.afinal.http.AjaxCallBack;
@@ -39,10 +48,12 @@ public class SplashActivity extends AppCompatActivity {
     protected static final int URL_ERROR = 2;
     protected static final int NETWORK_ERROR = 3;
     protected static final int JSON_ERROR = 4;
-    protected static final int Home=5;
     protected static final String TAG = "SplashActivity";
+    private TextView tv;
     private String description;
     private String apkurl;
+    private TextView jindu;
+    private SharedPreferences preferences;
     Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -53,7 +64,7 @@ public class SplashActivity extends AppCompatActivity {
                     break;
                 case SHOW_UPDATE_DIALOG:
                     Log.i(TAG, "显示升级的对话框");
-//                    showupdateDialog();
+                    showupdateDialog();
                     break;
                 case URL_ERROR:
                     enterhome();
@@ -67,9 +78,6 @@ public class SplashActivity extends AppCompatActivity {
                     enterhome();
                     Log.i(TAG, "json解析错误");
                     break;
-                case Home:
-                    enterhome();
-                    break;
             }
         }
     };
@@ -81,13 +89,34 @@ public class SplashActivity extends AppCompatActivity {
         StatService.setSendLogStrategy(this, SendStrategyEnum.APP_START,
                 1, false);
         StatService.setSessionTimeOut(0);
-        Log.e("onCreate", getVersonName());
         ExitApplication.getInstance().addActivity(this);
+
+
         if(MyApplication.state==0){
-            handler.sendEmptyMessageDelayed(Home,2000);
+            tv = (TextView) findViewById(R.id.tv_splash_verson);
+            tv.setText("版本号:"+getVersonName());
+            preferences=getSharedPreferences("config",MODE_PRIVATE);
+            boolean boolean1 = preferences.getBoolean("update", false);
+            if(boolean1){
+                CheckUpdate();
+            }else{
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // TODO Auto-generated method stub
+                        enterhome();
+                    }
+                }, 2000);
+            }
+
+            AlphaAnimation animation=new AlphaAnimation(0.2f, 1.0f);
+            animation.setDuration(500);
+            findViewById(R.id.rl_root_splash).setAnimation(animation);
+            jindu = (TextView) findViewById(R.id.tv_splash_jindu);
         } else {
             enterhome();
         }
+
     }
     @Override
     protected void onResume() {
@@ -116,45 +145,7 @@ public class SplashActivity extends AppCompatActivity {
         builder.setPositiveButton("立即升级", new OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
-                if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-//                    jindu.setVisibility(TextView.VISIBLE);
-                    FinalHttp finalHttp=new FinalHttp();
-                    finalHttp.download(apkurl, Environment.getExternalStorageDirectory().getAbsolutePath()+"/mobilesafe2.0.apk", new AjaxCallBack<File>() {
-                        @Override
-                        public void onFailure(Throwable t, int errorNo,
-                                              String strMsg) {
-                            t.printStackTrace();
-                            Toast.makeText(getApplicationContext(), "下载失败", Toast.LENGTH_LONG).show();
-                            super.onFailure(t, errorNo, strMsg);
-                        }
-
-                        @Override
-                        public void onLoading(long count, long current) {
-                            // TODO Auto-generated method stub
-                            super.onLoading(count, current);
-//                            int progress=(int) (current*100/count);
-//                            jindu.setText("下载进度:"+progress+"%");
-                        }
-                        @Override
-                        public void onSuccess(File t) {
-                            // TODO Auto-generated method stub
-                            super.onSuccess(t);
-                            installAPK(t);
-                        }
-                        private void installAPK(File t) {
-                            // TODO Auto-generated method stub
-                            Intent intent=new Intent();
-                            intent.setAction("android.intent.action.VIEW");
-                            intent.addCategory("android.intent.category.DEFAULT");
-                            intent.setDataAndType(Uri.fromFile(t), "application/vnd.android.package-archive");
-                            startActivity(intent);
-                        }
-                    });
-                    return;
-                }else{
-                    Toast.makeText(getApplicationContext(), "没有sd卡不能下载",Toast.LENGTH_SHORT).show();
-                }
+                Toast.makeText(SplashActivity.this,"立即更新",Toast.LENGTH_LONG).show();
             }
         });
         builder.setNegativeButton("下次再说", new OnClickListener() {
@@ -173,11 +164,12 @@ public class SplashActivity extends AppCompatActivity {
     private void CheckUpdate() {
         new Thread(new Runnable() {
             long start=java.lang.System.currentTimeMillis();
+
             @Override
             public void run() {
                 Message message=Message.obtain();
                 try {
-                    URL url=new URL("http://192.168.17.27:8080/updateinfo.html");
+                    URL url=new URL("http://www.louxiago.com/wc/ddkd/admin.php/User/update");
                     HttpURLConnection connection=(HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("GET");
                     connection.setConnectTimeout(4000);
@@ -188,11 +180,8 @@ public class SplashActivity extends AppCompatActivity {
                         String readFromStream = StreamTools.readFromStream(inputStream);
                         Log.i(TAG, "联网成功！"+readFromStream);
                         //json解析
-                        JSONObject jaon=new JSONObject(readFromStream);
-                        String version = jaon.getString("version");
-                        description = jaon.getString("description");
-                        apkurl = jaon.getString("apkurl");
-                        if(getVersonName().equals(version)){
+
+                        if(getVersonName().equals(readFromStream)){
                             //相同版本号
                             Log.i(TAG, "版本相同");
                             message.what=ENTER_HOME;
@@ -207,9 +196,6 @@ public class SplashActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                     message.what=NETWORK_ERROR;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    message.what=JSON_ERROR;
                 }finally{
                     long end=java.lang.System.currentTimeMillis();
                     long iii=end-start;

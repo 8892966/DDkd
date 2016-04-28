@@ -89,8 +89,6 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     private int soundid;
 
 
-
-
     //当获取页面信息时token过时的处理
     private Handler handler1 = new Handler() {
         @Override
@@ -113,10 +111,10 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             super.handleMessage(msg);
             switch (msg.what) {
                 case MyApplication.GET_TOKEN_SUCCESS:
-                    Object[] obj= (Object[]) msg.obj;
-                    String id= (String) obj[0];
-                    TextView button= (TextView) obj[1];
-                    volley_QD_GET(id,button);
+                    Object[] obj = (Object[]) msg.obj;
+                    String id = (String) obj[0];
+                    TextView button = (TextView) obj[1];
+                    volley_QD_GET(id, button);
                     break;
                 case MyApplication.GET_TOKEN_ERROR:
                     Toast.makeText(JieDangActivity.this, "网络连接出错", Toast.LENGTH_SHORT).show();
@@ -131,7 +129,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.jiedang_activity);
         initSound();//初始化数据
         volley_MSG_GET();//获取页面信息
-        list=new ArrayList<QOrderInfo>();
+        list = new ArrayList<QOrderInfo>();
         TextView textView = (TextView) findViewById(R.id.personinfo);
         textView.setOnClickListener(this);
         listView = (ListView) findViewById(R.id.lv_jiedang);
@@ -139,12 +137,12 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         ll_jianlihuodong = (LinearLayout) findViewById(R.id.ll_jianlihuodong);
         tv_to_dingdang = (TextView) findViewById(R.id.tv_to_dingdang);
         but_jiedang = (TextView) findViewById(R.id.but_jiedang);
-        tv_xiuxi_huodong_now_number= (TextView) findViewById(R.id.tv_xiuxi_huodong_now_number);
-        pb_star= (RatingBar) findViewById(R.id.pb_star);
-        tv_star= (TextView) findViewById(R.id.tv_star);
-        tv_sum_number= (TextView) findViewById(R.id.tv_sum_number);
-        tv_xiuxi_huodong_yesterday_number= (TextView) findViewById(R.id.tv_xiuxi_huodong_yesterday_number);
-        tv_xiuxi_huodong_yesterday_money= (TextView) findViewById(R.id.tv_xiuxi_huodong_yesterday_money);
+        tv_xiuxi_huodong_now_number = (TextView) findViewById(R.id.tv_xiuxi_huodong_now_number);
+        pb_star = (RatingBar) findViewById(R.id.pb_star);
+        tv_star = (TextView) findViewById(R.id.tv_star);
+        tv_sum_number = (TextView) findViewById(R.id.tv_sum_number);
+        tv_xiuxi_huodong_yesterday_number = (TextView) findViewById(R.id.tv_xiuxi_huodong_yesterday_number);
+        tv_xiuxi_huodong_yesterday_money = (TextView) findViewById(R.id.tv_xiuxi_huodong_yesterday_money);
 
         ll_ddzhinang.setOnClickListener(this);
         ll_jianlihuodong.setOnClickListener(this);
@@ -182,7 +180,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             case R.id.ll_ddzhinang:
                 intent = new Intent(this, WebActivity.class);
                 intent.putExtra("title", "DD指南");
-                intent.putExtra("url","http://www.baidu.com");
+                intent.putExtra("url", "http://www.baidu.com");
                 startActivity(intent);
                 break;
             case R.id.ll_jianlihuodong:
@@ -192,26 +190,26 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.tv_to_dingdang:
-                intent = new Intent(this,DingDanActivity.class);
+                intent = new Intent(this, DingDanActivity.class);
                 startActivity(intent);
                 break;
             case R.id.but_jiedang:
-                if (!sreviceisrunning){
+                if (!sreviceisrunning) {
                     listView.getEmptyView().setVisibility(View.VISIBLE);
-                    sreviceisrunning=true;
+                    sreviceisrunning = true;
 //                  preferences=getSharedPreferences("config", MODE_PRIVATE);
                     listView.setVisibility(View.VISIBLE);
                     but_jiedang.setText("休息");
                     but_jiedang.setBackgroundResource(R.drawable.yuan_selected);
                     jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
                     startService(jieDanServiceIntent);
-                    bindService(jieDanServiceIntent,sc,BIND_AUTO_CREATE);
+                    bindService(jieDanServiceIntent, sc, BIND_AUTO_CREATE);
 //// 2.36（不包括）之前的版本需要调用以下2行代码
 //                    Intent service = new Intent(context, XGPushService.class);
 //                    context.startService(service);
-                }else{
+                } else {
                     listView.getEmptyView().setVisibility(View.GONE);
-                    sreviceisrunning=false;
+                    sreviceisrunning = false;
                     unbindService(sc);
                     jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
                     stopService(jieDanServiceIntent);
@@ -263,30 +261,34 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 view.setTag(viewInfo);
             }
             //处理数据，填写数据
-            QOrderInfo qOrderInfo=list.get(position);
-            String s=qOrderInfo.getReceivePlace().split("/")[3];
+            QOrderInfo qOrderInfo = list.get(position);
+            String s = qOrderInfo.getReceivePlace().split("/")[3];
             viewInfo.tv_addr.setText(s);
-            viewInfo.tv_class.setText(qOrderInfo.getExpressCompany()+"快件    重量"+qOrderInfo.getWeight()+"左右");
+            viewInfo.tv_class.setText(qOrderInfo.getExpressCompany() + "快件    重量" + qOrderInfo.getWeight() + "左右");
             viewInfo.tv_item_jianli.setVisibility(View.GONE);
-            viewInfo.tv_item_title.setText(qOrderInfo.getAddressee()+"    共"+qOrderInfo.getPrice()+"元(含小费"+qOrderInfo.getTip()+"元)");
-            viewInfo.tv_qiangdan_button.setOnClickListener(new QDonClickListener(qOrderInfo.getOrderid(),viewInfo.tv_qiangdan_button));
+            viewInfo.tv_item_title.setText(qOrderInfo.getAddressee() + "    共" + qOrderInfo.getPrice() + "元(含小费" + qOrderInfo.getTip() + "元)");
+            viewInfo.tv_qiangdan_button.setOnClickListener(new QDonClickListener(qOrderInfo.getOrderid(), viewInfo.tv_qiangdan_button));
 //                int e=times.get(position);
 //                TimeCountUtil timeCountUtil=new TimeCountUtil(20*1000,1000,viewInfo.tv_qiangdan_button);
 //                timeCountUtil.start();
             return view;
         }
+
         class QDonClickListener implements View.OnClickListener {
             private String id;
             private TextView button;
-            public QDonClickListener(String id,TextView button){
-                this.id=id;
-                this.button=button;
+
+            public QDonClickListener(String id, TextView button) {
+                this.id = id;
+                this.button = button;
             }
+
             @Override
             public void onClick(View v) {
-                volley_QD_GET(id,button);
+                volley_QD_GET(id, button);
             }
         }
+
         class ViewInfo {
             TextView tv_item_title;
             TextView tv_item_jianli;
@@ -295,39 +297,42 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             TextView tv_qiangdan_button;
         }
     }
+
     @Override
-    protected void onResume(){
+    protected void onResume() {
         StatService.onResume(this);
-        SharedPreferences sharedPreferences=getSharedPreferences("qtmsg", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("qtmsg", MODE_PRIVATE);
 
         Log.e("JieDangActivity", getIntent().getBooleanExtra("info", false) + "");
 
-        if(!sharedPreferences.getString("QT", "").equals("")){
+        if (!sharedPreferences.getString("QT", "").equals("")) {
 //            Log.e("onResume","1111111111111111111111");
             jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
             startService(jieDanServiceIntent);
 //            bindService(jieDanServiceIntent,sc,BIND_AUTO_CREATE);
         }
-        sreviceisrunning=ServiceUtils.isRunning(this,"com.example.user.ddkd.service.JieDanService");
+        sreviceisrunning = ServiceUtils.isRunning(this, "com.example.user.ddkd.service.JieDanService");
         Log.e("isRunning", sreviceisrunning + "");
-        if(sreviceisrunning){
+        if (sreviceisrunning) {
             listView.setVisibility(View.VISIBLE);
             but_jiedang.setText("休息");
             but_jiedang.setBackgroundResource(R.drawable.yuan_selected);
             //服务一开，绑定服务
             jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
-            bindService(jieDanServiceIntent,sc,BIND_AUTO_CREATE);
+            bindService(jieDanServiceIntent, sc, BIND_AUTO_CREATE);
         }
         super.onResume();
     }
+
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
 //        Log.e("onPause","2222222222222222");
-        if(sreviceisrunning){
+        if (sreviceisrunning) {
             unbindService(sc);
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -337,7 +342,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     }
 
     //绑定服务
-    private ServiceConnection sc=new ServiceConnection(){
+    private ServiceConnection sc = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             jdBinder = (JieDanService.JDBinder) service;
@@ -357,20 +362,21 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 
                 }
             });
-            list=jdBinder.getMsg();
-            Gson gson=new Gson();
-            SharedPreferences sharedPreferences=getSharedPreferences("qtmsg", MODE_PRIVATE);
-            String qt=sharedPreferences.getString("QT", "");
-            sharedPreferences.edit().putString("QT","").commit();
+            list = jdBinder.getMsg();
+            Gson gson = new Gson();
+            SharedPreferences sharedPreferences = getSharedPreferences("qtmsg", MODE_PRIVATE);
+            String qt = sharedPreferences.getString("QT", "");
+            sharedPreferences.edit().putString("QT", "").commit();
             List QTli = gson.fromJson(qt, new TypeToken<List<QOrderInfo>>() {
             }.getType());
-            if(QTli!=null) {
+            if (QTli != null) {
                 list.addAll(QTli);
                 jdBinder.setMsg(QTli);
             }
 //            Log.e("ServiceConnection", list.size() + "");
             myBaseAdapter.notifyDataSetChanged();
         }
+
         @Override
         public void onServiceDisconnected(ComponentName name) {
 
@@ -378,46 +384,50 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     };
 
     //网络申请获取主页面信息
-    private void volley_MSG_GET(){
+    private void volley_MSG_GET() {
         preferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = preferences.getString("token", "");
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/CountOrder/token/" + token;
-        Log.e("volley_OrderState_GET",url);
-        StringRequest request_post = new StringRequest(Request.Method.GET, url, new MyStringRequest(){
+        Log.e("volley_OrderState_GET", url);
+        StringRequest request_post = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
-            public void success(Object o){
-                    Gson gson = new Gson();
-                    MainMsgInfo info = gson.fromJson((String)o,MainMsgInfo.class);
-                    tv_xiuxi_huodong_now_number.setText("接单" + info.getTodOrder() + "单");
-                    tv_star.setText(info.getEvaluate());
-                    tv_sum_number.setText("总" + info.getTotalOrder() + "单");
-                    tv_xiuxi_huodong_yesterday_number.setText("昨天订单：" + info.getYstOrder() + "单");
-                    if (info.getYstTurnover() != null) {
-                        DecimalFormat g = new DecimalFormat("0.00");//精确到两位小数
-                        tv_xiuxi_huodong_yesterday_money.setText("昨天营业额:" +  g.format(Double.valueOf(info.getYstTurnover())) + "元");
-                    } else {
-                        tv_xiuxi_huodong_yesterday_money.setText("昨天营业额:0元");
-                    }
-                    if (info.getEvaluate() == null){
-                        pb_star.setRating(0);
-                    } else {
-                        pb_star.setRating(Float.valueOf(info.getEvaluate()));
-                    }
+            public void success(Object o) {
+                String ss = (String) o;
+//                Log.e("volley_MSG_GET", ss);
+                Gson gson = new Gson();
+                MainMsgInfo info = gson.fromJson((String) o, MainMsgInfo.class);
+                tv_xiuxi_huodong_now_number.setText("接单" + info.getTodOrder() + "单");
+                tv_star.setText(info.getEvaluate());
+                tv_sum_number.setText("总" + info.getTotalOrder() + "单");
+                tv_xiuxi_huodong_yesterday_number.setText("昨天订单：" + info.getYstOrder() + "单");
+                if (info.getYstTurnover() != null) {
+                    DecimalFormat g = new DecimalFormat("0.00");//精确到两位小数
+                    tv_xiuxi_huodong_yesterday_money.setText("昨天营业额:" + g.format(Double.valueOf(info.getYstTurnover())) + "元");
+                } else {
+                    tv_xiuxi_huodong_yesterday_money.setText("昨天营业额:0元");
+                }
+                if (info.getEvaluate() == null) {
+                    pb_star.setRating(0);
+                } else {
+                    pb_star.setRating(Float.valueOf(info.getEvaluate()));
+                }
             }
+
             @Override
             public void tokenouttime() {
-                AutologonUtil autologonUtil = new AutologonUtil(JieDangActivity.this,handler1,null);
+                AutologonUtil autologonUtil = new AutologonUtil(JieDangActivity.this, handler1, null);
                 autologonUtil.volley_Get_TOKEN();
             }
+
             @Override
             public void yidiensdfsdf() {
-                Toast.makeText(JieDangActivity.this,"您的账号在其他地方被登陆，请在此登陆",Toast.LENGTH_SHORT).show();
+                Toast.makeText(JieDangActivity.this, "您的账号在其他地方被登陆，请在此登陆", Toast.LENGTH_SHORT).show();
                 Exit.exit(JieDangActivity.this);
             }
-        },new Response.ErrorListener(){
+        }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError volleyError){
-                Toast.makeText(JieDangActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(JieDangActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
             }
         });
 //        StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
@@ -458,58 +468,63 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         request_post.setTag("volley_MSG_GET");
         MyApplication.getQueue().add(request_post);
     }
+
     //抢单数据
     private void volley_QD_GET(final String id, final TextView button) {
         preferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = preferences.getString("token", "");
-        String XGtoken=preferences.getString("XGtoken","");
-        Log.e("volley_QD_GET",XGtoken);
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/RobOrder/orderId/"+id+"/token/" + token+"/deviceId/"+XGtoken;
-        StringRequest request_post = new StringRequest(Request.Method.GET, url,new MyStringRequest(){
+        String XGtoken = preferences.getString("XGtoken", "");
+        Log.e("volley_QD_GET", XGtoken);
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/RobOrder/orderId/" + id + "/token/" + token + "/deviceId/" + XGtoken;
+        StringRequest request_post = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
-                String s= (String) o;
-                if(!s.equals("SUCCESS")){
-                    Toast.makeText(JieDangActivity.this,"网络异常",Toast.LENGTH_LONG).show();
-                }else{
+                String s = (String) o;
+                if (!s.equals("SUCCESS")) {
+                    Toast.makeText(JieDangActivity.this, "网络异常", Toast.LENGTH_LONG).show();
+                } else {
                     button.setEnabled(false);
                     button.setTextColor(Color.BLACK);
                     button.setText("等待");
-                    Toast.makeText(JieDangActivity.this,"请等待抢单信息",Toast.LENGTH_LONG).show();
+                    Toast.makeText(JieDangActivity.this, "请等待抢单信息", Toast.LENGTH_LONG).show();
                 }
             }
+
             @Override
             public void tokenouttime() {
                 Log.e("volley_QD_GET", "token过时了");
-                Object[] obj={id,button};
-                AutologonUtil autologonUtil = new AutologonUtil(JieDangActivity.this,handler2,obj);
+                Object[] obj = {id, button};
+                AutologonUtil autologonUtil = new AutologonUtil(JieDangActivity.this, handler2, obj);
                 autologonUtil.volley_Get_TOKEN();
             }
+
             @Override
             public void yidiensdfsdf() {
-                Toast.makeText(JieDangActivity.this,"您的账户已在异地登录",Toast.LENGTH_SHORT).show();
+                Toast.makeText(JieDangActivity.this, "您的账户已在异地登录", Toast.LENGTH_SHORT).show();
                 Exit.exit(JieDangActivity.this);
             }
-        },new Response.ErrorListener() {
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(JieDangActivity.this,"网络异常",Toast.LENGTH_LONG).show();
+                Toast.makeText(JieDangActivity.this, "网络异常", Toast.LENGTH_LONG).show();
             }
         });
-            request_post.setTag("volley_QD_GET");
-            MyApplication.getQueue().add(request_post);
-        }
-    long[] djtime =new long[2];
+        request_post.setTag("volley_QD_GET");
+        MyApplication.getQueue().add(request_post);
+    }
+
+    long[] djtime = new long[2];
+
     @Override
-    public void onBackPressed(){
-            System.arraycopy(djtime,1,djtime,0,djtime.length-1);
-            djtime[djtime.length-1]= SystemClock.uptimeMillis();
-            if(djtime[0]>=(SystemClock.uptimeMillis()-1000)){
+    public void onBackPressed() {
+        System.arraycopy(djtime, 1, djtime, 0, djtime.length - 1);
+        djtime[djtime.length - 1] = SystemClock.uptimeMillis();
+        if (djtime[0] >= (SystemClock.uptimeMillis() - 1000)) {
 //                super.onBackPressed();
-                ExitApplication.getInstance().exit();
-            }else{
-                Toast.makeText(this, "在按一次返回键退出应用", Toast.LENGTH_SHORT).show();
-            }
+            ExitApplication.getInstance().exit();
+        } else {
+            Toast.makeText(this, "在按一次返回键退出应用", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

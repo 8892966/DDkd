@@ -118,28 +118,6 @@
             android:layout_width="match_parent"
             android:layout_height="1dip"/>
     </RelativeLayout>
-
-    <CheckBox
-        android:id="@+id/cb_xieyi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/rl_shuru"
-        android:layout_margin="10dp"
-        android:checked="true"
-        android:text="我同意《DD快递服务协议》" />
-
-    <TextView
-        android:id="@+id/tv_button_yuedu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/cb_xieyi"
-        android:layout_marginBottom="10dp"
-        android:layout_toRightOf="@id/cb_xieyi"
-        android:background="@drawable/dingdang_item_button"
-        android:clickable="true"
-        android:focusable="true"
-        android:text="阅读协议" />
-
     <TextView
         android:id="@+id/tv_next"
         style="@style/zhuce_button_next"
@@ -147,4 +125,27 @@
         android:layout_height="wrap_content"
         android:text="下一步"
         android:textColor="#ffffff" />
+
+    <CheckBox
+        android:gravity="center"
+        android:button="@drawable/ddkd_btn_check"
+        android:id="@+id/cb_xieyi"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@id/rl_shuru"
+        android:layout_marginLeft="10dp"
+        android:checked="true"
+        android:text="我同意《DD快递服务协议》" />
+
+    <TextView
+        android:id="@+id/tv_button_yuedu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/cb_xieyi"
+        android:layout_toRightOf="@id/cb_xieyi"
+        android:background="@drawable/dingdang_item_button"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="阅读协议" />
+
 </RelativeLayout>

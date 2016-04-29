@@ -1,100 +1,115 @@
 package com.example.user.ddkd.utils;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Handler;
 import android.util.Log;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.UUID;
+import com.example.user.ddkd.ZhuCe4Activity;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 
 public class UploadUtil {
-	private static final String TAG = "uploadFile";
-	private static final int TIME_OUT = 10 * 1000; // 超时时间
-	private static final String CHARSET = "utf-8"; // 设置编码
-	/**
-	 * 上传文件到服务器
-	 * @param file 需要上传的文件
-	 * @param RequestURL 请求的rul
-	 * @return 返回响应的内容
-	 */
-	public static int uploadFile(File file, String RequestURL) {
-		int res=0;
-		String result = null;
-		String BOUNDARY = UUID.randomUUID().toString(); // 边界标识 随机生成
-		String PREFIX = "--", LINE_END = "\r\n";
-		String CONTENT_TYPE = "multipart/form-data"; // 内容类型
-		try {
-			URL url = new URL(RequestURL);
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			conn.setReadTimeout(TIME_OUT);
-			conn.setConnectTimeout(TIME_OUT);
-			conn.setDoInput(true); // 允许输入流
-			conn.setDoOutput(true); // 允许输出流
-			conn.setUseCaches(false); // 不允许使用缓存
-			conn.setRequestMethod("POST"); // 请求方式
-			conn.setRequestProperty("Charset", CHARSET); // 设置编码
-			conn.setRequestProperty("connection", "keep-alive");
-			conn.setRequestProperty("Content-Type", CONTENT_TYPE + ";boundary="+ BOUNDARY);
-			if (file != null) {
-				/**
-				 * 当文件不为空时执行上传
-				 */
-				DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
-				StringBuffer sb = new StringBuffer();
-				sb.append(PREFIX);
-				sb.append(BOUNDARY);
-				sb.append(LINE_END);
-				/**
-				 * 这里重点注意： name里面的值为服务器端需要key 只有这个key 才可以得到对应的文件
-				 * filename是文件的名字，包含后缀名
-				 */
-				sb.append("Content-Disposition: form-data; name=\"file\"; filename=\""
-						+ file.getName() + "\"" + LINE_END);
-				sb.append("Content-Type: application/octet-stream; charset="
-						+ CHARSET + LINE_END);
-				sb.append(LINE_END);
-				dos.write(sb.toString().getBytes());
-				InputStream is = new FileInputStream(file);
-				byte[] bytes = new byte[1024];
-				int len = 0;
-				while ((len = is.read(bytes)) != -1) {
-					dos.write(bytes, 0, len);
-				}
-				is.close();
-				dos.write(LINE_END.getBytes());
-				byte[] end_data = (PREFIX + BOUNDARY + PREFIX + LINE_END)
-						.getBytes();
-				dos.write(end_data);
-				dos.flush();
-				/**
-				 * 获取响应码 200=成功 当响应成功，获取响应的流
-				 */
-				 res = conn.getResponseCode();
-				Log.e(TAG, "response code:" + res);
-				if (res == 200) {
-					Log.e(TAG, "request success");
-					InputStream input = conn.getInputStream();
-					StringBuffer sb1 = new StringBuffer();
-					int ss;
-					while ((ss = input.read()) != -1) {
-						sb1.append((char) ss);
-					}
-					result = sb1.toString();
-					Log.e(TAG, "result : " + result);
-				} else {
-					Log.e(TAG, "request error");
-				}
-			}
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return res;
-	}
+    public void uploadMethod(final RequestParams params, final String uploadHost, final Handler handler, final ProgressBar progressBar2, final Context context) {
+        HttpUtils http = new HttpUtils();
+        http.send(HttpRequest.HttpMethod.POST, uploadHost, params, new RequestCallBack<String>() {
+            @Override
+            public void onStart() {
+//                      msgTextview.setText("conn...");
+                Log.e("ZhuCe4Activity", "开始");
+            }
+
+            @Override
+            public void onLoading(long total, long current, boolean isUploading) {
+                if (isUploading) {
+//                          msgTextview.setText("upload: " + current + "/"+ total);
+                    Log.e("ZhuCe4Activity", "upload: " + current + "/" + total);
+                } else {
+//                          msgTextview.setText("reply: " + current + "/"+ total);
+                    Log.e("ZhuCe4Activity", "upload: " + current + "/" + total);
+                }
+                if (progressBar2 != null) {
+                    if (total > 100) {
+                        int t = (int) (total / 100);
+                    } else {
+                        int t = (int) total;
+                    }
+                    if (current > 100) {
+                        int c = (int) (current / 100);
+                    } else {
+                        int t = (int) current;
+                    }
+                    progressBar2.setMax((int) (total / 100));
+                    progressBar2.setProgress((int) (current / 100));
+                }
+            }
+
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+//                      msgTextview.setText("reply: " + responseInfo.result);
+                Log.e("ZhuCe4Activity", "reply: " + responseInfo.result);
+                if (handler != null) {
+                    if ("SUCCESS".equals(responseInfo.result)) {
+                        handler.sendEmptyMessage(ZhuCe4Activity.NEXT);
+                        ZhuCe4Activity.Static++;
+                    } else if ("MAXSIZE OUT".equals(responseInfo.result)) {
+                        Toast.makeText(context, "图片内存过大", Toast.LENGTH_SHORT).show();
+                        handler.sendEmptyMessage(ZhuCe4Activity.ERROR);
+                    } else if ("UPLOAD FILE FORMAT ERROR".equals(responseInfo.result)) {
+                        Toast.makeText(context, "上传文件格式错误", Toast.LENGTH_SHORT).show();
+                        handler.sendEmptyMessage(ZhuCe4Activity.ERROR);
+                    } else if ("UPLOAD FAIL".equals(responseInfo.result)) {
+                        Toast.makeText(context, "上传失败", Toast.LENGTH_SHORT).show();
+                        handler.sendEmptyMessage(ZhuCe4Activity.ERROR);
+                    } else {
+                        Toast.makeText(context, "提交失败，请重新提交", Toast.LENGTH_SHORT).show();
+                        handler.sendEmptyMessage(ZhuCe4Activity.ERROR);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(HttpException error, String msg) {
+//                      msgTextview.setText(error.getExceptionCode() + ":" + msg);
+                Log.e("ZhuCe4Activity", error.getExceptionCode() + ":" + msg);
+            }
+        });
+    }
+
+    public static Bitmap getBitmap(String path, BitmapFactory.Options options, float maxH, float maxW) {
+        Bitmap cameraBitmap = null;
+        int be = 1;
+        float maxh = (int) ((maxH / 100.0) + 0.5) * 100;
+        float maxw = (int) ((maxW / 100.0) + 0.5) * 100;
+        Log.e("maxh", maxh + "");
+        Log.e("maxw", maxw + "");
+        options.inJustDecodeBounds = true;
+        cameraBitmap = BitmapFactory.decodeFile(path, options);
+        options.inJustDecodeBounds = false;
+        int h = options.outHeight;
+        int w = options.outWidth;
+        Log.e("h", h + "");
+        Log.e("w", w + "");
+        if (h > maxh || w > maxw) {
+            int beh = (int) ((h / maxh) + 0.5);
+            int bew = (int) ((w / maxw) + 0.5);
+            Log.e("beh", beh + "");
+            Log.e("bew", bew + "");
+            if (beh > bew) {
+                be = beh;
+            } else {
+                be = bew;
+            }
+        }
+        options.inSampleSize = be;
+        cameraBitmap = BitmapFactory.decodeFile(path, options);
+        return cameraBitmap;
+    }
 }

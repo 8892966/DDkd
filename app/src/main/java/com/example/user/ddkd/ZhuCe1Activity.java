@@ -54,6 +54,7 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
     private TextView tv_head_fanghui;
 
     private YanZhenMaUtil yanZhenMaUtil;
+    private SmsUtils smsUtils;
 
     @Override
     protected void onResume() {
@@ -73,7 +74,7 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
         setContentView(R.layout.zhuce1_activity);
         yanZhenMaUtil = new YanZhenMaUtil();//初始化验证码工具类
 
-        SmsUtils smsUtils=new SmsUtils();
+        smsUtils = new SmsUtils();
         smsUtils.startGetSms(this);
 
         et_phone_number = (EditText) findViewById(R.id.et_phone_number);//手机号
@@ -174,6 +175,8 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                tv_button_yanzhengma.setText("验证码");
+                tv_button_yanzhengma.setEnabled(false);
                 Toast.makeText(ZhuCe1Activity.this, "网络异常", Toast.LENGTH_SHORT).show();
             }
         });
@@ -184,6 +187,7 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        smsUtils.cloesGetSms(this);
         MyApplication.getQueue().cancelAll("volley_phoExist_GET");
     }
 }

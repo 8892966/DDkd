@@ -29,7 +29,7 @@ public class AutologonUtil {
         this.handler=handler;
         this.obj=obj;
     }
-    public void volley_Get_TOKEN() {;
+    public void volley_Get_TOKEN() {
         SharedPreferences sharedPreferences=context.getSharedPreferences("config", Context.MODE_PRIVATE);
         String userid=sharedPreferences.getString("phone","");
         String password=sharedPreferences.getString("password","");

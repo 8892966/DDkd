@@ -137,7 +137,6 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
         intent.putExtra("outputY", px2dip(this, 150));
         startActivityForResult(intent, 10);
     }
-
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 10) {
             if (data != null) {
@@ -160,6 +159,7 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
                             //**********************图片修改成功之后就开始上传图片*********************************
                             try {
                                 String msg1 = PostUtil.post("http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage/name/touxiang/phone/" + sharedPreferences1.getString("phone", ""), map1, mapfile);
+                                Log.i("Msg1",msg1);
                                 if(msg1.equals("SUCCESS")) {
                                     volley_change_Get(sharedPreferences1.getString("phone", ""), sharedPreferences1.getString("token", ""));
                                 }else{

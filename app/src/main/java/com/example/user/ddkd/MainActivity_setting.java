@@ -32,6 +32,7 @@ import com.example.user.ddkd.utils.BitmaoCache;
 import com.example.user.ddkd.utils.Exit;
 import com.example.user.ddkd.utils.MyStringRequest;
 import com.example.user.ddkd.utils.PostUtil;
+import com.squareup.picasso.Picasso;
 import com.tencent.android.tpush.XGPushManager;
 
 import java.io.DataOutputStream;
@@ -121,13 +122,9 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
         SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
         version.setText(sharedPreferences.getString("version", ""));
 
-        //复用bitmaoCache的缓存;
-        bitmaoCache=new BitmaoCache();
-        String imageuri=sharedPreferences.getString("imageuri","");
-        ImageLoader imageLoader=new ImageLoader(MyApplication.getQueue(),bitmaoCache);
-        Log.i("Imageuri",imageuri);
-        ImageLoader.ImageListener imageListener=ImageLoader.getImageListener(userimage, R.drawable.personinfo3, R.drawable.personinfo3);
-        imageLoader.get(imageuri,imageListener);
+        //用Picasso的缓存;
+        String imageuri=sharedPreferences.getString("imageuri", "");
+        Picasso.with(MainActivity_setting.this).load(imageuri).into(userimage);
     }
 
     @Override
@@ -172,7 +169,7 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
             case R.id.aboutDD:
                 intent = new Intent(MainActivity_setting.this, WebActivity.class);
                 intent.putExtra("title", "关于DD快递");
-                intent.putExtra("url", "http://www.baidu.com");
+                intent.putExtra("url", "http://www.louxiago.com/wc/ddkd/index.php/AboutDD/index.html");
                 startActivity(intent);
                 break;
         }
@@ -274,26 +271,6 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-    public void initFile() {
-        if (fileName.equals("")) {
-            boolean sdCardExist = Environment.getExternalStorageState()
-                    .equals(android.os.Environment.MEDIA_MOUNTED);
-            if (sdCardExist) {
-                String path = Environment.getExternalStorageDirectory().getPath() + "/DDkdPhoto";
-                //设置文件的存储路径;
-                tempFile = new File(path);
-                if (!tempFile.exists()) {
-                    tempFile.mkdir();
-                }
-                fileName = path + "/user1_head_photo.png";
-                //设置文件的文件名;
-                tempFile = new File(fileName);
-            } else {
-                Toast.makeText(this, "请插入SD卡", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
     /**
      * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
      */
@@ -326,6 +303,7 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
         SharedPreferences sharedPreferences01=getSharedPreferences("config", MODE_PRIVATE);
         SharedPreferences.Editor editor=sharedPreferences01.edit();
         editor.putString("version","1");
+        editor.commit();
         String url="http://www.louxiago.com/wc/ddkd/admin.php/User/update";
         StringRequest request=new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
@@ -419,6 +397,25 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
         });
         stringRequest.setTag("volley_Get_Image_login");
         MyApplication.getQueue().add(stringRequest);
+    }
+    public void initFile() {
+        if (fileName.equals("")) {
+            boolean sdCardExist = Environment.getExternalStorageState()
+                    .equals(android.os.Environment.MEDIA_MOUNTED);
+            if (sdCardExist) {
+                String path = Environment.getExternalStorageDirectory().getPath() + "/DDkdPhoto";
+                //设置文件的存储路径;
+                tempFile = new File(path);
+                if (!tempFile.exists()) {
+                    tempFile.mkdir();
+                }
+                fileName = path + "/user1_head_photo.png";
+                //设置文件的文件名;
+                tempFile = new File(fileName);
+            } else {
+                Toast.makeText(this, "请插入SD卡", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     public void onDestroy(){

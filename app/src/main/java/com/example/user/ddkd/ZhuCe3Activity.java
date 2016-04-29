@@ -62,7 +62,7 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
         et_id = (EditText) findViewById(R.id.et_id);//身份证
         et_xuehao = (EditText) findViewById(R.id.et_xuehao);//学号
 
-        //**************************判断是否是在注册页面4返回回来的，如果是回显数据
+        //*************判断是否是在注册页面4返回回来的，如果是回显数据**************
         signUpInfo = (SignUpInfo) getIntent().getSerializableExtra("SignUpInfo");
         if (signUpInfo.getUsername() != null) {
             et_name.setText(signUpInfo.getUsername());

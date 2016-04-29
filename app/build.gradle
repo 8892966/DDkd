@@ -30,7 +30,7 @@ repositories{
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'com.google.code.gson:gson:2.2.4'
@@ -44,4 +44,5 @@ dependencies {
     compile files('libs/mta-android-stat-sdk-2.1.0_20160111.jar')
     compile files('libs/mid-mid-sdk-2.3.jar')
     compile files('libs/Baidu_Mtj_3.7.3.1.jar')
+    compile files('libs/picasso-2.5.2.jar')
 }

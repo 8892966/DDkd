@@ -75,7 +75,14 @@
             android:layout_centerInParent="true"
             android:text="收支明细" />
     </RelativeLayout>
+    <TextView
+        android:layout_alignParentBottom="true"
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="5dip" />
+
     <RelativeLayout
+        android:layout_above="@id/bottom"
         android:layout_below="@id/title2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -85,6 +92,7 @@
             android:layout_height="match_parent">
         </ListView>
         <TextView
+            android:id="@+id/tongzhi"
             android:textColor="#cccccc"
             android:layout_centerInParent="true"
             android:textSize="20dip"
@@ -92,11 +100,4 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </RelativeLayout>
-
-
-
-    <TextView
-        android:id="@+id/bottom"
-        android:layout_width="match_parent"
-        android:layout_height="15dip" />
 </RelativeLayout>

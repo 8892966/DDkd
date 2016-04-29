@@ -107,7 +107,6 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
                 break;
         }
     }
-
     @Override
     protected void onResume() {
         super.onResume();

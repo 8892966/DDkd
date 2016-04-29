@@ -4,10 +4,12 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.user.ddkd.MainActivity_userinfo;
 import com.example.user.ddkd.ZhuCe4Activity;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
@@ -17,7 +19,7 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 
 public class UploadUtil {
-    public void uploadMethod(final RequestParams params, final String uploadHost, final Handler handler, final ProgressBar progressBar2, final Context context) {
+    public void uploadMethod(final RequestParams params, final String uploadHost, final Handler handler, final ProgressBar progressBar2, final Context context,final Handler handler2) {
         HttpUtils http = new HttpUtils();
         http.send(HttpRequest.HttpMethod.POST, uploadHost, params, new RequestCallBack<String>() {
             @Override
@@ -55,6 +57,12 @@ public class UploadUtil {
             public void onSuccess(ResponseInfo<String> responseInfo) {
 //                      msgTextview.setText("reply: " + responseInfo.result);
                 Log.e("ZhuCe4Activity", "reply: " + responseInfo.result);
+                if(handler2 !=null){
+                    Message message=new Message();
+                    message.obj=responseInfo.result;
+                    message.what= MainActivity_userinfo.REPLY;
+                    handler2.sendMessage(message);
+                }
                 if (handler != null) {
                     if ("SUCCESS".equals(responseInfo.result)) {
                         handler.sendEmptyMessage(ZhuCe4Activity.NEXT);

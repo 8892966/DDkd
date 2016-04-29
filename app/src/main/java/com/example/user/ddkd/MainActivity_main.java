@@ -67,7 +67,6 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_userinfo);
-
         //*******个人中心的信息回显*********
         userimage = (ImageView) findViewById(R.id.userimage);
         username = (TextView) findViewById(R.id.username);
@@ -97,7 +96,6 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
         } else {
             volley_Get_Image();
         }
-
         SharedPreferences ShareuserInfo = getSharedPreferences("user", MODE_PRIVATE);
         if (ShareuserInfo != null) {
             Log.i("turnover", ShareuserInfo.getString("yingye", ""));

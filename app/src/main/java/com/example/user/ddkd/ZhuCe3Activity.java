@@ -104,7 +104,7 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
             requestParams.addBodyParameter("name", "StudentCard");
             requestParams.addBodyParameter("phone", signUpInfo.getPhone());
             requestParams.addBodyParameter("file",new File(fileName) );
-            new UploadUtil().uploadMethod(requestParams, "http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage",null,null,null);
+            new UploadUtil().uploadMethod(requestParams, "http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage",null,null,null,null);
             Intent intent = new Intent(ZhuCe3Activity.this, ZhuCe4Activity.class);
             intent.putExtra("SignUpInfo", signUpInfo);//传递注册信息
             intent.putExtra("picture", fileName);

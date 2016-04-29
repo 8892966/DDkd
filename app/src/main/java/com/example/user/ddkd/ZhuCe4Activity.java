@@ -94,7 +94,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
             super.handleMessage(msg);
             switch (msg.what) {
                 case SUCCESS:
-                    Toast.makeText(getApplication(), "提交成功，请登录", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplication(), "提交成功，请等待审核通过", Toast.LENGTH_SHORT).show();
                     closeProgressDialog();
                     finish();
                     break;
@@ -109,21 +109,21 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                         requestParams.addBodyParameter("phone", signUpInfo.getPhone());
                         Log.e("ZhuCe4Activity",getRealFilePath(ZhuCe4Activity.this, uri1));
                         requestParams.addBodyParameter("file", new File(getRealFilePath(ZhuCe4Activity.this, uri1)));
-                        new UploadUtil().uploadMethod(requestParams, "http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage", handler, progressBar2, ZhuCe4Activity.this);
+                        new UploadUtil().uploadMethod(requestParams, "http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage", handler, progressBar2, ZhuCe4Activity.this,null);
                         progressBar1.setProgress(Static);
                     } else if (Static == 1) {
                         RequestParams requestParams = new RequestParams();
                         requestParams.addBodyParameter("name", "IdCardBack");
                         requestParams.addBodyParameter("phone", signUpInfo.getPhone());
                         requestParams.addBodyParameter("file", new File(getRealFilePath(ZhuCe4Activity.this, uri2)));
-                        new UploadUtil().uploadMethod(requestParams, "http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage", handler, progressBar2, ZhuCe4Activity.this);
+                        new UploadUtil().uploadMethod(requestParams, "http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage", handler, progressBar2, ZhuCe4Activity.this,null);
                         progressBar1.setProgress(Static);
                     } else if (Static == 2) {
                         RequestParams requestParams = new RequestParams();
                         requestParams.addBodyParameter("name", "StudentCard");
                         requestParams.addBodyParameter("phone", signUpInfo.getPhone());
                         requestParams.addBodyParameter("file", new File(getRealFilePath(ZhuCe4Activity.this, uri3)));
-                        new UploadUtil().uploadMethod(requestParams, "http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage", handler, progressBar2, ZhuCe4Activity.this);
+                        new UploadUtil().uploadMethod(requestParams, "http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage", handler, progressBar2, ZhuCe4Activity.this,null);
                         progressBar1.setProgress(Static);
                     } else if (Static == 3) {
                         progressBar1.setProgress(Static);

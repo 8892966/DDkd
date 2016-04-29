@@ -8,6 +8,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -29,26 +35,28 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.baidu.mobstat.StatService;
+import com.example.user.ddkd.beam.SignUpInfo;
 import com.example.user.ddkd.text.UserInfo;
 import com.example.user.ddkd.utils.AutologonUtil;
 import com.example.user.ddkd.utils.BitmaoCache;
 import com.example.user.ddkd.utils.Exit;
 import com.example.user.ddkd.utils.MyStringRequest;
-import com.example.user.ddkd.utils.PostUtil;
+import com.example.user.ddkd.utils.UploadUtil;
 import com.google.gson.Gson;
+import com.lidroid.xutils.http.RequestParams;
 import com.squareup.picasso.Picasso;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+
+import static com.example.user.ddkd.ZhuCe4Activity.getRealFilePath;
 
 /**
  * Created by Administrator on 2016/4/5.
  */
 public class MainActivity_userinfo extends Activity implements View.OnClickListener {
+    public static final int REPLY = 10;
     private TextView textView;
     private TextView username;
     private TextView collage;
@@ -62,7 +70,7 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
     private Uri uri;
     private File tempFile;
     private String fileName = "";
-    private BitmaoCache bitmaoCache = new BitmaoCache();
+    private Bitmap cameraBitmap;
     private Handler handler2 = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -71,11 +79,11 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
             Voley_Get(userInfo);
         }
     };
-    private Handler handler=new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case MyApplication.GET_TOKEN_SUCCESS:
                     userimage.setImageBitmap(cameraBitmap);
                     Toast.makeText(MainActivity_userinfo.this, "图片修改成功", Toast.LENGTH_SHORT).show();
@@ -84,11 +92,20 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
                 case MyApplication.GET_TOKEN_ERROR:
                     Toast.makeText(MainActivity_userinfo.this, "图片修改失败，请重试", Toast.LENGTH_SHORT).show();
                     break;
+                case REPLY:
+                    String s = (String) msg.obj;
+                    if (s.equals("SUCCESS")) {
+                        SharedPreferences sharedPreferences1=getSharedPreferences("config",MODE_PRIVATE);
+                        volley_change_Get(sharedPreferences1.getString("phone", ""), sharedPreferences1.getString("token", ""));
+                    } else {
+                        Log.i("Image_Get", s);
+
+                    }
+                    break;
             }
         }
     };
 
-    private Bitmap cameraBitmap;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_userinfo);
@@ -103,16 +120,32 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
         changeimage.setOnClickListener(this);
         shortphone = (TextView) findViewById(R.id.shortphone);
         level = (TextView) findViewById(R.id.level);
-        userimage= (ImageView) findViewById(R.id.userimage);
+        userimage = (ImageView) findViewById(R.id.userimage);
         Voley_Get(userInfo);
         ExitApplication.getInstance().addActivity(this);
         SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         String url = sharedPreferences.getString("imageuri", "");
-        Log.i("URL",url);
-        if (url.equals("")){
+        Log.i("URL", url);
+        if (url.equals("")) {
             volley_Get_Image();
         }
         Picasso.with(MainActivity_userinfo.this).load(url).into(userimage);
+    }
+
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv_head_fanghui:
+                finish();
+                break;
+            case R.id.changeimage:
+                new AlertDialog.Builder(this).setPositiveButton("更换头像", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        getImage();
+                    }
+                }).show();
+                break;
+        }
     }
 
     //*********************调用手机的相册********************************
@@ -137,40 +170,22 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
         intent.putExtra("outputY", px2dip(this, 150));
         startActivityForResult(intent, 10);
     }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 10) {
             if (data != null) {
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inSampleSize = 1;//图片的保存比例
-                cameraBitmap = BitmapFactory.decodeFile(tempFile.getPath(), options);//设置图片的保存路径;
+
+                cameraBitmap = toRoundBitmap(BitmapFactory.decodeFile(tempFile.getPath(), options));//设置图片的保存路径;
+                SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
                 if (cameraBitmap != null) {
                     uri = saveBitmap(cameraBitmap);
-                    new Thread(){
-                        @Override
-                        public void run() {
-                            super.run();
-                            SharedPreferences sharedPreferences1 = getSharedPreferences("config", MODE_PRIVATE);
-                            Map<String, String> map1 = new HashMap<String, String>();
-                            map1.put("phone", sharedPreferences1.getString("phone", ""));
-                            map1.put("name", "touxiang");
-                            File file = new File(uri.getPath());
-                            Map<String, File> mapfile = new HashMap<String, File>();
-                            mapfile.put("touxiang", file);
-                            //**********************图片修改成功之后就开始上传图片*********************************
-                            try {
-                                String msg1 = PostUtil.post("http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage/name/touxiang/phone/" + sharedPreferences1.getString("phone", ""), map1, mapfile);
-                                Log.i("Msg1",msg1);
-                                if(msg1.equals("SUCCESS")) {
-                                    volley_change_Get(sharedPreferences1.getString("phone", ""), sharedPreferences1.getString("token", ""));
-                                }else{
-                                    Log.i("Image_Get", msg1);
-                                }
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            file.delete();
-                        }
-                    }.start();
+                    RequestParams requestParams = new RequestParams();
+                    requestParams.addBodyParameter("name", "touxiang");
+                    requestParams.addBodyParameter("phone", sharedPreferences.getString("phone",""));
+                    requestParams.addBodyParameter("file", new File(getRealFilePath(MainActivity_userinfo.this, uri)));
+                    new UploadUtil().uploadMethod(requestParams, "http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage", null, null, MainActivity_userinfo.this, handler);
                 } else {
                     Toast.makeText(MainActivity_userinfo.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
                 }
@@ -184,6 +199,7 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
     /**
      * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
      */
@@ -191,6 +207,7 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
     }
+
     //保存图片
     private Uri saveBitmap(Bitmap bm) {
         File tmpDir = new File(Environment.getExternalStorageDirectory() + "/DDkdphoto");
@@ -214,12 +231,12 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
     }
 
     //************************根据后台的返回结果来判断图片上传是否成功********************
-    public void volley_change_Get(String phone ,String token){
-        String url="http://www.louxiago.com/wc/ddkd/admin.php/User/updateLogo/phone/"+phone+"/token/"+token;
-        StringRequest request=new StringRequest(Request.Method.GET, url, new MyStringRequest() {
+    public void volley_change_Get(String phone, String token) {
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/updateLogo/phone/" + phone + "/token/" + token;
+        StringRequest request = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
-                String s= (String) o;
+                String s = (String) o;
                 Log.i("Result", s);
                 Message message = new Message();
                 if (s.equals("SUCCESS")) {
@@ -230,21 +247,23 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
                     handler.sendMessage(message);
                 }
             }
+
             @Override
             public void tokenouttime() {
-                Log.i("Token","token outtime");
-                AutologonUtil autologonUtil=new AutologonUtil(MainActivity_userinfo.this,handler, null);
+                Log.i("Token", "token outtime");
+                AutologonUtil autologonUtil = new AutologonUtil(MainActivity_userinfo.this, handler, null);
                 autologonUtil.volley_Get_TOKEN();
             }
+
             @Override
             public void yidiensdfsdf() {
                 Exit.exit(MainActivity_userinfo.this);
-                Toast.makeText(MainActivity_userinfo.this,"您的账户已在异地登录",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity_userinfo.this, "您的账户已在异地登录", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(MainActivity_userinfo.this,"网络连接出错",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity_userinfo.this, "网络连接出错", Toast.LENGTH_SHORT).show();
             }
         });
         request.setTag("Get_Setting_changImage");
@@ -339,6 +358,54 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
         stringRequest.setTag("volley_Get_Image");
         MyApplication.getQueue().add(stringRequest);
     }
+
+    //**************************将裁剪的图片转换为圆形*************************
+    public Bitmap toRoundBitmap(Bitmap bitmap) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        float roundPx;
+        float left,top,right,bottom,dst_left,dst_top,dst_right,dst_bottom;
+        if (width <= height) {
+            roundPx = width / 2;
+            top = 0;
+            bottom = width;
+            left = 0;
+            right = width;
+            height = width;
+            dst_left = 0;
+            dst_top = 0;
+            dst_right = width;
+            dst_bottom = width;
+        } else {
+            roundPx = height / 2;
+            float clip = (width - height) / 2;
+            left = clip;
+            right = width - clip;
+            top = 0;
+            bottom = height;
+            width = height;
+            dst_left = 0;
+            dst_top = 0;
+            dst_right = height;
+            dst_bottom = height;
+        }
+        Bitmap output = Bitmap.createBitmap(width,
+                height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect src = new Rect((int)left, (int)top, (int)right, (int)bottom);
+        final Rect dst = new Rect((int)dst_left, (int)dst_top, (int)dst_right, (int)dst_bottom);
+        final RectF rectF = new RectF(dst);
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, src, dst, paint);
+        return output;
+    }
+
     public void initFile() {
         if (fileName.equals("")) {
             boolean sdCardExist = Environment.getExternalStorageState()
@@ -356,21 +423,6 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
             } else {
                 Toast.makeText(this, "请插入SD卡", Toast.LENGTH_SHORT).show();
             }
-        }
-    }
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tv_head_fanghui:
-                finish();
-                break;
-            case R.id.changeimage:
-                new AlertDialog.Builder(this).setPositiveButton("更换头像", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        getImage();
-                    }
-                }).show();
-                break;
         }
     }
 
@@ -393,6 +445,7 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
         MyApplication.getQueue().cancelAll("volley_Get_Image");
         MyApplication.getQueue().cancelAll("abcPost_userinfo");
     }
+
     public String getLevel(String level) {
         String dengji = level;
         if (dengji.equals("0")) {
@@ -405,6 +458,7 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
             return dengji = "金牌快递员";
         }
     }
+
     /**
      * 检测网络是否可用
      *

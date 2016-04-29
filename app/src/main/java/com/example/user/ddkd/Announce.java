@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,9 +96,13 @@ public class Announce extends Activity implements View.OnClickListener {
             }
             String An = announcelist.get(position);
             TextView announ = (TextView) view.findViewById(R.id.announce);
-            announ.setText(An);
-            announ.setOnClickListener(this);
-            tongzhi.setVisibility(View.GONE);
+            if (An!=null){
+                announ.setText(An);
+                announ.setOnClickListener(this);
+                tongzhi.setVisibility(View.GONE);
+            }else{
+                Log.i("Announce_Error","announce is null");
+            }
             return view;
         }
 

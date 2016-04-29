@@ -45,6 +45,7 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
     private TextView moneysum;
     private TextView userphone;
     private UserInfo userInfo;
+    private LinearLayout balance;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -73,7 +74,6 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
         userphone = (TextView) findViewById(R.id.userphone);
         turnover = (TextView) findViewById(R.id.turnover);
         moneysum = (TextView) findViewById(R.id.moneysum);
-
         //*******实现点击页面的跳转*******
         ImageView exituserinfo = (ImageView) findViewById(R.id.exituserinfo);
         exituserinfo.setOnClickListener(this);
@@ -81,13 +81,12 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
         announce.setOnClickListener(this);
         title = (RelativeLayout) findViewById(R.id.title);
         title.setOnClickListener(this);
+        balance= (LinearLayout) findViewById(R.id.balance);
+        balance.setOnClickListener(this);
         LinearLayout detauils = (LinearLayout) findViewById(R.id.details);
         detauils.setOnClickListener(this);
-        LinearLayout userinfo = (LinearLayout) findViewById(R.id.userInfo);
-        userinfo.setOnClickListener(this);
         LinearLayout setting = (LinearLayout) findViewById(R.id.setting);
         setting.setOnClickListener(this);
-
         ExitApplication.getInstance().addActivity(this);
 
         SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
@@ -117,15 +116,11 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
         Intent intent;
         switch (v.getId()) {
             case R.id.title:
-                intent = new Intent(this, MainActivity_balance.class);
+                intent = new Intent(this, MainActivity_userinfo.class);
                 startActivity(intent);
                 break;
             case R.id.details:
                 intent = new Intent(this, details.class);
-                startActivity(intent);
-                break;
-            case R.id.userInfo:
-                intent = new Intent(this, MainActivity_userinfo.class);
                 startActivity(intent);
                 break;
             case R.id.setting:
@@ -137,6 +132,10 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
                 break;
             case R.id.announce:
                 intent = new Intent(MainActivity_main.this, Announce.class);
+                startActivity(intent);
+                break;
+            case R.id.balance:
+                intent = new Intent(this, MainActivity_balance.class);
                 startActivity(intent);
                 break;
         }

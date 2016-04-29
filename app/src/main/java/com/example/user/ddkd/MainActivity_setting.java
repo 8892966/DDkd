@@ -63,28 +63,6 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
     private RelativeLayout updateapp;
     private TextView aboutDD;
     private ImageView imageView;
-    private RelativeLayout changeimage;
-    private Uri uri;
-    private File tempFile;
-    private String fileName = "";
-    private Bitmap cameraBitmap;
-    private BitmaoCache bitmaoCache;
-    private Handler handler=new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what){
-                case MyApplication.GET_TOKEN_SUCCESS:
-                    userimage.setImageBitmap(cameraBitmap);
-                    Toast.makeText(MainActivity_setting.this, "图片修改成功", Toast.LENGTH_SHORT).show();
-                    volley_Get_Image();
-                    break;
-                case MyApplication.GET_TOKEN_ERROR:
-                    Toast.makeText(MainActivity_setting.this, "图片修改失败，请重试", Toast.LENGTH_SHORT).show();
-                    break;
-            }
-        }
-    };
     private Handler handler1=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -101,12 +79,10 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_setting);
-        initFile();
         imageView = (ImageView) findViewById(R.id.setExit);
         imageView.setOnClickListener(this);
         exit = (TextView) findViewById(R.id.exit);
         exit.setOnClickListener(this);
-        userimage = (ImageView) findViewById(R.id.userimage);
         updatepwd = (TextView) findViewById(R.id.updatepwd);
         updatepwd.setOnClickListener(this);
         clime = (TextView) findViewById(R.id.cline);
@@ -116,17 +92,10 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
         updateapp.setOnClickListener(this);
         aboutDD = (TextView) findViewById(R.id.aboutDD);
         aboutDD.setOnClickListener(this);
-        changeimage = (RelativeLayout) findViewById(R.id.changeimage);
-        changeimage.setOnClickListener(this);
         ExitApplication.getInstance().addActivity(this);
         SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
         version.setText(sharedPreferences.getString("version", ""));
-
-        //用Picasso的缓存;
-        String imageuri=sharedPreferences.getString("imageuri", "");
-        Picasso.with(MainActivity_setting.this).load(imageuri).into(userimage);
     }
-
     @Override
     public void onClick(View v) {
         Intent intent;
@@ -145,15 +114,6 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
                 break;
             case R.id.setExit:
                 finish();
-                break;
-            //*****更换头像*****
-            case R.id.changeimage:
-                new AlertDialog.Builder(this).setPositiveButton("更换头像", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        getImage();
-                    }
-                }).show();
                 break;
             case R.id.updatepwd:
                 intent = new Intent(MainActivity_setting.this, MainActivity_forget.class);
@@ -180,7 +140,6 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
         super.onResume();
         StatService.onResume(this);
     }
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -201,104 +160,6 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
             }
         }
     };
-
-    //*********************调用手机的相册********************************
-    private void getImage() {
-        Intent intent = new Intent(Intent.ACTION_PICK);// 打开相册
-        intent.setDataAndType(MediaStore.Images.Media.INTERNAL_CONTENT_URI, "image/*");
-        Log.e("ZhuCe3Activity", Uri.fromFile(tempFile).toString());
-        intent.putExtra("output", Uri.fromFile(tempFile));
-        startActivityForResult(intent, 11);
-    }
-
-    //***************************调用截图功能*************************
-    private void crop(Uri uri) {
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-        Log.e("crop", Uri.fromFile(tempFile).getPath());
-        intent.putExtra("output", Uri.fromFile(tempFile));
-        intent.putExtra("crop", true);
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        intent.putExtra("outputX", px2dip(this, 150));
-        intent.putExtra("outputY", px2dip(this, 150));
-        startActivityForResult(intent, 10);
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 10) {
-            if (data != null) {
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inSampleSize = 1;//图片的保存比例
-                cameraBitmap = BitmapFactory.decodeFile(tempFile.getPath(), options);//设置图片的保存路径;
-                if (cameraBitmap != null) {
-                    uri = saveBitmap(cameraBitmap);
-                    new Thread(){
-                        @Override
-                        public void run() {
-                            super.run();
-                            SharedPreferences sharedPreferences1 = getSharedPreferences("config", MODE_PRIVATE);
-                            Map<String, String> map1 = new HashMap<String, String>();
-                            map1.put("phone", sharedPreferences1.getString("phone", ""));
-                            map1.put("name", "touxiang");
-                            File file = new File(uri.getPath());
-                            Map<String, File> mapfile = new HashMap<String, File>();
-                            mapfile.put("touxiang", file);
-                            //**********************图片修改成功之后就开始上传图片*********************************
-                            try {
-                                String msg1 = PostUtil.post("http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage/name/touxiang/phone/" + sharedPreferences1.getString("phone", ""), map1, mapfile);
-                                if(msg1.equals("SUCCESS")) {
-                                    volley_change_Get(sharedPreferences1.getString("phone", ""), sharedPreferences1.getString("token", ""));
-                                }else{
-                                    Log.i("Image_Get", msg1);
-                                }
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            file.delete();
-                        }
-                    }.start();
-                } else {
-                    Toast.makeText(MainActivity_setting.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
-                }
-            }
-        } else if (requestCode == 11) {
-            if (data != null) {
-                Uri uri = data.getData();
-                Log.e("uri", uri.toString());
-                crop(uri);
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-    /**
-     * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
-     */
-    public static int px2dip(Context context, float pxValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (pxValue / scale + 0.5f);
-    }
-    //保存图片
-    private Uri saveBitmap(Bitmap bm) {
-        File tmpDir = new File(Environment.getExternalStorageDirectory() + "/DDkdphoto");
-        if (!tmpDir.exists()) {
-            tmpDir.mkdir();
-        }
-        tempFile = new File(tmpDir, System.currentTimeMillis() + ".png");
-        try {
-            FileOutputStream fos = new FileOutputStream(tempFile);
-            bm.compress(Bitmap.CompressFormat.PNG, 85, fos);
-            fos.flush();
-            fos.close();
-            return Uri.fromFile(tempFile);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
     public void volley_Get(){
         SharedPreferences sharedPreferences01=getSharedPreferences("config", MODE_PRIVATE);
         SharedPreferences.Editor editor=sharedPreferences01.edit();
@@ -342,85 +203,9 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
         request.setTag("Get_Setting");
         MyApplication.getQueue().add(request);
     }
-    public void volley_change_Get(String phone ,String token){
-        String url="http://www.louxiago.com/wc/ddkd/admin.php/User/updateLogo/phone/"+phone+"/token/"+token;
-        StringRequest request=new StringRequest(Request.Method.GET, url, new MyStringRequest() {
-            @Override
-            public void success(Object o) {
-                String s= (String) o;
-                Log.i("Result", s);
-                Message message = new Message();
-                if (s.equals("SUCCESS")) {
-                    message.what = MyApplication.GET_TOKEN_SUCCESS;
-                    handler.sendMessage(message);
-                } else {
-                    message.what = MyApplication.GET_TOKEN_ERROR;
-                    handler.sendMessage(message);
-                }
-            }
-            @Override
-            public void tokenouttime() {
-                Log.i("Token","token outtime");
-                AutologonUtil autologonUtil=new AutologonUtil(MainActivity_setting.this,handler1, null);
-                autologonUtil.volley_Get_TOKEN();
-            }
-
-            @Override
-            public void yidiensdfsdf() {
-                Exit.exit(MainActivity_setting.this);
-                Toast.makeText(MainActivity_setting.this,"您的账户已在异地登录",Toast.LENGTH_SHORT).show();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(MainActivity_setting.this,"网络连接出错",Toast.LENGTH_SHORT).show();
-            }
-        });
-        request.setTag("Get_Setting_changImage");
-        MyApplication.getQueue().add(request);
-    }
-    public void volley_Get_Image() {
-        final SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/getLogo/token/" + sharedPreferences.getString("token", "");
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("imageuri", s);
-                editor.commit();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(MainActivity_setting.this, "网络连接出错", Toast.LENGTH_SHORT).show();
-            }
-        });
-        stringRequest.setTag("volley_Get_Image_login");
-        MyApplication.getQueue().add(stringRequest);
-    }
-    public void initFile() {
-        if (fileName.equals("")) {
-            boolean sdCardExist = Environment.getExternalStorageState()
-                    .equals(android.os.Environment.MEDIA_MOUNTED);
-            if (sdCardExist) {
-                String path = Environment.getExternalStorageDirectory().getPath() + "/DDkdPhoto";
-                //设置文件的存储路径;
-                tempFile = new File(path);
-                if (!tempFile.exists()) {
-                    tempFile.mkdir();
-                }
-                fileName = path + "/user1_head_photo.png";
-                //设置文件的文件名;
-                tempFile = new File(fileName);
-            } else {
-                Toast.makeText(this, "请插入SD卡", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
 
     public void onDestroy(){
         super.onDestroy();
-        MyApplication.getQueue().cancelAll("Get_Setting_changImage");
         MyApplication.getQueue().cancelAll("Get_Setting");
     }
 }

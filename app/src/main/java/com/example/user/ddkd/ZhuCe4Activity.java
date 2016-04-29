@@ -160,6 +160,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.zhuce4_activity);
+        showProgressDialog(4);
 //       initFile();//初始化文件
         //拍照
         TextView tv_button1_paizhao = (TextView) findViewById(R.id.tv_button1_paizhao);
@@ -306,6 +307,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
         progressBar1 = (ProgressBar) view.findViewById(R.id.pb_sum);
         progressBar1.setMax(max);
         progressBar2 = (ProgressBar) view.findViewById(R.id.pb_each);
+        builder.setTitle("上传信息中...");
         builder.setView(view);
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
@@ -523,7 +525,6 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
         }
         return data;
     }
-
     public void initFile(String TPname) {
         String fileName = "";
         if (fileName.equals("")) {

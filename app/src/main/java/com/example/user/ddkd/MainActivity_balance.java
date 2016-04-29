@@ -14,7 +14,6 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -27,7 +26,6 @@ import com.example.user.ddkd.utils.Exit;
 import com.example.user.ddkd.utils.MyStringRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -44,6 +42,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
     private MyAdapter myAdapter = new MyAdapter();;
     private TextView balance;
     private UserInfo userInfo;
+    private TextView tongzhi;
     private ListView viewById;
     private Handler handler1 = new Handler() {
         @Override
@@ -66,6 +65,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
             switch (msg.what) {
                 case MyApplication.GET_TOKEN_SUCCESS:
                     List<Payment> paymentList = (List<Payment>) msg.obj;
+                    tongzhi.setVisibility(View.GONE);
                     Volley_Get(paymentList);
                     break;
                 case MyApplication.GET_TOKEN_ERROR:
@@ -80,6 +80,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
         balance = (TextView) findViewById(R.id.balance);
         TextView exit = (TextView) findViewById(R.id.tv_head_fanghui);
         exit.setOnClickListener(this);
+        tongzhi= (TextView) findViewById(R.id.tongzhi);
         textView = (TextView) findViewById(R.id.getmoney);
         textView.setOnClickListener(this);
         viewById = (ListView) findViewById(R.id.listviewbalance);
@@ -123,6 +124,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
                             for (Payment payments2 : paymentlist) {
                                 payments2.setTime(dateFormat.format(Long.valueOf(payments2.getTime())));
                             }
+                            tongzhi.setVisibility(View.GONE);
                             viewById.setAdapter(myAdapter);
                             myAdapter.notifyDataSetChanged();
                         }else{

@@ -26,6 +26,7 @@ import com.example.user.ddkd.utils.BitmaoCache;
 import com.example.user.ddkd.utils.Exit;
 import com.example.user.ddkd.utils.MyStringRequest;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by Administrator on 2016/4/5.
@@ -66,9 +67,7 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
 
         SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
         String url=sharedPreferences.getString("imageuri", "");
-        ImageLoader imageLoader=new ImageLoader(MyApplication.getQueue(),bitmaoCache);
-        ImageLoader.ImageListener imageListener=ImageLoader.getImageListener(userimage,R.drawable.userimage,R.drawable.userimage);
-        imageLoader.get(url,imageListener);
+        Picasso.with(MainActivity_userinfo.this).load(url).into(userimage);
     }
 
     public void Voley_Get(final UserInfo userInfo){

@@ -21,7 +21,7 @@
             android:layout_height="wrap_content" />
     </RelativeLayout>
     <View
-        android:background="#cccccc"
+        android:background="@color/spacing"
         android:layout_width="match_parent"
         android:layout_height="15dip"/>
     <RelativeLayout
@@ -50,7 +50,7 @@
     </RelativeLayout>
 
     <View
-        android:background="#cccccc"
+        android:background="@color/spacing"
         android:layout_width="match_parent"
         android:layout_height="15dip"/>
 
@@ -111,7 +111,7 @@
 
     </RelativeLayout>
     <View
-        android:background="#cccccc"
+        android:background="@color/spacing"
         android:layout_width="match_parent"
         android:layout_height="15dip"/>
     <TextView

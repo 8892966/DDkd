@@ -84,6 +84,8 @@ public class Activity_feedback extends Activity implements View.OnClickListener 
         StringRequest request=new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
+                String s= (String) o;
+                if (!s.equals("ERROR")){}
                 Toast.makeText(Activity_feedback.this,"您的建议已提交",Toast.LENGTH_SHORT).show();
             }
             @Override

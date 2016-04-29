@@ -23,6 +23,9 @@ public class SmsUtils {
     filter.setPriority(Integer.MAX_VALUE);
     context.registerReceiver(smsBroadcastReceiver, filter);
 }
+    public  void cloesGetSms(Context context){
+        context.unregisterReceiver(smsBroadcastReceiver);
+    }
     public class SMSBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {

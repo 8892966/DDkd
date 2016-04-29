@@ -23,6 +23,8 @@ import android.widget.Toast;
 import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.beam.SignUpInfo;
 import com.example.user.ddkd.utils.PostUtil;
+import com.example.user.ddkd.utils.UploadUtil;
+import com.lidroid.xutils.http.RequestParams;
 
 import org.w3c.dom.Text;
 
@@ -75,7 +77,6 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
             Bitmap cameraBitmap = BitmapFactory.decodeFile(tempFile.getPath(), options);
             iv_touxiang.setImageBitmap(cameraBitmap);
         }
-
         //标题头的返回按钮
         TextView tv_head_fanghui = (TextView) findViewById(R.id.tv_head_fanghui);
         tv_head_fanghui.setOnClickListener(this);
@@ -99,31 +100,11 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
             signUpInfo.setShortnumber(et_phone.getText().toString());
             signUpInfo.setId_card(et_id.getText().toString());
             signUpInfo.setSex(et_sex.getText().toString());
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Log.e("msg1","31231231");
-                        Map<String, File> mapfile1 = new HashMap<String, File>();
-                        File file = new File(fileName);
-                        mapfile1.put("touxiang", file);
-                        Map<String, String> map1 = new HashMap<String, String>();
-                        map1.put("name", "touxiang");
-                        map1.put("phone", signUpInfo.getPhone());
-                        String msg1 = PostUtil.post("http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage/name/touxiang/phone/" + signUpInfo.getPhone(), map1, mapfile1);
-                        if(msg1.equals("SUCCESS")){
-                            MyApplication.touxiang=1;
-                        }else {
-                            MyApplication.touxiang=-1;
-                        }
-                        Log.e("msg1", msg1);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-//                            handler.sendEmptyMessage(ERROR);
-                        Log.e("ZhuCe4Activity", "出错");
-                    }
-                }
-            }).start();
+            RequestParams requestParams=new RequestParams();
+            requestParams.addBodyParameter("name", "StudentCard");
+            requestParams.addBodyParameter("phone", signUpInfo.getPhone());
+            requestParams.addBodyParameter("file",new File(fileName) );
+            new UploadUtil().uploadMethod(requestParams, "http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage",null,null,null);
             Intent intent = new Intent(ZhuCe3Activity.this, ZhuCe4Activity.class);
             intent.putExtra("SignUpInfo", signUpInfo);//传递注册信息
             intent.putExtra("picture", fileName);
@@ -168,9 +149,7 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
         intent.putExtra("output", Uri.fromFile(tempFile));
         startActivityForResult(intent, 11);
     }
-
     private void crop(Uri uri) {
-
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
         Log.e("crop", Uri.fromFile(tempFile).getPath());
@@ -181,7 +160,6 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
         intent.putExtra("outputX", px2dip(this, 150));
         intent.putExtra("outputY", px2dip(this, 150));
         startActivityForResult(intent, 10);
-
     }
 
     @Override

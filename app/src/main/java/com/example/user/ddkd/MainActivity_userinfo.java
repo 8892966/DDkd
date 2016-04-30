@@ -176,7 +176,6 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
             if (data != null) {
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inSampleSize = 1;//图片的保存比例
-
                 cameraBitmap = toRoundBitmap(BitmapFactory.decodeFile(tempFile.getPath(), options));//设置图片的保存路径;
                 SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
                 if (cameraBitmap != null) {

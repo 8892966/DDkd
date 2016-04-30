@@ -30,7 +30,7 @@
         android:layout_height="120dip"
         android:orientation="horizontal">
         <TextView
-            android:text="2342"
+            android:text="**.**"
             android:id="@+id/balance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

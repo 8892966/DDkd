@@ -107,6 +107,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
         SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = sharedPreferences.getString("token", null);
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/takeoutrecord/token/" + token;
+        Log.i("Balance_url",url);
         //**********从后台返回一个参数来说明数据的获取状况**********
         StringRequest request = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
@@ -130,8 +131,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
                         }else{
                             Toast.makeText(MainActivity_balance.this,"暂时无收支明细",Toast.LENGTH_SHORT).show();
                         }
-
-                    } else {
+                    }else {
                         Toast.makeText(MainActivity_balance.this, "网络连接出错", Toast.LENGTH_SHORT).show();
                     }
                 } else {
@@ -177,7 +177,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
                         DecimalFormat decimalFormat = new DecimalFormat("0.00");
                         balance.setText(decimalFormat.format(Double.valueOf(userInfo.getBalance())));
                     }
-                } else {
+                }else{
                     Toast.makeText(MainActivity_balance.this, "网络连接异常", Toast.LENGTH_SHORT).show();
                 }
             }

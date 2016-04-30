@@ -44,7 +44,6 @@ import java.util.Map;
  * Created by User on 2016-04-03.
  */
 public class ZhuCe1Activity extends Activity implements View.OnClickListener {
-
     private EditText et_phone_number;
     private EditText et_yanzhengma;
     private CheckBox cb_xieyi;
@@ -52,7 +51,6 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
     private TextView tv_button_yuedu;
     private TextView tv_next;
     private TextView tv_head_fanghui;
-
     private YanZhenMaUtil yanZhenMaUtil;
     private SmsUtils smsUtils;
 
@@ -137,7 +135,7 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
                 }
                 break;
             case R.id.tv_next:
-//                if (yanZhenMaUtil.isYZM(this, et_yanzhengma, et_phone_number)) {
+                if (yanZhenMaUtil.isYZM(this, et_yanzhengma, et_phone_number)) {
                     //注册信息
                     SignUpInfo signUpInfo = new SignUpInfo();
                     signUpInfo.setPhone(et_phone_number.getText().toString());
@@ -145,7 +143,7 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
                     intent2.putExtra("SignUpInfo", signUpInfo);//传递注册信息
                     startActivity(intent2);
                     finish();
-//                }
+                }
                 break;
             case R.id.tv_head_fanghui:
 //                intent = new Intent(this, MainActivity_login.class);

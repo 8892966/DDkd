@@ -285,7 +285,6 @@
                     android:layout_height="wrap_content" />
                 <EditText
                     android:gravity="right"
-                    android:phoneNumber="true"
                     android:textSize="20sp"
                     android:layout_marginRight="20dip"
                     android:background="@null"

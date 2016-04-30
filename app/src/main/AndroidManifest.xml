@@ -53,7 +53,7 @@
         </activity>
         <activity android:name=".ZhuCe4Activity" />
         <activity android:name=".WebActivity" />
-        <activity android:name=".JieDangActivity" />
+        <activity android:name=".MainActivity_main" />
         <activity android:name=".ZhuCe1Activity" />
         <activity android:name=".ZhuCe3Activity" />
         <activity android:name=".DingDanActivity" />
@@ -63,7 +63,7 @@
         <activity android:name=".MainActivity_getmoney" />
         <activity android:name=".MainActivity_balance" />
         <activity android:name=".ZhuCe2Activity" />
-        <activity android:name=".MainActivity_main" />
+        <activity android:name=".JieDangActivity" />
         <activity android:name=".MainActivity_forget" />
         <activity android:name=".MainActivity_login" />
         <activity android:name=".Announce" />
@@ -160,5 +160,4 @@
             android:launchMode="singleTask" >
         </activity>
     </application>
-
 </manifest>

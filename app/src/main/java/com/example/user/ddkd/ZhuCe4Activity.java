@@ -160,7 +160,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.zhuce4_activity);
-        showProgressDialog(4);
+//        showProgressDialog(4);
 //       initFile();//初始化文件
         //拍照
         TextView tv_button1_paizhao = (TextView) findViewById(R.id.tv_button1_paizhao);

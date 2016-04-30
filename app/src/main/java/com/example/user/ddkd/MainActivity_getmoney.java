@@ -173,6 +173,7 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
         }
     }
 
+    //**********************将提现记录提交到后台******************************
     public void volley_get(final String getmoney, final String counter, final String tname,
                            final String username, final String beizhu) {
         SharedPreferences sharedPreferences1 = getSharedPreferences("config", MODE_PRIVATE);
@@ -229,6 +230,7 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
         MyApplication.getQueue().add(request);
     }
 
+    //*****************************获取用户的当余额****************************
     public void Volley_Get() {
         SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = sharedPreferences.getString("token", null);
@@ -240,7 +242,6 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
                 if (!s.equals("ERROR")) {
                     Gson gson = new Gson();
                     userInfo = gson.fromJson(s, UserInfo.class);
-//                        Log.i("Money", String.valueOf(userInfo.getBalance()));
                     DecimalFormat decimalFormat=new DecimalFormat("0.00");
                     yue.setText(decimalFormat.format(Double.valueOf(userInfo.getBalance())));
                 } else {
@@ -263,7 +264,7 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                Toast.makeText(MainActivity_getmoney.this, "网络连接中断，请检查您的网络", Toast.LENGTH_SHORT).show();
             }
         });
         stringRequest.setTag("Get_getmoney_userinfo");

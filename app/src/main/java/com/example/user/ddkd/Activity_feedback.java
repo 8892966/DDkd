@@ -85,8 +85,11 @@ public class Activity_feedback extends Activity implements View.OnClickListener 
             @Override
             public void success(Object o) {
                 String s= (String) o;
-                if (!s.equals("ERROR")){}
-                Toast.makeText(Activity_feedback.this,"您的建议已提交",Toast.LENGTH_SHORT).show();
+                if (!s.equals("ERROR")){
+                    Toast.makeText(Activity_feedback.this,"您的建议已提交",Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(Activity_feedback.this,"网络连接出错，请检查您的当前网络",Toast.LENGTH_SHORT).show();
+                }
             }
             @Override
             public void tokenouttime() {

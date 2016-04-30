@@ -65,7 +65,7 @@ public class Announce extends Activity implements View.OnClickListener {
         announcelist = new ArrayList<AnnounceInfo>();
         announcelistview.setAdapter(new MyAdapter());
         ExitApplication.getInstance().addActivity(this);
-        voll_Get();
+        //voll_Get();
     }
     @Override
     public void onClick(View v) {

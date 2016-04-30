@@ -36,6 +36,7 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
     private RelativeLayout updateapp;
     private TextView aboutDD;
     private ImageView imageView;
+    private TextView Share;
     private Handler handler1=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -65,6 +66,8 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
         updateapp.setOnClickListener(this);
         aboutDD = (TextView) findViewById(R.id.aboutDD);
         aboutDD.setOnClickListener(this);
+        Share= (TextView) findViewById(R.id.Share);
+        Share.setOnClickListener(this);
         ExitApplication.getInstance().addActivity(this);
         SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
         version.setText(sharedPreferences.getString("version", ""));
@@ -104,6 +107,9 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
                 intent.putExtra("title", "关于DD快递");
                 intent.putExtra("url", "http://www.louxiago.com/wc/ddkd/index.php/AboutDD/index.html");
                 startActivity(intent);
+                break;
+            case R.id.Share:
+
                 break;
         }
     }

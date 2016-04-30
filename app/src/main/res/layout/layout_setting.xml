@@ -85,13 +85,28 @@
         android:layout_width="match_parent"
         android:layout_height="15dip"/>
     <TextView
-        android:id="@+id/aboutDD"
+        android:id="@+id/Share"
         android:layout_marginLeft="10dip"
         android:background="@drawable/clickview"
         android:clickable="true"
         android:focusable="true"
         android:textSize="20sp"
         android:text="关于DD快递"
+        android:padding="5dip"
+        android:layout_width="match_parent"
+        android:layout_height="40dip" />
+    <View
+        android:background="#cccccc"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"/>
+    <TextView
+        android:id="@+id/aboutDD"
+        android:layout_marginLeft="10dip"
+        android:background="@drawable/clickview"
+        android:clickable="true"
+        android:focusable="true"
+        android:textSize="20sp"
+        android:text="分享DD"
         android:padding="5dip"
         android:layout_width="match_parent"
         android:layout_height="40dip" />

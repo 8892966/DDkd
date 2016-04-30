@@ -90,6 +90,7 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
         tv_next.setOnClickListener(this);
         tv_head_fanghui.setOnClickListener(this);
 
+
         //只有输入手机号码时才能点击获取验证码
         et_phone_number.addTextChangedListener(new TextWatcher() {
             @Override
@@ -152,7 +153,6 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
                 break;
         }
     }
-
     //判断用户是否已注册
     private void volley_phoExist_GET(String phone) {
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/phoExist/phone/" + phone;
@@ -164,7 +164,6 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
                 tv_button_yanzhengma.setText("验证码");
                 if ("SUCCESS".equals(s)) {
                     tv_button_yanzhengma.setEnabled(true);
-                    Toast.makeText(ZhuCe1Activity.this, "用户还没注册！", Toast.LENGTH_SHORT).show();
                 } else {
                     tv_button_yanzhengma.setEnabled(false);
                     Toast.makeText(ZhuCe1Activity.this, "用户已存在！", Toast.LENGTH_SHORT).show();

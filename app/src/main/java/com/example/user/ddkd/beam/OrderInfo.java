@@ -28,8 +28,12 @@ public class OrderInfo {
     private String evaluate;
     //下单时间
     private String time;
-    //
+
     private String addressee;
+
+    private String Pid;
+
+    private String reason;
 
 //    @Override
 //    public String toString() {
@@ -49,6 +53,23 @@ public class OrderInfo {
 //                ", addressee='" + addressee + '\'' +
 //                '}';
 //    }
+
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public String getPid() {
+        return Pid;
+    }
+
+    public void setPid(String pid) {
+        Pid = pid;
+    }
 
     public String getReturn_code() {
         return return_code;

@@ -68,12 +68,16 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
         signUpInfo = (SignUpInfo) getIntent().getSerializableExtra("SignUpInfo");
         if (signUpInfo.getUsername() != null) {
             et_name.setText(signUpInfo.getUsername());
+            et_sex.setText(signUpInfo.getSex());
+            et_class.setText(signUpInfo.getClazz());
             et_phone.setText(signUpInfo.getNumber());
             et_xueyuan.setText(signUpInfo.getCollege());
+            et_id.setText(signUpInfo.getId_card());
+            et_xuehao.setText(signUpInfo.getId_card());
             fileName = getIntent().getStringExtra("picture");
             tempFile = new File(fileName);
             BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = 2;
+            options.inSampleSize = 1;
             Bitmap cameraBitmap = BitmapFactory.decodeFile(tempFile.getPath(), options);
             iv_touxiang.setImageBitmap(cameraBitmap);
         }
@@ -101,7 +105,7 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
             signUpInfo.setId_card(et_id.getText().toString());
             signUpInfo.setSex(et_sex.getText().toString());
             RequestParams requestParams=new RequestParams();
-            requestParams.addBodyParameter("name", "StudentCard");
+            requestParams.addBodyParameter("name", "touxiang");
             requestParams.addBodyParameter("phone", signUpInfo.getPhone());
             requestParams.addBodyParameter("file",new File(fileName) );
             new UploadUtil().uploadMethod(requestParams, "http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage",null,null,null,null);

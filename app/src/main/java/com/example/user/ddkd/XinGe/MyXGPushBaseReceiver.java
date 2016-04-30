@@ -43,6 +43,7 @@ public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
     @Override
     public void onRegisterResult(Context context, int i, XGPushRegisterResult xgPushRegisterResult) {
         //注册结果
+//        Toast.makeText(context,xgPushRegisterResult.getToken(),Toast.LENGTH_LONG).show();
     }
 
     @Override

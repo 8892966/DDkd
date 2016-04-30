@@ -154,7 +154,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             case R.id.tv_button_quxiao://查看取消的订单
                 xuanzhe = 4;
                 setEnableds(xuanzhe);
-                volley_getOrder_GET("5");
+                volley_getOrder_GET("4");
                 listView.getEmptyView().setVisibility(View.GONE);//跟新后显示
                 listView.setVisibility(View.GONE);//更新后再显示
                 rl_order_ProgressBar.setVisibility(View.VISIBLE);//显示加载页面
@@ -227,8 +227,14 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                 zhuanTai.button.setVisibility(View.VISIBLE);
                 zhuanTai.tv_dingdang_liuyan.setText("留言：" + info.getEvaluate());
             } else if (xuanzhe == 2) {
+                if (info.getPid().equals("0")) {
+                    zhuanTai.button.setText("完成");
+                } else {
+                    zhuanTai.button.setText("未付款");
+                    zhuanTai.button.setEnabled(false);
+                }
 //                zhuanTai.tv_dingdang_liyou.setVisibility(View.GONE);
-                zhuanTai.button.setText("完成");
+//                zhuanTai.button.setText("完成");
 //                zhuanTai.textbutton.setVisibility(View.GONE);
                 zhuanTai.button.setVisibility(View.VISIBLE);
                 zhuanTai.tv_dingdang_liuyan.setText("留言：" + info.getEvaluate());
@@ -241,8 +247,8 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
 //                zhuanTai.tv_dingdang_liyou.setVisibility(View.VISIBLE);
 //                zhuanTai.textbutton.setVisibility(View.GONE);
                 zhuanTai.button.setVisibility(View.GONE);
-                zhuanTai.tv_dingdang_liuyan.setText("留言：" + info.getEvaluate()+
-                        "\n退单理由：");
+                zhuanTai.tv_dingdang_liuyan.setText("留言：" + info.getEvaluate() +
+                        "\n退单理由："+info.getReason());
 //                zhuanTai.tv_dingdang_liyou.setText();
             }
             zhuanTai.tv_dingdang_id.setText("订单：" + info.getId());
@@ -321,18 +327,18 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
     //网络申请得到相应状态的订单列表
     private void volley_getOrder_GET(final String State) {
         MyApplication.getQueue().cancelAll("volley_getOrder_GET");
-        preferences = getSharedPreferences("config",MODE_PRIVATE);
-        String token = preferences.getString("token","");
+        preferences = getSharedPreferences("config", MODE_PRIVATE);
+        String token = preferences.getString("token", "");
         Log.e("volley_getOrder_GET", token);
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/state/" + State + "/token/" + token;
-        StringRequest request_post = new StringRequest(Request.Method.GET, url,new MyStringRequest(){
+        StringRequest request_post = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
 
             @Override
             public void success(Object o) {
-                String s= (String) o;
+                String s = (String) o;
                 if (!s.equals("ERROR")) {
                     Gson gson = new Gson();
-                    list = gson.fromJson((String)o, new TypeToken<List<OrderInfo>>() {
+                    list = gson.fromJson((String) o, new TypeToken<List<OrderInfo>>() {
                     }.getType());
                     //转化时间戳
                     for (OrderInfo info : list) {
@@ -358,7 +364,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             @Override
             public void yidiensdfsdf() {
                 Exit.exit(DingDanActivity.this);
-                Toast.makeText(DingDanActivity.this,"您的账户已在异地登录",Toast.LENGTH_SHORT).show();
+                Toast.makeText(DingDanActivity.this, "您的账户已在异地登录", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -417,7 +423,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
 
             @Override
             public void success(Object o) {
-                String s= (String) o;
+                String s = (String) o;
                 if ("SUCCESS".equals(s)) {
                     button.setEnabled(true);
                     pb_button.setVisibility(View.GONE);

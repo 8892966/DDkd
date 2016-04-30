@@ -160,7 +160,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.zhuce4_activity);
-        showProgressDialog(4);
+//        showProgressDialog(4);
 //       initFile();//初始化文件
         //拍照
         TextView tv_button1_paizhao = (TextView) findViewById(R.id.tv_button1_paizhao);
@@ -225,9 +225,9 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                     map.put("sex", signUpInfo.getSex());
                     map.put("shortphone", signUpInfo.getShortnumber());
                     map.put("username", signUpInfo.getUsername());
+                    Static=0;
                     showProgressDialog(4);
                     handler.sendEmptyMessage(NEXT);
-
                 }
                 break;
         }
@@ -239,7 +239,6 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
         intent.putExtra("output", Uri.fromFile(tempFile));
         startActivityForResult(intent, code);
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 100) {
@@ -249,9 +248,9 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 String path = getRealFilePath(this, data1);
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 Bitmap cameraBitmap = UploadUtil.getBitmap(path, options, iv_zhuce4_zhaopian1.getHeight(), iv_zhuce4_zhaopian1.getWidth());
-//                Bitmap cameraBitmap = (Bitmap) data.getExtras().get("data");
                 if (cameraBitmap != null) {
                     iv_zhuce4_zhaopian1.setImageBitmap(cameraBitmap);
+                    UploadUtil.getBitmap(path, options,800,800);
                     uri1 = data1;
                 } else {
                     Toast.makeText(ZhuCe4Activity.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
@@ -264,7 +263,6 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 String path = getRealFilePath(this, data1);
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 Bitmap cameraBitmap = UploadUtil.getBitmap(path, options, iv_zhuce4_zhaopian2.getHeight(), iv_zhuce4_zhaopian2.getWidth());
-//                Bitmap cameraBitmap = (Bitmap) data.getExtras().get("data");
                 if (cameraBitmap != null) {
                     iv_zhuce4_zhaopian2.setImageBitmap(cameraBitmap);
                     uri2 = data1;
@@ -316,12 +314,15 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 Static = 10;
             }
         });
-        show = builder.show();
+        show = builder.create();
+        show.setCanceledOnTouchOutside(false);
+        show.show();
     }
 
     private void closeProgressDialog() {
         if (show != null) {
             show.dismiss();
+            Static = 10;
         }
     }
 
@@ -331,7 +332,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
             @Override
             public void onResponse(String s) {
 //                Log.e("volley_OrderState_GET", s);
-                Log.e("msg5", s);
+//                Log.e("msg5", s);
                 if ("SUCCESS".equals(s)) {
                     handler.sendEmptyMessage(SUCCESS);
                 } else {
@@ -343,7 +344,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
             public void onErrorResponse(VolleyError volleyError) {
                 Toast.makeText(ZhuCe4Activity.this, "网络异常", Toast.LENGTH_SHORT).show();
             }
-        }) {
+        }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map1 = new HashMap<>();
@@ -356,6 +357,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
         request_post.setTag("volley_ZC_GET");
         MyApplication.getQueue().add(request_post);
     }
+
 //    private void showChooseDialog(){
 //        Dialog dialog = new AlertDialog.Builder(this).setIcon(
 //                android.R.drawable.btn_star).setTitle("选择").setMessage(
@@ -542,5 +544,14 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 Toast.makeText(this, "请插入SD卡", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(ZhuCe4Activity.this, ZhuCe3Activity.class);
+        intent.putExtra("SignUpInfo", getIntent().getSerializableExtra("SignUpInfo"));
+        intent.putExtra("picture", getIntent().getSerializableExtra("picture"));
+        startActivity(intent);
+        finish();
     }
 }

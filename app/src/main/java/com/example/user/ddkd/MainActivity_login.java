@@ -80,19 +80,24 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                 @Override
                 public void onSuccess(Object data, int flag) {
                     Log.d("TPush", "注册成功，设备token为：" + data);
+//                    Toast.makeText(MainActivity_login.this,"信鸽注册成功",Toast.LENGTH_SHORT).show();
                     SharedPreferences preferences = getSharedPreferences("config", MODE_PRIVATE);
                     SharedPreferences.Editor edit = preferences.edit();
                     edit.putString("XGtoken", (String) data);
                     edit.commit();
+                    Intent intent = new Intent(MainActivity_login.this, JieDangActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
                 @Override
                 public void onFail(Object data, int errCode, String msg) {
+                    Toast.makeText(MainActivity_login.this,"信鸽注册失败",Toast.LENGTH_SHORT).show();
                     Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
                 }
             });
-            Intent intent = new Intent(MainActivity_login.this, JieDangActivity.class);
-            startActivity(intent);
-            finish();
+//            Intent intent = new Intent(MainActivity_login.this, JieDangActivity.class);
+//            startActivity(intent);
+//            finish();
         }
 
     }
@@ -140,23 +145,27 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                         @Override
                         public void onSuccess(Object data, int flag) {
                             Log.d("TPush", "注册成功，设备token为：" + data);
+                            Toast.makeText(MainActivity_login.this,"信鸽注册成功",Toast.LENGTH_SHORT).show();
                             SharedPreferences preferences = getSharedPreferences("config", MODE_PRIVATE);
                             SharedPreferences.Editor edit = preferences.edit();
                             edit.putString("XGtoken", (String) data);
                             edit.commit();
+                            Intent intent = new Intent(MainActivity_login.this, JieDangActivity.class);
+                            startActivity(intent);
+                            finish();
                         }
-
                         @Override
                         public void onFail(Object data, int errCode, String msg) {
+                            Toast.makeText(MainActivity_login.this,"信鸽注册失败",Toast.LENGTH_SHORT).show();
                             Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
                         }
                     });
                     volley_Get_Image();
                     volley_Get_userInfo();
                     closeProgressDialog();
-                    Intent intent = new Intent(MainActivity_login.this, JieDangActivity.class);
-                    startActivity(intent);
-                    finish();
+//                    Intent intent = new Intent(MainActivity_login.this, JieDangActivity.class);
+//                    startActivity(intent);
+//                    finish();
                 } else {
                     closeProgressDialog();
                     Toast.makeText(MainActivity_login.this, "您的信息有误", Toast.LENGTH_SHORT).show();

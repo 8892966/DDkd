@@ -24,38 +24,35 @@ public class UploadUtil {
         http.send(HttpRequest.HttpMethod.POST, uploadHost, params, new RequestCallBack<String>() {
             @Override
             public void onStart() {
-//                      msgTextview.setText("conn...");
                 Log.e("ZhuCe4Activity", "开始");
             }
-
             @Override
             public void onLoading(long total, long current, boolean isUploading) {
                 if (isUploading) {
-//                          msgTextview.setText("upload: " + current + "/"+ total);
                     Log.e("ZhuCe4Activity", "upload: " + current + "/" + total);
                 } else {
-//                          msgTextview.setText("reply: " + current + "/"+ total);
                     Log.e("ZhuCe4Activity", "upload: " + current + "/" + total);
                 }
                 if (progressBar2 != null) {
-                    if (total > 100) {
-                        int t = (int) (total / 100);
+                    int t;
+                    int c;
+                    if (total > 1000) {
+                        t = (int) (total / 1000);
                     } else {
-                        int t = (int) total;
+                        t = (int) total;
                     }
-                    if (current > 100) {
-                        int c = (int) (current / 100);
+                    if (current > 1000) {
+                        c = (int) (current / 1000);
                     } else {
-                        int t = (int) current;
+                        c = (int) current;
                     }
-                    progressBar2.setMax((int) (total / 100));
-                    progressBar2.setProgress((int) (current / 100));
+                    progressBar2.setMax(t);
+                    progressBar2.setProgress( c);
                 }
             }
 
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
-//                      msgTextview.setText("reply: " + responseInfo.result);
                 Log.e("ZhuCe4Activity", "reply: " + responseInfo.result);
                 if(handler2 !=null){
                     Message message=new Message();

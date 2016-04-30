@@ -28,6 +28,10 @@ public class ZhuCe2Activity extends Activity implements View.OnClickListener {
         et_password2 = (EditText) findViewById(R.id.et_password2);
         TextView tv_head_fanghui = (TextView) findViewById(R.id.tv_head_fanghui);
         tv_head_fanghui.setOnClickListener(this);
+        SignUpInfo signUpInfo = (SignUpInfo) getIntent().getSerializableExtra("SignUpInfo");
+        if (signUpInfo.getPassword() != null) {
+            et_password.setText(signUpInfo.getPassword());
+        }
     }
 
     public void next(View v) {
@@ -38,6 +42,9 @@ public class ZhuCe2Activity extends Activity implements View.OnClickListener {
             SignUpInfo signUpInfo = getSignUpInfo(password1);
             Intent intent = new Intent(ZhuCe2Activity.this, ZhuCe3Activity.class);
             intent.putExtra("SignUpInfo", signUpInfo);//传递注册信息
+            if (getIntent().getSerializableExtra("picture") != null) {
+                intent.putExtra("picture", getIntent().getSerializableExtra("picture"));
+            }
             startActivity(intent);
             finish();
         }
@@ -48,7 +55,6 @@ public class ZhuCe2Activity extends Activity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.tv_head_fanghui:
                 Intent intent = new Intent(ZhuCe2Activity.this, ZhuCe1Activity.class);
-                intent.putExtra("SignUpInfo", getIntent().getSerializableExtra("SignUpInfo"));
                 startActivity(intent);
                 finish();
                 break;
@@ -59,7 +65,6 @@ public class ZhuCe2Activity extends Activity implements View.OnClickListener {
     public void onBackPressed() {
 //        super.onBackPressed();
         Intent intent = new Intent(ZhuCe2Activity.this, ZhuCe1Activity.class);
-        intent.putExtra("SignUpInfo", getIntent().getSerializableExtra("SignUpInfo"));
         startActivity(intent);
         finish();
     }

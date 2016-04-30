@@ -260,9 +260,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 if (cameraBitmap != null) {
                     iv_zhuce4_zhaopian2.setImageBitmap(cameraBitmap);
                     try {
-                        showProgressDialog1();
                         imageFactory.compressAndGenImage(getRealFilePath(this, data1), tempFile.getPath(), 200, false);
-                        closeProgressDialog2();
                     }catch (Exception e) {
                         e.printStackTrace();
                         Toast.makeText(ZhuCe4Activity.this,"信息有误",Toast.LENGTH_SHORT).show();
@@ -282,9 +280,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 if (cameraBitmap != null) {
                     iv_zhuce4_zhaopian3.setImageBitmap(cameraBitmap);
                     try {
-                        showProgressDialog1();
                         imageFactory.compressAndGenImage(getRealFilePath(this, data1),tempFile.getPath(),200,false);
-                        closeProgressDialog2();
                     }catch (Exception e) {
                         e.printStackTrace();
                         Toast.makeText(ZhuCe4Activity.this,"信息有误",Toast.LENGTH_SHORT).show();

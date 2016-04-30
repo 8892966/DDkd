@@ -82,8 +82,10 @@ public class UploadUtil {
 
             @Override
             public void onFailure(HttpException error, String msg) {
+                Toast.makeText(context,"提交失败，请重新提交",Toast.LENGTH_SHORT).show();
 //                      msgTextview.setText(error.getExceptionCode() + ":" + msg);
                 Log.e("ZhuCe4Activity", error.getExceptionCode() + ":" + msg);
+                handler.sendEmptyMessage(ZhuCe4Activity.ERROR);
             }
         });
     }

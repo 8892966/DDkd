@@ -88,6 +88,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
     private ProgressBar progressBar1;
     private ProgressBar progressBar2;
     private AlertDialog show;
+    private ProgressDialog progressDialog;
     private ImageFactory imageFactory;
 
     private String picture;//头像的路径
@@ -237,7 +238,9 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 if (cameraBitmap != null) {
                     iv_zhuce4_zhaopian1.setImageBitmap(cameraBitmap);
                     try {
-                        imageFactory.compressAndGenImage(getRealFilePath(this, data1),tempFile.getPath(),1024,false);
+                        showProgressDialog1();
+                        imageFactory.compressAndGenImage(getRealFilePath(this, data1), tempFile.getPath(), 200, false);
+                        closeProgressDialog2();
                     }catch (Exception e) {
                         e.printStackTrace();
                         Toast.makeText(ZhuCe4Activity.this,"信息有误",Toast.LENGTH_SHORT).show();
@@ -257,7 +260,9 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 if (cameraBitmap != null) {
                     iv_zhuce4_zhaopian2.setImageBitmap(cameraBitmap);
                     try {
-                        imageFactory.compressAndGenImage(getRealFilePath(this, data1),tempFile.getPath(),1024,false);
+                        showProgressDialog1();
+                        imageFactory.compressAndGenImage(getRealFilePath(this, data1), tempFile.getPath(), 200, false);
+                        closeProgressDialog2();
                     }catch (Exception e) {
                         e.printStackTrace();
                         Toast.makeText(ZhuCe4Activity.this,"信息有误",Toast.LENGTH_SHORT).show();
@@ -277,7 +282,9 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 if (cameraBitmap != null) {
                     iv_zhuce4_zhaopian3.setImageBitmap(cameraBitmap);
                     try {
-                        imageFactory.compressAndGenImage(getRealFilePath(this, data1),tempFile.getPath(),1024,false);
+                        showProgressDialog1();
+                        imageFactory.compressAndGenImage(getRealFilePath(this, data1),tempFile.getPath(),200,false);
+                        closeProgressDialog2();
                     }catch (Exception e) {
                         e.printStackTrace();
                         Toast.makeText(ZhuCe4Activity.this,"信息有误",Toast.LENGTH_SHORT).show();
@@ -558,6 +565,21 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
         intent.putExtra("picture", getIntent().getSerializableExtra("picture"));
         startActivity(intent);
         finish();
+    }
+
+    private void showProgressDialog1() {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(ZhuCe4Activity.this);
+            progressDialog.setMessage("处理数据中.......");
+            progressDialog.setCanceledOnTouchOutside(false);
+        }
+        progressDialog.show();
+    }
+
+    private void closeProgressDialog2() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
     }
 
 }

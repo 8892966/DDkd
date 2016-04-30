@@ -70,12 +70,12 @@ public class MainActivity_login extends Activity implements View.OnClickListener
         String nowLoginstatic = loginstatic.getString("loginstatic", "");
         if (nowLoginstatic.equals("1")) {
             // 开启logcat输出，方便debug，发布时请关闭
-            XGPushConfig.enableDebug(MainActivity_login.this, true);
+//            XGPushConfig.enableDebug(MainActivity_login.this, true);
             // 如果需要知道注册是否成功，请使用registerPush(getApplicationContxt(), XGIOperateCallback)带callback版本
             // 如果需要绑定账号，请使用registerPush(getApplicationContext(),account)版本
             // 具体可参考详细的开发指南
             // 传递的参数为ApplicationContext
-            Context context = getApplicationContext();
+//            Context context = getApplicationContext();
             XGPushManager.registerPush(MainActivity_login.this, new XGIOperateCallback() {
                 @Override
                 public void onSuccess(Object data, int flag) {
@@ -120,7 +120,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
             @Override
             public void onResponse(String s) {
                 Log.e("Get_login", s);
-                closeProgressDialog();//*****关闭加载提示框*****
+//                closeProgressDialog();//*****关闭加载提示框*****
                 if (s.equals("WAIT PASS")) {
                     closeProgressDialog();
                     Toast.makeText(MainActivity_login.this, "正在审核中，请耐心等候...", Toast.LENGTH_SHORT).show();
@@ -135,12 +135,12 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                     MyApplication.state = 1;
                     edit.commit();
                     // 开启logcat输出，方便debug，发布时请关闭
-                    XGPushConfig.enableDebug(MainActivity_login.this, true);
+//                    XGPushConfig.enableDebug(MainActivity_login.this, true);
                     // 如果需要知道注册是否成功，请使用registerPush(getApplicationContxt(), XGIOperateCallback)带callback版本
                     // 如果需要绑定账号，请使用registerPush(getApplicationContext(),account)版本
                     // 具体可参考详细的开发指南
                     // 传递的参数为ApplicationContext
-                    Context context = getApplicationContext();
+//                    Context context = getApplicationContext();
                     XGPushManager.registerPush(MainActivity_login.this, new XGIOperateCallback() {
                         @Override
                         public void onSuccess(Object data, int flag) {

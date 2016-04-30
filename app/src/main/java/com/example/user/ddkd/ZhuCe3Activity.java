@@ -153,6 +153,7 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
         intent.putExtra("output", Uri.fromFile(tempFile));
         startActivityForResult(intent, 11);
     }
+
     private void crop(Uri uri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
@@ -190,6 +191,7 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
     public void initFile() {
         if (fileName.equals("")) {
             boolean sdCardExist = Environment.getExternalStorageState()

@@ -117,4 +117,6 @@ public class UploadUtil {
         cameraBitmap = BitmapFactory.decodeFile(path, options);
         return cameraBitmap;
     }
+
+
 }

@@ -91,7 +91,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                 }
                 @Override
                 public void onFail(Object data, int errCode, String msg) {
-                    Toast.makeText(MainActivity_login.this,"信鸽注册失败",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MainActivity_login.this,"信鸽注册失败",Toast.LENGTH_SHORT).show();
                     Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
                 }
             });
@@ -145,7 +145,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                         @Override
                         public void onSuccess(Object data, int flag) {
                             Log.d("TPush", "注册成功，设备token为：" + data);
-                            Toast.makeText(MainActivity_login.this,"信鸽注册成功",Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(MainActivity_login.this, "信鸽注册成功", Toast.LENGTH_SHORT).show();
                             SharedPreferences preferences = getSharedPreferences("config", MODE_PRIVATE);
                             SharedPreferences.Editor edit = preferences.edit();
                             edit.putString("XGtoken", (String) data);
@@ -153,16 +153,18 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                             Intent intent = new Intent(MainActivity_login.this, JieDangActivity.class);
                             startActivity(intent);
                             finish();
+                            closeProgressDialog();
                         }
+
                         @Override
                         public void onFail(Object data, int errCode, String msg) {
-                            Toast.makeText(MainActivity_login.this,"信鸽注册失败",Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(MainActivity_login.this, "信鸽注册失败", Toast.LENGTH_SHORT).show();
                             Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
                         }
                     });
                     volley_Get_Image();
                     volley_Get_userInfo();
-                    closeProgressDialog();
+//                    closeProgressDialog();
 //                    Intent intent = new Intent(MainActivity_login.this, JieDangActivity.class);
 //                    startActivity(intent);
 //                    finish();

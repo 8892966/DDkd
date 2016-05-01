@@ -91,7 +91,7 @@
         android:clickable="true"
         android:focusable="true"
         android:textSize="20sp"
-        android:text="关于DD快递"
+        android:text="分享DD至"
         android:padding="5dip"
         android:layout_width="match_parent"
         android:layout_height="40dip" />
@@ -106,7 +106,7 @@
         android:clickable="true"
         android:focusable="true"
         android:textSize="20sp"
-        android:text="分享DD"
+        android:text="关于DD快递"
         android:padding="5dip"
         android:layout_width="match_parent"
         android:layout_height="40dip" />

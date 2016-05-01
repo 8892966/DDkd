@@ -4,31 +4,40 @@ package com.example.user.ddkd.beam;
  * Created by Administrator on 2016/4/30.
  */
 public class AnnounceInfo {
-    private String anid;
-    private String title;
+    private String id;
+    private String tiltle;
     private String url;
-
-    public String getAnid() {
-        return anid;
-    }
-
-    public String getTitle() {
-        return title;
-    }
+    private String time;
 
     public String getUrl() {
         return url;
     }
 
-    public void setAnid(String anid) {
-        this.anid = anid;
+    public String getId() {
+        return id;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public String getTiltlele() {
+        return tiltle;
+    }
+
+    public String getTime() {
+        return time;
     }
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setTiltlele(String tiltle) {
+        this.tiltle = tiltle;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }

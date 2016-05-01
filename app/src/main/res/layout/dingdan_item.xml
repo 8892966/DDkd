@@ -2,110 +2,288 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/gradient_box_pre">
+    android:background="@color/backgrod">
 
-    <TextView
-        android:id="@+id/tv_dingdang_id"
-        style="@style/textstyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="订单：1110446" />
-    <TextView
-        android:id="@+id/tv_money"
-        android:layout_marginLeft="40dp"
-        android:drawablePadding="5dp"
-        android:gravity="center"
-        android:drawableLeft="@drawable/money"
-        style="@style/textstyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="2.5元"
-        android:layout_toRightOf="@id/tv_dingdang_id"
-        />
-
-    <ImageView
-        android:clickable="true"
-        android:focusable="true"
-        android:id="@+id/iv_call_phone"
-        android:layout_marginRight="10dp"
-        android:layout_alignParentRight="true"
-        android:layout_width="25dp"
-        android:layout_height="wrap_content"
-        android:src="@drawable/phone_call"
-        />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dip"
-        android:layout_below="@id/tv_dingdang_id"
-        android:background="@color/biankuan" />
-
-    <TextView
-        android:layout_marginLeft="15dp"
-        android:drawableLeft="@drawable/map"
-        android:id="@+id/tv_dingdang_kuaidi_dizhi"
-        style="@style/textstyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_dingdang_id"
-        android:text="   工业楼   圆通快递" />
-
-    <TextView
-        android:layout_marginLeft="15dp"
-        android:drawableLeft="@drawable/telephone"
-        android:id="@+id/tv_dingdang_kehu"
-        style="@style/textstyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_dingdang_kuaidi_dizhi"
-        android:text="   郑浩勇   13750506897" />
-
-    <TextView
-        android:layout_marginLeft="15dp"
-        android:drawableLeft="@drawable/dizhi"
-        android:id="@+id/tv_dingdang_nudi_dizhi"
-        style="@style/textstyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_dingdang_kehu"
-        android:text="    南区教师公寓6栋201" />
-
-    <TextView
-        android:id="@+id/tv_dingdang_liuyan"
-        style="@style/textstyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_dingdang_nudi_dizhi"
-        android:text="留言：" />
-    <!--<TextView-->
-        <!--android:id="@+id/tv_dingdang_liyou"-->
-        <!--style="@style/textstyle"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@id/tv_dingdang_liuyan"-->
-        <!--android:text="退单理由：" />-->
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dip"
-        android:layout_below="@id/tv_dingdang_liuyan"
-        android:background="@color/biankuan" />
-
-    <RelativeLayout
-        android:id="@+id/rl_dingdang"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_dingdang_liuyan"
+    <LinearLayout
+        android:background="#ffffff"
+        android:id="@+id/ll"
         android:gravity="center_vertical"
-        android:padding="5dp">
-
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/iv_dingdan"
+            android:layout_marginLeft="10dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/dingdan"/>
         <TextView
+            android:id="@+id/tv_dingdang_id"
+            style="@style/textstyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="订单   66" />
+        <ImageView
+            android:layout_marginLeft="50dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/qian"/>
+        <TextView
+            android:layout_weight="1"
+            android:id="@+id/tv_money"
+            android:gravity="left"
+            style="@style/textstyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2.5元"
+            />
+        <ImageView
+            android:clickable="true"
+            android:focusable="true"
+            android:id="@+id/iv_call_phone"
+            android:layout_marginRight="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/dianhua"
+            />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dip"
+        android:layout_below="@id/ll"
+        android:background="@color/biankuan" />
+<LinearLayout
+    android:orientation="horizontal"
+    android:background="#ffffff"
+    android:id="@+id/ll2"
+    android:layout_marginTop="4dp"
+    android:layout_below="@id/ll"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:layout_marginLeft="10dp"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:src="@drawable/dizhi"/>
+    <TextView
+        style="@style/textstyle"
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="接快递地址" />
+    <TextView
+        android:layout_marginRight="30dp"
+        android:id="@+id/tv_kuaidi_dizhi"
+        style="@style/textstyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="工楼" />
+</LinearLayout>
+<LinearLayout
+    android:layout_marginTop="1dp"
+    android:orientation="horizontal"
+    android:background="#ffffff"
+    android:id="@+id/ll3"
+    android:layout_below="@id/ll2"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:layout_marginLeft="10dp"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:src="@drawable/ddang"/>
+    <TextView
+        style="@style/textstyle"
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="快递名称" />
+    <TextView
+        android:layout_marginRight="30dp"
+        android:id="@+id/tv_dingdang_kuaidi"
+        style="@style/textstyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="顺风快递" />
+</LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal"
+        android:background="#ffffff"
+        android:id="@+id/ll4"
+        android:layout_below="@id/ll3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/lxr"/>
+        <TextView
+            style="@style/textstyle"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="接单人/电话" />
+        <TextView
+            android:layout_marginRight="30dp"
+            android:id="@+id/lxr"
+            style="@style/textstyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="大鹏/18813974653" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal"
+        android:background="#ffffff"
+        android:id="@+id/ll5"
+        android:layout_below="@id/ll4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/dh"/>
+        <TextView
+            style="@style/textstyle"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="快递联系人" />
+        <TextView
+            android:layout_marginRight="30dp"
+            android:id="@+id/dh"
+            style="@style/textstyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="谢易晓/18813974653" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal"
+        android:background="#ffffff"
+        android:id="@+id/ll6"
+        android:layout_below="@id/ll5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/fahuodizhi"/>
+        <TextView
+            style="@style/textstyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="目的地址" />
+        <TextView
+            android:layout_weight="1"
+            android:gravity="right"
+            android:layout_marginRight="30dp"
+            android:id="@+id/fahuodizhi"
+            style="@style/textstyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="学生宿舍 南区 七栋 514 房" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal"
+        android:background="#ffffff"
+        android:id="@+id/ll7"
+        android:layout_below="@id/ll6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/ly"/>
+        <TextView
+            android:layout_marginRight="30dp"
+            android:id="@+id/ly"
+            style="@style/textstyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="留言:" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal"
+        android:background="#ffffff"
+        android:id="@+id/ll8"
+        android:layout_below="@id/ll7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/bijiben"/>
+        <TextView
+            android:layout_marginRight="30dp"
+            android:id="@+id/tuidan"
+            style="@style/textstyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="退单理由：" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal"
+        android:background="#ffffff"
+        android:id="@+id/ll9"
+        android:layout_below="@id/ll8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/fukuanzhuangtai"/>
+        <TextView
+            android:layout_weight="1"
+            android:layout_marginRight="30dp"
+            style="@style/textstyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="付款状态：" />
+        <TextView
+            android:layout_marginRight="30dp"
+            android:id="@+id/zhuangtai"
+            style="@style/textstyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已付款" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal"
+        android:background="#ffffff"
+        android:id="@+id/ll10"
+        android:layout_below="@id/ll9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/shizhong"/>
+        <TextView
+            android:layout_weight="1"
             android:id="@+id/tv_dingdang_shijain"
             style="@style/textstyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="04月01日    17:00"
+            android:text="2016年04月01日17:00"
             android:textSize="12dp" />
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@+id/pb_button"
+            android:layout_width="28dp"
+            android:layout_height="28dp" />
         <TextView
             style="@style/dingdang_item_buttonstyle"
             android:id="@+id/tv_dingdang_tuidang"
@@ -115,22 +293,10 @@
             android:layout_marginRight="5dp"
             android:text="已拿件"
             />
-        <ProgressBar
-            android:visibility="gone"
-            android:id="@+id/pb_button"
-            android:layout_alignBottom="@id/tv_dingdang_tuidang"
-            android:layout_above="@id/tv_dingdang_tuidang"
-            android:layout_toLeftOf="@id/tv_dingdang_tuidang"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:visibility="gone"
-            style="@style/dingdang_item_buttonstyle"
-            android:id="@+id/tv_dingdang_yina"
-            android:layout_width="60dip"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_toLeftOf="@id/tv_dingdang_tuidang"
-            android:text="已拿件" />
-    </RelativeLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dip"
+        android:layout_below="@id/ll10"
+        android:background="@color/backgrod" />
 </RelativeLayout>

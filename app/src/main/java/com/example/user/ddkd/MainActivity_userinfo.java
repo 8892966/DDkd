@@ -305,7 +305,6 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
                             shortphone.setText(sharedPreferences1.getString("shortphone", ""));
                             String name = getLevel(sharedPreferences1.getString("shortphone", ""));
                             level.setText(name);
-
                         }
                     } else {
                         Log.i("Error", "List is null");

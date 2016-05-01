@@ -14,6 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -26,6 +27,7 @@ import com.example.user.ddkd.utils.Exit;
 import com.example.user.ddkd.utils.MyStringRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -37,9 +39,10 @@ import java.util.List;
  * Created by Administrator on 2016/4/5.
  */
 public class MainActivity_balance extends Activity implements View.OnClickListener {
-    private List<Payment> paymentlist=new ArrayList<Payment>();
+    private List<Payment> paymentlist = new ArrayList<Payment>();
     private TextView textView;
-    private MyAdapter myAdapter = new MyAdapter();;
+    private MyAdapter myAdapter = new MyAdapter();
+    ;
     private TextView balance;
     private UserInfo userInfo;
     private TextView tongzhi;
@@ -80,7 +83,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
         balance = (TextView) findViewById(R.id.balance);
         TextView exit = (TextView) findViewById(R.id.tv_head_fanghui);
         exit.setOnClickListener(this);
-        tongzhi= (TextView) findViewById(R.id.tongzhi);
+        tongzhi = (TextView) findViewById(R.id.tongzhi);
         textView = (TextView) findViewById(R.id.getmoney);
         textView.setOnClickListener(this);
         viewById = (ListView) findViewById(R.id.listviewbalance);
@@ -88,6 +91,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
         volley_Get_Balance(userInfo);
         ExitApplication.getInstance().addActivity(this);
     }
+
     @Override
     public void onClick(View v) {
         Intent intent;
@@ -107,7 +111,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
         SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = sharedPreferences.getString("token", null);
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/takeoutrecord/token/" + token;
-        Log.i("Balance_url",url);
+        Log.i("Payment_url", url);
         //**********从后台返回一个参数来说明数据的获取状况**********
         StringRequest request = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
@@ -120,7 +124,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
                         }.getType();
                         Gson gson = new Gson();
                         paymentlist = gson.fromJson(s, listv);
-                        if(paymentlist!=null){
+                        if (paymentlist != null) {
                             SimpleDateFormat dateFormat = new SimpleDateFormat("yyy/mm/dd  HH:mm:ss");
                             for (Payment payments2 : paymentlist) {
                                 payments2.setTime(dateFormat.format(Long.valueOf(payments2.getTime())));
@@ -128,14 +132,14 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
                             tongzhi.setVisibility(View.GONE);
                             viewById.setAdapter(myAdapter);
                             myAdapter.notifyDataSetChanged();
-                        }else{
-                            Toast.makeText(MainActivity_balance.this,"暂时无收支明细",Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(MainActivity_balance.this, "暂时无收支明细", Toast.LENGTH_SHORT).show();
                         }
-                    }else {
+                    } else {
                         Toast.makeText(MainActivity_balance.this, "网络连接出错", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(MainActivity_balance.this,"暂时无收支明细",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity_balance.this, "暂时无收支明细", Toast.LENGTH_SHORT).show();
                     Log.i("Error_Payment", "Payment is null");
                 }
             }
@@ -166,7 +170,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
         SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = sharedPreferences.getString("token", null);
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/center/token/" + token;
-        Log.i("Balance_url",url);
+        Log.i("Balance_url", url);
         StringRequest balance_request = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
@@ -174,12 +178,12 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
                 if (!s.equals("ERROR")) {
                     Gson gson = new Gson();
                     UserInfo userInfo = gson.fromJson(s, UserInfo.class);
-                    Log.i("Userinfo",userInfo+"");
+                    Log.i("Userinfo", userInfo + "");
                     if (userInfo != null) {
                         DecimalFormat decimalFormat = new DecimalFormat("0.00");
                         balance.setText(decimalFormat.format(Double.valueOf(userInfo.getBalance())));
                     }
-                }else{
+                } else {
                     Toast.makeText(MainActivity_balance.this, "网络连接异常", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -239,7 +243,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
             //收入
             Payment payment = paymentlist.get(position);
             if (payment != null) {
-                Log.i("Falg",payment.getFlag());
+                Log.i("Falg", payment.getFlag());
                 if (payment.getFlag().equals("OUT")) {
                     if (payment.getStatus().equals("1")) {
                         outStatic.setText("审核中");
@@ -248,13 +252,13 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
                     } else {
                         outStatic.setText("操作失败");
                     }
-                    moneyout.setText("-"+String.valueOf(payment.getMoney()));
+                    moneyout.setText("-" + String.valueOf(payment.getMoney()));
                     counter.setText(payment.getCounter());
-                }else{
-                    SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
-                    counter.setText(sharedPreferences.getString("phone",""));
+                } else {
+                    SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
+                    counter.setText(sharedPreferences.getString("phone", ""));
                     outStatic.setText("已到账");
-                    moneyout.setText("+"+String.valueOf(payment.getMoney()));
+                    moneyout.setText("+" + String.valueOf(payment.getMoney()));
                 }
                 time.setText(payment.getTime());
             } else {
@@ -265,14 +269,14 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         StatService.onResume(this);
         Volley_Get(paymentlist);
     }
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
         StatService.onPause(this);
     }

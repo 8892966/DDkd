@@ -181,6 +181,7 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
         SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = sharedPreferences.getString("token", null);
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/center/token/" + token;
+        Log.e("Main_URL",url);
         StringRequest request = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {

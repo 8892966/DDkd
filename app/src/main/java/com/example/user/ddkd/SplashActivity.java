@@ -81,6 +81,8 @@ public class SplashActivity extends AppCompatActivity {
             }
         }
     };
+    private Builder builder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,7 +134,7 @@ public class SplashActivity extends AppCompatActivity {
 
     protected void showupdateDialog(){
         // TODO Auto-generated method stub
-        AlertDialog.Builder builder=new Builder(this);
+        builder = new Builder(this);
         builder.setTitle("提醒升级");
         builder.setMessage(description);
         builder.setOnCancelListener(new OnCancelListener() {
@@ -145,7 +147,12 @@ public class SplashActivity extends AppCompatActivity {
         builder.setPositiveButton("立即升级", new OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(SplashActivity.this,"立即更新",Toast.LENGTH_LONG).show();
+                Intent intent = new Intent();
+                intent.setAction("android.intent.action.VIEW");
+                Uri uri = Uri.parse("http://www.louxiago.com/app/index.php?name=DDKD");
+                intent.setData(uri);
+//                startActivity(intent);
+                startActivityForResult(intent, 0);
             }
         });
         builder.setNegativeButton("下次再说", new OnClickListener() {
@@ -225,7 +232,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     /**
-     * 得到版本好
+     * 得到版本号
      * @return
      */
     private String getVersonName() {
@@ -239,4 +246,10 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        builder.create().dismiss();
+        enterhome();
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

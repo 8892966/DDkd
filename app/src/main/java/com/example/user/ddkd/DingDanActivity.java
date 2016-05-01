@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -192,84 +193,104 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             } else {
                 zhuanTai = new ZhuanTai();
                 view = View.inflate(DingDanActivity.this, R.layout.dingdan_item, null);
-                //已拿件完成的按钮
-//                zhuanTai.textbutton = (TextView) view.findViewById(R.id.tv_dingdang_yina);
-                //已拿件完成的按钮
+
                 zhuanTai.button = (TextView) view.findViewById(R.id.tv_dingdang_tuidang);
                 //订单的id
                 zhuanTai.tv_dingdang_id = (TextView) view.findViewById(R.id.tv_dingdang_id);
                 //可以赚到的钱
                 zhuanTai.tv_money = (TextView) view.findViewById(R.id.tv_money);
-                //快递的地址和所属的快递公司
-                zhuanTai.tv_dingdang_kuaidi_dizhi = (TextView) view.findViewById(R.id.tv_dingdang_kuaidi_dizhi);
-                //客户名字和电话号码
-                zhuanTai.tv_dingdang_kehu = (TextView) view.findViewById(R.id.tv_dingdang_kehu);
-                //目的地的地址
-                zhuanTai.tv_dingdang_nudi_dizhi = (TextView) view.findViewById(R.id.tv_dingdang_nudi_dizhi);
-                //客户的留言
-                zhuanTai.tv_dingdang_liuyan = (TextView) view.findViewById(R.id.tv_dingdang_liuyan);
+                //拿快递地址
+                zhuanTai.tv_kuaidi_dizhi= (TextView) view.findViewById(R.id.tv_kuaidi_dizhi);
+                //快递公司
+                zhuanTai.tv_dingdang_kuaidi= (TextView) view.findViewById(R.id.tv_dingdang_kuaidi);
+                //接收人和电话号码
+                zhuanTai.lxr=(TextView) view.findViewById(R.id.lxr);
+                //快递联系人和电话
+                zhuanTai.dh=(TextView)view.findViewById(R.id.dh);
+                //留言
+                zhuanTai.ly=(TextView)view.findViewById(R.id.ly);
                 //下单的时间
                 zhuanTai.tv_dingdang_shijain = (TextView) view.findViewById(R.id.tv_dingdang_shijain);
                 //打客户的电话
                 zhuanTai.iv_call_phone = (ImageView) view.findViewById(R.id.iv_call_phone);
                 //ProgressBar,点击改变状态时出现
                 zhuanTai.pb_button = (ProgressBar) view.findViewById(R.id.pb_button);
-//                //退单的理由
-//                zhuanTai.tv_dingdang_liyou = (TextView) view.findViewById(R.id.tv_dingdang_liyou);
+                //退单理由
+                zhuanTai.tuidan=(TextView) view.findViewById(R.id.tuidan);
+                //付款状态
+                zhuanTai.zhuangtai=(TextView) view.findViewById(R.id.zhuangtai);
+
+                zhuanTai.fahuodizhi=(TextView) view.findViewById(R.id.fahuodizhi);
+
+                zhuanTai.ll9=(LinearLayout) view.findViewById(R.id.ll9);
+
+                zhuanTai.ll8=(LinearLayout) view.findViewById(R.id.ll8);
+
                 view.setTag(zhuanTai);
             }
             OrderInfo info = list.get(position);
-            Log.e("MyBaseAdapter", info.toString());
+//            Log.e("MyBaseAdapter", info.toString());
             if (xuanzhe == 1) {
-//                zhuanTai.tv_dingdang_liyou.setVisibility(View.GONE);
                 zhuanTai.button.setText("已拿件");
-//                zhuanTai.textbutton.setVisibility(View.VISIBLE);
                 zhuanTai.button.setVisibility(View.VISIBLE);
-                zhuanTai.tv_dingdang_liuyan.setText("留言：" + info.getEvaluate());
+                if (!info.getPid().equals("0")) {
+                    zhuanTai.zhuangtai.setText("已付款");
+                } else {
+                    zhuanTai.zhuangtai.setText("未付款");
+                }
+                zhuanTai.ll8.setVisibility(View.GONE);
+                zhuanTai.ll9.setVisibility(View.VISIBLE);
             } else if (xuanzhe == 2) {
-                if (info.getPid().equals("0")) {
+                zhuanTai.ll8.setVisibility(View.GONE);
+                zhuanTai.ll9.setVisibility(View.GONE);
+                if (!info.getPid().equals("0")) {
                     zhuanTai.button.setText("完成");
+                    zhuanTai.button.setEnabled(true);
                 } else {
                     zhuanTai.button.setText("未付款");
                     zhuanTai.button.setEnabled(false);
                 }
-//                zhuanTai.tv_dingdang_liyou.setVisibility(View.GONE);
-//                zhuanTai.button.setText("完成");
-//                zhuanTai.textbutton.setVisibility(View.GONE);
                 zhuanTai.button.setVisibility(View.VISIBLE);
-                zhuanTai.tv_dingdang_liuyan.setText("留言：" + info.getEvaluate());
             } else if (xuanzhe == 3) {
-//                zhuanTai.tv_dingdang_liyou.setVisibility(View.GONE);
-//                zhuanTai.textbutton.setVisibility(View.GONE);
+                zhuanTai.ll8.setVisibility(View.GONE);
+                zhuanTai.ll9.setVisibility(View.GONE);
                 zhuanTai.button.setVisibility(View.GONE);
-                zhuanTai.tv_dingdang_liuyan.setText("留言：" + info.getEvaluate());
             } else if (xuanzhe == 4) {
-//                zhuanTai.tv_dingdang_liyou.setVisibility(View.VISIBLE);
-//                zhuanTai.textbutton.setVisibility(View.GONE);
+                zhuanTai.ll8.setVisibility(View.VISIBLE);
+                zhuanTai.ll9.setVisibility(View.GONE);
                 zhuanTai.button.setVisibility(View.GONE);
-                zhuanTai.tv_dingdang_liuyan.setText("留言：" + info.getEvaluate() +
-                        "\n退单理由："+info.getReason());
-//                zhuanTai.tv_dingdang_liyou.setText();
+            }
+            String[] s=info.getReceivePlace().split("/",-2);
+            int i=s.length;
+            String diz;
+            if(3<=i) {
+                diz = s[3].replace(',', ' ');
+            }else{
+                diz="";
             }
             zhuanTai.tv_dingdang_id.setText("订单：" + info.getId());
             zhuanTai.tv_money.setText(info.getPrice() + "元");
-            zhuanTai.tv_dingdang_kehu.setText("   " + info.getUsername() + "   " + info.getPhone());
-            zhuanTai.tv_dingdang_kuaidi_dizhi.setText("   " + info.getAddressee() + "   " + info.getExpressCompany() + "快递");
-//            zhuanTai.tv_dingdang_liuyan.setText("留言：" + info.getEvaluate());
-            zhuanTai.tv_dingdang_shijain.setText(info.getTime() + "");
-            zhuanTai.tv_dingdang_nudi_dizhi.setText("   " + info.getReceivePlace());
+            zhuanTai.tv_kuaidi_dizhi.setText(info.getAddressee()+"");
+            zhuanTai.tv_dingdang_kuaidi.setText(info.getExpressCompany()+"");
+            if(0<=i&&i<=i) {
+                zhuanTai.lxr.setText(s[0] + "/" + s[1]);
+            }else {
+                zhuanTai.lxr.setText("");
+            }
+            zhuanTai.dh.setText(info.getUsername()+"/"+info.getPhone());
+            zhuanTai.fahuodizhi.setText(diz+"");
+            zhuanTai.ly.setText("留言:"+info.getEvaluate());
+            zhuanTai.tuidan.setText("退单理由:"+info.getReason());
+            zhuanTai.tv_dingdang_shijain.setText(info.getOrderTime()+ "");
             zhuanTai.iv_call_phone.setOnClickListener(new MyOnClickListener(info, null, null));
-//            zhuanTai.textbutton.setOnClickListener(new MyOnClickListener(info));
             zhuanTai.button.setOnClickListener(new MyOnClickListener(info, zhuanTai.pb_button, zhuanTai.button));
             return view;
         }
-
         //按钮的监听
         class MyOnClickListener implements View.OnClickListener {
             OrderInfo info;
             ProgressBar pb_button;
             TextView button;
-
             /**
              * 输入信息
              *
@@ -280,18 +301,13 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                 this.pb_button = pb_button;
                 this.button = button;
             }
-
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.iv_call_phone://打电话
                         Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + info.getPhone()));
-                        //noinspection ResourceType
                         startActivity(intent);
                         break;
-//                    case R.id.tv_dingdang_yina://已拿件按钮事件（过时）
-//                        volley_OrderState_GET(info, "2");
-//                        break;
                     case R.id.tv_dingdang_tuidang://已拿件按钮事件
                         if (xuanzhe == 2) {
                             button.setEnabled(false);
@@ -307,20 +323,23 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                 }
             }
         }
-
         class ZhuanTai {
-            //            TextView textbutton;
-            TextView button;
-            TextView tv_dingdang_id;
-            TextView tv_money;
-            TextView tv_dingdang_kuaidi_dizhi;
-            TextView tv_dingdang_kehu;
-            TextView tv_dingdang_nudi_dizhi;
-            TextView tv_dingdang_liuyan;
-            TextView tv_dingdang_shijain;
-            //            TextView tv_dingdang_liyou;
-            ImageView iv_call_phone;
-            ProgressBar pb_button;//当按钮被点击时出现的等待标志
+            TextView tv_dingdang_id;//订单号
+            TextView tv_money;//钱
+            ImageView iv_call_phone;//打电话
+            TextView tv_kuaidi_dizhi;//拿快递地址
+            TextView tv_dingdang_kuaidi;//快递公司
+            TextView lxr;//接收人和电话号码
+            TextView dh;//快递联系人和电话
+            TextView ly;//留言
+            TextView tv_dingdang_shijain;//时间
+            TextView button;//按钮
+            ProgressBar pb_button;//等待
+            TextView tuidan;//退单理由
+            TextView zhuangtai;//付款状态
+            TextView fahuodizhi;//目的地址
+            LinearLayout ll9;//状态栏
+            LinearLayout ll8;//退单栏
         }
     }
 
@@ -336,6 +355,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             @Override
             public void success(Object o) {
                 String s = (String) o;
+                Log.e("volley_getOrder_GET",s);
                 if (!s.equals("ERROR")) {
                     Gson gson = new Gson();
                     list = gson.fromJson((String) o, new TypeToken<List<OrderInfo>>() {
@@ -343,6 +363,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                     //转化时间戳
                     for (OrderInfo info : list) {
                         info.setTime(TimeUtil.getStrTime(info.getTime()));
+                        info.setOrderTime(TimeUtil.getStrTime(info.getOrderTime()));
 //                        info.setTime(format.format(Long.valueOf(info.getTime())));
                     }
                 } else {

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
@@ -40,9 +41,9 @@ public class WebActivity extends Activity implements View.OnClickListener {
                 return true;
             }
         });
+        wv_web.getSettings().setBuiltInZoomControls(false);
+        wv_web.getSettings().setSupportZoom(false);
         wv_web.getSettings().setJavaScriptEnabled(true);
-        wv_web.getSettings().setSupportZoom(true);
-        wv_web.getSettings().setBuiltInZoomControls(true);
         wv_web.setWebChromeClient(new WebViewClient());
         wv_web.setDownloadListener(new DownloadListener() {
             @Override

@@ -19,6 +19,16 @@ public class QOrderInfo implements Serializable {
     private String username;
     private String Message;
     private String orderid;
+    private  int zhuantai=0;
+
+    public int getZhuantai() {
+        return zhuantai;
+    }
+
+    public void setZhuantai(int zhuantai) {
+        this.zhuantai = zhuantai;
+    }
+
 
     public String getOrderid() {
         return orderid;

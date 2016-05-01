@@ -29,13 +29,23 @@ public class OrderInfo {
     //下单时间
     private String time;
 
+    private String OrderTime;
+
     private String addressee;
 
     private String Pid;
 
     private String reason;
 
-//    @Override
+    public String getOrderTime() {
+        return OrderTime;
+    }
+
+    public void setOrderTime(String orderTime) {
+        OrderTime = orderTime;
+    }
+
+    //    @Override
 //    public String toString() {
 //        return "OrderInfo{" +
 //                "return_code='" + return_code + '\'' +

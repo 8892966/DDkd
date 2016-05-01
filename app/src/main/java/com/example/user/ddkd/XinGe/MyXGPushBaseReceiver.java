@@ -96,10 +96,17 @@ public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
             NotificationManager nm = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
             Notification.Builder builder = new Notification.Builder(context);
             builder.setContentTitle("DD快递");
+
             if (robres.getFlag().equals("SUCCESS")) {
+
                 builder.setContentText("您抢的单号为：" + robres.getOrderid() + "的单抢单成功");
+                Toast.makeText(context,"您抢的单号为：" + robres.getOrderid() + "的单抢单成功",Toast.LENGTH_SHORT).show();
+
             } else {
+
+                Toast.makeText(context,"您抢的单号为：" + robres.getOrderid() + "的单抢单不成功",Toast.LENGTH_SHORT).show();
                 builder.setContentText("您抢的单号为:" + robres.getOrderid() + "的单抢单不成功");
+
             }
 
             Intent notificationIntent = new Intent(context,DingDanActivity.class);
@@ -111,15 +118,30 @@ public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
             notification.flags = Notification.FLAG_AUTO_CANCEL;
             notification.defaults |= Notification.DEFAULT_SOUND;
             nm.notify(R.mipmap.ic_launcher, notification);
-        } else if (ServiceUtils.isRunning(context,"com.example.user.ddkd.service.JieDanService")) {
-            String s = xgPushTextMessage.getContent();
-            Gson gson = new Gson();
-            QOrderInfo info = gson.fromJson(s, QOrderInfo.class);
-            Handler handler = MyApplication.getHandler();
-            Message message = new Message();
-            message.obj = info;
-            message.what = MyApplication.XG_TEXT_MESSAGE;
-            handler.sendMessage(message);
+        } else if (ServiceUtils.isRunning(context, "com.example.user.ddkd.service.JieDanService")) {
+            if(xgPushTextMessage.getTitle().equals("USERCANCEL")){
+                int i=xgPushTextMessage.getContent().indexOf("[");
+                String id=xgPushTextMessage.getContent().substring(i+1,i+3);
+                NotificationManager nm = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+                Notification.Builder builder = new Notification.Builder(context);
+                builder.setContentTitle("DD快递");
+                builder.setContentText("单号" + id + "已取消");
+                Toast.makeText(context,"单号" + id + "已取消",Toast.LENGTH_SHORT).show();
+                builder.setSmallIcon(R.mipmap.ic_launcher);
+                Notification notification = builder.getNotification();
+                notification.flags = Notification.FLAG_AUTO_CANCEL;
+                notification.defaults |= Notification.DEFAULT_SOUND;
+                nm.notify(R.mipmap.ic_launcher, notification);
+            }else {
+                String s = xgPushTextMessage.getContent();
+                Gson gson = new Gson();
+                QOrderInfo info = gson.fromJson(s, QOrderInfo.class);
+                Handler handler = MyApplication.getHandler();
+                Message message = new Message();
+                message.obj = info;
+                message.what = MyApplication.XG_TEXT_MESSAGE;
+                handler.sendMessage(message);
+            }
         } else if ("FORCEPUSH".equals(xgPushTextMessage.getTitle())) {
             Log.e("FORCEPUSH", xgPushTextMessage.getContent());
             String s = xgPushTextMessage.getContent();

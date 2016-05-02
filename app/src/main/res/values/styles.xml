@@ -5,6 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -80,7 +81,7 @@
     </style>
     <style name="roomRatingBar" parent="@android:style/Widget.RatingBar">
         <item name="android:progressDrawable">@drawable/star_button</item>
-        <item name="android:minHeight">16dip</item>
-        <item name="android:maxHeight">16dip</item>
+        <item name="android:minHeight">30px</item>
+        <item name="android:maxHeight">30px</item>
     </style>
 </resources>

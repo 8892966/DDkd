@@ -18,6 +18,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
@@ -70,7 +71,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     //昨天的营业额
     private TextView tv_xiuxi_huodong_yesterday_money;
     //星星图型评分
-    private RatingBar pb_star;
+//    private RatingBar pb_star;
 
     private boolean sreviceisrunning;
 
@@ -87,6 +88,12 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     private SoundPool sp;
     //声音源
     private int soundid;
+    //星星图
+    private ImageView xx1;
+    private ImageView xx2;
+    private ImageView xx3;
+    private ImageView xx4;
+    private ImageView xx5;
 
 
     //当获取页面信息时token过时的处理
@@ -139,7 +146,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         tv_to_dingdang = (TextView) findViewById(R.id.tv_to_dingdang);
         but_jiedang = (TextView) findViewById(R.id.but_jiedang);
         tv_xiuxi_huodong_now_number = (TextView) findViewById(R.id.tv_xiuxi_huodong_now_number);
-        pb_star = (RatingBar) findViewById(R.id.pb_star);
+//        pb_star = (RatingBar) findViewById(R.id.pb_star);
 //        tv_star = (TextView) findViewById(R.id.tv_star);
         tv_sum_number = (TextView) findViewById(R.id.tv_sum_number);
 //        tv_xiuxi_huodong_yesterday_number = (TextView) findViewById(R.id.tv_xiuxi_huodong_yesterday_number);
@@ -155,6 +162,15 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         listView.setAdapter(myBaseAdapter);
         listView.setEmptyView(findViewById(R.id.tv_jiedang));
         getInstance().addActivity(this);
+
+
+
+
+        xx1= (ImageView) findViewById(R.id.xx1);
+        xx2= (ImageView) findViewById(R.id.xx2);
+        xx3= (ImageView) findViewById(R.id.xx3);
+        xx4= (ImageView) findViewById(R.id.xx4);
+        xx5= (ImageView) findViewById(R.id.xx5);
         //判断是否有开启信鸽和服务
 //        sreviceisrunning=ServiceUtils.isRunning(this,"com.example.user.ddkd.service.JieDanService");
 //        if(sreviceisrunning){
@@ -282,7 +298,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 viewInfo.tv_item_title.setText(qOrderInfo.getAddressee() + "    共" + qOrderInfo.getPrice() + "元(含小费" + qOrderInfo.getTip() + "元)");
             }
             if (qOrderInfo.getOrderid() != null) {
-                viewInfo.order_id.setText(qOrderInfo.getOrderid());
+                viewInfo.order_id.setText("单号:"+qOrderInfo.getOrderid());
             }
             if (qOrderInfo.getZhuantai() == 2) {
                 viewInfo.tv_qiangdan_button.setEnabled(false);
@@ -451,9 +467,11 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                     tv_xiuxi_huodong_yesterday_money.setText("今天营业额   0元");
                 }
                 if (info.getEvaluate() == null) {
-                    pb_star.setRating(0);
+//                    pb_star.setRating(0);
+                    xingxing(0);
                 } else {
-                    pb_star.setRating(Float.valueOf(info.getEvaluate()));
+                    xingxing(Integer.valueOf(info.getEvaluate()));
+//                    pb_star.setRating(Float.valueOf(info.getEvaluate()));
                 }
             }
 
@@ -572,7 +590,52 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    
 
 
+    private void xingxing(int i){
+        switch (i){
+            case 0:
+                xx1.setImageResource(R.drawable.comment_star_gray_icon);
+                xx2.setImageResource(R.drawable.comment_star_gray_icon);
+                xx3.setImageResource(R.drawable.comment_star_gray_icon);
+                xx4.setImageResource(R.drawable.comment_star_gray_icon);
+                xx5.setImageResource(R.drawable.comment_star_gray_icon);
+                break;
+            case 1:
+                xx1.setImageResource(R.drawable.comment_star_light_icon);
+                xx2.setImageResource(R.drawable.comment_star_gray_icon);
+                xx3.setImageResource(R.drawable.comment_star_gray_icon);
+                xx4.setImageResource(R.drawable.comment_star_gray_icon);
+                xx5.setImageResource(R.drawable.comment_star_gray_icon);
+                break;
+            case 2:
+                xx1.setImageResource(R.drawable.comment_star_light_icon);
+                xx2.setImageResource(R.drawable.comment_star_light_icon);
+                xx3.setImageResource(R.drawable.comment_star_gray_icon);
+                xx4.setImageResource(R.drawable.comment_star_gray_icon);
+                xx5.setImageResource(R.drawable.comment_star_gray_icon);
+                break;
+            case 3:
+                xx1.setImageResource(R.drawable.comment_star_light_icon);
+                xx2.setImageResource(R.drawable.comment_star_light_icon);
+                xx3.setImageResource(R.drawable.comment_star_light_icon);
+                xx4.setImageResource(R.drawable.comment_star_gray_icon);
+                xx5.setImageResource(R.drawable.comment_star_gray_icon);
+                break;
+            case 4:
+                xx1.setImageResource(R.drawable.comment_star_light_icon);
+                xx2.setImageResource(R.drawable.comment_star_light_icon);
+                xx3.setImageResource(R.drawable.comment_star_light_icon);
+                xx4.setImageResource(R.drawable.comment_star_light_icon);
+                xx5.setImageResource(R.drawable.comment_star_gray_icon);
+                break;
+            case 5:
+                xx1.setImageResource(R.drawable.comment_star_light_icon);
+                xx2.setImageResource(R.drawable.comment_star_light_icon);
+                xx3.setImageResource(R.drawable.comment_star_light_icon);
+                xx4.setImageResource(R.drawable.comment_star_light_icon);
+                xx5.setImageResource(R.drawable.comment_star_light_icon);
+                break;
+        }
+    }
 }

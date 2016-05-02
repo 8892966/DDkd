@@ -11,7 +11,7 @@ public class TimeUtil {
     public static String getStrTime(String cc_time) {
         String re_StrTime = null;
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日HH时mm分");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd   HH:mm");
 // 例如：cc_time=1291778220
         long lcc_time = Long.valueOf(cc_time);
         re_StrTime = sdf.format(new Date(lcc_time * 1000L));

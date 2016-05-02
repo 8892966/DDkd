@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,9 +59,15 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            String imageurl = (String) msg.obj;
-            Picasso.with(MainActivity_main.this).load(imageurl).into(userimage);
+            switch (msg.what){
+                case MyApplication.GET_TOKEN_SUCCESS:
+                    String imageurl = (String) msg.obj;
+                    Picasso.with(MainActivity_main.this).load(imageurl).into(userimage);
+                    break;
+                case MyApplication.GET_TOKEN_ERROR:
 
+                    break;
+            }
         }
     };
 
@@ -118,7 +125,9 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
                 startActivity(intent);
                 break;
             case R.id.details:
-                intent = new Intent(this, details.class);
+                //直接跳转到订单页面;
+//                intent = new Intent(MainActivity_main.this, details.class);
+                intent = new Intent(MainActivity_main.this, DingDanActivity.class);
                 startActivity(intent);
                 break;
             case R.id.setting:
@@ -154,14 +163,16 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
                 Message ms = new Message();
 //                ms.obj=imageurl;
                 ms.obj = s;
+                ms.what=MyApplication.GET_TOKEN_SUCCESS;
                 handler_image.sendMessage(ms);
             }
-
             @Override
             public void tokenouttime() {
-
+                Log.i("MainActivity", "token outtime");
+                String s=sharedPreferences.getString("imageuri","");
+                AutologonUtil autologonUtil=new AutologonUtil(MainActivity_main.this,handler_image,s);
+                autologonUtil.volley_Get_TOKEN();
             }
-
             @Override
             public void yidiensdfsdf() {
                 Exit.exit(MainActivity_main.this);
@@ -246,6 +257,7 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
         super.onResume();
         StatService.onResume(this);
         volley_Get_Image();
+        volley_Get(userInfo);
     }
 
     @Override

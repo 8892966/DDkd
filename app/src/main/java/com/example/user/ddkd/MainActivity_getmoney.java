@@ -101,7 +101,6 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
         textView.setOnClickListener(this);
         sure = (TextView) findViewById(R.id.sure);
         sure.setOnClickListener(this);
-
         yue = (TextView) findViewById(R.id.yue);
         getmoney = (EditText) findViewById(R.id.getmoney);
         counter = (EditText) findViewById(R.id.counter);
@@ -124,7 +123,8 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
                 //***********点击确定按钮的时候，提交数据*************
                 showProgressDialog();
                 SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
-                String username = sharedPreferences.getString("username", null);
+                String username = sharedPreferences.getString("username", "");
+                String yue=sharedPreferences.getString("Yue","");
                 Log.i("MainActivity_getmoney", username);
                 //panduan1
                 getmoney1 = getmoney.getText().toString();
@@ -135,20 +135,25 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
                 Log.i("Money2", userInfo.getBalance());
                 if (!TextUtils.isEmpty(getmoney1)&&Double.valueOf(getmoney1)>=100) {
                     if (Double.valueOf(userInfo.getBalance()) > 100) {
-                        if (Double.valueOf(getmoney1) < Double.valueOf(userInfo.getBalance())) {
+                        if (Double.valueOf(getmoney1) <= Double.valueOf(userInfo.getBalance())) {
                             if (!TextUtils.isEmpty(counter1)) {
                                 if (!TextUtils.isEmpty(tname1)) {
-                                    if (TextUtils.isEmpty(beizhu1)) {
-                                        beizhu1 = "无";
-                                        volley_get(getmoney1, counter1, tname1, username, beizhu1);
-                                    } else {
-                                        if (beizhu1.length() <= 10) {
+                                    if(Double.valueOf(getmoney1)>=Double.valueOf(yue)){
+                                        if (TextUtils.isEmpty(beizhu1)) {
+                                            beizhu1 = "无";
                                             volley_get(getmoney1, counter1, tname1, username, beizhu1);
-                                            break;
                                         } else {
-                                            closeProgressDialog();
-                                            Toast.makeText(MainActivity_getmoney.this, "备注内容超过限制，请重新输入", Toast.LENGTH_SHORT).show();
+                                            if (beizhu1.length() <= 10) {
+                                                volley_get(getmoney1, counter1, tname1, username, beizhu1);
+                                                break;
+                                            } else {
+                                                closeProgressDialog();
+                                                Toast.makeText(MainActivity_getmoney.this, "备注内容超过限制，请重新输入", Toast.LENGTH_SHORT).show();
+                                            }
                                         }
+                                    }else{
+                                        closeProgressDialog();
+                                        Toast.makeText(MainActivity_getmoney.this, "请等待上一次提现申请通过", Toast.LENGTH_SHORT).show();
                                     }
                                 } else {
                                     closeProgressDialog();
@@ -176,7 +181,7 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
     //**********************将提现记录提交到后台******************************
     public void volley_get(final String getmoney, final String counter, final String tname,
                            final String username, final String beizhu) {
-        SharedPreferences sharedPreferences1 = getSharedPreferences("config", MODE_PRIVATE);
+        final SharedPreferences sharedPreferences1 = getSharedPreferences("config", MODE_PRIVATE);
         String token = sharedPreferences1.getString("token", null);
         String tname2 = null;
         String username2 = null;
@@ -197,9 +202,16 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
                 String s= (String) o;
                 closeProgressDialog();
                 if (!s.equals("ERROR")) {
-                    s = s.substring(1, s.length() - 1);
                     //**************返回一个参数，说明提交的情况*****************
                     finish();
+
+                    //************保留当前提交申请之后的余额，用于用于第二次提现的时候作判断****************
+                    SharedPreferences.Editor editor=sharedPreferences1.edit();
+                    Double ss=Double.valueOf(userInfo.getBalance())-Double.valueOf(getmoney1);
+                    Log.i("YUE", String.valueOf(ss));
+                    DecimalFormat decimalFormat=new DecimalFormat("0.00");
+                    editor.putString("Yue",decimalFormat.format(ss));
+                    editor.commit();
                     Toast.makeText(MainActivity_getmoney.this, "提现申请已提交", Toast.LENGTH_LONG).show();
 
                 } else {

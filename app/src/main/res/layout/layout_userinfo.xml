@@ -37,16 +37,10 @@
             android:src="@drawable/announce" />
     </RelativeLayout>
     <!--账户详情-->
-    <View
-        android:id="@+id/titleview"
-        android:layout_width="match_parent"
-        android:layout_height="15sp"
-        android:background="@color/spacing" />
-
     <RelativeLayout
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="240dip"
+        android:layout_height="250dip"
         android:clickable="true"
         android:focusable="true">
         <View
@@ -55,6 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dip"/>
         <LinearLayout
+            android:layout_marginBottom="4dip"
             android:id="@+id/yueandyingye"
             android:layout_above="@id/bottom"
             android:layout_width="match_parent"
@@ -63,21 +58,20 @@
             android:orientation="horizontal">
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dip"
                 android:layout_weight="1"
                 android:gravity="center">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="营 业 额:"
-                    android:textSize="15sp" />
-
+                    android:textSize="12sp" />
                 <TextView
                     android:id="@+id/turnover"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="**"
-                    android:textSize="15sp" />
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <View
@@ -86,7 +80,7 @@
                 android:background="#cccccc" />
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dip"
                 android:layout_alignParentRight="true"
                 android:layout_weight="1"
                 android:gravity="center">
@@ -95,37 +89,37 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dip"
                     android:text="余 额:"
-                    android:textSize="15sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/moneysum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="**"
-                    android:textSize="15sp" />
+                    android:textSize="18sp" />
             </LinearLayout>
         </LinearLayout>
         <View
             android:id="@+id/view01"
             android:layout_width="match_parent"
-            android:layout_height="1sp"
+            android:layout_height="0.2sp"
             android:layout_above="@id/yueandyingye"
-            android:layout_marginTop="10dip"
             android:background="#999999" />
         <RelativeLayout
+            android:layout_marginBottom="15dip"
             android:id="@+id/title01"
             android:layout_above="@id/view01"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="200dip">
             <ImageView
-                android:layout_marginTop="10dip"
+                android:layout_marginTop="5dip"
                 android:layout_centerHorizontal="true"
                 android:id="@+id/userimage"
                 android:layout_width="120dip"
                 android:layout_height="120dip"
                 android:src="@drawable/userimage" />
             <TextView
-                android:layout_marginTop="10dip"
+                android:layout_marginTop="8dip"
                 android:text="**********"
                 android:layout_centerHorizontal="true"
                 android:id="@+id/userphone"
@@ -183,7 +177,7 @@
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="1sp"
+        android:layout_height="0.2sp"
         android:background="#999999" />
     <!--我的订单-->
     <RelativeLayout
@@ -219,9 +213,9 @@
             android:layout_width="25dip"
             android:layout_height="25dip"/>
     </RelativeLayout>
-    <TextView
+    <View
         android:layout_width="match_parent"
-        android:layout_height="1sp"
+        android:layout_height="0.2sp"
         android:background="#999999" />
     <!--设置-->
     <RelativeLayout
@@ -260,8 +254,8 @@
             android:layout_height="25dip"/>
     </RelativeLayout>
 
-    <TextView
+    <View
         android:layout_width="match_parent"
-        android:layout_height="1sp"
+        android:layout_height="0.2sp"
         android:background="#999999" />
 </LinearLayout>

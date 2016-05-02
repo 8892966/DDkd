@@ -7,7 +7,7 @@
         android:id="@+id/rl_head"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="@color/head2"
+        android:background="@color/head"
         >
         <TextView
             style="@style/head_button_back"

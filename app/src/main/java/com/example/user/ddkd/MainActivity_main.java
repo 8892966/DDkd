@@ -45,7 +45,7 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
     private TextView moneysum;
     private TextView userphone;
     private UserInfo userInfo;
-    private LinearLayout balance;
+    private RelativeLayout balance;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -80,11 +80,11 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
         announce.setOnClickListener(this);
         title = (RelativeLayout) findViewById(R.id.title);
         title.setOnClickListener(this);
-        balance= (LinearLayout) findViewById(R.id.balance);
+        balance= (RelativeLayout) findViewById(R.id.balance);
         balance.setOnClickListener(this);
-        LinearLayout detauils = (LinearLayout) findViewById(R.id.details);
+        RelativeLayout detauils = (RelativeLayout) findViewById(R.id.details);
         detauils.setOnClickListener(this);
-        LinearLayout setting = (LinearLayout) findViewById(R.id.setting);
+        RelativeLayout setting = (RelativeLayout) findViewById(R.id.setting);
         setting.setOnClickListener(this);
         ExitApplication.getInstance().addActivity(this);
 

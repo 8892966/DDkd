@@ -43,6 +43,7 @@ public class Announce extends Activity implements View.OnClickListener {
     private List<AnnounceInfo> announcelist = new ArrayList<AnnounceInfo>();
     private ImageView exitannounce;
     private TextView tongzhi;
+    private MyAdapter myAdapter=new MyAdapter();
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -66,8 +67,7 @@ public class Announce extends Activity implements View.OnClickListener {
         announcelistview = (ListView) findViewById(R.id.announcelistview);
         exitannounce = (ImageView) findViewById(R.id.exit);
         exitannounce.setOnClickListener(this);
-        MyAdapter myadapter=new MyAdapter();
-        announcelistview.setAdapter(myadapter);
+
         ExitApplication.getInstance().addActivity(this);
 
     }
@@ -92,7 +92,6 @@ public class Announce extends Activity implements View.OnClickListener {
             case R.id.exit:
                 finish();
                 break;
-
         }
     }
     class MyAdapter extends BaseAdapter{
@@ -118,6 +117,7 @@ public class Announce extends Activity implements View.OnClickListener {
             }else{
                 view = convertView;
             }
+            Log.i("fdsfsdf","sfsdsd");
             TextView id= (TextView) view.findViewById(R.id.id);
             TextView title= (TextView) view.findViewById(R.id.title);
             TextView time= (TextView) view.findViewById(R.id.time);
@@ -148,6 +148,8 @@ public class Announce extends Activity implements View.OnClickListener {
                     announcelist=gson.fromJson(s,listv);
                     //****************将list里面的内容倒叙输出******************
                     Collections.reverse(announcelist);
+                    announcelistview.setAdapter(myAdapter);
+                    myAdapter.notifyDataSetChanged();
                 }else{
                     Toast.makeText(Announce.this,"数据访问出错，请重新进入此页面",Toast.LENGTH_SHORT).show();
                 }

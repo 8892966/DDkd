@@ -481,7 +481,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         StringRequest request_post = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
-//                try {
+                try {
                     String ss = (String) o;
                     Log.e("volley_MSG_GET", ss);
                     Gson gson = new Gson();
@@ -505,10 +505,10 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 //                    pb_star.setRating(Float.valueOf(info.getEvaluate()));
                         }
                     }
-//                }catch (Exception e){
-//                    Log.e("Exception", e.getMessage());
-//                    Toast.makeText(JieDangActivity.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
-//                }
+                }catch (Exception e){
+                    Log.e("Exception", e.getMessage());
+                    Toast.makeText(JieDangActivity.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

@@ -51,6 +51,7 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
     private EditText Tname;
     private UserInfo userInfo;
     private EditText beizhu;
+    private DecimalFormat decimalFormat=new DecimalFormat("0.00");
     private ProgressDialog progressDialog;
     private String getmoney1;
     private String counter1;
@@ -108,6 +109,7 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
         beizhu = (EditText) findViewById(R.id.beizhu);
         Volley_Get();
         ExitApplication.getInstance().addActivity(this);
+
     }
 
     @Override
@@ -124,21 +126,22 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
                 showProgressDialog();
                 SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
                 String username = sharedPreferences.getString("username", "");
-                String yue=sharedPreferences.getString("Yue","");
+                SharedPreferences shareyue=getSharedPreferences("config", MODE_PRIVATE);
+                String yue=shareyue.getString("TX","");
+                Log.i("TX01", yue);
                 Log.i("MainActivity_getmoney", username);
-                //panduan1
+
                 getmoney1 = getmoney.getText().toString();
                 counter1 = counter.getText().toString();
                 tname1 = Tname.getText().toString();
                 beizhu1 = beizhu.getText().toString();
-//                if (beizhu1.length() <= 10) {
-                Log.i("Money2", userInfo.getBalance());
-                if (!TextUtils.isEmpty(getmoney1)&&Double.valueOf(getmoney1)>=100) {
-                    if (Double.valueOf(userInfo.getBalance()) > 100) {
-                        if (Double.valueOf(getmoney1) <= Double.valueOf(userInfo.getBalance())) {
-                            if (!TextUtils.isEmpty(counter1)) {
+                if (!TextUtils.isEmpty(counter1)) {
+                    if (!TextUtils.isEmpty(getmoney1)&&Double.valueOf(getmoney1)>=100) {
+                        if (Double.valueOf(userInfo.getBalance()) > 100) {
+                            if (Double.valueOf(getmoney1) <= Double.valueOf(userInfo.getBalance())) {
                                 if (!TextUtils.isEmpty(tname1)) {
-                                    if(Double.valueOf(getmoney1)>=Double.valueOf(yue)){
+//                                    if(Double.valueOf(userInfo.getBalance())-Double.valueOf(yue)>=100){
+//                                        Log.i("YUE01",String.valueOf(Double.valueOf(userInfo.getBalance())-Double.valueOf(yue)));
                                         if (TextUtils.isEmpty(beizhu1)) {
                                             beizhu1 = "无";
                                             volley_get(getmoney1, counter1, tname1, username, beizhu1);
@@ -151,29 +154,29 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
                                                 Toast.makeText(MainActivity_getmoney.this, "备注内容超过限制，请重新输入", Toast.LENGTH_SHORT).show();
                                             }
                                         }
-                                    }else{
-                                        closeProgressDialog();
-                                        Toast.makeText(MainActivity_getmoney.this, "请等待上一次提现申请通过", Toast.LENGTH_SHORT).show();
-                                    }
+//                                    }else{
+//                                        closeProgressDialog();
+//                                        Toast.makeText(MainActivity_getmoney.this, "请等待上一次提现申请通过", Toast.LENGTH_SHORT).show();
+//                                    }
                                 } else {
                                     closeProgressDialog();
                                     Toast.makeText(MainActivity_getmoney.this, "账户人不能为空", Toast.LENGTH_SHORT).show();
                                 }
                             } else {
                                 closeProgressDialog();
-                                Toast.makeText(MainActivity_getmoney.this, "提现账户不能为空", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity_getmoney.this, "提现金额输入有误，请重新输入", Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             closeProgressDialog();
-                            Toast.makeText(MainActivity_getmoney.this, "提现金额输入有误，请重新输入", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity_getmoney.this, "您的余额不足100元", Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         closeProgressDialog();
-                        Toast.makeText(MainActivity_getmoney.this, "您的余额不足100元", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity_getmoney.this, "提现金额不能为空或提现金额小于100", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     closeProgressDialog();
-                    Toast.makeText(MainActivity_getmoney.this, "提现金额不能为空或提现金额小于100", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity_getmoney.this, "提现账户不能为空", Toast.LENGTH_SHORT).show();
                 }
         }
     }
@@ -199,21 +202,20 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
         StringRequest request=new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
+                Log.i("ERROR",(String)o);
                 String s= (String) o;
                 closeProgressDialog();
                 if (!s.equals("ERROR")) {
                     //**************返回一个参数，说明提交的情况*****************
                     finish();
-
-                    //************保留当前提交申请之后的余额，用于用于第二次提现的时候作判断****************
-                    SharedPreferences.Editor editor=sharedPreferences1.edit();
-                    Double ss=Double.valueOf(userInfo.getBalance())-Double.valueOf(getmoney1);
-                    Log.i("YUE", String.valueOf(ss));
-                    DecimalFormat decimalFormat=new DecimalFormat("0.00");
-                    editor.putString("Yue",decimalFormat.format(ss));
-                    editor.commit();
                     Toast.makeText(MainActivity_getmoney.this, "提现申请已提交", Toast.LENGTH_LONG).show();
-
+                    //************保留当前提交申请之后的余额，用于用于第二次提现的时候作判断****************
+                    String number=sharedPreferences1.getString("TX","0");
+                    Double sum=Double.valueOf(number)+Double.valueOf(getmoney1);
+                    SharedPreferences.Editor editor=sharedPreferences1.edit();
+                    Log.i("TX02", String.valueOf(decimalFormat.format(sum)));
+                    editor.putString("TX", decimalFormat.format(sum));
+                    editor.commit();
                 } else {
                     Toast.makeText(MainActivity_getmoney.this, "提交内容有误，请核对您的信息", Toast.LENGTH_SHORT).show();
                 }
@@ -242,9 +244,9 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
         MyApplication.getQueue().add(request);
     }
 
-    //*****************************获取用户的当余额****************************
+    //*****************************获取用户的当前余额****************************
     public void Volley_Get() {
-        SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
+        final SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = sharedPreferences.getString("token", null);
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/center/token/" + token;
         StringRequest stringRequest=new StringRequest(Request.Method.GET, url, new MyStringRequest() {
@@ -254,7 +256,6 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
                 if (!s.equals("ERROR")) {
                     Gson gson = new Gson();
                     userInfo = gson.fromJson(s, UserInfo.class);
-                    DecimalFormat decimalFormat=new DecimalFormat("0.00");
                     yue.setText(decimalFormat.format(Double.valueOf(userInfo.getBalance())));
                 } else {
                     Toast.makeText(MainActivity_getmoney.this, "网络连接出错", Toast.LENGTH_SHORT).show();

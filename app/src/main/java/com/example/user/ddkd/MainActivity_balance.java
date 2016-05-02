@@ -246,12 +246,16 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
                         outStatic.setText("审核中");
                     } else if (payment.getStatus().equals("2")) {
                         outStatic.setText("已通过");
+//                        SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
+//                        SharedPreferences.Editor editor=sharedPreferences.edit();
+//                        editor.putString("TX","0");
+//                        editor.commit();
                     } else {
                         outStatic.setText("操作失败");
-                        SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
-                        SharedPreferences.Editor editor=sharedPreferences.edit();
-                        editor.putString("Yue",decimalFormat.format(Double.valueOf(userInfo.getBalance())));
-                        editor.commit();
+//                        SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
+//                        SharedPreferences.Editor editor=sharedPreferences.edit();
+//                        editor.putString("TX","0");
+//                        editor.commit();
                     }
                     moneyout.setText("-" + String.valueOf(payment.getMoney()));
                     counter.setText(payment.getCounter());

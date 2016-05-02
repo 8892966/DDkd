@@ -5,7 +5,7 @@
     <item android:state_focused="true"
           android:drawable="@drawable/dingdang_button_pressed" /> <!-- focused -->
     <item android:state_enabled="true"
-        android:drawable="@drawable/dingdang_button_normal"/>
+        android:drawable="@color/backgrod"/>
     <item android:state_enabled="false"
         android:drawable="@drawable/dingdang_button_pressed"/>
 </selector>

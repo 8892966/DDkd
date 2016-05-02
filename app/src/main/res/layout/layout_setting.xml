@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    android:background="@color/backgrod"
     android:layout_height="match_parent">
     <RelativeLayout
         android:background="@color/head"
@@ -14,6 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
+            android:textColor="@color/text3"
             android:layout_centerInParent="true"
             android:text="设置"
             android:textSize="25sp"
@@ -24,33 +26,58 @@
         android:background="@color/spacing"
         android:layout_width="match_parent"
         android:layout_height="15dip"/>
-    <TextView
+    <RelativeLayout
+        android:padding="5dip"
         android:id="@+id/updatepwd"
         android:layout_marginLeft="10dip"
         android:layout_marginTop="5dip"
         android:background="@drawable/clickview"
         android:clickable="true"
         android:focusable="true"
-        android:textSize="20sp"
-        android:text="修改密码"
-        android:padding="5dip"
         android:layout_width="match_parent"
-        android:layout_height="35dip" />
+        android:layout_height="40dip">
+        <TextView
+            android:layout_centerVertical="true"
+            android:textSize="20sp"
+            android:text="修改密码"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_marginRight="10dip"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/toright"
+            android:layout_width="25dip"
+            android:layout_height="25dip" />
+    </RelativeLayout>
+
     <View
         android:background="#cccccc"
         android:layout_width="match_parent"
         android:layout_height="1dip"/>
-    <TextView
+    <RelativeLayout
+        android:padding="5dip"
         android:id="@+id/cline"
         android:layout_marginLeft="10dip"
         android:background="@drawable/clickview"
         android:clickable="true"
         android:focusable="true"
-        android:textSize="20sp"
-        android:text="意见反馈"
-        android:padding="5dip"
         android:layout_width="match_parent"
-        android:layout_height="40dip" />
+        android:layout_height="40dip">
+        <TextView
+            android:textSize="20sp"
+            android:text="意见反馈"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_marginRight="10dip"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/toright"
+            android:layout_width="25dip"
+            android:layout_height="25dip" />
+    </RelativeLayout>
     <View
         android:background="#cccccc"
         android:layout_width="match_parent"
@@ -70,10 +97,17 @@
             android:text="检查更新"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <TextView
+        <ImageView
+            android:id="@+id/toright"
             android:layout_marginRight="10dip"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
+            android:src="@drawable/toright"
+            android:layout_width="25dip"
+            android:layout_height="25dip" />
+        <TextView
+            android:layout_toLeftOf="@id/toright"
+            android:layout_centerVertical="true"
             android:id="@+id/version"
             android:textSize="20sp"
             android:layout_width="wrap_content"
@@ -84,37 +118,64 @@
         android:background="@color/spacing"
         android:layout_width="match_parent"
         android:layout_height="15dip"/>
-    <TextView
+    <RelativeLayout
         android:id="@+id/Share"
         android:layout_marginLeft="10dip"
         android:background="@drawable/clickview"
         android:clickable="true"
         android:focusable="true"
-        android:textSize="20sp"
-        android:text="分享DD至"
         android:padding="5dip"
         android:layout_width="match_parent"
-        android:layout_height="40dip" />
+        android:layout_height="40dip">
+        <TextView
+            android:layout_centerVertical="true"
+            android:textSize="20sp"
+            android:text="分享DD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_marginRight="10dip"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/toright"
+            android:layout_width="25dip"
+            android:layout_height="25dip" />
+    </RelativeLayout>
+
     <View
         android:background="#cccccc"
         android:layout_width="match_parent"
         android:layout_height="1dip"/>
-    <TextView
+
+    <RelativeLayout
         android:id="@+id/aboutDD"
         android:layout_marginLeft="10dip"
         android:background="@drawable/clickview"
         android:clickable="true"
         android:focusable="true"
-        android:textSize="20sp"
-        android:text="关于DD快递"
         android:padding="5dip"
         android:layout_width="match_parent"
-        android:layout_height="40dip" />
+        android:layout_height="40dip">
+        <TextView
+            android:layout_centerVertical="true"
+            android:textSize="20sp"
+            android:text="关于DD快递"
+            android:layout_width="match_parent"
+            android:layout_height="40dip" />
+        <ImageView
+            android:layout_marginRight="10dip"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/toright"
+            android:layout_width="25dip"
+            android:layout_height="25dip" />
+    </RelativeLayout>
     <View
         android:background="#cccccc"
         android:layout_width="match_parent"
         android:layout_height="1dip"/>
     <TextView
+        android:textColor="@color/text3"
         android:layout_marginTop="40dip"
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
@@ -125,5 +186,5 @@
         android:text="退出登录"
         android:textSize="23sp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="40dip" />
 </LinearLayout>

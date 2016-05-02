@@ -28,6 +28,8 @@ import com.example.user.ddkd.utils.AutologonUtil;
 import com.example.user.ddkd.utils.Exit;
 import com.example.user.ddkd.utils.MyStringRequest;
 
+import org.w3c.dom.Text;
+
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
@@ -36,14 +38,13 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
  */
 public class MainActivity_setting extends Activity implements View.OnClickListener {
     private TextView exit;
-    private ImageView userimage;
-    private TextView updatepwd;
-    private TextView clime;
+    private RelativeLayout updatepwd;
+    private RelativeLayout clime;
     private TextView version;
     private RelativeLayout updateapp;
-    private TextView aboutDD;
+    private RelativeLayout aboutDD;
     private ImageView imageView;
-    private TextView Share;
+    private RelativeLayout Share;
     private Handler handler1=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -64,16 +65,16 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
         imageView.setOnClickListener(this);
         exit = (TextView) findViewById(R.id.exit);
         exit.setOnClickListener(this);
-        updatepwd = (TextView) findViewById(R.id.updatepwd);
+        updatepwd = (RelativeLayout) findViewById(R.id.updatepwd);
         updatepwd.setOnClickListener(this);
-        clime = (TextView) findViewById(R.id.cline);
+        clime = (RelativeLayout) findViewById(R.id.cline);
         clime.setOnClickListener(this);
         updateapp = (RelativeLayout) findViewById(R.id.updateApp);
         version= (TextView) findViewById(R.id.version);
         updateapp.setOnClickListener(this);
-        aboutDD = (TextView) findViewById(R.id.aboutDD);
+        aboutDD = (RelativeLayout) findViewById(R.id.aboutDD);
         aboutDD.setOnClickListener(this);
-        Share= (TextView) findViewById(R.id.Share);
+        Share= (RelativeLayout) findViewById(R.id.Share);
         Share.setOnClickListener(this);
         ExitApplication.getInstance().addActivity(this);
         SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
@@ -152,10 +153,6 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
         }
     };
     public void volley_Get(){
-        SharedPreferences sharedPreferences01=getSharedPreferences("config", MODE_PRIVATE);
-        SharedPreferences.Editor editor=sharedPreferences01.edit();
-        editor.putString("version","1");
-        editor.commit();
         String url="http://www.louxiago.com/wc/ddkd/admin.php/User/update";
         StringRequest request=new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
@@ -176,7 +173,7 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
                     editor1.putString("version",s);
                     editor1.commit();
                 }
-                version.setText(s);
+                version.setText(getVersonName());
             }
             @Override
             public void tokenouttime() {

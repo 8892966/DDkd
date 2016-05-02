@@ -11,14 +11,17 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dip"
         android:orientation="vertical">
-
         <TextView
+            android:text="fsdafdsa"
+            android:layout_centerVertical="true"
             android:id="@+id/id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:clickable="false"/>
         <TextView
+            android:text="fdsafsaf"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dip"
             android:layout_toRightOf="@id/id"
             android:id="@+id/title"
@@ -27,9 +30,10 @@
             android:textSize="20sp"
             android:clickable="false"/>
         <TextView
+            android:text="fsdfsfsfsdf"
             android:layout_alignParentRight="true"
             android:id="@+id/time"
-            android:textSize="20sp"
+            android:textSize="10sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="false"/>

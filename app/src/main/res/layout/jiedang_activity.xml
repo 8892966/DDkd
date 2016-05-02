@@ -71,6 +71,7 @@
         android:textSize="17dp"
         android:text="评价"/>
     <LinearLayout
+        android:layout_marginLeft="10dp"
         android:layout_marginRight="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">

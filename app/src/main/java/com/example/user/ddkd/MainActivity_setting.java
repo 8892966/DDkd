@@ -5,9 +5,13 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -132,6 +136,11 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
             switch (which) {
                 case AlertDialog.BUTTON_POSITIVE:// "确认"按钮退出程序
                     //点击确定退出以后，重新将loginstatic的值设置为“1”
+                    SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
+                    SharedPreferences.Editor editor=sharedPreferences.edit();
+                    editor.putString("phone","");
+                    editor.putString("password","");
+                    editor.commit();
                     Exit.exit(MainActivity_setting.this);
                     Toast.makeText(MainActivity_setting.this,"退出成功", Toast.LENGTH_SHORT).show();
                     break;
@@ -154,10 +163,15 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
                 String s= (String) o;
                 Log.i("version", s);
                 SharedPreferences sharedPreferences02=getSharedPreferences("config",MODE_PRIVATE);
-                if(sharedPreferences02.getString("version","").equals(s)){
+                if(getVersonName().equals(s)){
                     new AlertDialog.Builder(MainActivity_setting.this).setTitle("系统提示").setMessage("当前已是最新版本").show();
                 }else{
-                    Toast.makeText(MainActivity_setting.this,"DD快递更新啦，快去应用商店下载吧",Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent();
+                    intent.setAction("android.intent.action.VIEW");
+                    Uri uri=Uri.parse("http://www.louxiago.com/app/index.php?name=DDKD");
+                    intent.setData(uri);
+                    startActivity(intent);
+//                    Toast.makeText(MainActivity_setting.this,"DD快递更新啦，快去应用商店下载吧",Toast.LENGTH_SHORT).show();
                     SharedPreferences.Editor editor1=sharedPreferences02.edit();
                     editor1.putString("version",s);
                     editor1.commit();
@@ -189,6 +203,20 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
     public void onDestroy(){
         super.onDestroy();
         MyApplication.getQueue().cancelAll("Get_Setting");
+    }
+    /**
+     * 得到版本号
+     * @return
+     */
+    private String getVersonName() {
+        PackageManager manager = getPackageManager();
+        try {
+            PackageInfo packageInfo = manager.getPackageInfo(getPackageName(), 0);
+            return packageInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private void showShare() {

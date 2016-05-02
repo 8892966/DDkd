@@ -181,7 +181,6 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
         SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = sharedPreferences.getString("token", null);
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/center/token/" + token;
-        Log.i("Main_url",url);
         StringRequest request = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
@@ -190,7 +189,6 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
                 if (!s.equals("ERROR")) {
                     Gson gson = new Gson();
                     UserInfo userInfo = gson.fromJson(s, UserInfo.class);
-
                     if (userInfo != null) {
                         if (userInfo.getYingye() == null) {
                             turnover.setText("0");

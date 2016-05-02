@@ -58,8 +58,8 @@ public class MainActivity_login extends Activity implements View.OnClickListener
         rembpwd = (CheckBox) findViewById(R.id.rembpwd);
 
         SharedPreferences preferences01 = getSharedPreferences("config", MODE_PRIVATE);
-        userid1.setText(preferences01.getString("phone", null));
-        password1.setText(preferences01.getString("password", null));
+        userid1.setText(preferences01.getString("phone1", ""));
+        password1.setText(preferences01.getString("password1", ""));
         button.setOnClickListener(this);
         insert.setOnClickListener(this);
         forget.setOnClickListener(this);
@@ -85,9 +85,6 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                     SharedPreferences.Editor edit = preferences.edit();
                     edit.putString("XGtoken", (String) data);
                     edit.commit();
-                    Intent intent = new Intent(MainActivity_login.this, JieDangActivity.class);
-                    startActivity(intent);
-                    finish();
                 }
                 @Override
                 public void onFail(Object data, int errCode, String msg) {
@@ -95,9 +92,9 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                     Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
                 }
             });
-//            Intent intent = new Intent(MainActivity_login.this, JieDangActivity.class);
-//            startActivity(intent);
-//            finish();
+            Intent intent = new Intent(MainActivity_login.this, JieDangActivity.class);
+            startActivity(intent);
+            finish();
         }
 
     }
@@ -131,8 +128,8 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                     SharedPreferences.Editor edit = sharedPreferences.edit();
                     edit.putString("token", s);
                     //****************保存登录状态，0为离线状态，1为在线状态************************
-                    edit.putString("loginstatic", "1");
-                    MyApplication.state = 1;
+//                    edit.putString("loginstatic", "1");
+//                    MyApplication.state = 1;
                     edit.commit();
                     // 开启logcat输出，方便debug，发布时请关闭
 //                    XGPushConfig.enableDebug(MainActivity_login.this, true);
@@ -149,6 +146,8 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                             SharedPreferences preferences = getSharedPreferences("config", MODE_PRIVATE);
                             SharedPreferences.Editor edit = preferences.edit();
                             edit.putString("XGtoken", (String) data);
+                            edit.putString("loginstatic", "1");
+                            MyApplication.state = 1;
                             edit.commit();
                             Intent intent = new Intent(MainActivity_login.this, JieDangActivity.class);
                             startActivity(intent);
@@ -195,14 +194,16 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                 //***********判断服务器返回的参数，根据参数来判断验证是否通过**********
                 String phone = userid1.getText().toString();
                 String password = password1.getText().toString();
+                SharedPreferences preferences = getSharedPreferences("config", MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("phone", phone);
+                editor.putString("password", password);
                 if (rembpwd.isChecked()) {
-                    SharedPreferences preferences = getSharedPreferences("config", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = preferences.edit();
-                    editor.putString("phone", phone);
-                    editor.putString("password", password);
-                    editor.commit();
+                    editor.putString("phone1",phone);
+                    editor.putString("password1", password);
 //                    Log.i("save","保存成功");
                 }
+                editor.commit();
                 if (!TextUtils.isEmpty(phone)) {
                     if (!TextUtils.isEmpty(password)) {
                         volley_phoExist_GET(phone, password);

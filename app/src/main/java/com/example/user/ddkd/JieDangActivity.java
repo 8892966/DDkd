@@ -62,11 +62,11 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     //今天的接单数
     private TextView tv_xiuxi_huodong_now_number;
     //星星的评分
-    private TextView tv_star;
+//    private TextView tv_star;
     //接单的总单数
     private TextView tv_sum_number;
     //昨天接单的总单数
-    private TextView tv_xiuxi_huodong_yesterday_number;
+//    private TextView tv_xiuxi_huodong_yesterday_number;
     //昨天的营业额
     private TextView tv_xiuxi_huodong_yesterday_money;
     //星星图型评分
@@ -114,7 +114,8 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                     Object[] obj = (Object[]) msg.obj;
                     String id = (String) obj[0];
                     TextView button = (TextView) obj[1];
-                    volley_QD_GET(id, button);
+                    QOrderInfo qOrderInfo = (QOrderInfo) obj[2];
+                    volley_QD_GET(id, button, qOrderInfo);
                     break;
                 case MyApplication.GET_TOKEN_ERROR:
                     Toast.makeText(JieDangActivity.this, "网络连接出错", Toast.LENGTH_SHORT).show();
@@ -128,7 +129,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.jiedang_activity);
         initSound();//初始化数据
-        volley_MSG_GET();//获取页面信息
+//        volley_MSG_GET();//获取页面信息
         list = new ArrayList<QOrderInfo>();
         TextView textView = (TextView) findViewById(R.id.personinfo);
         textView.setOnClickListener(this);
@@ -139,9 +140,9 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         but_jiedang = (TextView) findViewById(R.id.but_jiedang);
         tv_xiuxi_huodong_now_number = (TextView) findViewById(R.id.tv_xiuxi_huodong_now_number);
         pb_star = (RatingBar) findViewById(R.id.pb_star);
-        tv_star = (TextView) findViewById(R.id.tv_star);
+//        tv_star = (TextView) findViewById(R.id.tv_star);
         tv_sum_number = (TextView) findViewById(R.id.tv_sum_number);
-        tv_xiuxi_huodong_yesterday_number = (TextView) findViewById(R.id.tv_xiuxi_huodong_yesterday_number);
+//        tv_xiuxi_huodong_yesterday_number = (TextView) findViewById(R.id.tv_xiuxi_huodong_yesterday_number);
         tv_xiuxi_huodong_yesterday_money = (TextView) findViewById(R.id.tv_xiuxi_huodong_yesterday_money);
 
         ll_ddzhinang.setOnClickListener(this);
@@ -199,7 +200,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                     sreviceisrunning = true;
 //                  preferences=getSharedPreferences("config", MODE_PRIVATE);
                     listView.setVisibility(View.VISIBLE);
-                    but_jiedang.setText("休息");
+//                    but_jiedang.setText("休息");
                     but_jiedang.setBackgroundResource(R.drawable.yuan_selected);
                     jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
                     startService(jieDanServiceIntent);
@@ -215,7 +216,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                     stopService(jieDanServiceIntent);
 //                  preferences=getSharedPreferences("config", MODE_PRIVATE);
                     listView.setVisibility(View.GONE);
-                    but_jiedang.setText("听单");
+//                    but_jiedang.setText("听单");
                     but_jiedang.setBackgroundResource(R.drawable.yuan_color_gray);
                 }
                 break;
@@ -258,16 +259,38 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 viewInfo.tv_class = (TextView) view.findViewById(R.id.tv_class);
                 viewInfo.tv_item_title = (TextView) view.findViewById(R.id.tv_item_title);
                 viewInfo.tv_qiangdan_button = (TextView) view.findViewById(R.id.tv_qiangdan_button);
+                viewInfo.order_id = (TextView) view.findViewById(R.id.order_id);
                 view.setTag(viewInfo);
             }
             //处理数据，填写数据
             QOrderInfo qOrderInfo = list.get(position);
             String s = qOrderInfo.getReceivePlace().split("/")[3];
-            viewInfo.tv_addr.setText(s);
-            viewInfo.tv_class.setText(qOrderInfo.getExpressCompany() + "快件    重量" + qOrderInfo.getWeight() + "左右");
+            if (s != null) {
+                viewInfo.tv_addr.setText(s);
+            }
+            if (qOrderInfo.getExpressCompany() != null && qOrderInfo.getWeight() != null) {
+                viewInfo.tv_class.setText(qOrderInfo.getExpressCompany() + "快件    重量" + qOrderInfo.getWeight() + "左右");
+            }
             viewInfo.tv_item_jianli.setVisibility(View.GONE);
-            viewInfo.tv_item_title.setText(qOrderInfo.getAddressee() + "    共" + qOrderInfo.getPrice() + "元(含小费" + qOrderInfo.getTip() + "元)");
-            viewInfo.tv_qiangdan_button.setOnClickListener(new QDonClickListener(qOrderInfo.getOrderid(), viewInfo.tv_qiangdan_button));
+            if (qOrderInfo.getAddressee() != null && qOrderInfo.getPrice() != null && qOrderInfo.getTip() != null) {
+                viewInfo.tv_item_title.setText(qOrderInfo.getAddressee() + "    共" + qOrderInfo.getPrice() + "元(含小费" + qOrderInfo.getTip() + "元)");
+            }
+            if (qOrderInfo.getOrderid() != null) {
+                viewInfo.order_id.setText(qOrderInfo.getOrderid());
+            }
+            if (qOrderInfo.getZhuantai() == 2) {
+                viewInfo.tv_qiangdan_button.setEnabled(false);
+                viewInfo.tv_qiangdan_button.setTextColor(Color.BLACK);
+                viewInfo.tv_qiangdan_button.setText("已抢");
+            } else if (qOrderInfo.getZhuantai() == 1) {
+                viewInfo.tv_qiangdan_button.setEnabled(false);
+                viewInfo.tv_qiangdan_button.setTextColor(Color.BLACK);
+                viewInfo.tv_qiangdan_button.setText("等待");
+            } else {
+                viewInfo.tv_qiangdan_button.setEnabled(true);
+                viewInfo.tv_qiangdan_button.setText("抢单");
+            }
+            viewInfo.tv_qiangdan_button.setOnClickListener(new QDonClickListener(qOrderInfo, viewInfo.tv_qiangdan_button));
 //                int e=times.get(position);
 //                TimeCountUtil timeCountUtil=new TimeCountUtil(20*1000,1000,viewInfo.tv_qiangdan_button);
 //                timeCountUtil.start();
@@ -277,15 +300,21 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         class QDonClickListener implements View.OnClickListener {
             private String id;
             private TextView button;
+            private QOrderInfo qOrderInfo;
 
-            public QDonClickListener(String id, TextView button) {
-                this.id = id;
+            public QDonClickListener(QOrderInfo qOrderInfo, TextView button) {
+                this.id = qOrderInfo.getOrderid();
                 this.button = button;
+                this.qOrderInfo = qOrderInfo;
             }
 
             @Override
             public void onClick(View v) {
-                volley_QD_GET(id, button);
+                button.setEnabled(false);
+                button.setTextColor(Color.BLACK);
+                button.setText("等待");
+                qOrderInfo.setZhuantai(1);
+                volley_QD_GET(id, button, qOrderInfo);
             }
         }
 
@@ -295,11 +324,13 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             TextView tv_class;
             TextView tv_addr;
             TextView tv_qiangdan_button;
+            TextView order_id;
         }
     }
 
     @Override
     protected void onResume() {
+        volley_MSG_GET();//获取信息
         StatService.onResume(this);
         list.clear();
         SharedPreferences sharedPreferences = getSharedPreferences("qtmsg", MODE_PRIVATE);
@@ -314,13 +345,18 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         }
         sreviceisrunning = ServiceUtils.isRunning(this, "com.example.user.ddkd.service.JieDanService");
         Log.e("isRunning", sreviceisrunning + "");
+        if (list != null) {
+//            list.clear();
+        }
         if (sreviceisrunning) {
             listView.setVisibility(View.VISIBLE);
-            but_jiedang.setText("休息");
+//            but_jiedang.setText("休息");
             but_jiedang.setBackgroundResource(R.drawable.yuan_selected);
             //服务一开，绑定服务
             jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
             bindService(jieDanServiceIntent, sc, BIND_AUTO_CREATE);
+        } else {
+            listView.getEmptyView().setVisibility(View.GONE);
         }
         super.onResume();
     }
@@ -394,18 +430,18 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             @Override
             public void success(Object o) {
                 String ss = (String) o;
-//                Log.e("volley_MSG_GET", ss);
+                Log.e("volley_MSG_GET", ss);
                 Gson gson = new Gson();
                 MainMsgInfo info = gson.fromJson((String) o, MainMsgInfo.class);
-                tv_xiuxi_huodong_now_number.setText("接单" + info.getTodOrder() + "单");
-                tv_star.setText(info.getEvaluate());
-                tv_sum_number.setText("总" + info.getTotalOrder() + "单");
-                tv_xiuxi_huodong_yesterday_number.setText("昨天订单：" + info.getYstOrder() + "单");
+                tv_xiuxi_huodong_now_number.setText("今天订单   " + info.getTodOrder() + "单");
+//                tv_star.setText(info.getEvaluate());
+                tv_sum_number.setText("接单总数   " + info.getTotalOrder() + "单");
+//                tv_xiuxi_huodong_yesterday_number.setText("今天订单：" + info.getYstOrder() + "单");
                 if (info.getYstTurnover() != null) {
                     DecimalFormat g = new DecimalFormat("0.00");//精确到两位小数
-                    tv_xiuxi_huodong_yesterday_money.setText("昨天营业额:" + g.format(Double.valueOf(info.getYstTurnover())) + "元");
+                    tv_xiuxi_huodong_yesterday_money.setText("今天营业额   " + g.format(Double.valueOf(info.getYstTurnover())) + "元");
                 } else {
-                    tv_xiuxi_huodong_yesterday_money.setText("昨天营业额:0元");
+                    tv_xiuxi_huodong_yesterday_money.setText("今天营业额   0元");
                 }
                 if (info.getEvaluate() == null) {
                     pb_star.setRating(0);
@@ -428,7 +464,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(JieDangActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
+                Toast.makeText(JieDangActivity.this, "网络连接中断", Toast.LENGTH_SHORT).show();
             }
         });
 //        StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
@@ -471,7 +507,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     }
 
     //抢单数据
-    private void volley_QD_GET(final String id, final TextView button) {
+    private void volley_QD_GET(final String id, final TextView button, final QOrderInfo qOrderInfo) {
         preferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = preferences.getString("token", "");
         String XGtoken = preferences.getString("XGtoken", "");
@@ -484,9 +520,10 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 if (!s.equals("SUCCESS")) {
                     Toast.makeText(JieDangActivity.this, "网络异常", Toast.LENGTH_LONG).show();
                 } else {
+                    qOrderInfo.setZhuantai(2);
                     button.setEnabled(false);
                     button.setTextColor(Color.BLACK);
-                    button.setText("等待");
+                    button.setText("已抢");
                     Toast.makeText(JieDangActivity.this, "请等待抢单信息", Toast.LENGTH_LONG).show();
                 }
             }
@@ -494,7 +531,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             @Override
             public void tokenouttime() {
                 Log.e("volley_QD_GET", "token过时了");
-                Object[] obj = {id, button};
+                Object[] obj = {id, button, qOrderInfo};
                 AutologonUtil autologonUtil = new AutologonUtil(JieDangActivity.this, handler2, obj);
                 autologonUtil.volley_Get_TOKEN();
             }
@@ -507,7 +544,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(JieDangActivity.this, "网络异常", Toast.LENGTH_LONG).show();
+                Toast.makeText(JieDangActivity.this, "网络中断", Toast.LENGTH_LONG).show();
             }
         });
         request_post.setTag("volley_QD_GET");
@@ -524,8 +561,9 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 //                super.onBackPressed();
             ExitApplication.getInstance().exit();
         } else {
-            Toast.makeText(this, "在按一次返回键退出应用", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "再按一次返回键退出应用", Toast.LENGTH_SHORT).show();
         }
     }
+
 
 }

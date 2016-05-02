@@ -49,8 +49,17 @@ public class ImageFactory {
             // Clean up os
             os.reset();
             // interval 10
-            options -= 10;
-            image.compress(Bitmap.CompressFormat.JPEG, options, os);
+            if(options>10) {
+                options -= 10;
+                image.compress(Bitmap.CompressFormat.JPEG, options, os);
+            }else{
+                image.compress(Bitmap.CompressFormat.JPEG, options, os);
+                FileOutputStream fos = new FileOutputStream(outPath);
+                fos.write(os.toByteArray());
+                fos.flush();
+                fos.close();
+                break;
+            }
         }
         // Generate compressed image file
         FileOutputStream fos = new FileOutputStream(outPath);
@@ -69,7 +78,9 @@ public class ImageFactory {
      * @throws IOException
      */
     public void compressAndGenImage(String imgPath, String outPath, int maxSize, boolean needsDelete) throws IOException {
-        compressAndGenImage(getBitmap(imgPath), outPath, maxSize);
+        BitmapFactory.Options options = new BitmapFactory.Options();
+//        UploadUtil.getBitmap(imgPath, options, 800, 480);
+        compressAndGenImage( UploadUtil.getBitmap(imgPath, options, 800, 480), outPath, maxSize);
         // Delete original file
         if (needsDelete) {
             File file = new File (imgPath);

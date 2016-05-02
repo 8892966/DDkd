@@ -1,45 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="#116699ff"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/backgrod">
+
     <RelativeLayout
         android:id="@+id/rl_head"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="@color/head2">
+
         <TextView
-            style="@style/head_button_back"
             android:id="@+id/tv_head_fanghui"
-            android:layout_centerVertical="true"
+            style="@style/head_button_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            />
+            android:layout_centerVertical="true" />
+
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="注册"
+            android:textColor="#FFFFFF"
             android:textSize="25sp" />
-        <TextView
-            android:onClick="next"
-            android:layout_marginRight="5dip"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:textSize="20dip"
-            android:focusable="true"
-            android:clickable="true"
-            android:id="@+id/tv_button_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="下一步"/>
     </RelativeLayout>
+
     <ImageView
-        android:layout_marginTop="10dip"
-        android:layout_below="@id/rl_head"
         android:id="@+id/ll_4text"
         android:layout_width="match_parent"
         android:layout_height="55dip"
+        android:layout_below="@id/rl_head"
+        android:layout_marginTop="10dip"
         android:src="@drawable/zhuce3" />
 
     <ScrollView
@@ -48,274 +40,261 @@
         android:layout_above="@id/bottom"
         android:layout_below="@id/ll_4text"
         android:paddingTop="5dp">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <ImageView
-                android:clickable="true"
-                android:focusable="true"
                 android:id="@+id/iv_touxiang"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/ic_contact_picture" />
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/logotouxiang" />
+
             <View
                 android:id="@+id/view"
-                android:layout_marginTop="20dip"
                 android:layout_width="match_parent"
                 android:layout_height="0.2dp"
                 android:layout_below="@id/iv_touxiang"
-                android:background="@color/biankuan" />
+                android:layout_marginTop="20dip" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/iv_touxiang"
                 android:layout_alignLeft="@id/iv_touxiang"
                 android:layout_alignRight="@id/iv_touxiang"
-                android:background="#55000000"
+                android:layout_below="@id/iv_touxiang"
                 android:gravity="center"
-                android:text="点击上传"
-                android:textSize="17dp" />
+                android:text="点击上传头像"
+                android:textSize="15dp" />
+
             <LinearLayout
-                android:layout_marginTop="15dip"
                 android:id="@+id/ll_zhuce3_item1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/view"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_marginLeft="10dip"
-                    android:text="  姓   名"
-                    android:textSize="20dip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                android:background="#FFFFFF"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
                 <EditText
-                    android:gravity="right"
-                    android:layout_marginRight="20dip"
-                    android:layout_marginLeft="10dip"
-                    android:background="@null"
-                    android:textSize="20dip"
                     android:id="@+id/et_name"
-                    android:singleLine="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="请输入您的姓名"/>
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="20dip"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:hint="请输入您的姓名"
+                    android:singleLine="true"
+                    android:textSize="20dip" />
             </LinearLayout>
+
             <View
                 android:id="@+id/view1"
-                android:layout_marginTop="10dip"
                 android:layout_width="match_parent"
-                android:layout_height="0.2dp"
-                android:layout_below="@id/ll_zhuce3_item1"
-                android:background="@color/biankuan" />
+                android:layout_height="2dp"
+                android:layout_below="@id/ll_zhuce3_item1" />
+
             <LinearLayout
-                android:layout_marginTop="15dip"
                 android:id="@+id/ll_zhuce3_sex"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/view1"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_marginLeft="10dip"
-                    android:text="  性   别"
-                    android:textSize="20dip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                android:background="#FFFFFF"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
                 <EditText
-                    android:gravity="right"
+                    android:id="@+id/et_sex"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="10dip"
                     android:layout_marginRight="20dip"
                     android:background="@null"
-                    android:textSize="20dip"
-                    android:id="@+id/et_sex"
+                    android:gravity="center"
+                    android:hint="请输入您的性别"
                     android:singleLine="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="请输入您的性别"/>
+                    android:textSize="20dip" />
             </LinearLayout>
+
             <View
                 android:id="@+id/view2"
-                android:layout_marginTop="10dip"
                 android:layout_width="match_parent"
-                android:layout_height="0.2dp"
-                android:layout_below="@id/ll_zhuce3_sex"
-                android:background="@color/biankuan" />
+                android:layout_height="1dp"
+                android:layout_below="@id/ll_zhuce3_sex" />
+
             <LinearLayout
-                android:layout_marginTop="15dip"
                 android:id="@+id/ll_zhuce3_collage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/view2"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_marginLeft="10dip"
-                    android:text="  学   院"
-                    android:textSize="20dip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                android:background="#ffffff"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
                 <EditText
-                    android:gravity="right"
-                    android:layout_marginRight="20dip"
-                    android:layout_marginLeft="10dip"
-                    android:textSize="20sp"
-                    android:background="@null"
                     android:id="@+id/et_xueyuan"
-                    android:singleLine="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="请输入您的学院" />
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="20dip"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:hint="请输入您的学院"
+                    android:singleLine="true"
+                    android:textSize="20sp" />
             </LinearLayout>
+
             <View
                 android:id="@+id/view3"
-                android:layout_marginTop="10dip"
                 android:layout_width="match_parent"
-                android:layout_height="0.2dp"
-                android:layout_below="@id/ll_zhuce3_collage"
-                android:background="@color/biankuan" />
+                android:layout_height="2dp"
+                android:layout_below="@id/ll_zhuce3_collage" />
+
             <LinearLayout
-                android:layout_marginTop="15dip"
                 android:id="@+id/ll_zhuce3_classroom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/view3"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_marginLeft="10dip"
-                    android:text="  班   级"
-                    android:textSize="20dip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                android:background="#ffffff"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
                 <EditText
-                    android:gravity="right"
-                    android:layout_marginRight="20dip"
-                    android:textSize="20sp"
-                    android:background="@null"
-                    android:layout_marginLeft="10dip"
                     android:id="@+id/et_class"
-                    android:singleLine="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="请输入您的班级" />
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="20dip"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:hint="请输入您的班级"
+                    android:singleLine="true"
+                    android:textSize="20sp" />
             </LinearLayout>
+
             <View
                 android:id="@+id/view4"
-                android:layout_marginTop="10dip"
                 android:layout_width="match_parent"
-                android:layout_height="0.2dp"
-                android:layout_below="@id/ll_zhuce3_classroom"
-                android:background="@color/biankuan" />
+                android:layout_height="2dp"
+                android:layout_below="@id/ll_zhuce3_classroom" />
+
             <LinearLayout
-                android:layout_marginTop="15dip"
                 android:id="@+id/ll_zhuce3_student"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/view4"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_marginLeft="10dip"
-                    android:text="  学   号"
-                    android:textSize="20dip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                android:background="#ffffff"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
                 <EditText
-                    android:gravity="right"
-                    android:phoneNumber="true"
-                    android:layout_marginRight="20dip"
-                    android:textSize="20sp"
-                    android:background="@null"
-                    android:layout_marginLeft="10dip"
                     android:id="@+id/et_xuehao"
-                    android:singleLine="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="请输入您的学号" />
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="20dip"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:hint="请输入您的学号"
+                    android:phoneNumber="true"
+                    android:singleLine="true"
+                    android:textSize="20sp" />
             </LinearLayout>
+
             <View
                 android:id="@+id/view5"
-                android:layout_marginTop="10dip"
                 android:layout_width="match_parent"
-                android:layout_height="0.2dp"
-                android:layout_below="@id/ll_zhuce3_student"
-                android:background="@color/biankuan" />
+                android:layout_height="2dp"
+                android:layout_below="@id/ll_zhuce3_student" />
+
             <LinearLayout
-                android:layout_marginTop="15dip"
                 android:id="@+id/ll_zhuce3_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/view5"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_marginLeft="10dip"
-                    android:text="手机短号"
-                    android:textSize="20dip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                android:background="#ffffff"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
                 <EditText
-                    android:gravity="right"
-                    android:phoneNumber="true"
-                    android:layout_marginRight="20dip"
-                    android:textSize="20sp"
-                    android:background="@null"
                     android:id="@+id/et_phone"
-                    android:inputType="phone"
-                    android:singleLine="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="请输入您的短号" />
+                    android:layout_marginRight="20dip"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:hint="请输入您的短号"
+                    android:inputType="phone"
+                    android:phoneNumber="true"
+                    android:singleLine="true"
+                    android:textSize="20sp" />
             </LinearLayout>
+
             <View
                 android:id="@+id/view6"
-                android:layout_marginTop="10dip"
                 android:layout_width="match_parent"
-                android:layout_height="0.2dp"
-                android:layout_below="@id/ll_zhuce3_phone"
-                android:background="@color/biankuan" />
+                android:layout_height="2dp"
+                android:layout_below="@id/ll_zhuce3_phone" />
+
             <LinearLayout
-                android:layout_marginTop="15dip"
                 android:id="@+id/ll_zhuce3_user"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/view6"
-                android:orientation="horizontal">
+                android:background="#ffffff"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="10dip"
                     android:text="身份证号"
-                    android:textSize="20dip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textSize="20dip" />
+
                 <EditText
-                    android:gravity="right"
-                    android:textSize="20sp"
-                    android:layout_marginRight="20dip"
-                    android:background="@null"
                     android:id="@+id/et_id"
-                    android:singleLine="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="请输入您的身份证号" /> />
+                    android:layout_marginRight="20dip"
+                    android:background="@null"
+                    android:gravity="right"
+                    android:hint="请输入您的身份证号"
+                    android:singleLine="true"
+                    android:textSize="20sp" />
+                />
             </LinearLayout>
+
             <View
                 android:id="@+id/view7"
-                android:layout_marginTop="10dip"
                 android:layout_width="match_parent"
-                android:layout_height="0.2dp"
-                android:layout_below="@id/ll_zhuce3_user"
-                android:background="@color/biankuan" />
+                android:layout_height="5dp"
+                android:layout_below="@id/ll_zhuce3_user" />
+
             <TextView
-                android:layout_centerHorizontal="true"
-                android:layout_margin="10dp"
-                android:layout_below="@id/view7"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#55000000"
-                android:textSize="13dp"
-                android:text="(请点击右上角进行下一步操作)"
-                />
+                android:layout_below="@id/view7"
+                android:layout_marginLeft="35dp"
+                android:layout_marginRight="35dp"
+                android:background="@drawable/dingdang_item_button"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:onClick="next"
+                android:padding="10dp"
+                android:text="下一步"
+                android:textColor="#ffffff" />
         </RelativeLayout>
     </ScrollView>
     <TextView
         android:id="@+id/bottom"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="5dip" />
+        android:layout_height="5dip"
+        android:layout_alignParentBottom="true" />
 </RelativeLayout>

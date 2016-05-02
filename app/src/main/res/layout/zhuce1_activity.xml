@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#116699ff">
+    android:background="@color/backgrod">
 
     <RelativeLayout
         android:id="@+id/rl_head"
@@ -22,6 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="注册"
+            android:textColor="#FFFFFF"
             android:textSize="25sp" />
     </RelativeLayout>
 
@@ -33,32 +34,30 @@
         android:layout_height="55dip"
         android:src="@drawable/zhuce1" />
 
-
+<ImageView
+    android:id="@+id/logo"
+    android:layout_centerHorizontal="true"
+    android:layout_below="@id/ll_dian"
+    android:layout_width="wrap_content"
+    android:layout_height="120dp"
+    android:src="@drawable/logocaise"/>
     <RelativeLayout
         android:id="@+id/rl_shuru"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:padding="15dp">
-        <View
-            android:id="@+id/view1"
-            android:background="#cccccc"
-            android:layout_width="match_parent"
-            android:layout_height="1dip"/>
+        android:layout_below="@id/logo"
+        >
         <LinearLayout
+            android:gravity="center"
+            android:background="#ffffff"
             android:layout_marginTop="5dip"
             android:id="@+id/ll_phone_number"
             android:layout_width="match_parent"
             android:layout_height="50dip"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_phone_number"
-                style="@style/zhuche1_text_shuru"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="手机号:" />
             <EditText
+                android:gravity="center"
                 android:textSize="20sp"
                 android:background="@null"
                 android:id="@+id/et_phone_number"
@@ -71,10 +70,11 @@
         <View
             android:id="@+id/view2"
             android:layout_below="@id/ll_phone_number"
-            android:background="#cccccc"
             android:layout_width="match_parent"
             android:layout_height="1dip"/>
         <LinearLayout
+            android:gravity="center"
+            android:background="#ffffff"
             android:layout_marginTop="5dip"
             android:id="@+id/ll_yanzhengma"
             android:layout_width="match_parent"
@@ -82,14 +82,8 @@
             android:layout_below="@id/ll_phone_number"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_yanzhengma"
-                style="@style/zhuche1_text_shuru"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="验证码:" />
-
             <EditText
+                android:gravity="center"
                 android:textSize="20dip"
                 android:background="@null"
                 android:id="@+id/et_yanzhengma"
@@ -114,7 +108,6 @@
         <View
             android:layout_below="@id/ll_yanzhengma"
             android:id="@+id/view3"
-            android:background="#cccccc"
             android:layout_width="match_parent"
             android:layout_height="1dip"/>
     </RelativeLayout>
@@ -133,7 +126,7 @@
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_below="@id/rl_shuru"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="20dp"
         android:checked="true"
         android:text="我同意《DD快递服务协议》" />
 
@@ -142,10 +135,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/cb_xieyi"
-        android:layout_toRightOf="@id/cb_xieyi"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
         android:background="@drawable/dingdang_item_button"
         android:clickable="true"
         android:focusable="true"
-        android:text="阅读协议" />
+        android:text="阅读协议"
+        android:textColor="#FFFFFF"/>
 
 </RelativeLayout>

@@ -230,21 +230,26 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 100) {
             if (data != null) {
-                Uri data1 = data.getData();
-//                Log.e("onActivityResult", data1.getPath() + "...." + getRealFilePath(this, data1));
+                final Uri data1 = data.getData();
                 String path = getRealFilePath(this, data1);
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 Bitmap cameraBitmap = UploadUtil.getBitmap(path, options, iv_zhuce4_zhaopian1.getHeight(), iv_zhuce4_zhaopian1.getWidth());
                 if (cameraBitmap != null) {
                     iv_zhuce4_zhaopian1.setImageBitmap(cameraBitmap);
-                    try {
-                        showProgressDialog1();
-                        imageFactory.compressAndGenImage(getRealFilePath(this, data1), tempFile.getPath(), 200, false);
-                        closeProgressDialog2();
-                    }catch (Exception e) {
-                        e.printStackTrace();
-                        Toast.makeText(ZhuCe4Activity.this,"信息有误",Toast.LENGTH_SHORT).show();
-                    }
+                    showProgressDialog1();
+                    new Thread(new Runnable(){
+                        @Override
+                        public void run() {
+                            try {
+                                imageFactory.compressAndGenImage(getRealFilePath(ZhuCe4Activity.this, data1), tempFile.getPath(), 200, false);
+                                closeProgressDialog2();
+                            }catch (Exception e) {
+                                e.printStackTrace();
+                                closeProgressDialog2();
+                                Toast.makeText(ZhuCe4Activity.this,"信息有误",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }).start();
                     uri1 = Uri.fromFile(tempFile);
                 } else {
                     Toast.makeText(ZhuCe4Activity.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
@@ -252,19 +257,27 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
             }
         } else if (requestCode == 102) {
             if (data != null) {
-                Uri data1 = data.getData();
+                final Uri data1 = data.getData();
                 Log.e("onActivityResult", data1.getPath() + "...." + getRealFilePath(this, data1));
                 String path = getRealFilePath(this, data1);
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 Bitmap cameraBitmap = UploadUtil.getBitmap(path, options, iv_zhuce4_zhaopian2.getHeight(), iv_zhuce4_zhaopian2.getWidth());
                 if (cameraBitmap != null) {
                     iv_zhuce4_zhaopian2.setImageBitmap(cameraBitmap);
-                    try {
-                        imageFactory.compressAndGenImage(getRealFilePath(this, data1), tempFile.getPath(), 200, false);
-                    }catch (Exception e) {
-                        e.printStackTrace();
-                        Toast.makeText(ZhuCe4Activity.this,"信息有误",Toast.LENGTH_SHORT).show();
-                    }
+                    showProgressDialog1();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                imageFactory.compressAndGenImage(getRealFilePath(ZhuCe4Activity.this, data1), tempFile.getPath(),200, false);
+                                closeProgressDialog2();
+                            }catch (Exception e) {
+                                e.printStackTrace();
+                                closeProgressDialog2();
+                                Toast.makeText(ZhuCe4Activity.this,"信息有误",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }).start();
                     uri2 = Uri.fromFile(tempFile);
                 } else {
                     Toast.makeText(ZhuCe4Activity.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
@@ -272,19 +285,27 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
             }
         } else if (requestCode == 103) {
             if (data != null) {
-                Uri data1 = data.getData();
+                final Uri data1 = data.getData();
                 Log.e("onActivityResult", data1.getPath() + "...." + getRealFilePath(this, data1));
                 String path = getRealFilePath(this, data1);
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 Bitmap cameraBitmap = UploadUtil.getBitmap(path, options, iv_zhuce4_zhaopian3.getHeight(), iv_zhuce4_zhaopian3.getWidth());
                 if (cameraBitmap != null) {
                     iv_zhuce4_zhaopian3.setImageBitmap(cameraBitmap);
-                    try {
-                        imageFactory.compressAndGenImage(getRealFilePath(this, data1),tempFile.getPath(),200,false);
-                    }catch (Exception e) {
-                        e.printStackTrace();
-                        Toast.makeText(ZhuCe4Activity.this,"信息有误",Toast.LENGTH_SHORT).show();
-                    }
+                    showProgressDialog1();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                imageFactory.compressAndGenImage(getRealFilePath(ZhuCe4Activity.this, data1), tempFile.getPath(), 200, false);
+                                closeProgressDialog2();
+                            }catch (Exception e) {
+                                e.printStackTrace();
+                                closeProgressDialog2();
+                                Toast.makeText(ZhuCe4Activity.this,"信息有误",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }).start();
                     uri3 = Uri.fromFile(tempFile);
                 } else {
                     Toast.makeText(ZhuCe4Activity.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
@@ -337,8 +358,6 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
         StringRequest request_post = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-//                Log.e("volley_OrderState_GET", s);
-//                Log.e("msg5", s);
                 if ("SUCCESS".equals(s)) {
                     handler.sendEmptyMessage(SUCCESS);
                 } else {
@@ -346,7 +365,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                 }
             }
 
-        }, new Response.ErrorListener() {
+        }, new Response.ErrorListener(){
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 Toast.makeText(ZhuCe4Activity.this, "网络异常", Toast.LENGTH_SHORT).show();
@@ -387,9 +406,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
 //        }).create();
 //        dialog.show();
 //    }
-
     ////******************************
-
 //    private ImageView iv_user_photo;
 //    private String fileName = "";
 //    private File tempFile;
@@ -457,7 +474,6 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
 //        intent.putExtra("output", Uri.fromFile(tempFile));
 //        startActivityForResult(intent, OPEN_GALLERY_CODE);
 //    }
-
 //    /**
 //     * 裁剪图片
 //     * @param uri

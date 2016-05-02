@@ -8,7 +8,7 @@
         android:id="@+id/rl_head"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="@color/head2">
+        android:background="@color/head">
 
         <TextView
             android:id="@+id/personinfo"
@@ -30,25 +30,25 @@
             android:layout_centerVertical="true" />
 
         <TextView
-            android:textColor="#ffffff"
+            android:textColor="@color/text3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="DD快递"
-            android:textSize="20sp" />
+            android:textSize="25sp" />
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_xianshi"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="60dp"
         android:layout_below="@id/rl_head"
         android:background="@color/backgrod">
 <LinearLayout
+    android:gravity="center"
     android:id="@+id/ll"
-    android:layout_marginTop="7dp"
     android:layout_width="match_parent"
-    android:layout_height="22dp"
+    android:layout_height="30dp"
     android:orientation="horizontal"
     >
     <TextView
@@ -59,11 +59,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:text="接单总数   ?单"
+        android:textSize="17sp"
         android:textColor="#000000" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#000000"
+        android:textSize="17dp"
         android:text="评价"/>
     <RatingBar
         android:rating="0"
@@ -77,10 +79,11 @@
         android:layout_marginLeft="10dp" />
 </LinearLayout>
         <LinearLayout
+            android:gravity="center"
             android:id="@+id/ll1"
             android:layout_below="@id/ll"
             android:layout_width="match_parent"
-            android:layout_height="22dp"
+            android:layout_height="30dp"
             android:orientation="horizontal">
             <TextView
                 android:layout_weight="1"
@@ -90,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:text="今天订单   ？单"
                 android:textColor="#000000"
-                android:textSize="13sp" />
+                android:textSize="17sp" />
             <TextView
                 android:id="@+id/tv_xiuxi_huodong_yesterday_money"
                 android:layout_width="wrap_content"
@@ -99,7 +102,7 @@
                 android:layout_alignParentRight="true"
                 android:text="今天营业额：?元"
                 android:textColor="#000000"
-                android:textSize="13sp" />
+                android:textSize="17sp" />
         </LinearLayout>
         <!--<TextView-->
             <!--android:layout_marginLeft="30dp"-->
@@ -179,9 +182,10 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:layout_marginTop="5dp"
             android:id="@+id/ll_ddzhinang"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:layout_weight="1"
             android:layout_marginRight="5dp"
             android:clickable="true"
@@ -202,9 +206,10 @@
             android:text="DD指南" />
     </LinearLayout>
     <LinearLayout
+        android:layout_marginTop="5dp"
         android:id="@+id/ll_jianlihuodong"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:layout_weight="1"
         android:layout_marginLeft="5dp"
         android:clickable="true"
@@ -230,11 +235,11 @@
         android:gravity="center"
         android:background="@drawable/kaiguan"
         android:id="@+id/but_jiedang"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="35dp"
         />
     <ListView
         android:id="@+id/lv_jiedang"

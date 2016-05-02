@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.example.user.ddkd.ExitApplication;
 import com.example.user.ddkd.MainActivity_login;
 import com.example.user.ddkd.MyApplication;
+import com.example.user.ddkd.service.JieDanService;
 import com.tencent.android.tpush.XGPushManager;
 
 /**
@@ -26,6 +27,7 @@ public class Exit {
         activity.startActivity(intent);
         XGPushManager.unregisterPush(activity);
         activity.finish();
-
+        Intent jieDanServiceIntent = new Intent(activity,JieDanService.class);
+        activity.stopService(jieDanServiceIntent);
     }
 }

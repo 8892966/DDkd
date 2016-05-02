@@ -188,7 +188,7 @@
         <!--  是否开启错误日志统计，默认为 false   -->
         <meta-data
             android:name="BaiduMobAd_EXCEPTION_LOG"
-            android:value="true" />
+            android:value="false" />
 
         <service
             android:name=".service.JieDanService"

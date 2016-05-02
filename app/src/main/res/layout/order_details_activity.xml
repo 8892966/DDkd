@@ -24,11 +24,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="订单详情"
-            android:textSize="20sp"
-            android:textColor="#ffffff"
+            android:textSize="25sp"
+            android:textColor="@color/text3"
             />
     </RelativeLayout>
     <LinearLayout
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -43,7 +44,7 @@
 
         <View
             android:layout_width="0.2dip"
-            android:layout_height="30dip"
+            android:layout_height="20dip"
             android:background="@color/biankuan" />
 
         <TextView
@@ -56,7 +57,7 @@
 
         <View
             android:layout_width="0.2dip"
-            android:layout_height="30dip"
+            android:layout_height="20dip"
             android:background="@color/biankuan" />
 
         <TextView
@@ -69,7 +70,7 @@
 
         <View
             android:layout_width="0.2dip"
-            android:layout_height="30dip"
+            android:layout_height="20dip"
             android:background="@color/biankuan" />
 
         <TextView
@@ -82,12 +83,11 @@
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.2dip"
-        android:background="@color/biankuan" />
+        android:layout_height="1dip"
+        android:background="#d6d6d6" />
     <View
         android:layout_width="match_parent"
         android:layout_height="5dip"
-        android:background="#ffffff"
         />
     <RelativeLayout
         android:gravity="center"

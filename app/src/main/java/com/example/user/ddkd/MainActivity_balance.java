@@ -178,7 +178,6 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
                 if (!s.equals("ERROR")) {
                     Gson gson = new Gson();
                     UserInfo userInfo = gson.fromJson(s, UserInfo.class);
-                    Log.i("Userinfo", userInfo + "");
                     if (userInfo != null) {
                         DecimalFormat decimalFormat = new DecimalFormat("0.00");
                         balance.setText(decimalFormat.format(Double.valueOf(userInfo.getBalance())));

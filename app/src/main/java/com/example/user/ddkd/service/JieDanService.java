@@ -11,11 +11,13 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.user.ddkd.JieDangActivity;
 import com.example.user.ddkd.MyApplication;
 import com.example.user.ddkd.R;
 import com.example.user.ddkd.beam.QOrderInfo;
+import com.example.user.ddkd.utils.Exit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,18 +36,30 @@ public class JieDanService extends Service {
     };
     private List<QOrderInfo>[] o;
     private boolean b = true;
+    private final static int DELECT=10;
     private Handler handler1 = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what) {
-                case MyApplication.XG_TEXT_MESSAGE:
-                    Log.e("JieDanService", "添加数据");
-                    if (o[o.length - 1] == null) {
-                        o[o.length - 1] = new ArrayList<>();
-                    }
-                    o[o.length - 1].add((QOrderInfo) msg.obj);
-                    break;
+            try {
+                switch (msg.what) {
+                    case MyApplication.XG_TEXT_USERCANCEL:
+                        USERCANCEL(msg.arg1);
+                        break;
+                    case MyApplication.XG_TEXT_MESSAGE:
+                        Log.e("JieDanService", "添加数据");
+                        if (o[o.length - 1] == null) {
+                            o[o.length - 1] = new ArrayList<>();
+                        }
+                        o[o.length - 1].add((QOrderInfo) msg.obj);
+                        break;
+                    case DELECT:
+                        ijd.Delete((List<QOrderInfo>) msg.obj);
+                        break;
+                }
+            }catch (Exception e){
+                Log.e("Exception", e.getMessage());
+                Toast.makeText(JieDanService.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -53,52 +67,57 @@ public class JieDanService extends Service {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what) {
-                case 2:
-                    if (o[0] != null) {
-                        ijd.Delete(o[0]);
-                        int i = 0;
-                        for (QOrderInfo xgp : o[0]) {
-                            Log.e("JieDanService", xgp.toString() + 0 + (i++));
-                        }
-                    } else {
-                        Log.e("JieDanService", "时间还没到");
-                    }
-                    if (o[o.length - 1] != null) {
-                        //判断抢单页面是否在前台
-                        am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-                        List<ActivityManager.RunningTaskInfo> infos = am.getRunningTasks(100);
-                        if ("com.example.user.ddkd.JieDangActivity".equals(infos.get(0).topActivity.getClassName())) {
-                            ijd.Add(o[o.length - 1]);
+            try {
+                switch (msg.what) {
+                    case 2:
+                        if (o[0] != null) {
+                            ijd.Delete(o[0]);
+                            int i = 0;
+                            for (QOrderInfo xgp : o[0]) {
+                                Log.e("JieDanService", xgp.toString() + 0 + (i++));
+                            }
                         } else {
-                            NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                            Notification.Builder builder = new Notification.Builder(JieDanService.this);
-                            builder.setContentTitle("有快递单抢啦！");
-                            builder.setContentText("有"+o[o.length - 1].size()+"个快递单单可以抢！");
-                            Intent notificationIntent = new Intent(JieDanService.this,JieDangActivity.class);
-//                          notificationIntent.putExtra("msg","FROM_QT");//标志强推信息
-                            PendingIntent contentIntent = PendingIntent.getActivity(JieDanService.this, 0, notificationIntent, 0);
-                            builder.setContentIntent(contentIntent);
-                            builder.setSmallIcon(R.mipmap.ic_launcher);
-                            Notification notification = builder.getNotification();
-                            notification.flags=Notification.FLAG_AUTO_CANCEL;
-                            notification.defaults|= Notification.DEFAULT_SOUND;
-                            nm.notify(R.mipmap.ic_launcher, notification);
+                            Log.e("JieDanService", "时间还没到");
                         }
+                        if (o[o.length - 1] != null) {
+                            //判断抢单页面是否在前台
+                            am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+                            List<ActivityManager.RunningTaskInfo> infos = am.getRunningTasks(100);
+                            if ("com.example.user.ddkd.JieDangActivity".equals(infos.get(0).topActivity.getClassName())) {
+                                ijd.Add(o[o.length - 1]);
+                            } else {
+                                NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                                Notification.Builder builder = new Notification.Builder(JieDanService.this);
+                                builder.setContentTitle("有快递单抢啦！");
+                                builder.setContentText("有" + o[o.length - 1].size() + "个快递单单可以抢！");
+                                Intent notificationIntent = new Intent(JieDanService.this, JieDangActivity.class);
+//                          notificationIntent.putExtra("msg","FROM_QT");//标志强推信息
+                                PendingIntent contentIntent = PendingIntent.getActivity(JieDanService.this, 0, notificationIntent, 0);
+                                builder.setContentIntent(contentIntent);
+                                builder.setSmallIcon(R.mipmap.ic_launcher);
+                                Notification notification = builder.getNotification();
+                                notification.flags = Notification.FLAG_AUTO_CANCEL;
+                                notification.defaults |= Notification.DEFAULT_SOUND;
+                                nm.notify(R.mipmap.ic_launcher, notification);
+                            }
 //                        int i = 0;
 //                        for (QOrderInfo xgp : o[o.length - 1]) {
 //                            Log.e("JieDanService", xgp.toString() + o.length + (i++));
 //                        }
 //                        Log.e("JieDanService", "显示了数据");
-                    } else {
+                        } else {
 //                        Log.e("JieDanService", "没有信鸽信息");
-                    }
-                    System.arraycopy(o, 1, o, 0, o.length - 1);
-                    o[o.length - 1] = null;
-                    if (b) {
-                        handler2.sendEmptyMessageDelayed(2,1000);
-                    }
-                    break;
+                        }
+                        System.arraycopy(o, 1, o, 0, o.length - 1);
+                        o[o.length - 1] = null;
+                        if (b) {
+                            handler2.sendEmptyMessageDelayed(2, 1000);
+                        }
+                        break;
+                }
+            }catch (Exception e){
+                Log.e("Exception", e.getMessage());
+                Toast.makeText(JieDanService.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -107,7 +126,6 @@ public class JieDanService extends Service {
     }
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
 //        throw new UnsupportedOperationException("Not yet implemented");
         return new JDBinder();
     }
@@ -137,35 +155,72 @@ public class JieDanService extends Service {
         public void SendIJD(IJD ijd) {
             JieDanService.this.ijd = ijd;
         }
-
         public void setMsg(List<QOrderInfo> msg){
-            for (QOrderInfo q:msg){
-                Log.e("setMsg",q.getOrderTime()+"");
-                long time = System.currentTimeMillis() - Long.valueOf(q.getOrderTime());
-                int t= (int) ((30*1000-time))/1000;
-                if(t>0) {
-                    Log.e("setMsg", t + "");
-                    if (o[t] == null) {
-                        o[t] = new ArrayList<>();
+            try {
+                for (QOrderInfo q : msg) {
+                    Log.e("setMsg", q.getOrderTime() + "");
+                    long time = System.currentTimeMillis() - Long.valueOf(q.getOrderTime());
+                    int t = (int) ((30 * 1000 - time)) / 1000;
+                    if (t > 0) {
+                        Log.e("setMsg", t + "");
+                        if (o[t] == null) {
+                            o[t] = new ArrayList<>();
+                        }
+                        o[t].add(q);
                     }
-                    o[t].add(q);
                 }
+            }catch (Exception e){
+                Log.e("Exception", e.getMessage());
+                Toast.makeText(JieDanService.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
             }
         }
-
         public List getMsg() {
-            List s = new ArrayList();
-            for (int i = o.length - 1; i >= 0; i--) {
-                if (o[i] != null) {
-                    s.addAll(o[i]);
+            try {
+                List s = new ArrayList();
+                for (int i = o.length - 1; i >= 0; i--) {
+                    if (o[i] != null) {
+                        s.addAll(o[i]);
+                    }
                 }
+                return s;
+            }catch (Exception e){
+                Log.e("Exception", e.getMessage());
+                Toast.makeText(JieDanService.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
             }
-            return s;
+            return null;
         }
     }
 
     public interface IJD {
         public void Delete(List list);
         public void Add(List list);
+    }
+
+    private void USERCANCEL(final int id){
+        try {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    List<QOrderInfo> list = new ArrayList<QOrderInfo>();
+                    for (List<QOrderInfo> oo : o) {
+                        if (oo != null) {
+                            for (QOrderInfo info : oo) {
+                                if (Integer.valueOf(info.getOrderid()) == id) {
+                                    list.add(info);
+                                }
+                            }
+                            oo.removeAll(list);
+                        }
+                    }
+                    Message message = new Message();
+                    message.obj = list;
+                    message.what = DELECT;
+                    handler1.sendMessage(message);
+                }
+            }).start();
+        }catch (Exception e){
+            Log.e("Exception", e.getMessage());
+            Toast.makeText(JieDanService.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -163,9 +163,6 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         listView.setEmptyView(findViewById(R.id.tv_jiedang));
         getInstance().addActivity(this);
 
-
-
-
         xx1= (ImageView) findViewById(R.id.xx1);
         xx2= (ImageView) findViewById(R.id.xx2);
         xx3= (ImageView) findViewById(R.id.xx3);
@@ -192,54 +189,59 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        Intent intent;
-        switch (v.getId()) {
-            case R.id.ll_ddzhinang:
-                intent = new Intent(this, WebActivity.class);
-                intent.putExtra("title", "DD指南");
-                intent.putExtra("url", "http://www.louxiago.com/wc/ddkd/index.php/DDGuid/index.html");
-                startActivity(intent);
-                break;
-            case R.id.ll_jianlihuodong:
-                intent = new Intent(this, WebActivity.class);
-                intent.putExtra("title", "奖励活动");
-                intent.putExtra("url", "http://www.louxiago.com/wc/ddkd/index.php/RewardAct/index.html");
-                startActivity(intent);
-                break;
-            case R.id.tv_to_dingdang:
-                intent = new Intent(this, DingDanActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.but_jiedang:
-                if (!sreviceisrunning) {
-                    listView.getEmptyView().setVisibility(View.VISIBLE);
-                    sreviceisrunning = true;
+        try {
+            Intent intent;
+            switch (v.getId()) {
+                case R.id.ll_ddzhinang:
+                    intent = new Intent(this, WebActivity.class);
+                    intent.putExtra("title", "DD指南");
+                    intent.putExtra("url", "http://www.louxiago.com/wc/ddkd/index.php/DDGuid/index.html");
+                    startActivity(intent);
+                    break;
+                case R.id.ll_jianlihuodong:
+                    intent = new Intent(this, WebActivity.class);
+                    intent.putExtra("title", "奖励活动");
+                    intent.putExtra("url", "http://www.louxiago.com/wc/ddkd/index.php/RewardAct/index.html");
+                    startActivity(intent);
+                    break;
+                case R.id.tv_to_dingdang:
+                    intent = new Intent(this, DingDanActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.but_jiedang:
+                    if (!sreviceisrunning) {
+                        listView.getEmptyView().setVisibility(View.VISIBLE);
+                        sreviceisrunning = true;
 //                  preferences=getSharedPreferences("config", MODE_PRIVATE);
-                    listView.setVisibility(View.VISIBLE);
+                        listView.setVisibility(View.VISIBLE);
 //                    but_jiedang.setText("休息");
-                    but_jiedang.setBackgroundResource(R.drawable.kaiguanann);
-                    jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
-                    startService(jieDanServiceIntent);
-                    bindService(jieDanServiceIntent, sc, BIND_AUTO_CREATE);
+                        but_jiedang.setBackgroundResource(R.drawable.kaiguanann);
+                        jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
+                        startService(jieDanServiceIntent);
+                        bindService(jieDanServiceIntent, sc, BIND_AUTO_CREATE);
 //// 2.36（不包括）之前的版本需要调用以下2行代码
 //                    Intent service = new Intent(context, XGPushService.class);
 //                    context.startService(service);
-                } else {
-                    listView.getEmptyView().setVisibility(View.GONE);
-                    sreviceisrunning = false;
-                    unbindService(sc);
-                    jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
-                    stopService(jieDanServiceIntent);
+                    } else {
+                        listView.getEmptyView().setVisibility(View.GONE);
+                        sreviceisrunning = false;
+                        unbindService(sc);
+                        jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
+                        stopService(jieDanServiceIntent);
 //                  preferences=getSharedPreferences("config", MODE_PRIVATE);
-                    listView.setVisibility(View.GONE);
+                        listView.setVisibility(View.GONE);
 //                    but_jiedang.setText("听单");
-                    but_jiedang.setBackgroundResource(R.drawable.kaiguan);
-                }
-                break;
-            case R.id.personinfo://进入用户信息界面
-                intent = new Intent(this, MainActivity_main.class);
-                startActivity(intent);
-                break;
+                        but_jiedang.setBackgroundResource(R.drawable.kaiguan);
+                    }
+                    break;
+                case R.id.personinfo://进入用户信息界面
+                    intent = new Intent(this, MainActivity_main.class);
+                    startActivity(intent);
+                    break;
+            }
+        }catch (Exception e){
+            Log.e("Exception", e.getMessage());
+            Toast.makeText(JieDangActivity.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -262,61 +264,67 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            View view;
-            ViewInfo viewInfo;
-            if (convertView != null) {
-                view = convertView;
-                viewInfo = (ViewInfo) convertView.getTag();
-            } else {
-                viewInfo = new ViewInfo();
-                view = View.inflate(JieDangActivity.this, R.layout.dialog_view, null);
-                viewInfo.tv_item_jianli = (TextView) view.findViewById(R.id.tv_item_jianli);
-                viewInfo.tv_addr = (TextView) view.findViewById(R.id.tv_addr);
-                viewInfo.tv_class = (TextView) view.findViewById(R.id.tv_class);
-                viewInfo.tv_item_title = (TextView) view.findViewById(R.id.tv_item_title);
-                viewInfo.tv_qiangdan_button = (TextView) view.findViewById(R.id.tv_qiangdan_button);
-                viewInfo.order_id = (TextView) view.findViewById(R.id.order_id);
-                viewInfo.tv_zhonglian=(TextView) view.findViewById(R.id.tv_zhonglian);
-                view.setTag(viewInfo);
-            }
-            //处理数据，填写数据
-            QOrderInfo qOrderInfo = list.get(position);
-            String s = qOrderInfo.getReceivePlace().split("/")[3];
-            if (s != null) {
-                viewInfo.tv_addr.setText(s);
-            }
-            if (qOrderInfo.getExpressCompany() != null) {
-                viewInfo.tv_class.setText(qOrderInfo.getExpressCompany() + "快件");
-            }
+            try {
+                View view;
+                ViewInfo viewInfo;
+                if (convertView != null) {
+                    view = convertView;
+                    viewInfo = (ViewInfo) convertView.getTag();
+                } else {
+                    viewInfo = new ViewInfo();
+                    view = View.inflate(JieDangActivity.this, R.layout.dialog_view, null);
+                    viewInfo.tv_item_jianli = (TextView) view.findViewById(R.id.tv_item_jianli);
+                    viewInfo.tv_addr = (TextView) view.findViewById(R.id.tv_addr);
+                    viewInfo.tv_class = (TextView) view.findViewById(R.id.tv_class);
+                    viewInfo.tv_item_title = (TextView) view.findViewById(R.id.tv_item_title);
+                    viewInfo.tv_qiangdan_button = (TextView) view.findViewById(R.id.tv_qiangdan_button);
+                    viewInfo.order_id = (TextView) view.findViewById(R.id.order_id);
+                    viewInfo.tv_zhonglian = (TextView) view.findViewById(R.id.tv_zhonglian);
+                    view.setTag(viewInfo);
+                }
+                //处理数据，填写数据
+                QOrderInfo qOrderInfo = list.get(position);
+                String s = qOrderInfo.getReceivePlace().split("/")[3];
+                if (s != null) {
+                    viewInfo.tv_addr.setText(s);
+                }
+                if (qOrderInfo.getExpressCompany() != null) {
+                    viewInfo.tv_class.setText(qOrderInfo.getExpressCompany() + "快件");
+                }
 
-            if(qOrderInfo.getWeight() != null){
-                viewInfo.tv_zhonglian.setText(qOrderInfo.getWeight()+"kg左右");
-            }
+                if (qOrderInfo.getWeight() != null) {
+                    viewInfo.tv_zhonglian.setText(qOrderInfo.getWeight() + "kg左右");
+                }
 
-            viewInfo.tv_item_jianli.setVisibility(View.GONE);
-            if (qOrderInfo.getAddressee() != null && qOrderInfo.getPrice() != null && qOrderInfo.getTip() != null) {
-                viewInfo.tv_item_title.setText(qOrderInfo.getAddressee() + "    共" + qOrderInfo.getPrice() + "元(含小费" + qOrderInfo.getTip() + "元)");
-            }
-            if (qOrderInfo.getOrderid() != null) {
-                viewInfo.order_id.setText("单号:"+qOrderInfo.getOrderid());
-            }
-            if (qOrderInfo.getZhuantai() == 2) {
-                viewInfo.tv_qiangdan_button.setEnabled(false);
-                viewInfo.tv_qiangdan_button.setTextColor(Color.BLACK);
-                viewInfo.tv_qiangdan_button.setText("已抢");
-            } else if (qOrderInfo.getZhuantai() == 1) {
-                viewInfo.tv_qiangdan_button.setEnabled(false);
-                viewInfo.tv_qiangdan_button.setTextColor(Color.BLACK);
-                viewInfo.tv_qiangdan_button.setText("等待");
-            } else {
-                viewInfo.tv_qiangdan_button.setEnabled(true);
-                viewInfo.tv_qiangdan_button.setText("抢单");
-            }
-            viewInfo.tv_qiangdan_button.setOnClickListener(new QDonClickListener(qOrderInfo, viewInfo.tv_qiangdan_button));
+                viewInfo.tv_item_jianli.setVisibility(View.GONE);
+                if (qOrderInfo.getAddressee() != null && qOrderInfo.getPrice() != null && qOrderInfo.getTip() != null) {
+                    viewInfo.tv_item_title.setText(qOrderInfo.getAddressee() + "    共" + qOrderInfo.getPrice() + "元(含小费" + qOrderInfo.getTip() + "元)");
+                }
+                if (qOrderInfo.getOrderid() != null) {
+                    viewInfo.order_id.setText("单号:" + qOrderInfo.getOrderid());
+                }
+                if (qOrderInfo.getZhuantai() == 2) {
+                    viewInfo.tv_qiangdan_button.setEnabled(false);
+                    viewInfo.tv_qiangdan_button.setTextColor(Color.BLACK);
+                    viewInfo.tv_qiangdan_button.setText("已抢");
+                } else if (qOrderInfo.getZhuantai() == 1) {
+                    viewInfo.tv_qiangdan_button.setEnabled(false);
+                    viewInfo.tv_qiangdan_button.setTextColor(Color.BLACK);
+                    viewInfo.tv_qiangdan_button.setText("等待");
+                } else {
+                    viewInfo.tv_qiangdan_button.setEnabled(true);
+                    viewInfo.tv_qiangdan_button.setText("抢单");
+                }
+                viewInfo.tv_qiangdan_button.setOnClickListener(new QDonClickListener(qOrderInfo, viewInfo.tv_qiangdan_button));
 //                int e=times.get(position);
 //                TimeCountUtil timeCountUtil=new TimeCountUtil(20*1000,1000,viewInfo.tv_qiangdan_button);
 //                timeCountUtil.start();
-            return view;
+                return view;
+            }catch (Exception e){
+                Log.e("Exception", e.getMessage());
+                Toast.makeText(JieDangActivity.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
+            }
+            return null;
         }
 
         class QDonClickListener implements View.OnClickListener {
@@ -332,11 +340,16 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 
             @Override
             public void onClick(View v) {
-                button.setEnabled(false);
-                button.setTextColor(Color.BLACK);
-                button.setText("等待");
-                qOrderInfo.setZhuantai(1);
-                volley_QD_GET(id, button, qOrderInfo);
+                try {
+                    button.setEnabled(false);
+                    button.setTextColor(Color.BLACK);
+                    button.setText("等待");
+                    qOrderInfo.setZhuantai(1);
+                    volley_QD_GET(id, button, qOrderInfo);
+                }catch (Exception e){
+                    Log.e("Exception", e.getMessage());
+                    Toast.makeText(JieDangActivity.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
+                }
             }
         }
 
@@ -384,8 +397,8 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             }
             super.onResume();
         }catch (Exception e){
-
-            Toast.makeText(JieDangActivity.this,"信息有误",Toast.LENGTH_SHORT).show();
+            Log.e("Exception", e.getMessage());
+            Toast.makeText(JieDangActivity.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -398,15 +411,22 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 unbindService(sc);
             }
         }catch (Exception e){
+            Log.e("Exception", e.getMessage());
+            Toast.makeText(JieDangActivity.this,"信息有误",Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        StatService.onPause(this);
-        MyApplication.getQueue().cancelAll("volley_MSG_GET");
-        MyApplication.getQueue().cancelAll("volley_QD_GET");
+        try {
+            StatService.onPause(this);
+            MyApplication.getQueue().cancelAll("volley_MSG_GET");
+            MyApplication.getQueue().cancelAll("volley_QD_GET");
+        }catch (Exception e){
+            Log.e("Exception", e.getMessage());
+            Toast.makeText(JieDangActivity.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
+        }
     }
 
     //绑定服务
@@ -450,7 +470,6 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 
         }
     };
-
     //网络申请获取主页面信息
     private void volley_MSG_GET() {
         preferences = getSharedPreferences("config", MODE_PRIVATE);
@@ -460,7 +479,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         StringRequest request_post = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
-                try {
+//                try {
                     String ss = (String) o;
                     Log.e("volley_MSG_GET", ss);
                     Gson gson = new Gson();
@@ -470,9 +489,9 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 //                tv_star.setText(info.getEvaluate());
                         tv_sum_number.setText("接单总数   " + info.getTotalOrder() + "单");
 //                tv_xiuxi_huodong_yesterday_number.setText("今天订单：" + info.getYstOrder() + "单");
-                        if (info.getYstTurnover() != null) {
+                        if (info.getTodTurnover() != null) {
                             DecimalFormat g = new DecimalFormat("0.00");//精确到两位小数
-                            tv_xiuxi_huodong_yesterday_money.setText("今天营业额   " + g.format(Double.valueOf(info.getYstTurnover())) + "元");
+                            tv_xiuxi_huodong_yesterday_money.setText("今天营业额   " + g.format(Double.valueOf(info.getTodTurnover())) + "元");
                         } else {
                             tv_xiuxi_huodong_yesterday_money.setText("今天营业额   0元");
                         }
@@ -480,13 +499,14 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 //                    pb_star.setRating(0);
                             xingxing(0);
                         } else {
-                            xingxing(Integer.valueOf(info.getEvaluate()));
+                            xingxing(Float.valueOf(info.getEvaluate()));
 //                    pb_star.setRating(Float.valueOf(info.getEvaluate()));
                         }
                     }
-                }catch (Exception e){
-                    Toast.makeText(JieDangActivity.this,"信息有误",Toast.LENGTH_SHORT).show();
-                }
+//                }catch (Exception e){
+//                    Log.e("Exception", e.getMessage());
+//                    Toast.makeText(JieDangActivity.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
+//                }
             }
 
             @Override
@@ -606,50 +626,56 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 
 
 
-    private void xingxing(int i){
-        switch (i){
-            case 0:
-                xx1.setImageResource(R.drawable.comment_star_gray_icon);
-                xx2.setImageResource(R.drawable.comment_star_gray_icon);
-                xx3.setImageResource(R.drawable.comment_star_gray_icon);
-                xx4.setImageResource(R.drawable.comment_star_gray_icon);
-                xx5.setImageResource(R.drawable.comment_star_gray_icon);
-                break;
-            case 1:
-                xx1.setImageResource(R.drawable.comment_star_light_icon);
-                xx2.setImageResource(R.drawable.comment_star_gray_icon);
-                xx3.setImageResource(R.drawable.comment_star_gray_icon);
-                xx4.setImageResource(R.drawable.comment_star_gray_icon);
-                xx5.setImageResource(R.drawable.comment_star_gray_icon);
-                break;
-            case 2:
-                xx1.setImageResource(R.drawable.comment_star_light_icon);
-                xx2.setImageResource(R.drawable.comment_star_light_icon);
-                xx3.setImageResource(R.drawable.comment_star_gray_icon);
-                xx4.setImageResource(R.drawable.comment_star_gray_icon);
-                xx5.setImageResource(R.drawable.comment_star_gray_icon);
-                break;
-            case 3:
-                xx1.setImageResource(R.drawable.comment_star_light_icon);
-                xx2.setImageResource(R.drawable.comment_star_light_icon);
-                xx3.setImageResource(R.drawable.comment_star_light_icon);
-                xx4.setImageResource(R.drawable.comment_star_gray_icon);
-                xx5.setImageResource(R.drawable.comment_star_gray_icon);
-                break;
-            case 4:
-                xx1.setImageResource(R.drawable.comment_star_light_icon);
-                xx2.setImageResource(R.drawable.comment_star_light_icon);
-                xx3.setImageResource(R.drawable.comment_star_light_icon);
-                xx4.setImageResource(R.drawable.comment_star_light_icon);
-                xx5.setImageResource(R.drawable.comment_star_gray_icon);
-                break;
-            case 5:
-                xx1.setImageResource(R.drawable.comment_star_light_icon);
-                xx2.setImageResource(R.drawable.comment_star_light_icon);
-                xx3.setImageResource(R.drawable.comment_star_light_icon);
-                xx4.setImageResource(R.drawable.comment_star_light_icon);
-                xx5.setImageResource(R.drawable.comment_star_light_icon);
-                break;
+    private void xingxing(float i){
+            int ii=(int)(i+0.5);
+        try {
+            switch (ii) {
+                case 0:
+                    xx1.setImageResource(R.drawable.comment_star_gray_icon);
+                    xx2.setImageResource(R.drawable.comment_star_gray_icon);
+                    xx3.setImageResource(R.drawable.comment_star_gray_icon);
+                    xx4.setImageResource(R.drawable.comment_star_gray_icon);
+                    xx5.setImageResource(R.drawable.comment_star_gray_icon);
+                    break;
+                case 1:
+                    xx1.setImageResource(R.drawable.comment_star_light_icon);
+                    xx2.setImageResource(R.drawable.comment_star_gray_icon);
+                    xx3.setImageResource(R.drawable.comment_star_gray_icon);
+                    xx4.setImageResource(R.drawable.comment_star_gray_icon);
+                    xx5.setImageResource(R.drawable.comment_star_gray_icon);
+                    break;
+                case 2:
+                    xx1.setImageResource(R.drawable.comment_star_light_icon);
+                    xx2.setImageResource(R.drawable.comment_star_light_icon);
+                    xx3.setImageResource(R.drawable.comment_star_gray_icon);
+                    xx4.setImageResource(R.drawable.comment_star_gray_icon);
+                    xx5.setImageResource(R.drawable.comment_star_gray_icon);
+                    break;
+                case 3:
+                    xx1.setImageResource(R.drawable.comment_star_light_icon);
+                    xx2.setImageResource(R.drawable.comment_star_light_icon);
+                    xx3.setImageResource(R.drawable.comment_star_light_icon);
+                    xx4.setImageResource(R.drawable.comment_star_gray_icon);
+                    xx5.setImageResource(R.drawable.comment_star_gray_icon);
+                    break;
+                case 4:
+                    xx1.setImageResource(R.drawable.comment_star_light_icon);
+                    xx2.setImageResource(R.drawable.comment_star_light_icon);
+                    xx3.setImageResource(R.drawable.comment_star_light_icon);
+                    xx4.setImageResource(R.drawable.comment_star_light_icon);
+                    xx5.setImageResource(R.drawable.comment_star_gray_icon);
+                    break;
+                case 5:
+                    xx1.setImageResource(R.drawable.comment_star_light_icon);
+                    xx2.setImageResource(R.drawable.comment_star_light_icon);
+                    xx3.setImageResource(R.drawable.comment_star_light_icon);
+                    xx4.setImageResource(R.drawable.comment_star_light_icon);
+                    xx5.setImageResource(R.drawable.comment_star_light_icon);
+                    break;
+            }
+        }catch (Exception e){
+            Log.e("Exception", e.getMessage());
+            Toast.makeText(JieDangActivity.this,"信息有误",Toast.LENGTH_SHORT).show();
         }
     }
 }

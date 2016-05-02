@@ -132,6 +132,11 @@ public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
                 notification.flags = Notification.FLAG_AUTO_CANCEL;
                 notification.defaults |= Notification.DEFAULT_SOUND;
                 nm.notify(R.mipmap.ic_launcher, notification);
+                Handler handler = MyApplication.getHandler();
+                Message message = new Message();
+                message.arg1= Integer.valueOf(id);
+                message.what = MyApplication. XG_TEXT_USERCANCEL;
+                handler.sendMessage(message);
             }else {
                 String s = xgPushTextMessage.getContent();
                 Gson gson = new Gson();

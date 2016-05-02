@@ -133,37 +133,42 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     protected void showupdateDialog(){
-        // TODO Auto-generated method stub
-        builder = new Builder(this);
-        builder.setTitle("提醒升级");
-        builder.setMessage(description);
-        builder.setOnCancelListener(new OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                enterhome();
-                dialog.dismiss();
-            }
-        });
-        builder.setPositiveButton("立即升级", new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent();
-                intent.setAction("android.intent.action.VIEW");
-                Uri uri = Uri.parse("http://www.louxiago.com/app/index.php?name=DDKD");
-                intent.setData(uri);
+        try {
+            // TODO Auto-generated method stub
+            builder = new Builder(this);
+            builder.setTitle("提醒升级");
+            builder.setMessage(description);
+            builder.setOnCancelListener(new OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    enterhome();
+                    dialog.dismiss();
+                }
+            });
+            builder.setPositiveButton("立即升级", new OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent();
+                    intent.setAction("android.intent.action.VIEW");
+                    Uri uri = Uri.parse("http://www.louxiago.com/app/index.php?name=DDKD");
+                    intent.setData(uri);
 //                startActivity(intent);
-                startActivityForResult(intent, 0);
-            }
-        });
-        builder.setNegativeButton("下次再说", new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
-                dialog.dismiss();
-                enterhome();
-            }
-        });
-        builder.create().show();
+                    startActivityForResult(intent, 0);
+                }
+            });
+            builder.setNegativeButton("下次再说", new OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // TODO Auto-generated method stub
+                    dialog.dismiss();
+                    enterhome();
+                }
+            });
+            builder.create().show();
+        }catch (Exception e){
+            Log.e("Exception", e.getMessage());
+            Toast.makeText(SplashActivity.this,"信息有误",Toast.LENGTH_SHORT).show();
+        }
     }
     /**
      * 检查更新
@@ -182,18 +187,22 @@ public class SplashActivity extends AppCompatActivity {
                     connection.setReadTimeout(4000);
                     int code = connection.getResponseCode();
                     Log.i(TAG, code+"");
-                    if(code==200){
+                    if(code==200) {
                         InputStream inputStream = connection.getInputStream();
                         String readFromStream = StreamTools.readFromStream(inputStream);
-                        Log.i(TAG, "联网成功！"+readFromStream);
+                        Log.i(TAG, "联网成功！" + readFromStream);
                         //json解析
-                        if(getVersonName().equals(readFromStream)){
-                            //相同版本号
-                            Log.i(TAG, "版本相同");
-                            message.what=ENTER_HOME;
-                        }else{
-                            //有新版本号,弹出对话框
-                            message.what=SHOW_UPDATE_DIALOG;
+                        if (readFromStream == null) {
+
+                        } else {
+                            if (getVersonName().equals(readFromStream)) {
+                                //相同版本号
+                                Log.i(TAG, "版本相同");
+                                message.what = ENTER_HOME;
+                            } else {
+                                //有新版本号,弹出对话框
+                                message.what = SHOW_UPDATE_DIALOG;
+                            }
                         }
                     }
                 } catch (MalformedURLException e) {

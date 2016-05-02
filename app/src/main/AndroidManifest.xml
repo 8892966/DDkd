@@ -52,7 +52,9 @@
         android:icon="@mipmap/headimage"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+    android:theme="@style/AppTheme"
+        >
+
         <activity
             android:name="com.example.user.ddkd.SplashActivity"
             android:launchMode="singleTask" >

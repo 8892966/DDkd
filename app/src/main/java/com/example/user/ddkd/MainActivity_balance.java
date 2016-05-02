@@ -43,7 +43,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
     private List<Payment> paymentlist = new ArrayList<Payment>();
     private TextView textView;
     private MyAdapter myAdapter = new MyAdapter();
-    ;
+    private DecimalFormat decimalFormat=new DecimalFormat();
     private TextView balance;
     private UserInfo userInfo;
     private TextView tongzhi;
@@ -167,7 +167,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
     }
 
     public void volley_Get_Balance(final UserInfo userInfo1) {
-        SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
+        final SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = sharedPreferences.getString("token", null);
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/center/token/" + token;
         Log.i("Balance_url", url);
@@ -179,7 +179,6 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
                     Gson gson = new Gson();
                     UserInfo userInfo = gson.fromJson(s, UserInfo.class);
                     if (userInfo != null) {
-                        DecimalFormat decimalFormat = new DecimalFormat("0.00");
                         balance.setText(decimalFormat.format(Double.valueOf(userInfo.getBalance())));
                     }
                 } else {
@@ -234,15 +233,14 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
             } else {
                 view = convertView;
             }
-            //提现
             TextView moneyout = (TextView) view.findViewById(R.id.moneyout);
             TextView outStatic = (TextView) view.findViewById(R.id.outStatic);
             TextView counter = (TextView) view.findViewById(R.id.counter);
             TextView time = (TextView) view.findViewById(R.id.time1);
-            //收入
             Payment payment = paymentlist.get(position);
             if (payment != null) {
                 Log.i("Falg", payment.getFlag());
+                //***********************提现***********************
                 if (payment.getFlag().equals("OUT")) {
                     if (payment.getStatus().equals("1")) {
                         outStatic.setText("审核中");
@@ -250,10 +248,15 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
                         outStatic.setText("已通过");
                     } else {
                         outStatic.setText("操作失败");
+                        SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
+                        SharedPreferences.Editor editor=sharedPreferences.edit();
+                        editor.putString("Yue",decimalFormat.format(Double.valueOf(userInfo.getBalance())));
+                        editor.commit();
                     }
                     moneyout.setText("-" + String.valueOf(payment.getMoney()));
                     counter.setText(payment.getCounter());
                 } else {
+                    //***********************收入***********************
                     SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
                     counter.setText(sharedPreferences.getString("phone", ""));
                     outStatic.setText("已到账");

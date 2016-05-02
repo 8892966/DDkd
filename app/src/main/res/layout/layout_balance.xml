@@ -26,39 +26,43 @@
 
 
     <RelativeLayout
+        android:layout_marginTop="10dip"
         android:id="@+id/title1"
         android:layout_below="@id/title"
         android:layout_width="match_parent"
-        android:layout_height="120dip"
+        android:layout_height="130dip"
         android:orientation="horizontal">
         <TextView
-            android:text="**.**"
-            android:id="@+id/balance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_margin="10dip"
-            android:layout_centerInParent="true"
-            android:textSize="25sp" />
-        <ImageView
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/balance"
-            android:src="@drawable/moneysum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
+            android:layout_centerHorizontal="true"
             android:id="@+id/getmoney"
             android:layout_width="60dip"
             android:layout_height="60dip"
             android:layout_margin="10dip"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/balance"
             android:background="@drawable/radio"
             android:gravity="center"
             android:text="提现"
             android:textColor="@color/text3"
             android:textSize="20sp" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/getmoney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_marginLeft="20dip"
+                android:src="@drawable/moneysum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginLeft="20dip"
+                android:text="**.**"
+                android:id="@+id/balance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp" />
+        </LinearLayout>
+
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/title2"
@@ -83,7 +87,6 @@
         android:id="@+id/bottom"
         android:layout_width="match_parent"
         android:layout_height="5dip" />
-
     <RelativeLayout
         android:layout_above="@id/bottom"
         android:layout_below="@id/title2"

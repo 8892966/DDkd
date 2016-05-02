@@ -44,7 +44,10 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
     private RelativeLayout updateapp;
     private RelativeLayout aboutDD;
     private ImageView imageView;
-    private RelativeLayout Share;
+
+    //*****************分享DD*****************
+//    private RelativeLayout Share;
+
     private Handler handler1=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -74,8 +77,11 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
         updateapp.setOnClickListener(this);
         aboutDD = (RelativeLayout) findViewById(R.id.aboutDD);
         aboutDD.setOnClickListener(this);
-        Share= (RelativeLayout) findViewById(R.id.Share);
-        Share.setOnClickListener(this);
+
+        //*****************分享DD*****************
+//        Share= (RelativeLayout) findViewById(R.id.Share);
+//        Share.setOnClickListener(this);
+
         ExitApplication.getInstance().addActivity(this);
         SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
         version.setText(sharedPreferences.getString("version", ""));
@@ -116,10 +122,11 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
                 intent.putExtra("url", "http://www.louxiago.com/wc/ddkd/index.php/AboutDD/index.html");
                 startActivity(intent);
                 break;
-            case R.id.Share:
-                showShare();
-//                Toast.makeText(MainActivity_setting.this,"该功能待完善",Toast.LENGTH_SHORT).show();
-                break;
+            //*****************分享DD*****************
+//            case R.id.Share://分享DD
+//                showShare();
+////                Toast.makeText(MainActivity_setting.this,"该功能待完善",Toast.LENGTH_SHORT).show();
+//                break;
         }
     }
     @Override

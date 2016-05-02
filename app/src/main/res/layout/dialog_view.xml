@@ -32,6 +32,7 @@
                 android:textColor="#000000"
                 android:textSize="18sp" />
             <TextView
+                android:visibility="gone"
                 android:id="@+id/tv_item_jianli"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -39,12 +40,34 @@
                 android:text="奖励2楼币"
                 android:textColor="@color/text" />
         </LinearLayout>
-        <TextView
-            android:id="@+id/tv_class"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="圆通快件  小件" />
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/xiangzi"/>
+            <TextView
+                android:id="@+id/tv_class"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="圆通快件  小件" />
+        </LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    >
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+
+        />
+
+</LinearLayout>
         <TextView
             android:id="@+id/tv_addr"
             android:layout_width="wrap_content"

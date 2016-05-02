@@ -62,11 +62,11 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     //今天的接单数
     private TextView tv_xiuxi_huodong_now_number;
     //星星的评分
-    private TextView tv_star;
+//    private TextView tv_star;
     //接单的总单数
     private TextView tv_sum_number;
     //昨天接单的总单数
-    private TextView tv_xiuxi_huodong_yesterday_number;
+//    private TextView tv_xiuxi_huodong_yesterday_number;
     //昨天的营业额
     private TextView tv_xiuxi_huodong_yesterday_money;
     //星星图型评分
@@ -140,9 +140,9 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         but_jiedang = (TextView) findViewById(R.id.but_jiedang);
         tv_xiuxi_huodong_now_number = (TextView) findViewById(R.id.tv_xiuxi_huodong_now_number);
         pb_star = (RatingBar) findViewById(R.id.pb_star);
-        tv_star = (TextView) findViewById(R.id.tv_star);
+//        tv_star = (TextView) findViewById(R.id.tv_star);
         tv_sum_number = (TextView) findViewById(R.id.tv_sum_number);
-        tv_xiuxi_huodong_yesterday_number = (TextView) findViewById(R.id.tv_xiuxi_huodong_yesterday_number);
+//        tv_xiuxi_huodong_yesterday_number = (TextView) findViewById(R.id.tv_xiuxi_huodong_yesterday_number);
         tv_xiuxi_huodong_yesterday_money = (TextView) findViewById(R.id.tv_xiuxi_huodong_yesterday_money);
 
         ll_ddzhinang.setOnClickListener(this);
@@ -200,7 +200,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                     sreviceisrunning = true;
 //                  preferences=getSharedPreferences("config", MODE_PRIVATE);
                     listView.setVisibility(View.VISIBLE);
-                    but_jiedang.setText("休息");
+//                    but_jiedang.setText("休息");
                     but_jiedang.setBackgroundResource(R.drawable.yuan_selected);
                     jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
                     startService(jieDanServiceIntent);
@@ -216,7 +216,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                     stopService(jieDanServiceIntent);
 //                  preferences=getSharedPreferences("config", MODE_PRIVATE);
                     listView.setVisibility(View.GONE);
-                    but_jiedang.setText("听单");
+//                    but_jiedang.setText("听单");
                     but_jiedang.setBackgroundResource(R.drawable.yuan_color_gray);
                 }
                 break;
@@ -350,7 +350,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         }
         if (sreviceisrunning) {
             listView.setVisibility(View.VISIBLE);
-            but_jiedang.setText("休息");
+//            but_jiedang.setText("休息");
             but_jiedang.setBackgroundResource(R.drawable.yuan_selected);
             //服务一开，绑定服务
             jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
@@ -430,18 +430,18 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             @Override
             public void success(Object o) {
                 String ss = (String) o;
-//                Log.e("volley_MSG_GET", ss);
+                Log.e("volley_MSG_GET", ss);
                 Gson gson = new Gson();
                 MainMsgInfo info = gson.fromJson((String) o, MainMsgInfo.class);
-                tv_xiuxi_huodong_now_number.setText("接单" + info.getTodOrder() + "单");
-                tv_star.setText(info.getEvaluate());
-                tv_sum_number.setText("总" + info.getTotalOrder() + "单");
-                tv_xiuxi_huodong_yesterday_number.setText("今天订单：" + info.getYstOrder() + "单");
+                tv_xiuxi_huodong_now_number.setText("今天订单   " + info.getTodOrder() + "单");
+//                tv_star.setText(info.getEvaluate());
+                tv_sum_number.setText("接单总数   " + info.getTotalOrder() + "单");
+//                tv_xiuxi_huodong_yesterday_number.setText("今天订单：" + info.getYstOrder() + "单");
                 if (info.getYstTurnover() != null) {
                     DecimalFormat g = new DecimalFormat("0.00");//精确到两位小数
-                    tv_xiuxi_huodong_yesterday_money.setText("今天营业额:" + g.format(Double.valueOf(info.getYstTurnover())) + "元");
+                    tv_xiuxi_huodong_yesterday_money.setText("今天营业额   " + g.format(Double.valueOf(info.getYstTurnover())) + "元");
                 } else {
-                    tv_xiuxi_huodong_yesterday_money.setText("今天营业额:0元");
+                    tv_xiuxi_huodong_yesterday_money.setText("今天营业额   0元");
                 }
                 if (info.getEvaluate() == null) {
                     pb_star.setRating(0);

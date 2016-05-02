@@ -8,7 +8,7 @@
         android:id="@+id/rl_head2"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="@color/head2"
+        android:background="@color/head"
         >
         <TextView
             android:clickable="true"

@@ -136,7 +136,7 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
                 }
                 break;
             case R.id.tv_next:
-//                if (yanZhenMaUtil.isYZM(this, et_yanzhengma, et_phone_number)) {
+                if (yanZhenMaUtil.isYZM(this, et_yanzhengma, et_phone_number)) {
                     //注册信息
                     SignUpInfo signUpInfo = new SignUpInfo();
                     signUpInfo.setPhone(et_phone_number.getText().toString());
@@ -144,7 +144,7 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
                     intent2.putExtra("SignUpInfo", signUpInfo);//传递注册信息
                     startActivity(intent2);
                     finish();
-//                }
+                }
                 break;
             case R.id.tv_head_fanghui:
 //                intent = new Intent(this, MainActivity_login.class);

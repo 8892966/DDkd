@@ -8,7 +8,7 @@
         android:id="@+id/rl_head"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="@color/head">
+        android:background="@color/head2">
 
         <TextView
             android:id="@+id/personinfo"
@@ -30,6 +30,7 @@
             android:layout_centerVertical="true" />
 
         <TextView
+            android:textColor="#ffffff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -227,7 +228,7 @@
         android:clickable="true"
         android:focusable="true"
         android:gravity="center"
-        android:background="@drawable/kaiguanann"
+        android:background="@drawable/kaiguan"
         android:id="@+id/but_jiedang"
         android:layout_width="60dp"
         android:layout_height="60dp"

@@ -7,9 +7,11 @@
     <color name="text">#000000</color>
     <color name="orange">#55abed</color>
     <color name="head">#ff8900</color>
-    <color name="head2">#ffb000</color>
+    <color name="head2">#fdb71b</color>
     <color name="spacing">#11333333</color>
     <color name="logintext">#ff8903</color>
     <color name="backgrod">#ecebeb</color>
     <color name="edit">#ffffff</color>
+    <color name="text2">#565656</color>
+    <color name="text3">#ffffff</color>
 </resources>

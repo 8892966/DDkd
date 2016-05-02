@@ -7,13 +7,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dip"
-        android:background="@drawable/dialog_biankuan"
+        android:background="@drawable/juxing"
         android:orientation="vertical">
         <LinearLayout
-            android:layout_margin="2dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/head2"
+            android:background="@drawable/juxingkuan"
             android:gravity="center"
             android:orientation="vertical"
             android:padding="10dp">
@@ -22,14 +21,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="单号："
-                android:textColor="#000000"
+                android:textColor="@color/text3"
                 />
             <TextView
                 android:id="@+id/tv_item_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="南区 共？元（含小费？元）"
-                android:textColor="#000000"
+                android:textColor="@color/text3"
                 android:textSize="18sp" />
             <TextView
                 android:visibility="gone"
@@ -41,19 +40,23 @@
                 android:textColor="@color/text" />
         </LinearLayout>
         <LinearLayout
+            android:layout_marginTop="15dp"
             android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <ImageView
+                android:layout_marginLeft="30dp"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/xiangzi"/>
             <TextView
+                android:textColor="@color/text2"
+                android:layout_marginLeft="15dp"
                 android:id="@+id/tv_class"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="圆通快件  小件" />
+                android:text="圆通快件" />
         </LinearLayout>
 <LinearLayout
     android:layout_width="match_parent"
@@ -62,18 +65,42 @@
     android:gravity="center_vertical"
     >
     <ImageView
+        android:layout_marginLeft="30dp"
         android:layout_width="20dp"
         android:layout_height="20dp"
-
+        android:src="@drawable/tianping"
         />
-
+    <TextView
+        android:layout_marginLeft="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="重量"
+        />
+    <TextView
+        android:textColor="@color/text2"
+        android:layout_marginLeft="15dp"
+        android:id="@+id/tv_zhonglian"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="？kg左右" />
 </LinearLayout>
-        <TextView
-            android:id="@+id/tv_addr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="南区学生宿舍南8栋701" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_marginLeft="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/loufan"
+                />
+            <TextView
+                android:textColor="@color/text2"
+                android:layout_marginLeft="15dp"
+                android:id="@+id/tv_addr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="学生宿舍 南区 南8栋 701" />
+        </LinearLayout>
         <TextView
             android:id="@+id/tv_qiangdan_button"
             android:layout_marginTop="5dp"

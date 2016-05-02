@@ -201,7 +201,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 //                  preferences=getSharedPreferences("config", MODE_PRIVATE);
                     listView.setVisibility(View.VISIBLE);
 //                    but_jiedang.setText("休息");
-                    but_jiedang.setBackgroundResource(R.drawable.yuan_selected);
+                    but_jiedang.setBackgroundResource(R.drawable.kaiguanann);
                     jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
                     startService(jieDanServiceIntent);
                     bindService(jieDanServiceIntent, sc, BIND_AUTO_CREATE);
@@ -217,7 +217,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 //                  preferences=getSharedPreferences("config", MODE_PRIVATE);
                     listView.setVisibility(View.GONE);
 //                    but_jiedang.setText("听单");
-                    but_jiedang.setBackgroundResource(R.drawable.yuan_color_gray);
+                    but_jiedang.setBackgroundResource(R.drawable.kaiguan);
                 }
                 break;
             case R.id.personinfo://进入用户信息界面
@@ -351,7 +351,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         if (sreviceisrunning) {
             listView.setVisibility(View.VISIBLE);
 //            but_jiedang.setText("休息");
-            but_jiedang.setBackgroundResource(R.drawable.yuan_selected);
+            but_jiedang.setBackgroundResource(R.drawable.kaiguanann);
             //服务一开，绑定服务
             jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
             bindService(jieDanServiceIntent, sc, BIND_AUTO_CREATE);

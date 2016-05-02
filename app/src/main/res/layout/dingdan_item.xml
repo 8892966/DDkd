@@ -53,6 +53,7 @@
         android:layout_below="@id/ll"
         android:background="@color/biankuan" />
 <LinearLayout
+    android:gravity="center_vertical"
     android:orientation="horizontal"
     android:background="#ffffff"
     android:id="@+id/ll2"
@@ -80,6 +81,7 @@
         android:text="工楼" />
 </LinearLayout>
 <LinearLayout
+    android:gravity="center_vertical"
     android:layout_marginTop="1dp"
     android:orientation="horizontal"
     android:background="#ffffff"
@@ -107,6 +109,7 @@
         android:text="顺风快递" />
 </LinearLayout>
     <LinearLayout
+        android:gravity="center_vertical"
         android:layout_marginTop="1dp"
         android:orientation="horizontal"
         android:background="#ffffff"
@@ -134,6 +137,7 @@
             android:text="大鹏/18813974653" />
     </LinearLayout>
     <LinearLayout
+        android:gravity="center_vertical"
         android:layout_marginTop="1dp"
         android:orientation="horizontal"
         android:background="#ffffff"
@@ -161,6 +165,7 @@
             android:text="谢易晓/18813974653" />
     </LinearLayout>
     <LinearLayout
+        android:gravity="center_vertical"
         android:layout_marginTop="1dp"
         android:orientation="horizontal"
         android:background="#ffffff"
@@ -189,6 +194,7 @@
             android:text="学生宿舍 南区 七栋 514 房" />
     </LinearLayout>
     <LinearLayout
+        android:gravity="center_vertical"
         android:layout_marginTop="1dp"
         android:orientation="horizontal"
         android:background="#ffffff"
@@ -210,6 +216,7 @@
             android:text="留言:" />
     </LinearLayout>
     <LinearLayout
+        android:gravity="center_vertical"
         android:layout_marginTop="1dp"
         android:orientation="horizontal"
         android:background="#ffffff"
@@ -231,6 +238,7 @@
             android:text="退单理由：" />
     </LinearLayout>
     <LinearLayout
+        android:gravity="center_vertical"
         android:layout_marginTop="1dp"
         android:orientation="horizontal"
         android:background="#ffffff"
@@ -259,6 +267,7 @@
             android:text="已付款" />
     </LinearLayout>
     <LinearLayout
+        android:gravity="center_vertical"
         android:layout_marginTop="1dp"
         android:orientation="horizontal"
         android:background="#ffffff"

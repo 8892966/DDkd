@@ -57,7 +57,7 @@
             android:orientation="horizontal">
 
             <EditText
-                android:gravity="center"
+                android:layout_marginLeft="30dp"
                 android:textSize="20sp"
                 android:background="@null"
                 android:id="@+id/et_phone_number"
@@ -83,7 +83,7 @@
             android:orientation="horizontal">
 
             <EditText
-                android:gravity="center"
+                android:layout_marginLeft="30dp"
                 android:textSize="20dip"
                 android:background="@null"
                 android:id="@+id/et_yanzhengma"

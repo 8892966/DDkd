@@ -8,7 +8,7 @@ public class MainMsgInfo {
     private String ystOrder;//昨天订单
     private String todOrder;//今天订单
     private String totalOrder;//总订单
-    private String ystTurnover;//昨天营业额
+    private String todTurnover;//昨天营业额
     private String evaluate;//星星数据
 
     public String getYstOrder() {
@@ -35,12 +35,12 @@ public class MainMsgInfo {
         this.totalOrder = totalOrder;
     }
 
-    public String getYstTurnover() {
-        return ystTurnover;
+    public String getTodTurnover() {
+        return todTurnover;
     }
 
-    public void setYstTurnover(String ystTurnover) {
-        this.ystTurnover = ystTurnover;
+    public void setTodTurnover(String todTurnover) {
+        this.todTurnover = todTurnover;
     }
 
     public String getEvaluate() {

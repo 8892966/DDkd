@@ -107,32 +107,37 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                     closeProgressDialog();
                     break;
                 case NEXT:
-                    if (Static == 0) {
-                        RequestParams requestParams = new RequestParams();
-                        requestParams.addBodyParameter("name", "IdCard");
-                        requestParams.addBodyParameter("phone", signUpInfo.getPhone());
-                        Log.e("ZhuCe4Activity",getRealFilePath(ZhuCe4Activity.this, uri1));
-                        requestParams.addBodyParameter("file", new File(getRealFilePath(ZhuCe4Activity.this, uri1)));
-                        new UploadUtil().uploadMethod(requestParams, "http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage", handler, progressBar2, ZhuCe4Activity.this,null);
-                        progressBar1.setProgress(Static);
-                    } else if (Static == 1) {
-                        RequestParams requestParams = new RequestParams();
-                        requestParams.addBodyParameter("name", "IdCardBack");
-                        requestParams.addBodyParameter("phone", signUpInfo.getPhone());
-                        requestParams.addBodyParameter("file", new File(getRealFilePath(ZhuCe4Activity.this, uri2)));
-                        new UploadUtil().uploadMethod(requestParams, "http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage", handler, progressBar2, ZhuCe4Activity.this,null);
-                        progressBar1.setProgress(Static);
-                    } else if (Static == 2) {
-                        RequestParams requestParams = new RequestParams();
-                        requestParams.addBodyParameter("name", "StudentCard");
-                        requestParams.addBodyParameter("phone", signUpInfo.getPhone());
-                        requestParams.addBodyParameter("file", new File(getRealFilePath(ZhuCe4Activity.this, uri3)));
-                        new UploadUtil().uploadMethod(requestParams, "http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage", handler, progressBar2, ZhuCe4Activity.this,null);
-                        progressBar1.setProgress(Static);
-                    } else if (Static == 3) {
-                        progressBar1.setProgress(Static);
-                        volley_ZC_GET(map);
-                        Static = 0;
+                    try {
+                        if (Static == 0) {
+                            RequestParams requestParams = new RequestParams();
+                            requestParams.addBodyParameter("name", "IdCard");
+                            requestParams.addBodyParameter("phone", signUpInfo.getPhone());
+                            Log.e("ZhuCe4Activity", getRealFilePath(ZhuCe4Activity.this, uri1));
+                            requestParams.addBodyParameter("file", new File(getRealFilePath(ZhuCe4Activity.this, uri1)));
+                            new UploadUtil().uploadMethod(requestParams, "http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage", handler, progressBar2, ZhuCe4Activity.this, null);
+                            progressBar1.setProgress(Static);
+                        } else if (Static == 1) {
+                            RequestParams requestParams = new RequestParams();
+                            requestParams.addBodyParameter("name", "IdCardBack");
+                            requestParams.addBodyParameter("phone", signUpInfo.getPhone());
+                            requestParams.addBodyParameter("file", new File(getRealFilePath(ZhuCe4Activity.this, uri2)));
+                            new UploadUtil().uploadMethod(requestParams, "http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage", handler, progressBar2, ZhuCe4Activity.this, null);
+                            progressBar1.setProgress(Static);
+                        } else if (Static == 2) {
+                            RequestParams requestParams = new RequestParams();
+                            requestParams.addBodyParameter("name", "StudentCard");
+                            requestParams.addBodyParameter("phone", signUpInfo.getPhone());
+                            requestParams.addBodyParameter("file", new File(getRealFilePath(ZhuCe4Activity.this, uri3)));
+                            new UploadUtil().uploadMethod(requestParams, "http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage", handler, progressBar2, ZhuCe4Activity.this, null);
+                            progressBar1.setProgress(Static);
+                        } else if (Static == 3) {
+                            progressBar1.setProgress(Static);
+                            volley_ZC_GET(map);
+                            Static = 0;
+                        }
+                    }catch (Exception e){
+                        Log.e("Exception", e.getMessage());
+                        Toast.makeText(ZhuCe4Activity.this,"信息有误",Toast.LENGTH_SHORT).show();
                     }
                     break;
             }

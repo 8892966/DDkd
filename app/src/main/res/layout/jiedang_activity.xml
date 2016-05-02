@@ -227,7 +227,7 @@
         android:clickable="true"
         android:focusable="true"
         android:gravity="center"
-        android:background="@drawable/kaiguanann"
+        android:background="@drawable/kaiguan"
         android:id="@+id/but_jiedang"
         android:layout_width="60dp"
         android:layout_height="60dp"

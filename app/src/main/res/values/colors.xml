@@ -11,4 +11,5 @@
     <color name="spacing">#11333333</color>
     <color name="logintext">#ff8903</color>
     <color name="backgrod">#ecebeb</color>
+    <color name="edit">#ffffff</color>
 </resources>

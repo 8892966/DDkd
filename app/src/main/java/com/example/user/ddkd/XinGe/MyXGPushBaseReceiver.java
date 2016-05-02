@@ -121,7 +121,8 @@ public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
         } else if (ServiceUtils.isRunning(context, "com.example.user.ddkd.service.JieDanService")) {
             if(xgPushTextMessage.getTitle().equals("USERCANCEL")){
                 int i=xgPushTextMessage.getContent().indexOf("[");
-                String id=xgPushTextMessage.getContent().substring(i+1,i+3);
+                int ii=xgPushTextMessage.getContent().indexOf("]");
+                String id=xgPushTextMessage.getContent().substring(i+1,ii);
                 NotificationManager nm = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
                 Notification.Builder builder = new Notification.Builder(context);
                 builder.setContentTitle("DD快递");

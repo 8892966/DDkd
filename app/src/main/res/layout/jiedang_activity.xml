@@ -55,20 +55,20 @@
     android:orientation="horizontal"
     >
     <TextView
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="18dp"
         android:layout_weight="1"
         android:id="@+id/tv_sum_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:text="接单总数   ?单"
-        android:textSize="17sp"
-        android:textColor="#000000" />
+        android:text="完成总数   ?单"
+        android:textSize="14sp"
+        android:textColor="@color/text4" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#000000"
-        android:textSize="17dp"
+        android:textColor="@color/text4"
+        android:textSize="14dp"
         android:text="评价"/>
     <LinearLayout
         android:layout_marginLeft="10dp"
@@ -127,13 +127,13 @@
             android:orientation="horizontal">
             <TextView
                 android:layout_weight="1"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="18dp"
                 android:id="@+id/tv_xiuxi_huodong_now_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="今天订单   ？单"
-                android:textColor="#000000"
-                android:textSize="17sp" />
+                android:text="今天完成   ？单"
+                android:textColor="@color/text4"
+                android:textSize="14sp" />
             <TextView
                 android:id="@+id/tv_xiuxi_huodong_yesterday_money"
                 android:layout_width="wrap_content"
@@ -141,8 +141,8 @@
                 android:layout_marginRight="20dp"
                 android:layout_alignParentRight="true"
                 android:text="今天营业额：?元"
-                android:textColor="#000000"
-                android:textSize="17sp" />
+                android:textColor="@color/text4"
+                android:textSize="14sp" />
         </LinearLayout>
         <!--<TextView-->
             <!--android:layout_marginLeft="30dp"-->
@@ -243,6 +243,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:textColor="@color/text5"
+            android:textSize="18dp"
             android:text="DD指南" />
     </LinearLayout>
     <LinearLayout
@@ -266,7 +268,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="奖励活动" />
+            android:textColor="@color/text5"
+            android:text="奖励活动"
+            android:textSize="18dp"
+            />
     </LinearLayout>
     </LinearLayout>
     <TextView

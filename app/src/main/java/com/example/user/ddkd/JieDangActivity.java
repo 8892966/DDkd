@@ -184,9 +184,11 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         sp = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
         //第三个参数暂时无用
         //加载声音至声音池
-//        soundid=sp.load(this, R.raw.fire, 1);
+        soundid=sp.load(this, R.raw.ddkd, 1);
     }
-
+    private void play(){//声音开始
+        sp.play(soundid, 1.0f, 0.3f, 0, 1, 2.0f);
+    }
     @Override
     public void onClick(View v) {
         try {
@@ -447,7 +449,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 public void Add(List list) {
                     JieDangActivity.this.list.addAll(list);
                     myBaseAdapter.notifyDataSetChanged();//刷新数据
-
+                    play();
                 }
             });
             list = jdBinder.getMsg();
@@ -485,9 +487,9 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                     Gson gson = new Gson();
                     if (ss.startsWith("{")) {
                         MainMsgInfo info = gson.fromJson((String) o, MainMsgInfo.class);
-                        tv_xiuxi_huodong_now_number.setText("今天订单   " + info.getTodOrder() + "单");
+                        tv_xiuxi_huodong_now_number.setText("今天完成   " + info.getTodOrder() + "单");
 //                tv_star.setText(info.getEvaluate());
-                        tv_sum_number.setText("接单总数   " + info.getTotalOrder() + "单");
+                        tv_sum_number.setText("完成总数   " + info.getTotalOrder() + "单");
 //                tv_xiuxi_huodong_yesterday_number.setText("今天订单：" + info.getYstOrder() + "单");
                         if (info.getTodTurnover() != null) {
                             DecimalFormat g = new DecimalFormat("0.00");//精确到两位小数

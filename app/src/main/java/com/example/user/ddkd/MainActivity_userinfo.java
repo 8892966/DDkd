@@ -99,7 +99,6 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
                         volley_change_Get(sharedPreferences1.getString("phone", ""), sharedPreferences1.getString("token", ""));
                     } else {
                         Log.i("Image_Get", s);
-
                     }
                     break;
             }
@@ -166,8 +165,8 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
         intent.putExtra("crop", true);
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
-        intent.putExtra("outputX", px2dip(this, 150));
-        intent.putExtra("outputY", px2dip(this, 150));
+        intent.putExtra("outputX", 300);
+        intent.putExtra("outputY", 300);
         startActivityForResult(intent, 10);
     }
 
@@ -204,6 +203,7 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
      */
     public static int px2dip(Context context, float pxValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
+        Log.e("px2dip",(int) (pxValue / scale + 0.5f)+"");
         return (int) (pxValue / scale + 0.5f);
     }
 

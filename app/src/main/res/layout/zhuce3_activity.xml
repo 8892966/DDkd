@@ -250,20 +250,13 @@
                 android:orientation="horizontal"
                 android:padding="10dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dip"
-                    android:text="身份证号"
-                    android:textSize="20dip" />
-
                 <EditText
                     android:id="@+id/et_id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="20dip"
                     android:background="@null"
-                    android:gravity="right"
+                    android:gravity="center"
                     android:hint="请输入您的身份证号"
                     android:singleLine="true"
                     android:textSize="20sp" />

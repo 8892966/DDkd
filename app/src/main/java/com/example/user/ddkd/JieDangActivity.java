@@ -260,6 +260,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 viewInfo.tv_item_title = (TextView) view.findViewById(R.id.tv_item_title);
                 viewInfo.tv_qiangdan_button = (TextView) view.findViewById(R.id.tv_qiangdan_button);
                 viewInfo.order_id = (TextView) view.findViewById(R.id.order_id);
+                viewInfo.tv_zhonglian=(TextView) view.findViewById(R.id.tv_zhonglian);
                 view.setTag(viewInfo);
             }
             //处理数据，填写数据
@@ -268,9 +269,14 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             if (s != null) {
                 viewInfo.tv_addr.setText(s);
             }
-            if (qOrderInfo.getExpressCompany() != null && qOrderInfo.getWeight() != null) {
-                viewInfo.tv_class.setText(qOrderInfo.getExpressCompany() + "快件    重量" + qOrderInfo.getWeight() + "左右");
+            if (qOrderInfo.getExpressCompany() != null) {
+                viewInfo.tv_class.setText(qOrderInfo.getExpressCompany() + "快件");
             }
+
+            if(qOrderInfo.getWeight() != null){
+                viewInfo.tv_zhonglian.setText(qOrderInfo.getWeight()+"kg左右");
+            }
+
             viewInfo.tv_item_jianli.setVisibility(View.GONE);
             if (qOrderInfo.getAddressee() != null && qOrderInfo.getPrice() != null && qOrderInfo.getTip() != null) {
                 viewInfo.tv_item_title.setText(qOrderInfo.getAddressee() + "    共" + qOrderInfo.getPrice() + "元(含小费" + qOrderInfo.getTip() + "元)");
@@ -325,6 +331,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             TextView tv_addr;
             TextView tv_qiangdan_button;
             TextView order_id;
+            TextView tv_zhonglian;
         }
     }
 
@@ -564,6 +571,8 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             Toast.makeText(this, "再按一次返回键退出应用", Toast.LENGTH_SHORT).show();
         }
     }
+
+    
 
 
 }

@@ -25,6 +25,7 @@ import com.example.user.ddkd.text.UserInfo;
 import com.example.user.ddkd.utils.AutologonUtil;
 import com.example.user.ddkd.utils.Exit;
 import com.example.user.ddkd.utils.MyStringRequest;
+import com.example.user.ddkd.utils.TimeUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -125,9 +126,9 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
                         Gson gson = new Gson();
                         paymentlist = gson.fromJson(s, listv);
                         if (paymentlist != null) {
-                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyy/mm/dd  HH:mm:ss");
                             for (Payment payments2 : paymentlist) {
-                                payments2.setTime(dateFormat.format(Long.valueOf(payments2.getTime())));
+                                payments2.setTime(TimeUtil.getStrTime(payments2.getTime()));
+                                Log.i("TIME",payments2.getTime());
                             }
                             tongzhi.setVisibility(View.GONE);
                             viewById.setAdapter(myAdapter);

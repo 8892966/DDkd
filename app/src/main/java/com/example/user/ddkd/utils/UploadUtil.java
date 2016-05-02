@@ -20,75 +20,81 @@ import com.lidroid.xutils.http.client.HttpRequest;
 
 public class UploadUtil {
     public void uploadMethod(final RequestParams params, final String uploadHost, final Handler handler, final ProgressBar progressBar2, final Context context,final Handler handler2) {
-        HttpUtils http = new HttpUtils();
-        http.send(HttpRequest.HttpMethod.POST, uploadHost, params, new RequestCallBack<String>() {
-            @Override
-            public void onStart() {
-                Log.e("ZhuCe4Activity", "开始");
-            }
-            @Override
-            public void onLoading(long total, long current, boolean isUploading) {
-                if (isUploading) {
-                    Log.e("ZhuCe4Activity", "upload: " + current + "/" + total);
-                } else {
-                    Log.e("ZhuCe4Activity", "upload: " + current + "/" + total);
+        try {
+            HttpUtils http = new HttpUtils();
+            http.send(HttpRequest.HttpMethod.POST, uploadHost, params, new RequestCallBack<String>() {
+                @Override
+                public void onStart() {
+                    Log.e("ZhuCe4Activity", "开始");
                 }
-                if (progressBar2 != null) {
-                    int t;
-                    int c;
-                    if (total > 1000) {
-                        t = (int) (total / 1000);
-                    } else {
-                        t = (int) total;
-                    }
-                    if (current > 1000) {
-                        c = (int) (current / 1000);
-                    } else {
-                        c = (int) current;
-                    }
-                    progressBar2.setMax(t);
-                    progressBar2.setProgress( c);
-                }
-            }
 
-            @Override
-            public void onSuccess(ResponseInfo<String> responseInfo) {
-                Log.e("ZhuCe4Activity", "reply: " + responseInfo.result);
-                if(handler2 !=null){
-                    Message message=new Message();
-                    message.obj=responseInfo.result;
-                    message.what= MainActivity_userinfo.REPLY;
-                    handler2.sendMessage(message);
-                }
-                if (handler != null) {
-                    if ("SUCCESS".equals(responseInfo.result)) {
-                        handler.sendEmptyMessage(ZhuCe4Activity.NEXT);
-                        ZhuCe4Activity.Static++;
-                    } else if ("MAXSIZE OUT".equals(responseInfo.result)) {
-                        Toast.makeText(context, "图片内存过大", Toast.LENGTH_SHORT).show();
-                        handler.sendEmptyMessage(ZhuCe4Activity.ERROR);
-                    } else if ("UPLOAD FILE FORMAT ERROR".equals(responseInfo.result)) {
-                        Toast.makeText(context, "上传文件格式错误", Toast.LENGTH_SHORT).show();
-                        handler.sendEmptyMessage(ZhuCe4Activity.ERROR);
-                    } else if ("UPLOAD FAIL".equals(responseInfo.result)) {
-                        Toast.makeText(context, "上传失败", Toast.LENGTH_SHORT).show();
-                        handler.sendEmptyMessage(ZhuCe4Activity.ERROR);
+                @Override
+                public void onLoading(long total, long current, boolean isUploading) {
+                    if (isUploading) {
+                        Log.e("ZhuCe4Activity", "upload: " + current + "/" + total);
                     } else {
-                        Toast.makeText(context, "提交失败，请重新提交", Toast.LENGTH_SHORT).show();
-                        handler.sendEmptyMessage(ZhuCe4Activity.ERROR);
+                        Log.e("ZhuCe4Activity", "upload: " + current + "/" + total);
+                    }
+                    if (progressBar2 != null) {
+                        int t;
+                        int c;
+                        if (total > 1000) {
+                            t = (int) (total / 1000);
+                        } else {
+                            t = (int) total;
+                        }
+                        if (current > 1000) {
+                            c = (int) (current / 1000);
+                        } else {
+                            c = (int) current;
+                        }
+                        progressBar2.setMax(t);
+                        progressBar2.setProgress(c);
                     }
                 }
-            }
 
-            @Override
-            public void onFailure(HttpException error, String msg) {
-                Toast.makeText(context,"提交超时，请重新提交",Toast.LENGTH_SHORT).show();
+                @Override
+                public void onSuccess(ResponseInfo<String> responseInfo) {
+                    Log.e("ZhuCe4Activity", "reply: " + responseInfo.result);
+                    if (handler2 != null) {
+                        Message message = new Message();
+                        message.obj = responseInfo.result;
+                        message.what = MainActivity_userinfo.REPLY;
+                        handler2.sendMessage(message);
+                    }
+                    if (handler != null) {
+                        if ("SUCCESS".equals(responseInfo.result)) {
+                            handler.sendEmptyMessage(ZhuCe4Activity.NEXT);
+                            ZhuCe4Activity.Static++;
+                        } else if ("MAXSIZE OUT".equals(responseInfo.result)) {
+                            Toast.makeText(context, "图片内存过大", Toast.LENGTH_SHORT).show();
+                            handler.sendEmptyMessage(ZhuCe4Activity.ERROR);
+                        } else if ("UPLOAD FILE FORMAT ERROR".equals(responseInfo.result)) {
+                            Toast.makeText(context, "上传文件格式错误", Toast.LENGTH_SHORT).show();
+                            handler.sendEmptyMessage(ZhuCe4Activity.ERROR);
+                        } else if ("UPLOAD FAIL".equals(responseInfo.result)) {
+                            Toast.makeText(context, "上传失败", Toast.LENGTH_SHORT).show();
+                            handler.sendEmptyMessage(ZhuCe4Activity.ERROR);
+                        } else {
+                            Toast.makeText(context, "提交失败，请重新提交", Toast.LENGTH_SHORT).show();
+                            handler.sendEmptyMessage(ZhuCe4Activity.ERROR);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(HttpException error, String msg) {
+                    Toast.makeText(context, "提交超时，请重新提交", Toast.LENGTH_SHORT).show();
 //                      msgTextview.setText(error.getExceptionCode() + ":" + msg);
-                Log.e("ZhuCe4Activity", error.getExceptionCode() + ":" + msg);
-                handler.sendEmptyMessage(ZhuCe4Activity.ERROR);
-            }
-        });
-    }
+                    Log.e("ZhuCe4Activity", error.getExceptionCode() + ":" + msg);
+                    handler.sendEmptyMessage(ZhuCe4Activity.ERROR);
+                }
+            });
+        }catch (Exception e){
+            Log.e("Exception", e.getMessage());
+            Toast.makeText(context,"信息有误!!!",Toast.LENGTH_SHORT).show();
+        }
+        }
 
     public static Bitmap getBitmap(String path, BitmapFactory.Options options, float maxH, float maxW) {
         Bitmap cameraBitmap = null;
@@ -119,6 +125,5 @@ public class UploadUtil {
         cameraBitmap = BitmapFactory.decodeFile(path, options);
         return cameraBitmap;
     }
-
 
 }

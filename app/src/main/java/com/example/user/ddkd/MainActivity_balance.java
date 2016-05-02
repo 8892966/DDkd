@@ -107,7 +107,6 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
                 break;
         }
     }
-
     public void Volley_Get(final List<Payment> paymentlist2) {
         SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = sharedPreferences.getString("token", null);

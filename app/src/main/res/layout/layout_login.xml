@@ -77,7 +77,6 @@
             <!--android:text="密    码:"-->
             <!--android:textColor="#333333"-->
             <!--android:textSize="20sp" />-->
-
         <ImageView
             android:id="@+id/password01"
             android:layout_centerVertical="true"

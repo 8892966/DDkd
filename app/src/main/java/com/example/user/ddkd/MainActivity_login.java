@@ -59,8 +59,8 @@ public class MainActivity_login extends Activity implements View.OnClickListener
             rembpwd = (CheckBox) findViewById(R.id.rembpwd);
 
             SharedPreferences preferences01 = getSharedPreferences("config", MODE_PRIVATE);
-            userid1.setText(preferences01.getString("phone1",""));
-            password1.setText(preferences01.getString("password1",""));
+            userid1.setText(preferences01.getString("phone",""));
+            password1.setText(preferences01.getString("password",""));
             button.setOnClickListener(this);
             insert.setOnClickListener(this);
             forget.setOnClickListener(this);

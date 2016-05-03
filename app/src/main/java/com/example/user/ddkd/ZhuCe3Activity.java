@@ -103,23 +103,27 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
                 !TextUtils.isEmpty(et_id.getText().toString()) &&
                 !TextUtils.isEmpty(et_sex.getText().toString()) &&
                 new File(fileName).length() > 0) {
-            signUpInfo.setCollege(et_xueyuan.getText().toString());
-            signUpInfo.setUsername(et_name.getText().toString());
-            signUpInfo.setNumber(et_xuehao.getText().toString());
-            signUpInfo.setClazz(et_class.getText().toString());
-            signUpInfo.setShortnumber(et_phone.getText().toString());
-            signUpInfo.setId_card(et_id.getText().toString());
-            signUpInfo.setSex(et_sex.getText().toString());
-            RequestParams requestParams=new RequestParams();
-            requestParams.addBodyParameter("name", "touxiang");
-            requestParams.addBodyParameter("phone", signUpInfo.getPhone());
-            requestParams.addBodyParameter("file",new File(fileName) );
-            new UploadUtil().uploadMethod(requestParams, "http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage",null,null,null,null);
-            Intent intent = new Intent(ZhuCe3Activity.this, ZhuCe4Activity.class);
-            intent.putExtra("SignUpInfo", signUpInfo);//传递注册信息
-            intent.putExtra("picture", fileName);
-            startActivity(intent);
-            finish();
+            if(!personIdValidation(et_id.getText().toString())){
+                Toast.makeText(this, "身份证号码不对!!", Toast.LENGTH_LONG).show();
+            }else {
+                signUpInfo.setCollege(et_xueyuan.getText().toString());
+                signUpInfo.setUsername(et_name.getText().toString());
+                signUpInfo.setNumber(et_xuehao.getText().toString());
+                signUpInfo.setClazz(et_class.getText().toString());
+                signUpInfo.setShortnumber(et_phone.getText().toString());
+                signUpInfo.setId_card(et_id.getText().toString());
+                signUpInfo.setSex(et_sex.getText().toString());
+                RequestParams requestParams = new RequestParams();
+                requestParams.addBodyParameter("name", "touxiang");
+                requestParams.addBodyParameter("phone", signUpInfo.getPhone());
+                requestParams.addBodyParameter("file", new File(fileName));
+                new UploadUtil().uploadMethod(requestParams, "http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage", null, null, null, null);
+                Intent intent = new Intent(ZhuCe3Activity.this, ZhuCe4Activity.class);
+                intent.putExtra("SignUpInfo", signUpInfo);//传递注册信息
+                intent.putExtra("picture", fileName);
+                startActivity(intent);
+                finish();
+            }
         } else {
             Toast.makeText(this, "请把信息填写完整!!", Toast.LENGTH_LONG).show();
         }

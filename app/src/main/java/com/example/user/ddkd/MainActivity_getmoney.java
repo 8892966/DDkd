@@ -96,6 +96,7 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.balance_getmoney);
+        Log.i("fsdfs", "fsdafsaf");
         textView1 = (TextView) findViewById(R.id.exitgetmoney);
         textView1.setOnClickListener(this);
         textView = (TextView) findViewById(R.id.tv_head_fanghui);
@@ -127,21 +128,23 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
                 SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
                 String username = sharedPreferences.getString("username", "");
                 SharedPreferences shareyue = getSharedPreferences("config", MODE_PRIVATE);
-                String yue = shareyue.getString("TX", "0");
-                Log.i("TX01", yue);
-                Double sub = Double.valueOf(userInfo.getBalance()) - Double.valueOf(yue);
-
+                String TX = shareyue.getString("TX", "0");//当前冻结的金额
+                Log.i("TX01", TX);
                 getmoney1 = getmoney.getText().toString();
                 counter1 = counter.getText().toString();
                 tname1 = Tname.getText().toString();
                 beizhu1 = beizhu.getText().toString();
-                if (sub>=100) {
-                    Log.i("SUB", String.valueOf(sub));
-                    if (!TextUtils.isEmpty(counter1)) {
+                Log.i("getBalance",userInfo.getBalance());
+                Log.i("TX",TX);
+                Log.i("getmoney1",getmoney1);
+//                Double sub=Double.valueOf(userInfo.getBalance())-Double.valueOf(TX)-Double.valueOf(getmoney1);
+//                Log.i("SUB", String.valueOf(sub));
+                if (!TextUtils.isEmpty(counter1)) {
+                    if (!TextUtils.isEmpty(tname1)) {
                         if (!TextUtils.isEmpty(getmoney1) && Double.valueOf(getmoney1) >= 100) {
                             if (Double.valueOf(userInfo.getBalance()) > 100) {
                                 if (Double.valueOf(getmoney1) <= Double.valueOf(userInfo.getBalance())) {
-                                    if (!TextUtils.isEmpty(tname1)) {
+//                                    if (Double.valueOf(userInfo.getBalance())-Double.valueOf(TX)>=Double.valueOf(getmoney1)) {
                                         if (TextUtils.isEmpty(beizhu1)) {
                                             beizhu1 = "无";
                                             volley_get(getmoney1, counter1, tname1, username, beizhu1);
@@ -154,10 +157,10 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
                                                 Toast.makeText(MainActivity_getmoney.this, "备注内容超过限制，请重新输入", Toast.LENGTH_SHORT).show();
                                             }
                                         }
-                                    } else {
-                                        closeProgressDialog();
-                                        Toast.makeText(MainActivity_getmoney.this, "账户人不能为空", Toast.LENGTH_SHORT).show();
-                                    }
+//                                    } else {
+//                                        closeProgressDialog();
+//                                        Toast.makeText(MainActivity_getmoney.this, "您当前的可提现金额不足，请等待上一次的提现通过", Toast.LENGTH_SHORT).show();
+//                                    }
                                 } else {
                                     closeProgressDialog();
                                     Toast.makeText(MainActivity_getmoney.this, "提现金额输入有误，请重新输入", Toast.LENGTH_SHORT).show();
@@ -172,12 +175,13 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
                         }
                     } else {
                         closeProgressDialog();
-                        Toast.makeText(MainActivity_getmoney.this, "提现账户不能为空", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity_getmoney.this, "账户人不能为空", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     closeProgressDialog();
-                    Toast.makeText(MainActivity_getmoney.this, "请等待上一次提现申请通过", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity_getmoney.this, "提现账户不能为空", Toast.LENGTH_SHORT).show();
                 }
+
         }
     }
 
@@ -202,7 +206,7 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
         StringRequest request = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
-                try{
+                try {
                     Log.i("ERROR", (String) o);
                     String s = (String) o;
                     closeProgressDialog();
@@ -211,20 +215,20 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
                         finish();
                         Toast.makeText(MainActivity_getmoney.this, "提现申请已提交", Toast.LENGTH_LONG).show();
                         //************保留当前提交申请之后的余额，用于用于第二次提现的时候作判断****************
-                        String number = sharedPreferences1.getString("TX", "0");
-                        Double sum = Double.valueOf(number) + Double.valueOf(getmoney1);
-                        SharedPreferences.Editor editor = sharedPreferences1.edit();
-                        Log.i("TX02", String.valueOf(decimalFormat.format(sum)));
-                        editor.putString("TX", decimalFormat.format(sum));
+                        Double sum=Double.valueOf(sharedPreferences1.getString("TX","0"))+Double.valueOf(getmoney1);
+                        SharedPreferences.Editor editor=sharedPreferences1.edit();
+                        Log.i("TX02",String.valueOf(sum));
+                        editor.putString("TX",String.valueOf(sum));
                         editor.commit();
                     } else {
                         Toast.makeText(MainActivity_getmoney.this, "提交内容有误，请核对您的信息", Toast.LENGTH_SHORT).show();
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     Log.e("Exception", e.getMessage());
                     Toast.makeText(MainActivity_getmoney.this, "信息有误", Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void tokenouttime() {
                 Log.e("MainActivity_getmoney", "token outtime");
@@ -256,7 +260,7 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
-                try{
+                try {
                     String s = (String) o;
                     if (!s.equals("ERROR")) {
                         Gson gson = new Gson();
@@ -265,7 +269,7 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
                     } else {
                         Toast.makeText(MainActivity_getmoney.this, "网络连接出错", Toast.LENGTH_SHORT).show();
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     Log.e("Exception", e.getMessage());
                     Toast.makeText(MainActivity_getmoney.this, "信息有误", Toast.LENGTH_SHORT).show();
                 }

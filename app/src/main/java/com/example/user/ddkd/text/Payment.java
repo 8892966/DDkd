@@ -4,12 +4,21 @@ package com.example.user.ddkd.text;
  * Created by Administrator on 2016/4/5.
  */
 public class Payment {
+    private String id;
     private double money;
     private String Tname;
     private String time;
     private String flag;
     private String status;
     private String counter;
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
 
     public String getStatus() {
         return status;

@@ -287,4 +287,23 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
         return output;
     }
 
+    /**
+     * 18位或者15位身份证验证 18位的最后一位可以是字母x
+     *
+     * @param text
+     * @return
+     */
+    public static boolean personIdValidation(String text) {
+            boolean flag = false;
+        try {
+            String regx = "[0-9]{17}x";
+            String reg1 = "[0-9]{15}";
+            String regex = "[0-9]{18}";
+            flag = text.matches(regx) || text.matches(reg1) || text.matches(regex);
+        }catch (Exception e){
+            Log.e("Exception", e.getMessage());
+        }
+        return flag;
+    }
+
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.user.ddkd" >
+    package="com.example.user.ddkd">
+
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -8,8 +9,8 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <!-- 蓝牙分享所需的权限 -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -19,7 +20,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.RECEIVE_SMS" /> <!-- 接收短信权限 -->
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <!-- 接收短信权限 -->
 
 
     <!--  百度可选的权限   -->
@@ -52,12 +54,11 @@
         android:icon="@mipmap/headimage"
         android:label="@string/app_name"
         android:supportsRtl="true"
-    android:theme="@style/AppTheme"
-        >
+        android:theme="@style/AppTheme">
 
         <activity
             android:name="com.example.user.ddkd.SplashActivity"
-            android:launchMode="singleTask" >
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -82,15 +83,13 @@
         <activity android:name=".Announce" />
         <activity android:name=".Activity_feedback" />
         <!-- APP项目的其它配置... -->
-
-
         <!-- ShareSDK的使用 -->
         <activity
             android:name="com.mob.tools.MobUIShell"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <data android:scheme="tencent100371282" />
                 <action android:name="android.intent.action.VIEW" />
@@ -106,16 +105,16 @@
 
         <activity
             android:name=".wxapi.WXEntryActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!-- 【必须】 信鸽receiver广播接收 -->
         <receiver
             android:name="com.tencent.android.tpush.XGPushReceiver"
-            android:process=":xg_service_v2" >
-            <intent-filter android:priority="0x7fffffff" >
+            android:process=":xg_service_v2">
+            <intent-filter android:priority="0x7fffffff">
 
                 <!-- 【必须】 信鸽SDK的内部广播 -->
                 <action android:name="com.tencent.android.tpush.action.SDK" />
@@ -134,7 +133,7 @@
         <!-- 【注意】 如果被打开的activity是启动模式为SingleTop，SingleTask或SingleInstance，请根据通知的异常自查列表第8点处理 -->
         <activity
             android:name="com.tencent.android.tpush.XGPushActivity"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
 
                 <!-- 若使用AndroidStudio，请设置android:name="android.intent.action" -->
@@ -152,7 +151,7 @@
         <!-- 【必须】 通知service，此选项有助于提高抵达率 -->
         <service
             android:name="com.tencent.android.tpush.rpc.XGRemoteService"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.example.user.ddkd.PUSH_ACTION" />
             </intent-filter>
@@ -168,7 +167,7 @@
             android:value="AD3V1GY86X1M" />
         <!-- APP实现的Receiver，用于接收消息和结果反馈 -->
         <!-- com.tencent.android.xgpushdemo.CustomPushReceiver需要改为自己的Receiver -->
-        <receiver android:name=".XinGe.MyXGPushBaseReceiver" >
+        <receiver android:name=".XinGe.MyXGPushBaseReceiver">
             <intent-filter>
 
                 <!-- 接收消息透传 -->
@@ -182,7 +181,7 @@
         <meta-data
             android:name="BaiduMobAd_STAT_ID"
             android:value="1e0bb4971a" />
-  
+         
         <!--  渠道商编号   -->
         <meta-data
             android:name="BaiduMobAd_CHANNEL"
@@ -195,11 +194,9 @@
         <service
             android:name=".service.JieDanService"
             android:enabled="true"
-            android:exported="true" >
-        </service>
+            android:exported="true"></service>
         <activity
             android:name=".WelcomeActivity"
-            android:launchMode="singleTask" >
-        </activity>
+            android:launchMode="singleTask"></activity>
     </application>
 </manifest>

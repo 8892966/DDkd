@@ -232,6 +232,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                 OrderInfo info = list.get(position);
 //            Log.e("MyBaseAdapter", info.toString());
                 if (xuanzhe == 1) {
+                    zhuanTai.button.setEnabled(true);
                     zhuanTai.button.setText("已拿件");
                     zhuanTai.button.setVisibility(View.VISIBLE);
                     if (!info.getPid().equals("0")) {

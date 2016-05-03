@@ -252,23 +252,26 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
                 Log.i("Falg", payment.getFlag());
                 //***********************提现***********************
                 if (payment.getFlag().equals("OUT")) {
+                    SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
                     if (payment.getStatus().equals("1")) {
                         outStatic.setText("审核中");
-
+//                        SharedPreferences.Editor editor = sharedPreferences.edit();
+//                        editor.putString("id" + payment.getId(), String.valueOf(payment.getMoney()));
+//                        editor.commit();
                     } else if (payment.getStatus().equals("2")) {
                         outStatic.setText("已通过");
-                        SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
-                        Double sub=Double.valueOf(sharedPreferences.getString("TX","0"))-Double.valueOf(payment.getMoney());
-                        SharedPreferences.Editor editor=sharedPreferences.edit();
-                        editor.putString("TX",String.valueOf(sub));
-                        editor.commit();
+//                        sharedPreferences.getString("id"+payment.getId(),"0");
+//                        SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
+//                        SharedPreferences.Editor editor=sharedPreferences.edit();
+//                        editor.putString("id"+payment.getId(),String.valueOf(payment.getMoney()));
+//                        editor.commit();
                     } else {
                         outStatic.setText("操作失败");
-                        SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
-                        Double sub=Double.valueOf(sharedPreferences.getString("TX","0"))-Double.valueOf(payment.getMoney());
-                        SharedPreferences.Editor editor=sharedPreferences.edit();
-                        editor.putString("TX",String.valueOf(sub));
-                        editor.commit();
+//                        SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
+//                        Double sub=Double.valueOf(sharedPreferences.getString("TX","0"))-Double.valueOf(paymentlist.get(position).getMoney());
+//                        SharedPreferences.Editor editor=sharedPreferences.edit();
+//                        editor.putString("TX",String.valueOf(sub));
+//                        editor.commit();
                     }
                     moneyout.setText("-" + String.valueOf(payment.getMoney()));
                     counter.setText(payment.getCounter());

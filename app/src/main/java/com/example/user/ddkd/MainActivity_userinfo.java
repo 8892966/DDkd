@@ -2,6 +2,7 @@ package com.example.user.ddkd;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -61,6 +62,7 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
     private TextView username;
     private TextView collage;
     private TextView number;
+    private ProgressDialog progressDialog;
     private TextView phone;
     private RelativeLayout changeimage;
     private TextView shortphone;
@@ -86,10 +88,12 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
             switch (msg.what) {
                 case MyApplication.GET_TOKEN_SUCCESS:
                     userimage.setImageBitmap(cameraBitmap);
+                    closeProgressDialog();
                     Toast.makeText(MainActivity_userinfo.this, "图片修改成功", Toast.LENGTH_SHORT).show();
                     volley_Get_Image();
                     break;
                 case MyApplication.GET_TOKEN_ERROR:
+                    closeProgressDialog();
                     Toast.makeText(MainActivity_userinfo.this, "图片修改失败，请重试", Toast.LENGTH_SHORT).show();
                     break;
                 case REPLY:
@@ -184,6 +188,7 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
                     requestParams.addBodyParameter("phone", sharedPreferences.getString("phone",""));
                     requestParams.addBodyParameter("file", new File(getRealFilePath(MainActivity_userinfo.this, uri)));
                     new UploadUtil().uploadMethod(requestParams, "http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage", null, null, MainActivity_userinfo.this, handler);
+                    showProgressDialog();
                 } else {
                     Toast.makeText(MainActivity_userinfo.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
                 }
@@ -203,7 +208,7 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
      */
     public static int px2dip(Context context, float pxValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
-        Log.e("px2dip",(int) (pxValue / scale + 0.5f)+"");
+        Log.e("px2dip", (int) (pxValue / scale + 0.5f) + "");
         return (int) (pxValue / scale + 0.5f);
     }
 
@@ -436,7 +441,6 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
         super.onPause();
         StatService.onPause(this);
     }
-
     protected void onDestroy() {
         super.onDestroy();
         MyApplication.getQueue().cancelAll("Get_Setting_changImage");
@@ -456,7 +460,6 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
             return dengji = "璀璨钻石";
         }
     }
-
     /**
      * 检测网络是否可用
      *
@@ -469,6 +472,20 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
             return true;
         } else {
             return false;
+        }
+    }
+    private void showProgressDialog() {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(MainActivity_userinfo.this);
+            progressDialog.setMessage("正在上传.......");
+            progressDialog.setCanceledOnTouchOutside(false);
+        }
+        progressDialog.show();
+    }
+
+    private void closeProgressDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
         }
     }
 }

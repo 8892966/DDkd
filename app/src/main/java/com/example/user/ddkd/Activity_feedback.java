@@ -39,6 +39,9 @@ public class Activity_feedback extends Activity implements View.OnClickListener 
                 case MyApplication.GET_TOKEN_SUCCESS:
                     Object[] objects= (Object[]) msg.obj;
                     String ms= (String) objects[0];
+                    if(ms.equals("")){
+                        ms="无";
+                    }
                     volley_Get(ms);
                     break;
                 case MyApplication.GET_TOKEN_ERROR:
@@ -62,6 +65,9 @@ public class Activity_feedback extends Activity implements View.OnClickListener 
         switch (v.getId()){
             case R.id.Fcommit:
                 String message=messageedit.getText().toString();
+                if(message.equals("")){
+                    message="无";
+                }
                 volley_Get(message);
                 finish();
                 break;

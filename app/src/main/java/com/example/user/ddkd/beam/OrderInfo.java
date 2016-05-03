@@ -37,6 +37,8 @@ public class OrderInfo {
 
     private String reason;
 
+    private String tip;
+
     public String getOrderTime() {
         return OrderTime;
     }
@@ -64,6 +66,14 @@ public class OrderInfo {
 //                '}';
 //    }
 
+
+    public String getTip() {
+        return tip;
+    }
+
+    public void setTip(String tip) {
+        this.tip = tip;
+    }
 
     public String getReason() {
         return reason;

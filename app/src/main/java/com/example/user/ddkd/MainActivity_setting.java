@@ -81,20 +81,22 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
         aboutDD = (RelativeLayout) findViewById(R.id.aboutDD);
         aboutDD.setOnClickListener(this);
         //***********************添加状态监听***********************
-        SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
+        SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
         final SharedPreferences.Editor editor=sharedPreferences.edit();
         Static= (ToggleButton) findViewById(R.id.Static);
+        boolean ZT=sharedPreferences.getBoolean("voice",true);
+        Static.setChecked(ZT);
         Static.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     editor.putBoolean("voice",true);
                     editor.commit();
-                    Toast.makeText(MainActivity_setting.this,"当前状态为true",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MainActivity_setting.this,"当前状态为true",Toast.LENGTH_SHORT).show();
                 }else{
                     editor.putBoolean("voice",false);
                     editor.commit();
-                    Toast.makeText(MainActivity_setting.this,"当前状态为false",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MainActivity_setting.this,"当前状态为false",Toast.LENGTH_SHORT).show();
                 }
             }
         });

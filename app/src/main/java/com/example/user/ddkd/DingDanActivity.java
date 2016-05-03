@@ -103,9 +103,14 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
         tv_head_fanghui = (TextView) findViewById(R.id.tv_head_fanghui);
         rl_order_ProgressBar = (RelativeLayout) findViewById(R.id.rl_order_ProgressBar);//加载中显示的RelativeLayout
         //初始化选择页面
-
-        xuanzhe = 1;
-        setEnableds(xuanzhe);
+        int i=getIntent().getIntExtra("Static",1);
+        if(i==3) {
+            xuanzhe = 3;
+            setEnableds(xuanzhe);
+        }else {
+            xuanzhe = 1;
+            setEnableds(xuanzhe);
+        }
         //初始化list
         list = new ArrayList<OrderInfo>();
         tv_button_yijie.setOnClickListener(this);

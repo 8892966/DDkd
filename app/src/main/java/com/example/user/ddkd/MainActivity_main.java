@@ -128,6 +128,7 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
                 //直接跳转到订单页面;
 //                intent = new Intent(MainActivity_main.this, details.class);
                 intent = new Intent(MainActivity_main.this, DingDanActivity.class);
+                intent.putExtra("Static",3);
                 startActivity(intent);
                 break;
             case R.id.setting:

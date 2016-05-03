@@ -16,6 +16,7 @@
             android:layout_centerVertical="true" />
 
         <TextView
+            android:textColor="@color/text3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -201,6 +202,7 @@
                 android:padding="20dip">
 
                 <TextView
+                    android:textColor="@color/text3"
                     android:id="@+id/sure"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -212,6 +214,7 @@
                     android:textSize="20sp" />
 
                 <TextView
+                    android:textColor="@color/text3"
                     android:id="@+id/exitgetmoney"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

@@ -278,7 +278,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                     diz = "";
                 }
                 zhuanTai.tv_dingdang_id.setText("订单：" + info.getId());
-                zhuanTai.tv_money.setText(info.getPrice() + "元");
+                zhuanTai.tv_money.setText(info.getPrice()+"("+info.getTip()+")" + "元");
                 zhuanTai.tv_kuaidi_dizhi.setText(info.getAddressee() + "");
                 zhuanTai.tv_dingdang_kuaidi.setText(info.getExpressCompany() + "");
                 if (0 <= i && i <= i) {
@@ -365,7 +365,6 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
         Log.e("volley_getOrder_GET", token);
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/state/" + State + "/token/" + token;
         StringRequest request_post = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
-
             @Override
             public void success(Object o) {
                 String s = (String) o;

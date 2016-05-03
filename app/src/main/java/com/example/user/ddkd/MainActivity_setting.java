@@ -164,23 +164,34 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
         StringRequest request=new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
-                String s= (String) o;
-                Log.i("version", s);
-                SharedPreferences sharedPreferences02=getSharedPreferences("config",MODE_PRIVATE);
-                if(getVersonName().equals(s)){
-                    new AlertDialog.Builder(MainActivity_setting.this).setTitle("系统提示").setMessage("当前已是最新版本").show();
-                }else{
-                    Intent intent=new Intent();
-                    intent.setAction("android.intent.action.VIEW");
-                    Uri uri=Uri.parse("http://www.louxiago.com/app/index.php?name=DDKD");
-                    intent.setData(uri);
-                    startActivity(intent);
+                try{
+                    String s= (String) o;
+                    Log.i("version", s);
+                    SharedPreferences sharedPreferences02=getSharedPreferences("config",MODE_PRIVATE);
+                    if(getVersonName().equals(s)){
+                        new AlertDialog.Builder(MainActivity_setting.this).setTitle("系统提示").setMessage("当前已是最新版本").show();
+                    }else{
+                        AlertDialog isUpdate = new AlertDialog.Builder(MainActivity_setting.this).create();
+                        // 设置对话框标题
+                        isUpdate.setTitle("系统提示");
+                        // 设置对话框消息
+                        isUpdate.setMessage("立刻更新?");
+                        // 添加选择按钮并注册监听
+                        isUpdate.setButton("确定", listener2);
+                        isUpdate.setButton2("取消", listener2);
+                        // 显示对话框
+                        isUpdate.show();
 //                    Toast.makeText(MainActivity_setting.this,"DD快递更新啦，快去应用商店下载吧",Toast.LENGTH_SHORT).show();
-                    SharedPreferences.Editor editor1=sharedPreferences02.edit();
-                    editor1.putString("version",s);
-                    editor1.commit();
+                        SharedPreferences.Editor editor1=sharedPreferences02.edit();
+                        editor1.putString("version",s);
+                        editor1.commit();
+                    }
+                    version.setText(getVersonName());
+                }catch (Exception e){
+                    Log.e("Exception", e.getMessage());
+                    Toast.makeText(MainActivity_setting.this, "信息有误", Toast.LENGTH_SHORT).show();
                 }
-                version.setText(getVersonName());
+
             }
             @Override
             public void tokenouttime() {
@@ -203,7 +214,25 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
         request.setTag("Get_Setting");
         MyApplication.getQueue().add(request);
     }
-
+    DialogInterface.OnClickListener listener2 = new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which) {
+                case AlertDialog.BUTTON_POSITIVE:// "确认"按钮退出程序
+                    //点击确定退出以后，重新将loginstatic的值设置为“1”
+                    Intent intent=new Intent();
+                    intent.setAction("android.intent.action.VIEW");
+                    Uri uri=Uri.parse("http://www.louxiago.com/app/index.php?name=DDKD");
+                    intent.setData(uri);
+                    startActivity(intent);
+                    Toast.makeText(MainActivity_setting.this,"正在跳转，请在稍后", Toast.LENGTH_SHORT).show();
+                    break;
+                case AlertDialog.BUTTON_NEGATIVE:// "取消"第二个按钮取消对话框
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
     public void onDestroy(){
         super.onDestroy();
         MyApplication.getQueue().cancelAll("Get_Setting");

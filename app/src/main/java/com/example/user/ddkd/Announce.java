@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -43,7 +44,7 @@ public class Announce extends Activity implements View.OnClickListener {
     private List<AnnounceInfo> announcelist = new ArrayList<AnnounceInfo>();
     private ImageView exitannounce;
     private TextView tongzhi;
-    private MyAdapter myAdapter=new MyAdapter();
+    private MyAdapter myAdapter = new MyAdapter();
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -71,21 +72,25 @@ public class Announce extends Activity implements View.OnClickListener {
         ExitApplication.getInstance().addActivity(this);
 
     }
-    class ItemOnclickListener implements View.OnClickListener{
-        public  int position;
-        public ItemOnclickListener(int position){
-            this.position=position;
+
+    class ItemOnclickListener implements View.OnClickListener {
+        public int position;
+
+        public ItemOnclickListener(int position) {
+            this.position = position;
         }
+
         @Override
         public void onClick(View v) {
             volley_Get_Id(announcelist.get(position).getId());
-            Log.i("ID",announcelist.get(position).getId());
+            Log.i("ID", announcelist.get(position).getId());
             Intent intent = new Intent(Announce.this, WebActivity.class);
             intent.putExtra("title", "DD讯息");
             intent.putExtra("url", announcelist.get(position).getUrl());
             startActivity(intent);
         }
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -94,19 +99,23 @@ public class Announce extends Activity implements View.OnClickListener {
                 break;
         }
     }
-    class MyAdapter extends BaseAdapter{
+
+    class MyAdapter extends BaseAdapter {
         @Override
         public int getCount() {
             return announcelist.size();
         }
+
         @Override
         public Object getItem(int position) {
             return null;
         }
+
         @Override
         public long getItemId(int position) {
             return 0;
         }
+
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             //********************获取的内容回显到ListView中*************************
@@ -114,52 +123,59 @@ public class Announce extends Activity implements View.OnClickListener {
             if (convertView == null) {
                 LayoutInflater inflater = Announce.this.getLayoutInflater();
                 view = inflater.inflate(R.layout.announce_listview, null);
-            }else{
+            } else {
                 view = convertView;
             }
-            Log.i("fdsfsdf","sfsdsd");
-            TextView id= (TextView) view.findViewById(R.id.id);
-            TextView title= (TextView) view.findViewById(R.id.title);
-            TextView time= (TextView) view.findViewById(R.id.time);
-            RelativeLayout announce= (RelativeLayout) view.findViewById(R.id.announce);
+//            Log.i("fdsfsdf","sfsdsd");
+            TextView id = (TextView) view.findViewById(R.id.id);
+            TextView title = (TextView) view.findViewById(R.id.title);
+            TextView time = (TextView) view.findViewById(R.id.time);
+            RelativeLayout announce = (RelativeLayout) view.findViewById(R.id.announce);
             announce.setOnClickListener(new ItemOnclickListener(position));
-            if (announcelist.get(position)!=null){
+            if (announcelist.get(position) != null) {
                 title.setText(announcelist.get(position).getTiltlele());
                 id.setText(announcelist.get(position).getId());
                 time.setText(announcelist.get(position).getTime());
                 tongzhi.setVisibility(View.GONE);
-            }else{
-                Log.i("Announce_Error","announce is null");
-                Toast.makeText(Announce.this,"数据获取失败，请重试",Toast.LENGTH_SHORT).show();
+            } else {
+                Log.i("Announce_Error", "announce is null");
+                Toast.makeText(Announce.this, "数据获取失败，请重试", Toast.LENGTH_SHORT).show();
             }
             return view;
         }
     }
+
     public void voll_Get() {
+
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/PassGongGao/index";
         StringRequest request = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
-                String s= (String) o;
-                Log.i("Announ_Info",s);
-                if(!s.equals("")){
-                    Type listv = new TypeToken<LinkedList<AnnounceInfo>>() {}.getType();
-                    Gson gson=new Gson();
-                    announcelist=gson.fromJson(s,listv);
-                    //****************将list里面的内容倒叙输出******************
-                    Collections.reverse(announcelist);
-                    announcelistview.setAdapter(myAdapter);
-                    myAdapter.notifyDataSetChanged();
-                }else{
-                    Toast.makeText(Announce.this,"数据访问出错，请重新进入此页面",Toast.LENGTH_SHORT).show();
+                try {
+                    String s = (String) o;
+                    Log.i("Announ_Info", s);
+                    if (!s.equals("")) {
+                        Type listv = new TypeToken<LinkedList<AnnounceInfo>>() {
+                        }.getType();
+                        Gson gson = new Gson();
+                        announcelist = gson.fromJson(s, listv);
+                        //****************将list里面的内容倒叙输出******************
+                        Collections.reverse(announcelist);
+                        announcelistview.setAdapter(myAdapter);
+                        myAdapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(Announce.this, "数据访问出错，请重新进入此页面", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    Log.e("Exception", e.getMessage());
+                    Toast.makeText(Announce.this, "信息有误", Toast.LENGTH_SHORT).show();
                 }
-
             }
 
             @Override
             public void tokenouttime() {
-                Log.i("Announ_Error","token outtime");
-                AutologonUtil autologonUtil=new AutologonUtil(Announce.this,handler,announcelist);
+                Log.i("Announ_Error", "token outtime");
+                AutologonUtil autologonUtil = new AutologonUtil(Announce.this, handler, announcelist);
                 autologonUtil.volley_Get_TOKEN();
             }
 
@@ -177,16 +193,19 @@ public class Announce extends Activity implements View.OnClickListener {
         request.setTag("abcGet_announce");
         MyApplication.getQueue().add(request);
     }
-    public void volley_Get_Id(String id){
-        String url="http://www.louxiago.com/wc/ddkd/admin.php/GongGao/ShowNotice/id/"+id;
-        StringRequest stringRequest=new StringRequest(Request.Method.GET, url, new MyStringRequest() {
+
+    public void volley_Get_Id(String id) {
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/GongGao/ShowNotice/id/" + id;
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
 
             }
+
             @Override
             public void tokenouttime() {
             }
+
             @Override
             public void yidiensdfsdf() {
 
@@ -194,7 +213,7 @@ public class Announce extends Activity implements View.OnClickListener {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(Announce.this,"网络连接中断",Toast.LENGTH_SHORT).show();
+                Toast.makeText(Announce.this, "网络连接中断", Toast.LENGTH_SHORT).show();
             }
         });
         stringRequest.setTag("Get_announce_id");
@@ -206,11 +225,13 @@ public class Announce extends Activity implements View.OnClickListener {
         super.onResume();
         StatService.onResume(this);
     }
+
     @Override
     protected void onPause() {
         super.onPause();
         StatService.onPause(this);
     }
+
     protected void onDestroy() {
         super.onDestroy();
         MyApplication.getQueue().cancelAll("abcGet_announce");

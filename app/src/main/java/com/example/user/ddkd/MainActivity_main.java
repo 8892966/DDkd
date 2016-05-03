@@ -155,16 +155,22 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
-                String s = (String) o;
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("imageuri", s);
-                editor.commit();
-                String imageurl = s;
-                Message ms = new Message();
+                try{
+                    String s = (String) o;
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("imageuri", s);
+                    editor.commit();
+                    String imageurl = s;
+                    Message ms = new Message();
 //                ms.obj=imageurl;
-                ms.obj = s;
-                ms.what=MyApplication.GET_TOKEN_SUCCESS;
-                handler_image.sendMessage(ms);
+                    ms.obj = s;
+                    ms.what=MyApplication.GET_TOKEN_SUCCESS;
+                    handler_image.sendMessage(ms);
+                }catch (Exception e){
+                    Log.e("Exception", e.getMessage());
+                    Toast.makeText(MainActivity_main.this, "信息有误", Toast.LENGTH_SHORT).show();
+                }
+
             }
             @Override
             public void tokenouttime() {
@@ -195,41 +201,46 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
         StringRequest request = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
-                String s = (String) o;
-                Log.i("Main", s);
-                if (!s.equals("ERROR")) {
-                    Gson gson = new Gson();
-                    UserInfo userInfo = gson.fromJson(s, UserInfo.class);
-                    if (userInfo != null) {
-                        if (userInfo.getYingye() == null) {
-                            turnover.setText("0");
-                        } else {
-                            //***********将数值类型定义为高精度*************
-                            DecimalFormat g = new DecimalFormat("0.00");//精确到两位小数
-                            g.format(Double.valueOf(userInfo.getYingye()));
-                            turnover.setText(g.format(Double.valueOf(userInfo.getYingye())));
+                try{
+                    String s = (String) o;
+                    Log.i("Main", s);
+                    if (!s.equals("ERROR")) {
+                        Gson gson = new Gson();
+                        UserInfo userInfo = gson.fromJson(s, UserInfo.class);
+                        if (userInfo != null) {
+                            if (userInfo.getYingye() == null) {
+                                turnover.setText("0");
+                            } else {
+                                //***********将数值类型定义为高精度*************
+                                DecimalFormat g = new DecimalFormat("0.00");//精确到两位小数
+                                g.format(Double.valueOf(userInfo.getYingye()));
+                                turnover.setText(g.format(Double.valueOf(userInfo.getYingye())));
+                            }
+                            DecimalFormat decimalFormat = new DecimalFormat("0.00");
+                            moneysum.setText(decimalFormat.format(Double.valueOf(userInfo.getBalance())));
+                            username.setText(userInfo.getUsername());
+                            userphone.setText(String.valueOf(userInfo.getPhone()));
+
+                            //**********保存用户的个人信息，断网时回显***********
+                            SharedPreferences preferences = getSharedPreferences("user", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putString("username", userInfo.getUsername());
+                            editor.putString("collage", userInfo.getCollege());
+                            editor.putString("number", userInfo.getNumber() + "");
+                            editor.putString("phone", userInfo.getPhone() + "");
+                            editor.putString("shortphone", userInfo.getShortphone() + "");
+                            editor.putString("level", userInfo.getLevel());
+                            editor.commit();
                         }
-                        DecimalFormat decimalFormat = new DecimalFormat("0.00");
-                        moneysum.setText(decimalFormat.format(Double.valueOf(userInfo.getBalance())));
-                        username.setText(userInfo.getUsername());
-                        userphone.setText(String.valueOf(userInfo.getPhone()));
-
-                        //**********保存用户的个人信息，断网时回显***********
-                        SharedPreferences preferences = getSharedPreferences("user", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = preferences.edit();
-                        editor.putString("username", userInfo.getUsername());
-                        editor.putString("collage", userInfo.getCollege());
-                        editor.putString("number", userInfo.getNumber() + "");
-                        editor.putString("phone", userInfo.getPhone() + "");
-                        editor.putString("shortphone", userInfo.getShortphone() + "");
-                        editor.putString("level", userInfo.getLevel());
-                        editor.commit();
+                    } else {
+                        Toast.makeText(MainActivity_main.this, "网络连接出错", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(MainActivity_main.this, "网络连接出错", Toast.LENGTH_SHORT).show();
+                }catch (Exception e){
+                    Log.e("Exception", e.getMessage());
+                    Toast.makeText(MainActivity_main.this, "信息有误", Toast.LENGTH_SHORT).show();
                 }
-            }
 
+            }
             @Override
             public void tokenouttime() {
                 Log.e("MainActivity_main", "token过期");

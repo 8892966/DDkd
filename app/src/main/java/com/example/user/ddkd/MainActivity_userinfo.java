@@ -447,13 +447,13 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
     public String getLevel(String level) {
         String dengji = level;
         if (dengji.equals("0")) {
-            return dengji = "铁牌快递员";
+            return dengji = "英勇黄铜";
         } else if (dengji.equals("1")) {
-            return dengji = "铜牌快递员";
+            return dengji = "不屈白银";
         } else if (dengji.equals("2")) {
-            return dengji = "银牌快递员";
+            return dengji = "荣耀黄金";
         } else {
-            return dengji = "金牌快递员";
+            return dengji = "璀璨钻石";
         }
     }
 

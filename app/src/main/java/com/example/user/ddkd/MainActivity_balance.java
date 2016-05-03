@@ -116,31 +116,36 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
         StringRequest request = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
-                String s = o.toString();
-                Log.i("Payment", s);
-                if (!s.equals("")) {
-                    if (!s.equals("ERROR")) {
-                        Type listv = new TypeToken<LinkedList<Payment>>() {
-                        }.getType();
-                        Gson gson = new Gson();
-                        paymentlist = gson.fromJson(s, listv);
-                        if (paymentlist != null) {
-                            for (Payment payments2 : paymentlist) {
-                                payments2.setTime(TimeUtil.getStrTime(payments2.getTime()));
-                                Log.i("TIME",payments2.getTime());
+                try{
+                    String s = o.toString();
+                    Log.i("Payment", s);
+                    if (!s.equals("")) {
+                        if (!s.equals("ERROR")) {
+                            Type listv = new TypeToken<LinkedList<Payment>>() {
+                            }.getType();
+                            Gson gson = new Gson();
+                            paymentlist = gson.fromJson(s, listv);
+                            if (paymentlist != null) {
+                                for (Payment payments2 : paymentlist) {
+                                    payments2.setTime(TimeUtil.getStrTime(payments2.getTime()));
+                                    Log.i("TIME",payments2.getTime());
+                                }
+                                tongzhi.setVisibility(View.GONE);
+                                viewById.setAdapter(myAdapter);
+                                myAdapter.notifyDataSetChanged();
+                            } else {
+                                Toast.makeText(MainActivity_balance.this, "暂时无收支明细", Toast.LENGTH_SHORT).show();
                             }
-                            tongzhi.setVisibility(View.GONE);
-                            viewById.setAdapter(myAdapter);
-                            myAdapter.notifyDataSetChanged();
                         } else {
-                            Toast.makeText(MainActivity_balance.this, "暂时无收支明细", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity_balance.this, "网络连接出错", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(MainActivity_balance.this, "网络连接出错", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity_balance.this, "暂时无收支明细", Toast.LENGTH_SHORT).show();
+                        Log.i("Error_Payment", "Payment is null");
                     }
-                } else {
-                    Toast.makeText(MainActivity_balance.this, "暂时无收支明细", Toast.LENGTH_SHORT).show();
-                    Log.i("Error_Payment", "Payment is null");
+                }catch (Exception e){
+                    Log.e("Exception", e.getMessage());
+                    Toast.makeText(MainActivity_balance.this, "信息有误", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -174,15 +179,20 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
         StringRequest balance_request = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
-                String s = (String) o;
-                if (!s.equals("ERROR")) {
-                    Gson gson = new Gson();
-                    UserInfo userInfo = gson.fromJson(s, UserInfo.class);
-                    if (userInfo != null) {
-                        balance.setText(decimalFormat.format(Double.valueOf(userInfo.getBalance())));
+                try{
+                    String s = (String) o;
+                    if (!s.equals("ERROR")) {
+                        Gson gson = new Gson();
+                        UserInfo userInfo = gson.fromJson(s, UserInfo.class);
+                        if (userInfo != null) {
+                            balance.setText(decimalFormat.format(Double.valueOf(userInfo.getBalance())));
+                        }
+                    } else {
+                        Toast.makeText(MainActivity_balance.this, "网络连接异常", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(MainActivity_balance.this, "网络连接异常", Toast.LENGTH_SHORT).show();
+                }catch (Exception e){
+                    Log.e("Exception", e.getMessage());
+                    Toast.makeText(MainActivity_balance.this, "信息有误", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -244,18 +254,21 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
                 if (payment.getFlag().equals("OUT")) {
                     if (payment.getStatus().equals("1")) {
                         outStatic.setText("审核中");
+
                     } else if (payment.getStatus().equals("2")) {
                         outStatic.setText("已通过");
-//                        SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
-//                        SharedPreferences.Editor editor=sharedPreferences.edit();
-//                        editor.putString("TX","0");
-//                        editor.commit();
+                        SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
+                        Double sub=Double.valueOf(sharedPreferences.getString("TX","0"))-Double.valueOf(payment.getMoney());
+                        SharedPreferences.Editor editor=sharedPreferences.edit();
+                        editor.putString("TX",String.valueOf(sub));
+                        editor.commit();
                     } else {
                         outStatic.setText("操作失败");
-//                        SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
-//                        SharedPreferences.Editor editor=sharedPreferences.edit();
-//                        editor.putString("TX","0");
-//                        editor.commit();
+                        SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
+                        Double sub=Double.valueOf(sharedPreferences.getString("TX","0"))-Double.valueOf(payment.getMoney());
+                        SharedPreferences.Editor editor=sharedPreferences.edit();
+                        editor.putString("TX",String.valueOf(sub));
+                        editor.commit();
                     }
                     moneyout.setText("-" + String.valueOf(payment.getMoney()));
                     counter.setText(payment.getCounter());

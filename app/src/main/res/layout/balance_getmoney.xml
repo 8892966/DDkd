@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgrod"
     android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,7 +16,6 @@
             android:layout_centerVertical="true" />
 
         <TextView
-            android:textColor="@color/text3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -49,7 +47,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="提现至账户"
+                    android:text="  提现至账户"
                     android:textColor="@color/text2"
                     android:textSize="20sp" />
                 <EditText
@@ -58,13 +56,51 @@
                     android:textSize="20sp"
                     android:background="@null"
                     android:id="@+id/counter"
+                    android:layout_marginLeft="10dip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="5dip"
+                    android:layout_marginRight="10dip"
                     android:hint="请输入支付宝账号"
                     android:singleLine="true" />
             </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:background="@color/spacing"
+                android:padding="5dip">
+                <TextView
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="暂提供支付宝转账"
+                    android:layout_marginRight="15dip"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:padding="10dip">
+                <TextView
+                    android:layout_alignParentLeft="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="  账户人姓名 "
+                    android:textSize="20sp" />
 
+                <EditText
+                    android:gravity="right"
+                    android:layout_alignParentRight="true"
+                    android:background="@null"
+                    android:id="@+id/Tname"
+                    android:layout_marginRight="10dip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="请输入账户人姓名"
+                    android:singleLine="true"
+                    android:textSize="20sp" />
+            </RelativeLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -75,7 +111,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="可提款金额："
+                    android:text="  可提款金额："
                     android:textSize="15sp" />
                 <TextView
                     android:id="@+id/yue"
@@ -84,7 +120,6 @@
                     android:layout_height="wrap_content"
                     android:textSize="15sp" />
             </LinearLayout>
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -103,7 +138,8 @@
                     android:gravity="right"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="5dip"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="10dip"
                     android:textSize="20sp"
                     android:background="@null"
                     android:id="@+id/getmoney"
@@ -113,6 +149,7 @@
                     android:phoneNumber="true"
                     android:singleLine="true"/>
             </RelativeLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -120,42 +157,13 @@
                 android:background="@color/spacing"
                 android:padding="5dip">
                 <TextView
-                    android:layout_centerInParent="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="亲，满100才可以提现喔"
-                    android:textSize="15sp" />
+                    android:textSize="12sp" />
             </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dip"
-                android:padding="10dip">
-                <TextView
-                    android:textColor="@color/text2"
-                    android:layout_alignParentLeft="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="  提款人姓名 "
-                    android:textSize="20sp" />
-
-                <EditText
-                    android:gravity="right"
-                    android:layout_alignParentRight="true"
-                    android:background="@null"
-                    android:id="@+id/Tname"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="请输入账户人姓名"
-                    android:singleLine="true"
-                    android:layout_marginRight="5dip"
-                    android:textSize="20sp" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="20dip"
-                android:background="@color/spacing" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -165,7 +173,6 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:textColor="@color/text2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="  备   注  "
@@ -194,7 +201,6 @@
                 android:padding="20dip">
 
                 <TextView
-                    android:textColor="@color/text3"
                     android:id="@+id/sure"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -206,7 +212,6 @@
                     android:textSize="20sp" />
 
                 <TextView
-                    android:textColor="@color/text3"
                     android:id="@+id/exitgetmoney"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

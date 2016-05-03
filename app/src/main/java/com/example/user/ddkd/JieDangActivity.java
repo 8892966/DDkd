@@ -449,35 +449,41 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     private ServiceConnection sc = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            jdBinder = (JieDanService.JDBinder) service;
+            try {
+                jdBinder = (JieDanService.JDBinder) service;
 //            Log.e("ServiceConnection", "jinru");
-            jdBinder.SendIJD(new JieDanService.IJD() {
-                @Override
-                public void Delete(List list) {
-                    JieDangActivity.this.list.removeAll(list);
+                jdBinder.SendIJD(new JieDanService.IJD() {
+                    @Override
+                    public void Delete(List list) {
+                        JieDangActivity.this.list.removeAll(list);
 //                    sp.play(soundid, 1.0f, 0.3f, 0, 0, 2.0f);
-                    myBaseAdapter.notifyDataSetChanged();//刷新数据
+                        myBaseAdapter.notifyDataSetChanged();//刷新数据
+                    }
+
+                    @Override
+                    public void Add(List list) {
+                        JieDangActivity.this.list.addAll(list);
+                        myBaseAdapter.notifyDataSetChanged();//刷新数据
+                        play();
+                    }
+                });
+                list = jdBinder.getMsg();
+                Gson gson = new Gson();
+                SharedPreferences sharedPreferences = getSharedPreferences("qtmsg", MODE_PRIVATE);
+                String qt = sharedPreferences.getString("QT", "");
+                sharedPreferences.edit().putString("QT", "").commit();
+                List QTli = gson.fromJson(qt, new TypeToken<List<QOrderInfo>>() {
+                }.getType());
+                if (QTli != null) {
+                    list.addAll(QTli);
+                    jdBinder.setMsg(QTli);
                 }
-                @Override
-                public void Add(List list) {
-                    JieDangActivity.this.list.addAll(list);
-                    myBaseAdapter.notifyDataSetChanged();//刷新数据
-                    play();
-                }
-            });
-            list = jdBinder.getMsg();
-            Gson gson = new Gson();
-            SharedPreferences sharedPreferences = getSharedPreferences("qtmsg", MODE_PRIVATE);
-            String qt = sharedPreferences.getString("QT", "");
-            sharedPreferences.edit().putString("QT", "").commit();
-            List QTli = gson.fromJson(qt, new TypeToken<List<QOrderInfo>>() {
-            }.getType());
-            if (QTli != null) {
-                list.addAll(QTli);
-                jdBinder.setMsg(QTli);
-            }
 //            Log.e("ServiceConnection", list.size() + "");
-            myBaseAdapter.notifyDataSetChanged();
+                myBaseAdapter.notifyDataSetChanged();
+            }catch (Exception e){
+                Log.e("Exception", e.getMessage());
+                Toast.makeText(JieDangActivity.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
+            }
         }
         @Override
         public void onServiceDisconnected(ComponentName name) {

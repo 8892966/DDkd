@@ -4,12 +4,10 @@
     android:background="@color/backgrod"
     android:layout_height="match_parent">
     <RelativeLayout
-        android:padding="5dip"
-        android:layout_margin="5dip"
         android:id="@+id/userid"
         android:background="@color/edit"
         android:layout_width="match_parent"
-        android:layout_height="55dip"
+        android:layout_height="50dip"
         android:layout_centerInParent="true">
         <!--<TextView-->
             <!--android:layout_width="wrap_content"-->
@@ -30,6 +28,7 @@
         <EditText
             android:layout_centerVertical="true"
             android:id="@+id/userInfo"
+            android:layout_marginRight="10dip"
             android:layout_marginLeft="20dip"
             android:layout_toRightOf="@id/user01"
             android:layout_width="match_parent"
@@ -60,19 +59,16 @@
     <View
         android:id="@+id/view2"
         android:layout_width="wrap_content"
-        android:layout_height="1dip"
+        android:layout_height="2dip"
         android:layout_below="@id/userid"/>
-
     <RelativeLayout
+        android:layout_marginTop="10dip"
         android:id="@+id/password"
         android:layout_width="match_parent"
-        android:layout_height="55dip"
-        android:padding="5dip"
+        android:layout_height="50dip"
         android:background="@color/edit"
-        android:layout_margin="5dip"
-        android:layout_below="@id/view2"
-        android:orientation="horizontal">
-
+        android:padding="5dip"
+        android:layout_below="@id/view2">
         <!--<TextView-->
             <!--android:layout_width="wrap_content"-->
             <!--android:layout_height="wrap_content"-->
@@ -88,8 +84,8 @@
             android:layout_marginLeft="20dip"
             android:layout_gravity="right"
             android:src="@drawable/password"
-            android:layout_width="25dip"
-            android:layout_height="25dip" />
+            android:layout_width="24dip"
+            android:layout_height="24dip" />
         <EditText
             android:layout_centerVertical="true"
             android:id="@+id/passwordInfo"

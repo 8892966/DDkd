@@ -59,8 +59,11 @@ public class MainActivity_login extends Activity implements View.OnClickListener
             rembpwd = (CheckBox) findViewById(R.id.rembpwd);
 
             SharedPreferences preferences01 = getSharedPreferences("config", MODE_PRIVATE);
-            userid1.setText(preferences01.getString("phone",""));
-            password1.setText(preferences01.getString("password",""));
+            int i=preferences01.getInt("checkstatic",0);
+            if(i==1){
+                userid1.setText(preferences01.getString("phone1",""));
+                password1.setText(preferences01.getString("password1",""));
+            }
             button.setOnClickListener(this);
             insert.setOnClickListener(this);
             forget.setOnClickListener(this);
@@ -87,7 +90,6 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                         edit.putString("XGtoken", (String) data);
                         edit.commit();
                     }
-
                     @Override
                     public void onFail(Object data, int errCode, String msg) {
 //                    Toast.makeText(MainActivity_login.this,"信鸽注册失败",Toast.LENGTH_SHORT).show();
@@ -208,10 +210,15 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString("phone", phone);
                 editor.putString("password", password);
+
+                //******************记录当前的打钩的状态，1为打钩，0为不打钩*******************
                 if (rembpwd.isChecked()) {
+                    editor.putInt("checkstatic",1);
                     editor.putString("phone1",phone);
                     editor.putString("password1", password);
 //                    Log.i("save","保存成功");
+                }else{
+                    editor.putInt("checkstatic",0);
                 }
                 editor.commit();
                 if (!TextUtils.isEmpty(phone)) {

@@ -277,8 +277,16 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                 } else {
                     diz = "";
                 }
-                zhuanTai.tv_dingdang_id.setText("订单：" + info.getId());
-                zhuanTai.tv_money.setText(info.getPrice()+"("+info.getTip()+")" + "元");
+                if(info.getTip()!=null) {
+                    zhuanTai.tv_dingdang_id.setText("订单：" + info.getId());
+                    if (info.getTip().equals("0")) {
+                        zhuanTai.tv_money.setText(info.getPrice() + "元");
+                    } else {
+                        zhuanTai.tv_money.setText(info.getPrice() + "元" + "+小费" + info.getTip() + "元");
+                    }
+                }else{
+                    zhuanTai.tv_money.setText("0元");
+                }
                 zhuanTai.tv_kuaidi_dizhi.setText(info.getAddressee() + "");
                 zhuanTai.tv_dingdang_kuaidi.setText(info.getExpressCompany() + "");
                 if (0 <= i && i <= i) {
@@ -288,7 +296,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                 }
                 zhuanTai.dh.setText(info.getUsername() + "/" + info.getPhone());
                 zhuanTai.fahuodizhi.setText(diz + "");
-                zhuanTai.ly.setText("留言:" + info.getEvaluate());
+                zhuanTai.ly.setText("留言:" + info.getMessage());
                 zhuanTai.tuidan.setText("退单理由:" + info.getReason());
                 zhuanTai.tv_dingdang_shijain.setText(info.getOrderTime() + "");
                 zhuanTai.iv_call_phone.setOnClickListener(new MyOnClickListener(info, null, null));
@@ -362,7 +370,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
         MyApplication.getQueue().cancelAll("volley_getOrder_GET");
         preferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = preferences.getString("token", "");
-        Log.e("volley_getOrder_GET", token);
+//        Log.e("volley_getOrder_GET", token);
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/state/" + State + "/token/" + token;
         StringRequest request_post = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override

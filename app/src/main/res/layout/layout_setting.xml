@@ -120,7 +120,6 @@
         android:layout_height="1dip"/>
     <RelativeLayout
         android:background="@drawable/clickview"
-        android:id="@+id/updateApp"
         android:layout_marginLeft="10dip"
         android:padding="5dip"
         android:clickable="true"

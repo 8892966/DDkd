@@ -91,7 +91,9 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
             @Override
             public void afterTextChanged(Editable s) {
                 if (et_phone_number.length() == 11) {
-                    tv_button_yanzhengma.setEnabled(true);
+//                    tv_button_yanzhengma.setEnabled(true);
+                    tv_button_yanzhengma.setText("检查中...");
+                    volley_phoExist_GET(et_phone_number.getText().toString());
                 } else {
                     tv_button_yanzhengma.setEnabled(false);
                 }
@@ -256,5 +258,33 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
+    }
+    //判断用户是否已注册
+    private void volley_phoExist_GET(String phone) {
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/phoExist/phone/" + phone;
+//        参数一：方法 参数二：地址 参数三：成功回调 参数四：错误回调 。重写getParams 以post参数
+        StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                Log.e("volley_phoExist_GET", s);
+                tv_button_yanzhengma.setText("验证码");
+                if ("SUCCESS".equals(s)) {
+                    tv_button_yanzhengma.setEnabled(false);
+                    Toast.makeText(MainActivity_forget.this, "用户不存在！", Toast.LENGTH_SHORT).show();
+                } else {
+                    tv_button_yanzhengma.setEnabled(true);
+
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                tv_button_yanzhengma.setText("验证码");
+                tv_button_yanzhengma.setEnabled(false);
+                Toast.makeText(MainActivity_forget.this, "网络异常", Toast.LENGTH_SHORT).show();
+            }
+        });
+        request_post.setTag("volley_phoExist_GET");
+        MyApplication.getQueue().add(request_post);
     }
 }

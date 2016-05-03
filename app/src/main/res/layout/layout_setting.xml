@@ -115,6 +115,37 @@
 
     </RelativeLayout>
     <View
+        android:background="#cccccc"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"/>
+    <RelativeLayout
+        android:background="@drawable/clickview"
+        android:id="@+id/updateApp"
+        android:layout_marginLeft="10dip"
+        android:padding="5dip"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_width="match_parent"
+        android:layout_height="40dip">
+        <TextView
+            android:layout_centerVertical="true"
+            android:textSize="20sp"
+            android:text="声音提醒"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ToggleButton
+            android:id="@+id/Static"
+            android:textOn="开"
+            android:textOff="关"
+            android:checked="true"
+            android:layout_marginRight="10dip"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/toright"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <View
         android:background="@color/spacing"
         android:layout_width="match_parent"
         android:layout_height="15dip"/>

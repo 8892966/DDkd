@@ -14,10 +14,12 @@ import android.os.Message;
 import android.text.Editable;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -44,6 +46,7 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
     private RelativeLayout updateapp;
     private RelativeLayout aboutDD;
     private ImageView imageView;
+    private ToggleButton Static;
 
     //*****************分享DD*****************
 //    private RelativeLayout Share;
@@ -77,14 +80,32 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
         updateapp.setOnClickListener(this);
         aboutDD = (RelativeLayout) findViewById(R.id.aboutDD);
         aboutDD.setOnClickListener(this);
-
+        //***********************添加状态监听***********************
+        SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
+        final SharedPreferences.Editor editor=sharedPreferences.edit();
+        Static= (ToggleButton) findViewById(R.id.Static);
+        Static.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    editor.putBoolean("voice",true);
+                    editor.commit();
+                    Toast.makeText(MainActivity_setting.this,"当前状态为true",Toast.LENGTH_SHORT).show();
+                }else{
+                    editor.putBoolean("voice",false);
+                    editor.commit();
+                    Toast.makeText(MainActivity_setting.this,"当前状态为false",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        Log.i("Version", sharedPreferences.getString("version", ""));
+        version.setText(sharedPreferences.getString("version", ""));
+        ExitApplication.getInstance().addActivity(this);
         //*****************分享DD*****************
 //        Share= (RelativeLayout) findViewById(R.id.Share);
 //        Share.setOnClickListener(this);
 
-        ExitApplication.getInstance().addActivity(this);
-        SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
-        version.setText(sharedPreferences.getString("version", ""));
+
     }
     @Override
     public void onClick(View v) {

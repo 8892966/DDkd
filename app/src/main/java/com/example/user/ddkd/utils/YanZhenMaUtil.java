@@ -116,12 +116,9 @@ public class YanZhenMaUtil {
                         }
                         eventType = parser.next();
                     }
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                } catch (XmlPullParserException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                }catch (Exception e){
+                    Log.e("Exception", e.getMessage());
+                    Toast.makeText(context,"信息有误!!!",Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {

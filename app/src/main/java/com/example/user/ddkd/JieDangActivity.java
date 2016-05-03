@@ -187,8 +187,18 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         soundid=sp.load(this, R.raw.ddkd, 1);
     }
     private void play(){//声音开始
-        sp.play(soundid, 1.0f, 0.3f, 0, 1, 2.0f);
+        try {
+
+            sp.play(soundid, 1.0f, 0.3f, 0, 1, 2.0f);
+
+        }catch (Exception e){
+
+            Log.e("Exception", e.getMessage());
+            Toast.makeText(JieDangActivity.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
+
+        }
     }
+
     @Override
     public void onClick(View v) {
         try {
@@ -371,7 +381,9 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         try {
             volley_MSG_GET();//获取信息
             StatService.onResume(this);
-            list.clear();
+            if(list!=null) {
+                list.clear();
+            }
             SharedPreferences sharedPreferences = getSharedPreferences("qtmsg", MODE_PRIVATE);
 
 //        Log.e("JieDangActivity", getIntent().getBooleanExtra("info", false) + "");
@@ -430,7 +442,6 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             Toast.makeText(JieDangActivity.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
         }
     }
-
     //绑定服务
     private ServiceConnection sc = new ServiceConnection() {
         @Override
@@ -444,12 +455,11 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 //                    sp.play(soundid, 1.0f, 0.3f, 0, 0, 2.0f);
                     myBaseAdapter.notifyDataSetChanged();//刷新数据
                 }
-
                 @Override
                 public void Add(List list) {
                     JieDangActivity.this.list.addAll(list);
                     myBaseAdapter.notifyDataSetChanged();//刷新数据
-                    play();
+//                    play();
                 }
             });
             list = jdBinder.getMsg();
@@ -481,7 +491,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         StringRequest request_post = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
-//                try {
+                try {
                     String ss = (String) o;
                     Log.e("volley_MSG_GET", ss);
                     Gson gson = new Gson();
@@ -505,10 +515,10 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 //                    pb_star.setRating(Float.valueOf(info.getEvaluate()));
                         }
                     }
-//                }catch (Exception e){
-//                    Log.e("Exception", e.getMessage());
-//                    Toast.makeText(JieDangActivity.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
-//                }
+                }catch (Exception e){
+                    Log.e("Exception", e.getMessage());
+                    Toast.makeText(JieDangActivity.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -627,10 +637,9 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     }
 
 
-
     private void xingxing(float i){
-            int ii=(int)(i+0.5);
         try {
+            int ii=(int)(i+0.5);
             switch (ii) {
                 case 0:
                     xx1.setImageResource(R.drawable.comment_star_gray_icon);

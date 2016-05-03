@@ -47,7 +47,7 @@ public class JieDanService extends Service {
                         USERCANCEL(msg.arg1);
                         break;
                     case MyApplication.XG_TEXT_MESSAGE:
-                        Log.e("JieDanService", "添加数据");
+//                        Log.e("JieDanService", "添加数据");
                         if (o[o.length - 1] == null) {
                             o[o.length - 1] = new ArrayList<>();
                         }
@@ -74,10 +74,10 @@ public class JieDanService extends Service {
                             ijd.Delete(o[0]);
                             int i = 0;
                             for (QOrderInfo xgp : o[0]) {
-                                Log.e("JieDanService", xgp.toString() + 0 + (i++));
+//                                Log.e("JieDanService", xgp.toString() + 0 + (i++));
                             }
                         } else {
-                            Log.e("JieDanService", "时间还没到");
+//                            Log.e("JieDanService", "时间还没到");
                         }
                         if (o[o.length - 1] != null) {
                             //判断抢单页面是否在前台
@@ -158,11 +158,11 @@ public class JieDanService extends Service {
         public void setMsg(List<QOrderInfo> msg){
             try {
                 for (QOrderInfo q : msg) {
-                    Log.e("setMsg", q.getOrderTime() + "");
+//                    Log.e("setMsg", q.getOrderTime() + "");
                     long time = System.currentTimeMillis() - Long.valueOf(q.getOrderTime());
                     int t = (int) ((30 * 1000 - time)) / 1000;
                     if (t > 0) {
-                        Log.e("setMsg", t + "");
+//                        Log.e("setMsg", t + "");
                         if (o[t] == null) {
                             o[t] = new ArrayList<>();
                         }

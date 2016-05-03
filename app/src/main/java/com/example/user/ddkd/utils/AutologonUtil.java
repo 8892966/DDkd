@@ -31,7 +31,7 @@ public class AutologonUtil {
     }
     public void volley_Get_TOKEN() {
         SharedPreferences sharedPreferences=context.getSharedPreferences("config", Context.MODE_PRIVATE);
-        String userid=sharedPreferences.getString("phone","");
+        String userid=sharedPreferences.getString("phone", "");
         String password=sharedPreferences.getString("password","");
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/login/phone/" + userid + "/password/" + password;
         Log.e("volley_Get_TOKEN",url);
@@ -39,22 +39,27 @@ public class AutologonUtil {
             @Override
             public void onResponse(String s) {
 //                Log.e("Get_login", s);
-                if (!s.equals("ERROR")){
-                    s = s.substring(1, s.length() - 1);
-                    //******************当提交成功以后，后台会返回一个参数来说明是否提交/验证成功******************
-                    SharedPreferences sharedPreferences = context.getSharedPreferences("config", context.MODE_PRIVATE);
-                    SharedPreferences.Editor edit = sharedPreferences.edit();
-                    edit.putString("token", s);
+                try {
+                    if (!s.equals("ERROR")) {
+                        s = s.substring(1, s.length() - 1);
+                        //******************当提交成功以后，后台会返回一个参数来说明是否提交/验证成功******************
+                        SharedPreferences sharedPreferences = context.getSharedPreferences("config", context.MODE_PRIVATE);
+                        SharedPreferences.Editor edit = sharedPreferences.edit();
+                        edit.putString("token", s);
 //                    Log.e("volley_Get", s);
-                    edit.commit();
-                    Message message=new Message();
-                    message.obj=obj;
-                    message.what=MyApplication.GET_TOKEN_SUCCESS;
-                    handler.sendMessage(message);
+                        edit.commit();
+                        Message message = new Message();
+                        message.obj = obj;
+                        message.what = MyApplication.GET_TOKEN_SUCCESS;
+                        handler.sendMessage(message);
 //                    handler.sendEmptyMessage();
-                }else{
-                    Log.i("Error", "ERROR");
-                    handler.sendEmptyMessage(MyApplication.GET_TOKEN_ERROR);
+                    } else {
+                        Log.i("Error", "ERROR");
+                        handler.sendEmptyMessage(MyApplication.GET_TOKEN_ERROR);
+                    }
+                }catch (Exception e){
+                    Log.e("Exception", e.getMessage());
+                    Toast.makeText(context,"信息有误!!!",Toast.LENGTH_SHORT).show();
                 }
             }
         },new Response.ErrorListener(){

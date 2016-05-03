@@ -167,6 +167,7 @@ public class SplashActivity extends AppCompatActivity {
             builder.create().show();
         }catch (Exception e){
             Log.e("Exception", e.getMessage());
+            enterhome();
             Toast.makeText(SplashActivity.this,"信息有误",Toast.LENGTH_SHORT).show();
         }
     }
@@ -183,8 +184,8 @@ public class SplashActivity extends AppCompatActivity {
                     URL url=new URL("http://www.louxiago.com/wc/ddkd/admin.php/User/update");
                     HttpURLConnection connection=(HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("GET");
-                    connection.setConnectTimeout(4000);
-                    connection.setReadTimeout(4000);
+                    connection.setConnectTimeout(3000);
+                    connection.setReadTimeout(3000);
                     int code = connection.getResponseCode();
                     Log.i(TAG, code+"");
                     if(code==200) {
@@ -226,6 +227,7 @@ public class SplashActivity extends AppCompatActivity {
             }
         }).start();
     }
+
     protected void enterhome() {
         SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
         Boolean b=sharedPreferences.getBoolean("KYYMA", false);

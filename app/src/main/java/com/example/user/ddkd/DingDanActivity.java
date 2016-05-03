@@ -93,8 +93,6 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.order_details_activity);
-        //初始加载已接单页面
-        volley_getOrder_GET("1");
         listView = (ListView) findViewById(R.id.lv_order_details);
         tv_button_yijie = (TextView) findViewById(R.id.tv_button_yijie);//查看已接单的订单详情
         tv_button_daisong = (TextView) findViewById(R.id.tv_button_daisong);//查看待送的订单详情
@@ -107,9 +105,13 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
         if(i==3) {
             xuanzhe = 3;
             setEnableds(xuanzhe);
+            //初始加载已接单页面
+            volley_getOrder_GET("3");
         }else {
             xuanzhe = 1;
             setEnableds(xuanzhe);
+            //初始加载已接单页面
+            volley_getOrder_GET("1");
         }
         //初始化list
         list = new ArrayList<OrderInfo>();

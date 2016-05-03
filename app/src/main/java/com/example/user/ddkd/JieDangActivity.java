@@ -188,9 +188,11 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     }
     private void play(){//声音开始
         try {
-
-            sp.play(soundid, 1.0f, 0.3f, 0, 1, 2.0f);
-
+            SharedPreferences spf=getSharedPreferences("config",MODE_PRIVATE);
+            boolean b=spf.getBoolean("voice",true);
+            if(b){
+                sp.play(soundid, 1.0f, 0.3f, 0, 0, 1);
+            }
         }catch (Exception e){
 
             Log.e("Exception", e.getMessage());
@@ -300,6 +302,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 if (s != null) {
                     viewInfo.tv_addr.setText(s);
                 }
+
                 if (qOrderInfo.getExpressCompany() != null) {
                     viewInfo.tv_class.setText(qOrderInfo.getExpressCompany() + "快件");
                 }
@@ -343,7 +346,6 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             private String id;
             private TextView button;
             private QOrderInfo qOrderInfo;
-
             public QDonClickListener(QOrderInfo qOrderInfo, TextView button) {
                 this.id = qOrderInfo.getOrderid();
                 this.button = button;
@@ -434,6 +436,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     protected void onDestroy() {
         super.onDestroy();
         try {
+            sp.release();
             StatService.onPause(this);
             MyApplication.getQueue().cancelAll("volley_MSG_GET");
             MyApplication.getQueue().cancelAll("volley_QD_GET");
@@ -459,7 +462,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 public void Add(List list) {
                     JieDangActivity.this.list.addAll(list);
                     myBaseAdapter.notifyDataSetChanged();//刷新数据
-//                    play();
+                    play();
                 }
             });
             list = jdBinder.getMsg();
@@ -476,7 +479,6 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 //            Log.e("ServiceConnection", list.size() + "");
             myBaseAdapter.notifyDataSetChanged();
         }
-
         @Override
         public void onServiceDisconnected(ComponentName name) {
 

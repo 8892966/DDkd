@@ -87,9 +87,9 @@ public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
         //开发者在前台下发消息，需要APP继承XGPushBaseReceiver重载onTextMessage方法接收，
         // 成功接收后，再根据特有业务场景进行处理。
         //"ROBRES"签单结果
-//        Log.e("onTextMessage", "有信息");
-//        Log.e("onTextMessage", xgPushTextMessage.getTitle());
-//        Log.e("onTextMessage", xgPushTextMessage.getContent());
+        Log.e("onTextMessage", "有信息");
+        Log.e("onTextMessage", xgPushTextMessage.getTitle());
+        Log.e("onTextMessage", xgPushTextMessage.getContent());
         try {
             if (xgPushTextMessage.getTitle().equals("ROBRES")) {
                 Gson gson = new Gson();

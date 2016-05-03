@@ -132,17 +132,24 @@
             android:text="声音提醒"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <ToggleButton
-            android:id="@+id/Static"
-            android:textOn="开"
-            android:textOff="关"
-            android:checked="true"
+        <Switch
             android:layout_marginRight="10dip"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:src="@drawable/toright"
+            android:id="@+id/Static"
+            android:checked="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+        <!--<ToggleButton-->
+            <!--android:id="@+id/Static"-->
+            <!--android:textOn="开"-->
+            <!--android:textOff="关"-->
+            <!--android:checked="true"-->
+            <!--android:layout_marginRight="10dip"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
     </RelativeLayout>
     <View
         android:background="@color/spacing"

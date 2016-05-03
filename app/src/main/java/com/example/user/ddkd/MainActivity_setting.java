@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -46,7 +47,7 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
     private RelativeLayout updateapp;
     private RelativeLayout aboutDD;
     private ImageView imageView;
-    private ToggleButton Static;
+    private Switch Static;
 
     //*****************分享DD*****************
 //    private RelativeLayout Share;
@@ -83,7 +84,7 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
         //***********************添加状态监听***********************
         SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
         final SharedPreferences.Editor editor=sharedPreferences.edit();
-        Static= (ToggleButton) findViewById(R.id.Static);
+        Static= (Switch) findViewById(R.id.Static);
         boolean ZT=sharedPreferences.getBoolean("voice",true);
         Static.setChecked(ZT);
         Static.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

@@ -159,7 +159,7 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
     private void getPhoto() {
         Intent intent = new Intent(Intent.ACTION_PICK);// 打开相册
         intent.setDataAndType(MediaStore.Images.Media.INTERNAL_CONTENT_URI, "image/*");
-        Log.e("ZhuCe3Activity", Uri.fromFile(tempFile).toString());
+//        Log.e("ZhuCe3Activity", Uri.fromFile(tempFile).toString());
         intent.putExtra("output", Uri.fromFile(tempFile));
         startActivityForResult(intent, 11);
     }
@@ -167,7 +167,7 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
     private void crop(Uri uri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
-        Log.e("crop", Uri.fromFile(tempFile).getPath());
+//        Log.e("crop", Uri.fromFile(tempFile).getPath());
         intent.putExtra("output", Uri.fromFile(tempFile));
         intent.putExtra("crop", true);
         intent.putExtra("aspectX", 1);
@@ -196,7 +196,7 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
         } else if (requestCode == 11) {
             if (data != null) {
                 Uri uri = data.getData();
-                Log.e("uri", uri.toString());
+//                Log.e("uri", uri.toString());
                 crop(uri);
             }
         }

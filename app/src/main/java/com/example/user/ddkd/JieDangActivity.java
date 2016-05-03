@@ -194,7 +194,6 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 sp.play(soundid, 1.0f, 0.3f, 0, 0, 1);
             }
         }catch (Exception e){
-
             Log.e("Exception", e.getMessage());
             Toast.makeText(JieDangActivity.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
 
@@ -390,7 +389,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 
 //        Log.e("JieDangActivity", getIntent().getBooleanExtra("info", false) + "");
 
-            if (!sharedPreferences.getString("QT", "").equals("")) {
+            if (getIntent().getBooleanExtra("info", false)) {
 //            Log.e("onResume","1111111111111111111111");
                 jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
                 startService(jieDanServiceIntent);
@@ -451,12 +450,10 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         public void onServiceConnected(ComponentName name, IBinder service) {
             try {
                 jdBinder = (JieDanService.JDBinder) service;
-//            Log.e("ServiceConnection", "jinru");
                 jdBinder.SendIJD(new JieDanService.IJD() {
                     @Override
                     public void Delete(List list) {
                         JieDangActivity.this.list.removeAll(list);
-//                    sp.play(soundid, 1.0f, 0.3f, 0, 0, 2.0f);
                         myBaseAdapter.notifyDataSetChanged();//刷新数据
                     }
 
@@ -506,9 +503,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                     if (ss.startsWith("{")) {
                         MainMsgInfo info = gson.fromJson((String) o, MainMsgInfo.class);
                         tv_xiuxi_huodong_now_number.setText("今天完成   " + info.getTodOrder() + "单");
-//                tv_star.setText(info.getEvaluate());
                         tv_sum_number.setText("完成总数   " + info.getTotalOrder() + "单");
-//                tv_xiuxi_huodong_yesterday_number.setText("今天订单：" + info.getYstOrder() + "单");
                         if (info.getTodTurnover() != null) {
                             DecimalFormat g = new DecimalFormat("0.00");//精确到两位小数
                             tv_xiuxi_huodong_yesterday_money.setText("今天营业额   " + g.format(Double.valueOf(info.getTodTurnover())) + "元");
@@ -516,11 +511,9 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                             tv_xiuxi_huodong_yesterday_money.setText("今天营业额   0元");
                         }
                         if (info.getEvaluate() == null) {
-//                    pb_star.setRating(0);
                             xingxing(0);
                         } else {
                             xingxing(Float.valueOf(info.getEvaluate()));
-//                    pb_star.setRating(Float.valueOf(info.getEvaluate()));
                         }
                     }
                 }catch (Exception e){
@@ -546,41 +539,6 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 Toast.makeText(JieDangActivity.this, "网络连接中断", Toast.LENGTH_SHORT).show();
             }
         });
-//        StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String s) {
-//                Log.e("volley_OrderState_GET", s);
-//                if (!s.endsWith("\"token outtime\"")) {
-//                    if("error".equals(s)){
-//                        Gson gson = new Gson();
-//                        MainMsgInfo info = gson.fromJson(s, MainMsgInfo.class);
-//                        tv_xiuxi_huodong_now_number.setText("接单" + info.getTodOrder() + "单");
-//                        tv_star.setText(info.getEvaluate());
-//                        tv_sum_number.setText("总" + info.getTotalOrder() + "单");
-//                        tv_xiuxi_huodong_yesterday_number.setText("昨天订单：" + info.getYstOrder() + "单");
-//                        if (info.getYstTurnover() != null) {
-//                            tv_xiuxi_huodong_yesterday_money.setText("昨天营业额:" + info.getYstTurnover() + "元");
-//                        } else {
-//                            tv_xiuxi_huodong_yesterday_money.setText("昨天营业额:0元");
-//                        }
-//                        if (info.getEvaluate() == null) {
-//                            pb_star.setRating(0);
-//                        } else {
-//                            pb_star.setRating(Float.valueOf(info.getEvaluate()));
-//                        }
-//                    }
-//                } else {
-//                    Log.e("volley_getOrder_GET", "token过时了");
-//                    AutologonUtil autologonUtil = new AutologonUtil(JieDangActivity.this,handler1,null);
-//                    autologonUtil.volley_Get_TOKEN();
-//                }
-//            }
-//        },new Response.ErrorListener(){
-//            @Override
-//            public void onErrorResponse(VolleyError volleyError){
-//                Toast.makeText(JieDangActivity.this,"网络异常",Toast.LENGTH_SHORT).show();
-//            }
-//        });
         request_post.setTag("volley_MSG_GET");
         MyApplication.getQueue().add(request_post);
     }
@@ -638,7 +596,11 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         djtime[djtime.length - 1] = SystemClock.uptimeMillis();
         if (djtime[0] >= (SystemClock.uptimeMillis() - 1000)) {
 //                super.onBackPressed();
-            ExitApplication.getInstance().exit();
+            Intent i= new Intent(Intent.ACTION_MAIN);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            i.addCategory(Intent.CATEGORY_HOME);
+            startActivity(i);
+//            ExitApplication.getInstance().exit();
         } else {
             Toast.makeText(this, "再按一次返回键退出应用", Toast.LENGTH_SHORT).show();
         }

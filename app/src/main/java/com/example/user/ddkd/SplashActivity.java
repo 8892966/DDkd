@@ -60,23 +60,33 @@ public class SplashActivity extends AppCompatActivity {
             super.handleMessage(msg);
             switch (msg.what) {
                 case ENTER_HOME:
-                    enterhome();
+                    if(!isFinishing()) {
+                        enterhome();
+                    }
                     break;
                 case SHOW_UPDATE_DIALOG:
-                    Log.i(TAG, "显示升级的对话框");
-                    showupdateDialog();
+                    if(!isFinishing()) {
+                        Log.i(TAG, "显示升级的对话框");
+                        showupdateDialog();
+                    }
                     break;
                 case URL_ERROR:
-                    enterhome();
-                    Log.i(TAG, "url错误");
+                    if(!isFinishing()) {
+                        enterhome();
+                        Log.i(TAG, "url错误");
+                    }
                     break;
                 case NETWORK_ERROR:
-                    enterhome();
-                    Log.i(TAG, "网络异常");
+                    if(!isFinishing()) {
+                        enterhome();
+                        Log.i(TAG, "网络异常");
+                    }
                     break;
                 case JSON_ERROR:
-                    enterhome();
-                    Log.i(TAG, "json解析错误");
+                    if(!isFinishing()) {
+                        enterhome();
+                        Log.i(TAG, "json解析错误");
+                    }
                     break;
             }
         }
@@ -85,41 +95,42 @@ public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
-        StatService.setLogSenderDelayed(10);
-        StatService.setSendLogStrategy(this, SendStrategyEnum.APP_START,
-                1, false);
-        StatService.setSessionTimeOut(0);
-        ExitApplication.getInstance().addActivity(this);
+            super.onCreate(savedInstanceState);
+        try {
+            setContentView(R.layout.activity_splash);
+            StatService.setLogSenderDelayed(10);
+            StatService.setSendLogStrategy(this, SendStrategyEnum.APP_START,
+                    1, false);
+            StatService.setSessionTimeOut(0);
+            ExitApplication.getInstance().addActivity(this);
 
-
-        if(MyApplication.state==0){
-            tv = (TextView) findViewById(R.id.tv_splash_verson);
-            tv.setText("版本号:"+getVersonName());
-            preferences=getSharedPreferences("config",MODE_PRIVATE);
-            boolean boolean1 = preferences.getBoolean("update",true);
-            if(boolean1){
-                CheckUpdate();
-            }else{
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        // TODO Auto-generated method stub
-                        enterhome();
-                    }
-                }, 2000);
+            if (MyApplication.state == 0) {
+                tv = (TextView) findViewById(R.id.tv_splash_verson);
+                tv.setText("版本号:" + getVersonName());
+                preferences = getSharedPreferences("config", MODE_PRIVATE);
+                boolean boolean1 = preferences.getBoolean("update", true);
+                if (boolean1) {
+                    CheckUpdate();
+                } else {
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            enterhome();
+                        }
+                    }, 2000);
+                }
+                AlphaAnimation animation = new AlphaAnimation(0.2f, 1.0f);
+                animation.setDuration(500);
+                findViewById(R.id.rl_root_splash).setAnimation(animation);
+                jindu = (TextView) findViewById(R.id.tv_splash_jindu);
+            } else {
+                enterhome();
             }
-
-            AlphaAnimation animation=new AlphaAnimation(0.2f, 1.0f);
-            animation.setDuration(500);
-            findViewById(R.id.rl_root_splash).setAnimation(animation);
-            jindu = (TextView) findViewById(R.id.tv_splash_jindu);
-        } else {
+        }catch (Exception e){
             enterhome();
         }
-
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -159,7 +170,6 @@ public class SplashActivity extends AppCompatActivity {
             builder.setNegativeButton("下次再说", new OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    // TODO Auto-generated method stub
                     dialog.dismiss();
                     enterhome();
                 }
@@ -171,6 +181,7 @@ public class SplashActivity extends AppCompatActivity {
             Toast.makeText(SplashActivity.this,"信息有误",Toast.LENGTH_SHORT).show();
         }
     }
+
     /**
      * 检查更新
      */

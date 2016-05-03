@@ -61,7 +61,7 @@ public class Activity_feedback extends Activity implements View.OnClickListener 
         Fcommit.setOnClickListener(this);
     }
     @Override
-    public void onClick(View v) {
+    public void onClick(View v){
         switch (v.getId()){
             case R.id.Fcommit:
                 String message=messageedit.getText().toString();

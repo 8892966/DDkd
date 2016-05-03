@@ -377,7 +377,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             public void success(Object o) {
                 String s = (String) o;
                 try {
-                    Log.e("volley_getOrder_GET", s);
+//                    Log.e("volley_getOrder_GET", s);
                     if (!s.equals("ERROR")) {
                         Gson gson = new Gson();
                         list = gson.fromJson((String) o, new TypeToken<List<OrderInfo>>() {
@@ -403,7 +403,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
 
             @Override
             public void tokenouttime() {
-                Log.e("volley_getOrder_GET", "token过时了");
+//                Log.e("volley_getOrder_GET", "token过时了");
                 AutologonUtil autologonUtil = new AutologonUtil(DingDanActivity.this, handler1, State);
                 autologonUtil.volley_Get_TOKEN();
             }

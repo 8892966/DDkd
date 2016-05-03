@@ -112,7 +112,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                             RequestParams requestParams = new RequestParams();
                             requestParams.addBodyParameter("name", "IdCard");
                             requestParams.addBodyParameter("phone", signUpInfo.getPhone());
-                            Log.e("ZhuCe4Activity", getRealFilePath(ZhuCe4Activity.this, uri1));
+//                            Log.e("ZhuCe4Activity", getRealFilePath(ZhuCe4Activity.this, uri1));
                             requestParams.addBodyParameter("file", new File(getRealFilePath(ZhuCe4Activity.this, uri1)));
                             new UploadUtil().uploadMethod(requestParams, "http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage", handler, progressBar2, ZhuCe4Activity.this, null);
                             progressBar1.setProgress(Static);
@@ -263,7 +263,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
         } else if (requestCode == 102) {
             if (data != null) {
                 final Uri data1 = data.getData();
-                Log.e("onActivityResult", data1.getPath() + "...." + getRealFilePath(this, data1));
+//                Log.e("onActivityResult", data1.getPath() + "...." + getRealFilePath(this, data1));
                 String path = getRealFilePath(this, data1);
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 Bitmap cameraBitmap = UploadUtil.getBitmap(path, options, iv_zhuce4_zhaopian2.getHeight(), iv_zhuce4_zhaopian2.getWidth());
@@ -291,7 +291,7 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
         } else if (requestCode == 103) {
             if (data != null) {
                 final Uri data1 = data.getData();
-                Log.e("onActivityResult", data1.getPath() + "...." + getRealFilePath(this, data1));
+//                Log.e("onActivityResult", data1.getPath() + "...." + getRealFilePath(this, data1));
                 String path = getRealFilePath(this, data1);
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 Bitmap cameraBitmap = UploadUtil.getBitmap(path, options, iv_zhuce4_zhaopian3.getHeight(), iv_zhuce4_zhaopian3.getWidth());

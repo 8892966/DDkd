@@ -99,6 +99,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                 Intent intent = new Intent(MainActivity_login.this, JieDangActivity.class);
                 startActivity(intent);
                 finish();
+                MyApplication.state = 1;
             }
         }catch (Exception e){
             Log.e("Exception", e.getMessage());
@@ -157,6 +158,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                                 edit.putString("XGtoken", (String) data);
                                 edit.putString("loginstatic", "1");
                                 MyApplication.state = 1;
+//                                Log.e("MainActivity_login",MyApplication.state+"");
                                 edit.commit();
                                 Intent intent = new Intent(MainActivity_login.this, JieDangActivity.class);
                                 startActivity(intent);

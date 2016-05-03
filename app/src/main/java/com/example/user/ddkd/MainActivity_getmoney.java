@@ -129,12 +129,11 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
                 SharedPreferences shareyue = getSharedPreferences("config", MODE_PRIVATE);
                 String yue = shareyue.getString("TX", "0");
                 Log.i("TX01", yue);
-                Double sub = Double.valueOf(userInfo.getBalance()) - Double.valueOf(yue);
-
                 getmoney1 = getmoney.getText().toString();
                 counter1 = counter.getText().toString();
                 tname1 = Tname.getText().toString();
                 beizhu1 = beizhu.getText().toString();
+                Double sub = Double.valueOf(userInfo.getBalance()) - Double.valueOf(yue)-Double.valueOf(getmoney1);
                 if (sub>=100) {
                     Log.i("SUB", String.valueOf(sub));
                     if (!TextUtils.isEmpty(counter1)) {

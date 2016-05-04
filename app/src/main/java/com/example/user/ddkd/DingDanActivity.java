@@ -290,7 +290,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                 zhuanTai.tv_kuaidi_dizhi.setText(info.getAddressee() + "");
                 zhuanTai.tv_dingdang_kuaidi.setText(info.getExpressCompany() + "");
                 if (0 <= i && i <= i) {
-                    zhuanTai.lxr.setText(s[0] + "/" + s[1]);
+                    zhuanTai.lxr.setText(s[0] + "/" + s[1]+"/"+s[2]);
                 } else {
                     zhuanTai.lxr.setText("");
                 }
@@ -345,6 +345,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                 }
             }
         }
+
         class ZhuanTai {
             TextView tv_dingdang_id;//订单号
             TextView tv_money;//钱
@@ -377,7 +378,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             public void success(Object o) {
                 String s = (String) o;
                 try {
-//                    Log.e("volley_getOrder_GET", s);
+                    Log.e("volley_getOrder_GET", s);
                     if (!s.equals("ERROR")) {
                         Gson gson = new Gson();
                         list = gson.fromJson((String) o, new TypeToken<List<OrderInfo>>() {

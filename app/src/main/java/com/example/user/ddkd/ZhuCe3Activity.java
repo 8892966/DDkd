@@ -300,10 +300,11 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
     public static boolean personIdValidation(String text) {
             boolean flag = false;
         try {
+            String regX = "[0-9]{17}X";
             String regx = "[0-9]{17}x";
             String reg1 = "[0-9]{15}";
             String regex = "[0-9]{18}";
-            flag = text.matches(regx) || text.matches(reg1) || text.matches(regex);
+            flag = text.matches(regx) || text.matches(reg1) || text.matches(regex)|| text.matches(regX);
         }catch (Exception e){
             Log.e("Exception", e.getMessage());
         }

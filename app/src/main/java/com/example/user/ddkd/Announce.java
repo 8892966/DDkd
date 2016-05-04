@@ -168,7 +168,7 @@ public class Announce extends Activity implements View.OnClickListener {
                     }
                 } catch (Exception e) {
                     Log.e("Exception", e.getMessage());
-                    Toast.makeText(Announce.this, "信息有误", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(Announce.this, "信息有误", Toast.LENGTH_SHORT).show();
                 }
             }
 

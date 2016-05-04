@@ -312,7 +312,8 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 
                 viewInfo.tv_item_jianli.setVisibility(View.GONE);
                 if (qOrderInfo.getAddressee() != null && qOrderInfo.getPrice() != null && qOrderInfo.getTip() != null) {
-                    viewInfo.tv_item_title.setText(qOrderInfo.getAddressee() + "    共" + qOrderInfo.getPrice() + "元(含小费" + qOrderInfo.getTip() + "元)");
+                    float f=Float.valueOf(qOrderInfo.getPrice())+Float.valueOf(qOrderInfo.getTip());
+                    viewInfo.tv_item_title.setText(qOrderInfo.getAddressee() + "    共" + f + "元(含小费" + qOrderInfo.getTip() + "元)");
                 }
                 if (qOrderInfo.getOrderid() != null) {
                     viewInfo.order_id.setText("单号:" + qOrderInfo.getOrderid());
@@ -488,7 +489,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         }
     };
     //网络申请获取主页面信息
-    private void volley_MSG_GET() {
+    private void volley_MSG_GET(){
         preferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = preferences.getString("token", "");
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/CountOrder/token/" + token;

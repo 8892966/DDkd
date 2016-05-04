@@ -103,7 +103,7 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
         });
 
         Log.i("Version", sharedPreferences.getString("version", ""));//回显版本号;
-        version.setText(sharedPreferences.getString("version", "1.0.0"));
+        version.setText(sharedPreferences.getString("version", getVersonName()));
         ExitApplication.getInstance().addActivity(this);
         //*****************分享DD*****************
 //        Share= (RelativeLayout) findViewById(R.id.Share);

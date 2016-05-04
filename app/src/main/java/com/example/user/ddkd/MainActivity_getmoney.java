@@ -141,8 +141,8 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
 //                Log.i("SUB", String.valueOf(sub));
                 if (!TextUtils.isEmpty(counter1)) {
                     if (!TextUtils.isEmpty(tname1)) {
-                        if (!TextUtils.isEmpty(getmoney1) && Double.valueOf(getmoney1) >= 100) {
-                            if (Double.valueOf(userInfo.getBalance()) > 100) {
+                        if (!TextUtils.isEmpty(getmoney1) && Double.valueOf(getmoney1) >= 30) {
+                            if (Double.valueOf(userInfo.getBalance()) > 30) {
                                 if (Double.valueOf(getmoney1) <= Double.valueOf(userInfo.getBalance())) {
 //                                    if (Double.valueOf(userInfo.getBalance())-Double.valueOf(TX)>=Double.valueOf(getmoney1)) {
                                         if (TextUtils.isEmpty(beizhu1)) {
@@ -167,11 +167,11 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
                                 }
                             } else {
                                 closeProgressDialog();
-                                Toast.makeText(MainActivity_getmoney.this, "您的余额不足100元", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity_getmoney.this, "您的余额不足30元", Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             closeProgressDialog();
-                            Toast.makeText(MainActivity_getmoney.this, "提现金额不能为空或提现金额小于100", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity_getmoney.this, "提现金额不能为空或提现金额小于30", Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         closeProgressDialog();

@@ -283,7 +283,7 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
             @Override
             public void success(Object o) {
                 String s = (String) o;
-                if (!s.equals("ERROR")) {
+                if (!"ERROR".equals(s)) {
                     Gson gson = new Gson();
                     UserInfo userInfo = gson.fromJson(s, UserInfo.class);
                     if (userInfo != null) {

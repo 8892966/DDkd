@@ -205,7 +205,7 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
                 try{
                     String s = (String) o;
                     Log.i("Main", s);
-                    if (!s.equals("ERROR")) {
+                    if (!"ERROR".equals(s)) {
                         Gson gson = new Gson();
                         UserInfo userInfo = gson.fromJson(s, UserInfo.class);
                         if (userInfo != null) {

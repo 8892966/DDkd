@@ -188,7 +188,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
             public void success(Object o) {
                 try{
                     String s = (String) o;
-                    if (!s.equals("ERROR")) {
+                    if (!"ERROR".equals(s)) {
                         Gson gson = new Gson();
                         UserInfo userInfo = gson.fromJson(s, UserInfo.class);
                         if (userInfo != null) {

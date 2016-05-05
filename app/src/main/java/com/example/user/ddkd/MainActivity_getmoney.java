@@ -210,7 +210,7 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
                     Log.i("ERROR", (String) o);
                     String s = (String) o;
                     closeProgressDialog();
-                    if (!s.equals("ERROR")) {
+                    if (!"ERROR".equals(s)) {
                         //**************返回一个参数，说明提交的情况*****************
                         finish();
                         Toast.makeText(MainActivity_getmoney.this, "提现申请已提交", Toast.LENGTH_LONG).show();
@@ -262,7 +262,7 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
             public void success(Object o) {
                 try {
                     String s = (String) o;
-                    if (!s.equals("ERROR")) {
+                    if (!"ERROR".equals(s)) {
                         Gson gson = new Gson();
                         userInfo = gson.fromJson(s, UserInfo.class);
                         yue.setText(decimalFormat.format(Double.valueOf(userInfo.getBalance())));

@@ -154,7 +154,7 @@ public class Announce extends Activity implements View.OnClickListener {
                 try {
                     String s = (String) o;
                     Log.i("Announ_Info", s);
-                    if (!s.equals("")) {
+                    if (!"".equals(s)) {
                         Type listv = new TypeToken<LinkedList<AnnounceInfo>>() {
                         }.getType();
                         Gson gson = new Gson();
@@ -199,7 +199,7 @@ public class Announce extends Activity implements View.OnClickListener {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
-
+                //无返回值；
             }
 
             @Override

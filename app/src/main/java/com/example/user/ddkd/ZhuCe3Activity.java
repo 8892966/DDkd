@@ -35,6 +35,8 @@ import com.lidroid.xutils.http.RequestParams;
 import org.w3c.dom.Text;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -189,7 +191,9 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
                 cameraBitmap=toRoundBitmap(cameraBitmap);
 //                Bitmap cameraBitmap = (Bitmap) data.getExtras().get("data");
                 if (cameraBitmap != null) {
+                    saveBitmap(cameraBitmap,new File(fileName));
                     iv_touxiang.setImageBitmap(cameraBitmap);
+
                 } else {
                     Toast.makeText(ZhuCe3Activity.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
                 }
@@ -312,4 +316,25 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
         return flag;
     }
 
+    //保存图片
+    private Uri saveBitmap(Bitmap bm,File file) {
+//        File tmpDir = new File(Environment.getExternalStorageDirectory() + "/DDkdphoto");
+//        if (!tmpDir.exists()) {
+//            tmpDir.mkdir();
+//        }
+//        tempFile = new File(tmpDir, System.currentTimeMillis() + ".png");
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            bm.compress(Bitmap.CompressFormat.PNG, 85, fos);
+            fos.flush();
+            fos.close();
+            return Uri.fromFile(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

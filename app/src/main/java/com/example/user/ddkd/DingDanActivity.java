@@ -235,11 +235,18 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                     zhuanTai.ll9 = (LinearLayout) view.findViewById(R.id.ll9);
 
                     zhuanTai.ll8 = (LinearLayout) view.findViewById(R.id.ll8);
-
+                    zhuanTai.ll_xinxin=(LinearLayout) view.findViewById(R.id.ll_xinxin);
+                    zhuanTai.xx1=(ImageView)view.findViewById(R.id.xx1);
+                    zhuanTai.xx2=(ImageView)view.findViewById(R.id.xx2);
+                    zhuanTai.xx3=(ImageView)view.findViewById(R.id.xx3);
+                    zhuanTai.xx4=(ImageView)view.findViewById(R.id.xx4);
+                    zhuanTai.xx5=(ImageView)view.findViewById(R.id.xx5);
                     view.setTag(zhuanTai);
                 }
                 OrderInfo info = list.get(position);
 //            Log.e("MyBaseAdapter", info.toString());
+                zhuanTai.iv_call_phone.setVisibility(View.VISIBLE);
+                zhuanTai.ll_xinxin.setVisibility(View.GONE);
                 if (xuanzhe == 1) {
                     zhuanTai.button.setEnabled(true);
                     zhuanTai.button.setText("已拿件");
@@ -263,6 +270,9 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                     }
                     zhuanTai.button.setVisibility(View.VISIBLE);
                 } else if (xuanzhe == 3) {
+                    xingxing(Float.valueOf(info.getEvaluate()),zhuanTai.xx1,zhuanTai.xx2,zhuanTai.xx3,zhuanTai.xx4,zhuanTai.xx5);
+                    zhuanTai.ll_xinxin.setVisibility(View.VISIBLE);
+                    zhuanTai.iv_call_phone.setVisibility(View.GONE);
                     zhuanTai.ll8.setVisibility(View.GONE);
                     zhuanTai.ll9.setVisibility(View.GONE);
                     zhuanTai.button.setVisibility(View.GONE);
@@ -423,6 +433,12 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             TextView fahuodizhi;//目的地址
             LinearLayout ll9;//状态栏
             LinearLayout ll8;//退单栏
+            LinearLayout ll_xinxin;
+            ImageView xx1;
+            ImageView xx2;
+            ImageView xx3;
+            ImageView xx4;
+            ImageView xx5;
         }
     }
 
@@ -627,6 +643,62 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
         } catch (Exception e) {
             Log.e("Exception", e.getMessage());
             Toast.makeText(DingDanActivity.this, "信息有误", Toast.LENGTH_SHORT).show();
+        }
+    }
+    private void xingxing(float i,ImageView xx1,
+            ImageView xx2,
+            ImageView xx3,
+            ImageView xx4,
+            ImageView xx5){
+        try {
+            int ii=(int)(i+0.5);
+            switch (ii) {
+                case 0:
+                    xx1.setImageResource(R.drawable.comment_star_gray_icon);
+                    xx2.setImageResource(R.drawable.comment_star_gray_icon);
+                    xx3.setImageResource(R.drawable.comment_star_gray_icon);
+                    xx4.setImageResource(R.drawable.comment_star_gray_icon);
+                    xx5.setImageResource(R.drawable.comment_star_gray_icon);
+                    break;
+                case 1:
+                    xx1.setImageResource(R.drawable.comment_star_light_icon);
+                    xx2.setImageResource(R.drawable.comment_star_gray_icon);
+                    xx3.setImageResource(R.drawable.comment_star_gray_icon);
+                    xx4.setImageResource(R.drawable.comment_star_gray_icon);
+                    xx5.setImageResource(R.drawable.comment_star_gray_icon);
+                    break;
+                case 2:
+                    xx1.setImageResource(R.drawable.comment_star_light_icon);
+                    xx2.setImageResource(R.drawable.comment_star_light_icon);
+                    xx3.setImageResource(R.drawable.comment_star_gray_icon);
+                    xx4.setImageResource(R.drawable.comment_star_gray_icon);
+                    xx5.setImageResource(R.drawable.comment_star_gray_icon);
+                    break;
+                case 3:
+                    xx1.setImageResource(R.drawable.comment_star_light_icon);
+                    xx2.setImageResource(R.drawable.comment_star_light_icon);
+                    xx3.setImageResource(R.drawable.comment_star_light_icon);
+                    xx4.setImageResource(R.drawable.comment_star_gray_icon);
+                    xx5.setImageResource(R.drawable.comment_star_gray_icon);
+                    break;
+                case 4:
+                    xx1.setImageResource(R.drawable.comment_star_light_icon);
+                    xx2.setImageResource(R.drawable.comment_star_light_icon);
+                    xx3.setImageResource(R.drawable.comment_star_light_icon);
+                    xx4.setImageResource(R.drawable.comment_star_light_icon);
+                    xx5.setImageResource(R.drawable.comment_star_gray_icon);
+                    break;
+                case 5:
+                    xx1.setImageResource(R.drawable.comment_star_light_icon);
+                    xx2.setImageResource(R.drawable.comment_star_light_icon);
+                    xx3.setImageResource(R.drawable.comment_star_light_icon);
+                    xx4.setImageResource(R.drawable.comment_star_light_icon);
+                    xx5.setImageResource(R.drawable.comment_star_light_icon);
+                    break;
+            }
+        }catch (Exception e){
+            Log.e("Exception", e.getMessage());
+            Toast.makeText(DingDanActivity.this,"信息有误",Toast.LENGTH_SHORT).show();
         }
     }
 }

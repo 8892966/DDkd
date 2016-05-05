@@ -294,7 +294,7 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
                             //*****************根据Json中的数据回显用户的信息********************
                             username.setText(userInfo.getUsername());
                             collage.setText(userInfo.getCollege());
-                            number.setText(userInfo.getNumber() + "");
+                            number.setText(userInfo.getNumber());
                             phone.setText(userInfo.getPhone() + "");
                             shortphone.setText(userInfo.getShortphone() + "");
                             String name = getLevel(userInfo.getLevel());

@@ -185,6 +185,7 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inSampleSize = 1;
                 Bitmap cameraBitmap = BitmapFactory.decodeFile(tempFile.getPath(), options);
+                
                 cameraBitmap=toRoundBitmap(cameraBitmap);
 //                Bitmap cameraBitmap = (Bitmap) data.getExtras().get("data");
                 if (cameraBitmap != null) {

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+<TextView
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:text="联系方式"
+    android:textSize="20dp"
+    android:textColor="@color/text3"
+    android:background="@color/head"
+    />
+    <TextView
+        android:id="@+id/shouhuo_call_short_phone"
+        style="@style/call_phone_dialog"
+        android:text="收货人短号：" />
+    <TextView
+        android:id="@+id/shouhuo_call_long_phone"
+        style="@style/call_phone_dialog"
+        android:text="收货人长号：" />
+    <TextView
+        android:id="@+id/xiadan_call_long_phone"
+        style="@style/call_phone_dialog"
+        android:text="下单人长号：" />
+</LinearLayout>

@@ -158,9 +158,10 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
         valueAnimator.start();//动画开始
     }
 //修改密码
-    private void volley_XGMM_GET(String phone,String password,String verify) {
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/UpdatePsw/phone/" + phone+"/newpsw/"+password+"/verify/"+verify;
-        StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+    private void volley_XGMM_GET(final String phone, final String password, final String verify) {
+//        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/UpdatePsw/phone/" + phone+"/newpsw/"+password+"/verify/"+verify;
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/UpdatePsw";
+        StringRequest request_post = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 Log.e("onResponse",s);
@@ -183,7 +184,16 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
                 closeProgressDialog();
                 Toast.makeText(MainActivity_forget.this,"网络连接中断",Toast.LENGTH_SHORT).show();
             }
-        });
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap<>();
+                map.put("phone",phone);
+                map.put("newpsw",password);
+                map.put("verify",verify);
+                return map;
+            }
+        };
         request_post.setTag("volley_XGMM_GET");
         MyApplication.getQueue().add(request_post);
     }

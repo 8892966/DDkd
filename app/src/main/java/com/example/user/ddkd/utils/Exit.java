@@ -20,6 +20,7 @@ public class Exit {
         SharedPreferences sharedPreferences=activity.getSharedPreferences("config", activity.MODE_PRIVATE);
         SharedPreferences.Editor editor=sharedPreferences.edit();
         editor.putString("loginstatic","0");
+        editor.putBoolean("qiandan1",true);
         MyApplication.state=0;
         editor.commit();
         ExitApplication.getInstance().exit();

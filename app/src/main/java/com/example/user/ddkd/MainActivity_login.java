@@ -14,6 +14,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -25,6 +27,8 @@ import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
 import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -84,7 +88,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                     @Override
                     public void onSuccess(Object data, int flag) {
                         Log.d("TPush", "注册成功，设备token为：" + data);
-//                    Toast.makeText(MainActivity_login.this,"信鸽注册成功",Toast.LENGTH_SHORT).show();
+//                      Toast.makeText(MainActivity_login.this,"信鸽注册成功",Toast.LENGTH_SHORT).show();
                         SharedPreferences preferences = getSharedPreferences("config", MODE_PRIVATE);
                         SharedPreferences.Editor edit = preferences.edit();
                         edit.putString("XGtoken", (String) data);
@@ -121,8 +125,9 @@ public class MainActivity_login extends Activity implements View.OnClickListener
     }
 
     public void volley_Get(final String userid, final String password) {
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/login/phone/" + userid + "/password/" + password;
-        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+//        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/login?phone=" + userid + "&password=" + password;
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/login";
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 Log.e("Get_login", s);
@@ -142,7 +147,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
 //                    MyApplication.state = 1;
                         edit.commit();
                         // 开启logcat输出，方便debug，发布时请关闭
-//                    XGPushConfig.enableDebug(MainActivity_login.this, true);
+                        //XGPushConfig.enableDebug(MainActivity_login.this, true);
                         // 如果需要知道注册是否成功，请使用registerPush(getApplicationContxt(), XGIOperateCallback)带callback版本
                         // 如果需要绑定账号，请使用registerPush(getApplicationContext(),account)版本
                         // 具体可参考详细的开发指南
@@ -193,7 +198,15 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                 Toast.makeText(MainActivity_login.this, "网络连接中断", Toast.LENGTH_SHORT).show();
                 Log.e("onErrorResponse", "onErrorResponse");
             }
-        });
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map1 = new HashMap<>();
+                map1.put("phone",userid);
+                map1.put("password",password);
+                return map1;
+            }
+        };
         request.setTag("abcGet_login");
         MyApplication.getQueue().add(request);
     }
@@ -295,59 +308,71 @@ public class MainActivity_login extends Activity implements View.OnClickListener
 
     //**********获得用户头像的路径***********
     public void volley_Get_Image() {
-        final SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/getLogo/token/" + sharedPreferences.getString("token", "");
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("imageuri", s);
-                editor.commit();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(MainActivity_login.this, "网络连接出错", Toast.LENGTH_SHORT).show();
-            }
-        });
-        stringRequest.setTag("volley_Get_Image_login");
-        MyApplication.getQueue().add(stringRequest);
+        try {
+            final SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
+            String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/getLogo/token/" + sharedPreferences.getString("token", "");
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String s) {
+                    Log.e("volley_Get_Image",s);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("imageuri", s);
+                    editor.commit();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    Toast.makeText(MainActivity_login.this, "网络连接出错", Toast.LENGTH_SHORT).show();
+                }
+            });
+            stringRequest.setTag("volley_Get_Image_login");
+            MyApplication.getQueue().add(stringRequest);
+        }catch (Exception e){
+            Log.e("Exception", e.getMessage());
+            Toast.makeText(MainActivity_login.this,"信息有误",Toast.LENGTH_SHORT).show();
+        }
     }
     //**********获得用户的基本信息***********
     public void volley_Get_userInfo() {
-        SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
-        String token = sharedPreferences.getString("token", null);
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/center/token/" + token;
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                if (!s.equals("ERROR")) {
-                    Gson gson = new Gson();
-                    UserInfo userInfo = gson.fromJson(s, UserInfo.class);
-                    //**********保存用户的个人信息，断网时回显***********
-                    DecimalFormat decimalFormat = new DecimalFormat("0.00");
-                    SharedPreferences preferences = getSharedPreferences("user", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = preferences.edit();
-                    editor.putString("username", userInfo.getUsername());
-                    editor.putString("collage", userInfo.getCollege());
-                    editor.putString("number", userInfo.getNumber());
-                    editor.putString("phone", userInfo.getPhone() + "");
-                    editor.putString("shortphone", userInfo.getShortphone() + "");
-                    editor.putString("level", userInfo.getLevel());
-                    editor.putString("yingye",decimalFormat.format(Double.valueOf(userInfo.getYingye())));
-                    editor.putString("balance",decimalFormat.format(Double.valueOf(userInfo.getBalance())));
-                    editor.commit();
-                } else {
-                    Log.i("GetInfoError", "login failed to get information");
+        try {
+            SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
+            String token = sharedPreferences.getString("token", null);
+            String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/center/token/" + token;
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String s){
+                    if (!s.equals("ERROR")) {
+                        Log.e("volley_Get_userInfo",s);
+                        Gson gson = new Gson();
+                        UserInfo userInfo = gson.fromJson(s, UserInfo.class);
+                        //**********保存用户的个人信息，断网时回显***********
+                        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+                        SharedPreferences preferences = getSharedPreferences("user", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putString("username", userInfo.getUsername());
+                        editor.putString("collage", userInfo.getCollege());
+                        editor.putString("number", userInfo.getNumber() + "");
+                        editor.putString("phone", userInfo.getPhone() + "");
+                        editor.putString("shortphone", userInfo.getShortphone() + "");
+                        editor.putString("level", userInfo.getLevel());
+                        editor.putString("yingye", decimalFormat.format(Double.valueOf(userInfo.getYingye())));
+                        editor.putString("balance", decimalFormat.format(Double.valueOf(userInfo.getBalance())));
+                        editor.commit();
+                    } else {
+                        Log.i("GetInfoError", "login failed to get information");
+                    }
                 }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Log.i("ERROR", "login failed to get information");
-            }
-        });
-        stringRequest.setTag("volley_Get_userInfo");
-        MyApplication.getQueue().add(stringRequest);
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    Log.i("ERROR", "login failed to get information");
+                }
+            });
+            stringRequest.setTag("volley_Get_userInfo");
+            MyApplication.getQueue().add(stringRequest);
+        }catch (Exception e){
+            Log.e("Exception", e.getMessage());
+            Toast.makeText(MainActivity_login.this,"信息有误",Toast.LENGTH_SHORT).show();
+        }
     }
 }

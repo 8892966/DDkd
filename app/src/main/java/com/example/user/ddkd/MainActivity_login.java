@@ -133,10 +133,10 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                 Log.e("Get_login", s);
                 try {
 //                closeProgressDialog();//*****关闭加载提示框*****
-                    if (s.equals("WAIT PASS")) {
+                    if ("WAIT PASS".equals(s)) {
                         closeProgressDialog();
                         Toast.makeText(MainActivity_login.this, "正在审核中，请耐心等候...", Toast.LENGTH_SHORT).show();
-                    } else if (!s.equals("ERROR")) {
+                    } else if (!"ERROR".equals(s)) {
                         s = s.substring(1, s.length() - 1);
                         //******************当提交成功以后，后台会返回一个参数来说明是否提交/验证成功******************
                         SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
@@ -341,7 +341,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
             StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String s){
-                    if (!s.equals("ERROR")) {
+                    if (!"ERROR".equals(s)) {
                         Log.e("volley_Get_userInfo",s);
                         Gson gson = new Gson();
                         UserInfo userInfo = gson.fromJson(s, UserInfo.class);

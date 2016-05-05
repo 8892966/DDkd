@@ -455,7 +455,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                 String s = (String) o;
                 try {
                     Log.e("volley_getOrder_GET", s);
-                    if (!s.equals("ERROR")) {
+                    if (!"ERROR".equals(s)) {
                         Gson gson = new Gson();
                         list = gson.fromJson((String) o, new TypeToken<List<OrderInfo>>() {
                         }.getType());

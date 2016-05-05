@@ -572,7 +572,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             @Override
             public void success(Object o) {
                 String s = (String) o;
-                if (!s.equals("SUCCESS")) {
+                if (!"SUCCESS".equals(s)) {
                     Toast.makeText(JieDangActivity.this, "网络异常", Toast.LENGTH_LONG).show();
                 } else {
                     qOrderInfo.setZhuantai(2);

@@ -330,7 +330,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putString("username", userInfo.getUsername());
                     editor.putString("collage", userInfo.getCollege());
-                    editor.putString("number", userInfo.getNumber() + "");
+                    editor.putString("number", userInfo.getNumber());
                     editor.putString("phone", userInfo.getPhone() + "");
                     editor.putString("shortphone", userInfo.getShortphone() + "");
                     editor.putString("level", userInfo.getLevel());

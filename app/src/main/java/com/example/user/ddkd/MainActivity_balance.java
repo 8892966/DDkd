@@ -33,8 +33,11 @@ import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2016/4/5.
@@ -43,7 +46,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
     private List<Payment> paymentlist = new ArrayList<Payment>();
     private TextView textView;
     private MyAdapter myAdapter = new MyAdapter();
-    private DecimalFormat decimalFormat=new DecimalFormat();
+    private DecimalFormat decimalFormat=new DecimalFormat("0.00");
     private TextView balance;
     private UserInfo userInfo;
     private TextView tongzhi;
@@ -88,7 +91,6 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
         textView = (TextView) findViewById(R.id.getmoney);
         textView.setOnClickListener(this);
         viewById = (ListView) findViewById(R.id.listviewbalance);
-        Volley_Get(paymentlist);
         volley_Get_Balance(userInfo);
         ExitApplication.getInstance().addActivity(this);
     }
@@ -111,15 +113,20 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
         SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = sharedPreferences.getString("token", null);
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/takeoutrecord/token/" + token;
+//        String url="";
         Log.i("Payment_url", url);
         //**********从后台返回一个参数来说明数据的获取状况**********
         StringRequest request = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
                 try{
-                    String s = o.toString();
+                    String s = (String) o;
+                    //**************测试用的JSON*********************
+//                    String s="[{\"id\":\"01\", \"money\":{\"2.00\",\"Tname\":\"刘嘉文\",\"time\":\"2016-05-04\", \"flag\":\"OUT\", \"status\":\"1\"， \"counter\":\"123456\"}," +
+//                            "{\"id\":\"02\", \"money\":{\"3.00\",\"Tname\":\"陈晓鋆\",\"time\":\"2016-05-04\", \"flag\":\"OUT\", \"status\":\"1\"， \"counter\":\"654321\"}," +
+//                            "{\"id\":\"03\", \"money\":{\"4.00\",\"Tname\":\"黄颖\",\"time\":\"2016-05-04\", \"flag\":\"OUT\", \"status\":\"1\"， \"counter\":\"987654\"}]";
                     Log.i("Payment", s);
-                    if (!s.equals("")) {
+                    if (!"".equals(s)) {
                         if (!s.equals("ERROR")) {
                             Type listv = new TypeToken<LinkedList<Payment>>() {
                             }.getType();
@@ -255,23 +262,15 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
                     SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
                     if (payment.getStatus().equals("1")) {
                         outStatic.setText("审核中");
-//                        SharedPreferences.Editor editor = sharedPreferences.edit();
-//                        editor.putString("id" + payment.getId(), String.valueOf(payment.getMoney()));
-//                        editor.commit();
                     } else if (payment.getStatus().equals("2")) {
                         outStatic.setText("已通过");
-//                        sharedPreferences.getString("id"+payment.getId(),"0");
-//                        SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
-//                        SharedPreferences.Editor editor=sharedPreferences.edit();
-//                        editor.putString("id"+payment.getId(),String.valueOf(payment.getMoney()));
-//                        editor.commit();
+                        Map<String,String> map=new HashMap<String,String>();
+                        map.put(payment.getId(), String.valueOf(payment.getMoney()));
+                        Iterator<Map.Entry<String, String>> it = map.entrySet().iterator();
+                        Map.Entry<String, String> entry=it.next();
+                        Log.i("MAP",entry.getValue());
                     } else {
                         outStatic.setText("操作失败");
-//                        SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
-//                        Double sub=Double.valueOf(sharedPreferences.getString("TX","0"))-Double.valueOf(paymentlist.get(position).getMoney());
-//                        SharedPreferences.Editor editor=sharedPreferences.edit();
-//                        editor.putString("TX",String.valueOf(sub));
-//                        editor.commit();
                     }
                     moneyout.setText("-" + String.valueOf(payment.getMoney()));
                     counter.setText(payment.getCounter());

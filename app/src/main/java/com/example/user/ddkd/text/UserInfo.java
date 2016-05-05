@@ -8,7 +8,7 @@ public class UserInfo {
     private long shortphone;
     private long phone;
     private String college;
-    private int number;
+    private String number;
     private String level;
     private String yingye;
     private String balance;
@@ -41,8 +41,12 @@ public class UserInfo {
                 '}';
     }
 
-    public int getNumber() {
+    public String getNumber() {
         return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     public long getShortphone() {
@@ -72,11 +76,6 @@ public class UserInfo {
     public void setLevel(String level) {
         this.level = level;
     }
-
-    public void setNumber(int number) {
-        this.number = number;
-    }
-
     public void setPhone(long phone) {
         this.phone = phone;
     }

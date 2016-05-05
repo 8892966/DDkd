@@ -168,6 +168,23 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         xx3= (ImageView) findViewById(R.id.xx3);
         xx4= (ImageView) findViewById(R.id.xx4);
         xx5= (ImageView) findViewById(R.id.xx5);
+
+
+        //登陆初始化开始听单
+        SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
+        boolean bb=sharedPreferences.getBoolean("qiandan1",true);
+        if(bb){
+            jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
+            startService(jieDanServiceIntent);
+            listView.setVisibility(View.VISIBLE);
+            but_jiedang.setBackgroundResource(R.drawable.kaiguanann);
+            jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
+            bindService(jieDanServiceIntent, sc, BIND_AUTO_CREATE);
+            SharedPreferences.Editor edit = sharedPreferences.edit();
+            edit.putBoolean("qiandan1",false);
+            edit.commit();
+        }
+
         //判断是否有开启信鸽和服务
 //        sreviceisrunning=ServiceUtils.isRunning(this,"com.example.user.ddkd.service.JieDanService");
 //        if(sreviceisrunning){

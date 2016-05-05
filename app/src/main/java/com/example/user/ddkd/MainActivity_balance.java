@@ -43,7 +43,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
     private List<Payment> paymentlist = new ArrayList<Payment>();
     private TextView textView;
     private MyAdapter myAdapter = new MyAdapter();
-    private DecimalFormat decimalFormat=new DecimalFormat();
+    private DecimalFormat decimalFormat=new DecimalFormat("0.00");
     private TextView balance;
     private UserInfo userInfo;
     private TextView tongzhi;

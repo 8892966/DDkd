@@ -78,10 +78,10 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
             et_name.setText(signUpInfo.getUsername());
             et_sex.setText(signUpInfo.getSex());
             et_class.setText(signUpInfo.getClazz());
-            et_phone.setText(signUpInfo.getNumber());
+            et_phone.setText(signUpInfo.getShortnumber());
             et_xueyuan.setText(signUpInfo.getCollege());
             et_id.setText(signUpInfo.getId_card());
-            et_xuehao.setText(signUpInfo.getId_card());
+            et_xuehao.setText(signUpInfo.getNumber());
             fileName = getIntent().getStringExtra("picture");
             tempFile = new File(fileName);
             BitmapFactory.Options options = new BitmapFactory.Options();

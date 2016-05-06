@@ -283,7 +283,6 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
                     Toast.makeText(MainActivity_forget.this, "用户不存在！", Toast.LENGTH_SHORT).show();
                 } else {
                     tv_button_yanzhengma.setEnabled(true);
-
                 }
             }
         }, new Response.ErrorListener() {

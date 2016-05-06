@@ -53,6 +53,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
 
     public void onCreate(Bundle savedInstanceState) {
         try {
+
             super.onCreate(savedInstanceState);
             setContentView(R.layout.layout_login);
             button = (TextView) findViewById(R.id.login);

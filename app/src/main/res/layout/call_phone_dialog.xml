@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/backgrod">
 <TextView
     android:gravity="center"
     android:layout_width="match_parent"
@@ -13,15 +14,26 @@
     android:background="@color/head"
     />
     <TextView
+        android:background="@color/text3"
         android:id="@+id/shouhuo_call_short_phone"
         style="@style/call_phone_dialog"
         android:text="收货人短号：" />
     <TextView
+        android:layout_marginTop="1dp"
+        android:background="@color/text3"
         android:id="@+id/shouhuo_call_long_phone"
         style="@style/call_phone_dialog"
         android:text="收货人长号：" />
     <TextView
+        android:layout_marginTop="1dp"
+        android:background="@color/text3"
         android:id="@+id/xiadan_call_long_phone"
         style="@style/call_phone_dialog"
         android:text="下单人长号：" />
+    <TextView
+        android:layout_marginTop="1dp"
+        android:background="@color/text3"
+        android:id="@+id/qixiao"
+        style="@style/call_phone_dialog"
+        android:text="取消" />
 </LinearLayout>

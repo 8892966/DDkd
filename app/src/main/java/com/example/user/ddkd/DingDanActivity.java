@@ -341,77 +341,82 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
 
             @Override
             public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.iv_call_phone://打电话
-                        AlertDialog.Builder builder = new AlertDialog.Builder(DingDanActivity.this);
-                        View inflate = View.inflate(DingDanActivity.this, R.layout.call_phone_dialog, null);
-                        TextView shouhuo_call_short_phone = (TextView) inflate.findViewById(R.id.shouhuo_call_short_phone);
-                        TextView shouhuo_call_long_phone = (TextView) inflate.findViewById(R.id.shouhuo_call_long_phone);
-                        TextView xiadan_call_long_phone = (TextView) inflate.findViewById(R.id.xiadan_call_long_phone);
-                        final String[] s = info.getReceivePlace().split("/", -2);
-                        if (s.length >= 2) {
-                            if (s[2] != null && !s[2].equals("")) {
-                                shouhuo_call_short_phone.setText("收货人短号：" + s[2]);
-                                shouhuo_call_short_phone.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + s[2]));
-                                        startActivity(intent);
-                                        alertDialog.dismiss();
-                                    }
-                                });
-                            } else {
-                                shouhuo_call_short_phone.setVisibility(View.GONE);
-                            }
-                        }
-                        if (s.length >= 1) {
-                            if (s[1] != null && !s[1].equals("")) {
-                                shouhuo_call_long_phone.setText("收货人长号：" + s[1]);
-                                shouhuo_call_long_phone.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + s[1]));
-                                        startActivity(intent);
-                                        alertDialog.dismiss();
-                                    }
-                                });
-                            } else {
-                                shouhuo_call_long_phone.setVisibility(View.GONE);
-                            }
-                        }
-                        if (info.getPhone() != null && !info.getPhone().equals("")) {
-                            xiadan_call_long_phone.setText("下单人长号：" + info.getPhone());
-                            xiadan_call_long_phone.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + info.getPhone()));
-                                    startActivity(intent);
-                                    alertDialog.dismiss();
+                try {
+                    switch (v.getId()) {
+                        case R.id.iv_call_phone://打电话
+                            AlertDialog.Builder builder = new AlertDialog.Builder(DingDanActivity.this);
+                            View inflate = View.inflate(DingDanActivity.this, R.layout.call_phone_dialog, null);
+                            TextView shouhuo_call_short_phone = (TextView) inflate.findViewById(R.id.shouhuo_call_short_phone);
+                            TextView shouhuo_call_long_phone = (TextView) inflate.findViewById(R.id.shouhuo_call_long_phone);
+                            TextView xiadan_call_long_phone = (TextView) inflate.findViewById(R.id.xiadan_call_long_phone);
+                            final String[] s = info.getReceivePlace().split("/", -2);
+                            if (s.length >= 2) {
+                                if (s[2] != null && !s[2].equals("")) {
+                                    shouhuo_call_short_phone.setText("收货人短号：" + s[2]);
+                                    shouhuo_call_short_phone.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + s[2]));
+                                            startActivity(intent);
+                                            alertDialog.dismiss();
+                                        }
+                                    });
+                                } else {
+                                    shouhuo_call_short_phone.setVisibility(View.GONE);
                                 }
-                            });
-                        } else {
-                            xiadan_call_long_phone.setVisibility(View.GONE);
-                        }
+                            }
+                            if (s.length >= 1) {
+                                if (s[1] != null && !s[1].equals("")) {
+                                    shouhuo_call_long_phone.setText("收货人长号：" + s[1]);
+                                    shouhuo_call_long_phone.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + s[1]));
+                                            startActivity(intent);
+                                            alertDialog.dismiss();
+                                        }
+                                    });
+                                } else {
+                                    shouhuo_call_long_phone.setVisibility(View.GONE);
+                                }
+                            }
+                            if (info.getPhone() != null && !info.getPhone().equals("")) {
+                                xiadan_call_long_phone.setText("下单人长号：" + info.getPhone());
+                                xiadan_call_long_phone.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + info.getPhone()));
+                                        startActivity(intent);
+                                        alertDialog.dismiss();
+                                    }
+                                });
+                            } else {
+                                xiadan_call_long_phone.setVisibility(View.GONE);
+                            }
 
-                        builder.setView(inflate, 0, 0, 0, 0);
-                        builder.setNegativeButton("取消", null);
-                        alertDialog = builder.create();
-                        alertDialog.show();
+                            builder.setView(inflate, 0, 0, 0, 0);
+                            builder.setNegativeButton("取消", null);
+                            alertDialog = builder.create();
+                            alertDialog.show();
 //                        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + info.getPhone()));
 //                        startActivity(intent);
-                        break;
-                    case R.id.tv_dingdang_tuidang://已拿件按钮事件
-                        if (xuanzhe == 2) {
-                            button.setEnabled(false);
-                            pb_button.setVisibility(View.VISIBLE);
-                            volley_OrderState_GET(info, "3", pb_button, button);
-                        }
-                        if (xuanzhe == 1) {
-                            button.setEnabled(false);
-                            pb_button.setVisibility(View.VISIBLE);
-                            volley_OrderState_GET(info, "2", pb_button, button);
-                        }
-                        break;
+                            break;
+                        case R.id.tv_dingdang_tuidang://已拿件按钮事件
+                            if (xuanzhe == 2) {
+                                button.setEnabled(false);
+                                pb_button.setVisibility(View.VISIBLE);
+                                volley_OrderState_GET(info, "3", pb_button, button);
+                            }
+                            if (xuanzhe == 1) {
+                                button.setEnabled(false);
+                                pb_button.setVisibility(View.VISIBLE);
+                                volley_OrderState_GET(info, "2", pb_button, button);
+                            }
+                            break;
+                    }
+                }catch (Exception e){
+                    Log.e("Exception", e.getMessage());
+                    Toast.makeText(DingDanActivity.this, "信息有误", Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -433,6 +438,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             TextView fahuodizhi;//目的地址
             LinearLayout ll9;//状态栏
             LinearLayout ll8;//退单栏
+            //星星
             LinearLayout ll_xinxin;
             ImageView xx1;
             ImageView xx2;

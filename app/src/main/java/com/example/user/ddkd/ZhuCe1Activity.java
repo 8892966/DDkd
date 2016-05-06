@@ -74,7 +74,6 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
 
         smsUtils = new SmsUtils();
         smsUtils.startGetSms(this);
-
         et_phone_number = (EditText) findViewById(R.id.et_phone_number);//手机号
         et_yanzhengma = (EditText) findViewById(R.id.et_yanzhengma);//验证码
         cb_xieyi = (CheckBox) findViewById(R.id.cb_xieyi);//协议

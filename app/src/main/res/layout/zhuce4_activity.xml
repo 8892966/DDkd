@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:background="@color/backgrod"
     android:layout_height="match_parent">
-
     <RelativeLayout
         android:id="@+id/rl_head"
         android:layout_width="match_parent"

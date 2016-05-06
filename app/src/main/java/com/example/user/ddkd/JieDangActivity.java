@@ -36,6 +36,7 @@ import com.example.user.ddkd.beam.QOrderInfo;
 import com.example.user.ddkd.service.JieDanService;
 import com.example.user.ddkd.utils.AutologonUtil;
 import com.example.user.ddkd.utils.Exit;
+import com.example.user.ddkd.utils.GDOrderUtil;
 import com.example.user.ddkd.utils.MyStringRequest;
 import com.example.user.ddkd.utils.ServiceUtils;
 import com.google.gson.Gson;
@@ -75,7 +76,9 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 
     private boolean sreviceisrunning;
 
-    private List<QOrderInfo> list;
+    private List<QOrderInfo> list;//总数据
+
+    private List<QOrderInfo> list_GD;//挂单数据
     //接单的服务
     private Intent jieDanServiceIntent;
     //接单服务的中间人
@@ -551,7 +554,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 Toast.makeText(JieDangActivity.this, "您的账号在其他地方被登陆，请在此登陆", Toast.LENGTH_SHORT).show();
                 Exit.exit(JieDangActivity.this);
             }
-        }, new Response.ErrorListener() {
+        }, new Response.ErrorListener(){
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 Toast.makeText(JieDangActivity.this, "网络连接中断", Toast.LENGTH_SHORT).show();
@@ -677,4 +680,21 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             Toast.makeText(JieDangActivity.this,"信息有误",Toast.LENGTH_SHORT).show();
         }
     }
+    //点击听单时或每个15分钟就执行获取挂单的数据
+    private void getGDorder(){
+        try {
+            GDOrderUtil gdOrderUtil = new GDOrderUtil() {
+                @Override
+                public void getOrder(Object o) {
+                    list_GD = (List<QOrderInfo>) o;
+                    list.addAll(list_GD);
+                }
+            };
+            gdOrderUtil.volley_GDMSG_GET_UTILS(this);
+        }catch (Exception e){
+            Log.e("Exception", e.getMessage());
+            Toast.makeText(JieDangActivity.this,"信息有误",Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }

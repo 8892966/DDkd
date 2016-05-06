@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.user.ddkd">
 
+    <!--配置ShareSDK所需要的权限-->
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -83,6 +84,8 @@
         <activity android:name=".Announce" />
         <activity android:name=".Activity_feedback" />
         <!-- APP项目的其它配置... -->
+
+
         <!-- ShareSDK的使用 -->
         <activity
             android:name="com.mob.tools.MobUIShell"
@@ -103,6 +106,7 @@
             </intent-filter>
         </activity>
 
+        <!--微信分享回调 -->
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"

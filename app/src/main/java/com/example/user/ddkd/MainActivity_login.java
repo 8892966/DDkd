@@ -339,6 +339,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
             SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
             String token = sharedPreferences.getString("token", null);
             String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/center/token/" + token;
+            Log.i("Loginurl",url);
             StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String s){

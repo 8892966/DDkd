@@ -50,7 +50,7 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
     private Switch Static;
 
     //*****************分享DD*****************
-//    private RelativeLayout Share;
+    private RelativeLayout Share;
 
     private Handler handler1=new Handler(){
         @Override
@@ -68,6 +68,7 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_setting);
+        ShareSDK.initSDK(MainActivity_setting.this);
         imageView = (ImageView) findViewById(R.id.setExit);
         imageView.setOnClickListener(this);
         exit = (TextView) findViewById(R.id.exit);
@@ -278,12 +279,11 @@ public class MainActivity_setting extends Activity implements View.OnClickListen
     }
 
     private void showShare() {
-        ShareSDK.initSDK(this);
         OnekeyShare oks = new OnekeyShare();
         //关闭sso授权
         //oks.disableSSOWhenAuthorize();
 // 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法
-//        oks.setCustomerLogo());oks
+//        oks.setCustomerLogo());
         // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
         oks.setTitle(getString(R.string.abc_shareactionprovider_share_with_application));
         // titleUrl是标题的网络链接，仅在人人网和QQ空间使用

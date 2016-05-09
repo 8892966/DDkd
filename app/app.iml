@@ -111,6 +111,7 @@
     <orderEntry type="library" exported="" name="QuickIntegrater" level="project" />
     <orderEntry type="library" exported="" name="MobTools-2016.0426.1819" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Wechat-Core-2.7.2" level="project" />
+    <orderEntry type="library" exported="" name="libammsdk" level="project" />
     <orderEntry type="library" exported="" name="mid-mid-sdk-2.3" level="project" />
     <orderEntry type="library" exported="" name="httpmime-4.3.1" level="project" />
     <orderEntry type="library" exported="" name="Baidu_Mtj_3.7.3.1" level="project" />

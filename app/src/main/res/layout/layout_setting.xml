@@ -156,34 +156,34 @@
         android:layout_width="match_parent"
         android:layout_height="15dip"/>
     <!--分享DD-->
-    <!--<RelativeLayout-->
-        <!--android:id="@+id/Share"-->
-        <!--android:layout_marginLeft="10dip"-->
-        <!--android:background="@drawable/clickview"-->
-        <!--android:clickable="true"-->
-        <!--android:focusable="true"-->
-        <!--android:padding="5dip"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="40dip">-->
-        <!--<TextView-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:textSize="20sp"-->
-            <!--android:text="分享DD"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content" />-->
-        <!--<ImageView-->
-            <!--android:layout_marginRight="10dip"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:src="@drawable/toright"-->
-            <!--android:layout_width="25dip"-->
-            <!--android:layout_height="25dip" />-->
-    <!--</RelativeLayout>-->
+    <RelativeLayout
+        android:id="@+id/Share"
+        android:layout_marginLeft="10dip"
+        android:background="@drawable/clickview"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="5dip"
+        android:layout_width="match_parent"
+        android:layout_height="40dip">
+        <TextView
+            android:layout_centerVertical="true"
+            android:textSize="20sp"
+            android:text="分享DD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_marginRight="10dip"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/toright"
+            android:layout_width="25dip"
+            android:layout_height="25dip" />
+    </RelativeLayout>
 
-    <!--<View-->
-        <!--android:background="#cccccc"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="1dip"/>-->
+    <View
+        android:background="#cccccc"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"/>
     <RelativeLayout
         android:id="@+id/aboutDD"
         android:layout_marginLeft="10dip"

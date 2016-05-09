@@ -69,7 +69,7 @@ import java.util.Map;
  */
 public class ZhuCe4Activity extends Activity implements View.OnClickListener {
     public static final int SUCCESS = 1;//提交数据成功：
-    public static final int ERROR = 2;//提交数据成功：
+    public static final int ERROR = 2;//提交数据失败：
     public static final int NEXT = 3;//提交图片成功，进行下一个
     public static int Static = 0;
     //    //放照片文件

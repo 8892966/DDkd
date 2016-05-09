@@ -79,7 +79,7 @@ public class JieDanService extends Service {
                         } else {
 //                            Log.e("JieDanService", "时间还没到");
                         }
-                        if (o[o.length - 1] != null) {
+                            if (o[o.length - 1] != null) {
                             //判断抢单页面是否在前台
                             am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
                             List<ActivityManager.RunningTaskInfo> infos = am.getRunningTasks(100);

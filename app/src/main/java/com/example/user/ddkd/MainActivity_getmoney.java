@@ -167,7 +167,7 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
                                 }
                             } else {
                                 closeProgressDialog();
-                                Toast.makeText(MainActivity_getmoney.this, "您的余额不足30元", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity_getmoney.this, "亲，您的余额需要大于30元才能提现哦!", Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             closeProgressDialog();

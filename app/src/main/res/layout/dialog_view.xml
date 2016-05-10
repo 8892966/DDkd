@@ -86,6 +86,7 @@
         android:text="？kg左右" />
 </LinearLayout>
         <LinearLayout
+            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageView

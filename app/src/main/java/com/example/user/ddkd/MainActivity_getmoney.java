@@ -194,13 +194,10 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
         String username2 = null;
         String beizhu2 = null;
         try {
-            tname2 = URLEncoder.encode(tname, "utf-8");
-            username2 = URLEncoder.encode(username, "utf-8");
+         tname2 = URLEncoder.encode(tname, "utf-8");
+         username2 = URLEncoder.encode(username, "utf-8");
             beizhu2 = URLEncoder.encode(beizhu, "utf-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/withdrawCash/money/" + getmoney + "/Tname/" + tname2 + "/counter/" + counter + "/name/" + username2 + "/extra/" + beizhu2 + "/token/" + token;
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/withdrawCash?money=" + getmoney + "&Tname=" + tname2 + "&counter=" + counter + "&name=" + username2 + "&extra=" + beizhu2 + "&token=" + token;
         Log.i("URL", url);
         //******************将用户的提现信息提交给服务器
         StringRequest request = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
@@ -250,6 +247,9 @@ public class MainActivity_getmoney extends Activity implements View.OnClickListe
         });
         request.setTag("abcGet_getmoney");
         MyApplication.getQueue().add(request);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
     //*****************************获取用户的当前余额****************************

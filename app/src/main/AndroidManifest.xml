@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.user.ddkd">
-
     <!--配置ShareSDK所需要的权限-->
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -83,6 +82,7 @@
         <activity android:name=".MainActivity_login" />
         <activity android:name=".Announce" />
         <activity android:name=".Activity_feedback" />
+        <activity android:name=".utils.WeChatShare" />
         <!-- APP项目的其它配置... -->
 
 

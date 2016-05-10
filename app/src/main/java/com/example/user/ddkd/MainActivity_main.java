@@ -82,8 +82,8 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
         turnover = (TextView) findViewById(R.id.turnover);
         moneysum = (TextView) findViewById(R.id.moneysum);
         //*******实现点击页面的跳转*******
-        ImageView exituserinfo = (ImageView) findViewById(R.id.exituserinfo);
-        exituserinfo.setOnClickListener(this);
+//        ImageView exituserinfo = (ImageView) findViewById(R.id.exituserinfo);
+//        exituserinfo.setOnClickListener(this);
         announce = (ImageView) findViewById(R.id.announce);
         announce.setOnClickListener(this);
         title = (RelativeLayout) findViewById(R.id.title);
@@ -136,9 +136,9 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
                 intent = new Intent(this, MainActivity_setting.class);
                 startActivity(intent);
                 break;
-            case R.id.exituserinfo:
-                finish();
-                break;
+//            case R.id.exituserinfo:
+//                finish();
+//                break;
             case R.id.announce:
                 intent = new Intent(MainActivity_main.this, Announce.class);
                 startActivity(intent);

@@ -123,7 +123,7 @@ public class SlidingUtil extends HorizontalScrollView{
         float leftAlpha = 1f * (1 - scale);//菜单透明度的变化；
         ViewHelper.setAlpha(mMenu, leftAlpha);
 
-        float leftAlpha1 =1f- 0.8f * (1 - scale);//父类透明度的变化；
-        ViewHelper.setAlpha(mContent,leftAlpha1);
+//        float leftAlpha1 =1f- 0.8f * (1 - scale);//父类透明度的变化；
+//        ViewHelper.setAlpha(mContent,leftAlpha1);
     }
 }

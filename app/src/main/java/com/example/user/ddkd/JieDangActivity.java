@@ -14,24 +14,20 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.SystemClock;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.baidu.mobstat.StatService;
 import com.example.user.ddkd.beam.MainMsgInfo;
-import com.example.user.ddkd.beam.OrderInfo;
 import com.example.user.ddkd.beam.QOrderInfo;
 import com.example.user.ddkd.service.JieDanService;
 import com.example.user.ddkd.utils.AutologonUtil;
@@ -39,13 +35,13 @@ import com.example.user.ddkd.utils.Exit;
 import com.example.user.ddkd.utils.GDOrderUtil;
 import com.example.user.ddkd.utils.MyStringRequest;
 import com.example.user.ddkd.utils.ServiceUtils;
+import com.example.user.ddkd.utils.SlidingUtil;
+import com.example.user.ddkd.utils.UserInfoUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-
 import static com.example.user.ddkd.ExitApplication.*;
 
 /**
@@ -53,7 +49,7 @@ import static com.example.user.ddkd.ExitApplication.*;
  */
 public class JieDangActivity extends Activity implements View.OnClickListener {
     private final static int GDSX=11;//挂单刷新
-
+    private TextView textView;
     private ListView listView;
     //DD指南的按钮
     private LinearLayout ll_ddzhinang;
@@ -100,6 +96,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     private ImageView xx4;
     private ImageView xx5;
     private GDOrderUtil gdOrderUtil;
+    private SlidingUtil slidingUtil;
 
     //当获取页面信息时token过时的处理
     private Handler handler1 = new Handler() {
@@ -184,11 +181,16 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.jiedang_activity);
+
+        //*****************************实现侧滑效果
+        slidingUtil= (SlidingUtil) findViewById(R.id.it_menu);
+        UserInfoUtils userInfoUtils=new UserInfoUtils(slidingUtil,JieDangActivity.this);
+
         initSound();//初始化数据
 //        volley_MSG_GET();//获取页面信息
         list = new ArrayList<QOrderInfo>();
         list_GD=new ArrayList<QOrderInfo>();
-        TextView textView = (TextView) findViewById(R.id.personinfo);
+        textView = (TextView) findViewById(R.id.personinfo);
         textView.setOnClickListener(this);
         listView = (ListView) findViewById(R.id.lv_jiedang);
         ll_ddzhinang = (LinearLayout) findViewById(R.id.ll_ddzhinang);
@@ -325,9 +327,10 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                     }
                     break;
                 case R.id.personinfo://进入用户信息界面
-                    intent = new Intent(this, MainActivity_main.class);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.in_toright, R.anim.out_toleft);
+//                    intent = new Intent(this, MainActivity_main.class);
+//                    startActivity(intent);
+                    slidingUtil.changeMenu();
+//                    overridePendingTransition(R.anim.in_toright, R.anim.out_toleft);
                     break;
             }
         }catch (Exception e){

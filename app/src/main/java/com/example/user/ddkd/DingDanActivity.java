@@ -124,7 +124,6 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
         tv_head_fanghui.setOnClickListener(this);
         baseAdapter = new MyBaseAdapter();
         listView.setAdapter(baseAdapter);
-
         listView.setEmptyView(findViewById(R.id.tv_default));
         listView.getEmptyView().setVisibility(View.GONE);
         //先隐藏listview，等加载数据后再显示出来
@@ -277,8 +276,13 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                     zhuanTai.ll9.setVisibility(View.GONE);
                     zhuanTai.button.setVisibility(View.GONE);
                 } else if (xuanzhe == 4) {
+                    if (!info.getPid().equals("0")) {
+                        zhuanTai.zhuangtai.setText("已付款");
+                    } else {
+                        zhuanTai.zhuangtai.setText("未付款");
+                    }
                     zhuanTai.ll8.setVisibility(View.VISIBLE);
-                    zhuanTai.ll9.setVisibility(View.GONE);
+                    zhuanTai.ll9.setVisibility(View.VISIBLE);
                     zhuanTai.button.setVisibility(View.GONE);
                 }
                 String[] s = info.getReceivePlace().split("/", -2);
@@ -651,6 +655,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             Toast.makeText(DingDanActivity.this, "信息有误", Toast.LENGTH_SHORT).show();
         }
     }
+
     private void xingxing(float i,ImageView xx1,
             ImageView xx2,
             ImageView xx3,

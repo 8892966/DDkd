@@ -25,12 +25,14 @@
         style="@style/call_phone_dialog"
         android:text="收货人长号：" />
     <TextView
+        android:layout_marginBottom="1dp"
         android:layout_marginTop="1dp"
         android:background="@color/text3"
         android:id="@+id/xiadan_call_long_phone"
         style="@style/call_phone_dialog"
         android:text="下单人长号：" />
     <TextView
+        android:visibility="gone"
         android:layout_marginTop="1dp"
         android:background="@color/text3"
         android:id="@+id/qixiao"

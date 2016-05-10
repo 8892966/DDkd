@@ -6,6 +6,7 @@
     android:background="@drawable/ddkd_kyym"
     >
     <ProgressBar
+        android:visibility="invisible"
         android:id="@+id/pb_star_wei"
         android:layout_marginBottom="140dp"
         android:layout_alignParentBottom="true"

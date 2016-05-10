@@ -168,6 +168,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                                 edit.commit();
                                 Intent intent = new Intent(MainActivity_login.this, JieDangActivity.class);
                                 startActivity(intent);
+
                                 finish();
                                 closeProgressDialog();
                             }
@@ -226,7 +227,6 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString("phone", phone);
                 editor.putString("password", password);
-
                 //******************记录当前的打钩的状态，1为打钩，0为不打钩*******************
                 if (rembpwd.isChecked()) {
                     editor.putInt("checkstatic",1);
@@ -295,7 +295,6 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                     Toast.makeText(MainActivity_login.this,"信息有误",Toast.LENGTH_SHORT).show();
                 }
             }
-
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {

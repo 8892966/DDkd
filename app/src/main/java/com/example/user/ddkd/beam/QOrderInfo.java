@@ -19,7 +19,16 @@ public class QOrderInfo implements Serializable {
     private String username;
     private String Message;
     private String orderid;
+    private String bespeak;
     private  int zhuantai=0;
+
+    public String getBespeak() {
+        return bespeak;
+    }
+
+    public void setBespeak(String bespeak) {
+        this.bespeak = bespeak;
+    }
 
     public int getZhuantai() {
         return zhuantai;

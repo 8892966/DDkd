@@ -52,6 +52,8 @@ import static com.example.user.ddkd.ExitApplication.*;
  * Created by User on 2016-04-02.
  */
 public class JieDangActivity extends Activity implements View.OnClickListener {
+    private final static int GDSX=11;//挂单刷新
+
     private ListView listView;
     //DD指南的按钮
     private LinearLayout ll_ddzhinang;
@@ -97,7 +99,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     private ImageView xx3;
     private ImageView xx4;
     private ImageView xx5;
-
+    private GDOrderUtil gdOrderUtil;
 
     //当获取页面信息时token过时的处理
     private Handler handler1 = new Handler() {
@@ -110,6 +112,19 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                     break;
                 case MyApplication.GET_TOKEN_ERROR:
                     Toast.makeText(JieDangActivity.this, "网络连接出错", Toast.LENGTH_SHORT).show();
+                    break;
+                case GDSX:
+//                    Log.e("fdsfda", "fdafa1111111111");
+                    SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
+                    try {
+                        if (!sreviceisrunning||!sharedPreferences.getBoolean("isjieDangActivityrunn",false)) {
+
+                        }else {
+                            getGDorder();
+                        }
+                    }catch (Exception e){
+                        Log.e("fdsfda","22222222222222222222");
+                    }
                     break;
             }
         }
@@ -133,6 +148,37 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             }
         }
     };
+    //当抢单使，token过时的处理
+    private Handler handler3= new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case MyApplication.GET_TOKEN_SUCCESS:
+                    String id= (String) msg.obj;
+                    gdOrderUtil.volley_QDGD_GET(id, JieDangActivity.this, handler3);
+                    break;
+                case MyApplication.GET_TOKEN_ERROR:
+                    Toast.makeText(JieDangActivity.this, "网络连接出错", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+    };
+    //当抢单使，token过时的处理
+    private Handler handler4 = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case MyApplication.GET_TOKEN_SUCCESS:
+                    gdOrderUtil.volley_GDMSG_GET_UTILS(JieDangActivity.this,handler4);
+                    break;
+                case MyApplication.GET_TOKEN_ERROR:
+                    Toast.makeText(JieDangActivity.this, "网络连接出错", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +187,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         initSound();//初始化数据
 //        volley_MSG_GET();//获取页面信息
         list = new ArrayList<QOrderInfo>();
+        list_GD=new ArrayList<QOrderInfo>();
         TextView textView = (TextView) findViewById(R.id.personinfo);
         textView.setOnClickListener(this);
         listView = (ListView) findViewById(R.id.lv_jiedang);
@@ -172,11 +219,21 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         xx4= (ImageView) findViewById(R.id.xx4);
         xx5= (ImageView) findViewById(R.id.xx5);
 
+        gdOrderUtil = new GDOrderUtil() {
+            @Override
+            public void getOrder(Object o) {
+                list.removeAll(list_GD);
+                list_GD = (List<QOrderInfo>) o;
+                list.addAll(list_GD);
+                myBaseAdapter.notifyDataSetChanged();
+            }
+        };
 
         //登陆初始化开始听单
         SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
         boolean bb=sharedPreferences.getBoolean("qiandan1",true);
         if(bb){
+
             jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
             startService(jieDanServiceIntent);
             listView.setVisibility(View.VISIBLE);
@@ -186,8 +243,9 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             SharedPreferences.Editor edit = sharedPreferences.edit();
             edit.putBoolean("qiandan1",false);
             edit.commit();
-        }
+            getGDorder();
 
+        }
         //判断是否有开启信鸽和服务
 //        sreviceisrunning=ServiceUtils.isRunning(this,"com.example.user.ddkd.service.JieDanService");
 //        if(sreviceisrunning){
@@ -198,6 +256,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 //            jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
 //            bindService(jieDanServiceIntent,sc,BIND_AUTO_CREATE);
 //        }
+
     }
 
     private void initSound() {
@@ -216,10 +275,8 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         }catch (Exception e){
             Log.e("Exception", e.getMessage());
             Toast.makeText(JieDangActivity.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
-
         }
     }
-
     @Override
     public void onClick(View v) {
         try {
@@ -252,10 +309,10 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                         jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
                         startService(jieDanServiceIntent);
                         bindService(jieDanServiceIntent, sc, BIND_AUTO_CREATE);
-//// 2.36（不包括）之前的版本需要调用以下2行代码
-//                    Intent service = new Intent(context, XGPushService.class);
-//                    context.startService(service);
+                        myBaseAdapter.notifyDataSetChanged();
+                        getGDorder();
                     } else {
+                        MyApplication.getQueue().cancelAll("volley_GDMSG_GET_UTILS");
                         listView.getEmptyView().setVisibility(View.GONE);
                         sreviceisrunning = false;
                         unbindService(sc);
@@ -324,20 +381,21 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 }
 
                 if (qOrderInfo.getExpressCompany() != null) {
+
                     viewInfo.tv_class.setText(qOrderInfo.getExpressCompany() + "快件");
+
                 }
 
                 if (qOrderInfo.getWeight() != null) {
+
                     viewInfo.tv_zhonglian.setText(qOrderInfo.getWeight() + "kg左右");
+
                 }
 
                 viewInfo.tv_item_jianli.setVisibility(View.GONE);
                 if (qOrderInfo.getAddressee() != null && qOrderInfo.getPrice() != null && qOrderInfo.getTip() != null) {
                     float f=Float.valueOf(qOrderInfo.getPrice())+Float.valueOf(qOrderInfo.getTip());
                     viewInfo.tv_item_title.setText(qOrderInfo.getAddressee() + "    共" + f + "元(含小费" + qOrderInfo.getTip() + "元)");
-                }
-                if (qOrderInfo.getOrderid() != null) {
-                    viewInfo.order_id.setText("单号:" + qOrderInfo.getOrderid());
                 }
                 if (qOrderInfo.getZhuantai() == 2) {
                     viewInfo.tv_qiangdan_button.setEnabled(false);
@@ -351,7 +409,24 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                     viewInfo.tv_qiangdan_button.setEnabled(true);
                     viewInfo.tv_qiangdan_button.setText("抢单");
                 }
-                viewInfo.tv_qiangdan_button.setOnClickListener(new QDonClickListener(qOrderInfo, viewInfo.tv_qiangdan_button));
+                Log.e("getView",qOrderInfo.getBespeak()+"");
+                if(qOrderInfo.getBespeak()!=null){
+                if(!"0".equals(qOrderInfo.getBespeak())) {
+                    if (qOrderInfo.getOrderid() != null) {
+                        viewInfo.order_id.setText("(挂单)单号:" + qOrderInfo.getOrderid());
+                    }
+                    viewInfo.tv_qiangdan_button.setOnClickListener(new GDonClickListener(qOrderInfo, viewInfo.tv_qiangdan_button));
+                }else {
+                    if (qOrderInfo.getOrderid() != null) {
+                        viewInfo.order_id.setText("单号:" + qOrderInfo.getOrderid());
+                    }
+                    viewInfo.tv_qiangdan_button.setOnClickListener(new QDonClickListener(qOrderInfo, viewInfo.tv_qiangdan_button));
+                }}else {
+                    if (qOrderInfo.getOrderid() != null) {
+                        viewInfo.order_id.setText("单号:" + qOrderInfo.getOrderid());
+                    }
+                    viewInfo.tv_qiangdan_button.setOnClickListener(new QDonClickListener(qOrderInfo, viewInfo.tv_qiangdan_button));
+                }
 //                int e=times.get(position);
 //                TimeCountUtil timeCountUtil=new TimeCountUtil(20*1000,1000,viewInfo.tv_qiangdan_button);
 //                timeCountUtil.start();
@@ -387,6 +462,33 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 }
             }
         }
+        class GDonClickListener implements View.OnClickListener{
+            private String id;
+            private TextView button;
+            private QOrderInfo qOrderInfo;
+            public GDonClickListener(QOrderInfo qOrderInfo, TextView button) {
+                this.id = qOrderInfo.getOrderid();
+                this.button = button;
+                this.qOrderInfo = qOrderInfo;
+            }
+
+            @Override
+            public void onClick(View v){
+                try {
+                    button.setEnabled(false);
+                    button.setTextColor(Color.BLACK);
+                    button.setText("等待");
+                    qOrderInfo.setZhuantai(1);
+                    gdOrderUtil.volley_QDGD_GET(qOrderInfo.getOrderid(), JieDangActivity.this, handler3);
+                    list.remove(qOrderInfo);
+                    myBaseAdapter.notifyDataSetChanged();
+//                  volley_QD_GET(id, button, qOrderInfo);
+                }catch (Exception e){
+                    Log.e("Exception", e.getMessage());
+                    Toast.makeText(JieDangActivity.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
 
         class ViewInfo {
             TextView tv_item_title;
@@ -406,6 +508,9 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             StatService.onResume(this);
             if(list!=null) {
                 list.clear();
+                if(list_GD!=null) {
+                    list.addAll(0, list_GD);
+                }
             }
             SharedPreferences sharedPreferences = getSharedPreferences("qtmsg", MODE_PRIVATE);
 
@@ -419,19 +524,21 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             }
             sreviceisrunning = ServiceUtils.isRunning(this, "com.example.user.ddkd.service.JieDanService");
             Log.e("isRunning", sreviceisrunning + "");
-            if (list != null) {
-//            list.clear();
-            }
+//            if (list != null) {
+////            list.clear();
+//            }
             if (sreviceisrunning) {
                 listView.setVisibility(View.VISIBLE);
-//            but_jiedang.setText("休息");
                 but_jiedang.setBackgroundResource(R.drawable.kaiguanann);
                 //服务一开，绑定服务
                 jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
                 bindService(jieDanServiceIntent, sc, BIND_AUTO_CREATE);
+                getGDorder();
             } else {
                 listView.getEmptyView().setVisibility(View.GONE);
             }
+            SharedPreferences sharedPreferences1=getSharedPreferences("config", MODE_PRIVATE);
+            sharedPreferences1.edit().putBoolean("isjieDangActivityrunn",true).commit();
             super.onResume();
         }catch (Exception e){
             Log.e("Exception", e.getMessage());
@@ -443,26 +550,29 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     protected void onPause() {
         super.onPause();
         try {
+            SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
+            sharedPreferences.edit().putBoolean("isjieDangActivityrunn",false).commit();
 //        Log.e("onPause","2222222222222222");
             if (sreviceisrunning) {
                 unbindService(sc);
             }
         }catch (Exception e){
-            Log.e("Exception", e.getMessage());
+//            Log.e("Exception", e.getMessage());
             Toast.makeText(JieDangActivity.this,"信息有误",Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onDestroy(){
         super.onDestroy();
         try {
             sp.release();
             StatService.onPause(this);
+            MyApplication.getQueue().cancelAll("volley_GDMSG_GET_UTILS");
             MyApplication.getQueue().cancelAll("volley_MSG_GET");
             MyApplication.getQueue().cancelAll("volley_QD_GET");
         }catch (Exception e){
-            Log.e("Exception", e.getMessage());
+//            Log.e("Exception", e.getMessage());
             Toast.makeText(JieDangActivity.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
         }
     }
@@ -473,6 +583,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             try {
                 jdBinder = (JieDanService.JDBinder) service;
                 jdBinder.SendIJD(new JieDanService.IJD() {
+
                     @Override
                     public void Delete(List list) {
                         JieDangActivity.this.list.removeAll(list);
@@ -481,11 +592,12 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 
                     @Override
                     public void Add(List list) {
-                        JieDangActivity.this.list.addAll(list);
+                        JieDangActivity.this.list.addAll(0,list);
                         myBaseAdapter.notifyDataSetChanged();//刷新数据
                         play();
                     }
                 });
+
                 list = jdBinder.getMsg();
                 Gson gson = new Gson();
                 SharedPreferences sharedPreferences = getSharedPreferences("qtmsg", MODE_PRIVATE);
@@ -494,13 +606,13 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 List QTli = gson.fromJson(qt, new TypeToken<List<QOrderInfo>>() {
                 }.getType());
                 if (QTli != null) {
-                    list.addAll(QTli);
+                    list.addAll(0,QTli);
                     jdBinder.setMsg(QTli);
                 }
-//            Log.e("ServiceConnection", list.size() + "");
+
                 myBaseAdapter.notifyDataSetChanged();
             }catch (Exception e){
-                Log.e("Exception", e.getMessage());
+//                Log.e("Exception", e.getMessage());
                 Toast.makeText(JieDangActivity.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
             }
         }
@@ -539,7 +651,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                         }
                     }
                 }catch (Exception e){
-                    Log.e("Exception", e.getMessage());
+                    Log.e("Exception", e.getMessage()+"");
                     Toast.makeText(JieDangActivity.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
                 }
             }
@@ -570,7 +682,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
         preferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = preferences.getString("token", "");
         String XGtoken = preferences.getString("XGtoken", "");
-        Log.e("volley_QD_GET", XGtoken);
+//        Log.e("volley_QD_GET", XGtoken);
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/RobOrder/orderId/" + id + "/token/" + token + "/deviceId/" + XGtoken;
         StringRequest request_post = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
@@ -616,7 +728,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     public void onBackPressed() {
         System.arraycopy(djtime, 1, djtime, 0, djtime.length - 1);
         djtime[djtime.length - 1] = SystemClock.uptimeMillis();
-        if (djtime[0] >= (SystemClock.uptimeMillis() - 1000)) {
+        if (djtime[0] >= (SystemClock.uptimeMillis() - 1000)){
 //                super.onBackPressed();
             Intent i= new Intent(Intent.ACTION_MAIN);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -627,7 +739,6 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             Toast.makeText(this, "再按一次返回键退出应用", Toast.LENGTH_SHORT).show();
         }
     }
-
 
     private void xingxing(float i){
         try {
@@ -677,23 +788,17 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                     break;
             }
         }catch (Exception e){
-            Log.e("Exception", e.getMessage());
+            Log.e("Exception", e.getMessage()+"");
             Toast.makeText(JieDangActivity.this,"信息有误",Toast.LENGTH_SHORT).show();
         }
     }
-    //点击听单时或每个15分钟就执行获取挂单的数据
+    //点击听单时或每个10分钟就执行获取挂单的数据
     private void getGDorder(){
         try {
-            GDOrderUtil gdOrderUtil = new GDOrderUtil() {
-                @Override
-                public void getOrder(Object o) {
-                    list_GD = (List<QOrderInfo>) o;
-                    list.addAll(list_GD);
-                }
-            };
-            gdOrderUtil.volley_GDMSG_GET_UTILS(this);
+            gdOrderUtil.volley_GDMSG_GET_UTILS(this,handler4);
+            handler1.sendEmptyMessageDelayed(GDSX,10*60*1000);
         }catch (Exception e){
-            Log.e("Exception", e.getMessage());
+//            Log.e("Exception", e.getMessage());
             Toast.makeText(JieDangActivity.this,"信息有误",Toast.LENGTH_SHORT).show();
         }
     }

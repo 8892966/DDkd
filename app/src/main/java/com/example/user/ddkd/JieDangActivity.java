@@ -297,7 +297,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                     startActivity(intent);
                     break;
                 case R.id.tv_to_dingdang:
-                    intent = new Intent(this, DingDanActivity.class);
+                    intent = new Intent(this, DingDanNewActivity.class);
                     startActivity(intent);
                     break;
                 case R.id.but_jiedang:

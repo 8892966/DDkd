@@ -130,7 +130,7 @@ public class WeChatShare{// extends Activity implements View.OnClickListener{
 
         WXMediaMessage wxMediaMessage=new WXMediaMessage(webpageObject);
         wxMediaMessage.title="DD镖师创业平台";
-        wxMediaMessage.description="一个代寄、代拿快递的兼职平台";
+        wxMediaMessage.description="一个寄拿快递的兼职平台";
         //设置缩略图
         Bitmap bitmap=BitmapFactory.decodeResource(activity.getResources(),R.drawable.download);
         Bitmap thrum=Bitmap.createScaledBitmap(bitmap, 120, 150, true);

@@ -8,12 +8,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dip"
-        android:background="@drawable/juxing"
+        android:background="@drawable/qiandanbeijin"
         android:orientation="vertical">
         <LinearLayout
+            android:layout_marginTop="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginLeft="1dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/juxingkuan"
+            android:background="@drawable/qiandanbeijin_head"
             android:gravity="center"
             android:orientation="vertical"
             android:padding="10dp">

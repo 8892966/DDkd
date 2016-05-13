@@ -1,8 +1,11 @@
 package com.example.user.ddkd.utils;
 
 import android.content.Context;
+import android.content.SyncAdapterType;
+import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -25,6 +28,10 @@ public class SlidingUtil extends HorizontalScrollView{
     private boolean once;
     private boolean isOpen;
     private int mMenuWidth;
+
+    private int startX;//记录按下时候的X值
+    private int endX;//记录抬起时候的Y值
+    private boolean isSliding;
 
     public SlidingUtil(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -54,54 +61,92 @@ public class SlidingUtil extends HorizontalScrollView{
             this.scrollTo(mMenuWidth, 0);//将子View隐藏；
         }
     }
+
+
+    private long startTime;//记录按下时候的时间
+    private long endTime;//记录抬起时候的时间
     public boolean onTouchEvent(MotionEvent ev)
     {
         int action = ev.getAction();
         switch (action)
         {
-            case MotionEvent.ACTION_UP://
-                // 隐藏在左边的宽度
-                int scrollX = getScrollX();//当前需显示的内容相比比Activity的宽度多出来的内容；就相当于隐藏在左边的宽度；
-                if (scrollX >= mMenuWidth / 2)//如果隐藏的宽度大于菜单栏的二分之一;
-                {
-                    this.smoothScrollTo(mMenuWidth, 0);//显示菜单;smoothScrollTo很好的一个动画效果显示；
-                    isOpen = false;
-                } else {
-                    this.smoothScrollTo(0, 0);//否则隐藏；
-                    isOpen = true;
+            case MotionEvent.ACTION_UP:
+                endX= (int) ev.getX();
+                endTime=SystemClock.uptimeMillis();
+                int move=endX-startX;
+                int speed= (int) (move/(endTime-startTime));
+
+                if (speed>1.5) {
+                    openMenu();
+                    isSliding=true;
+                }else if(speed<(-1.5)){
+                    closeMenu();
+                    isSliding=true;
+                }else{
+                    if(isOpen)
+                        this.smoothScrollTo(0, 0);
+                    if(!isOpen)
+                        this.smoothScrollTo(mMenuWidth, 0);
                 }
+
+                //**************************判断当前是否有快速滑动的操作
+                if (!isSliding){
+                    int scrollX = getScrollX();//当前需显示的内容相比比Activity的宽度多出来的内容；就相当于隐藏在左边的宽度；
+                    if (scrollX >= mMenuWidth / 2){
+                        this.smoothScrollTo(mMenuWidth, 0);//否则隐藏；
+                        isOpen = false;
+                    }else{
+                        this.smoothScrollTo(0, 0);//显示菜单;smoothScrollTo很好的一个动画效果显示；
+                        isOpen = true;
+                    }
+                }
+                isSliding=false;
+                startX=0;
+                endX=0;
+                startTime=0;
+                endTime=0;
                 return true;
+            case MotionEvent.ACTION_MOVE:
+                if(startX==0){
+                    startX= (int) ev.getX();
+                    Log.i("XXXXX1_1",String.valueOf(startX));
+                }
+                if(startTime==0){
+                    startTime= SystemClock.uptimeMillis();
+                    Log.i("XXXXX_startTime_1",String.valueOf(startTime));
+                }
+                break;
+            case MotionEvent.ACTION_DOWN:
+                startX= (int) ev.getX();
+                Log.i("XXXXX1",String.valueOf(startX));
+                startTime= SystemClock.uptimeMillis();
+                Log.i("XXXXX_startTime",String.valueOf(startTime));
+                break;
         }
         return super.onTouchEvent(ev);
     }
-
 
     //*************************打开菜单
     public void openMenu(){
         if (isOpen)
             return;
-//        Log.i("Change3_3", "Click");
         this.smoothScrollTo(0, 0);
         isOpen=true;
     }
     public void closeMenu(){
         if(!isOpen)
             return;
-//        Log.i("Change2_2", "Click");
         this.smoothScrollTo(mMenuWidth, 0);
         isOpen=false;
+
     }
 
     //**************************切换菜单
-    public boolean changeMenu(){
+    public void changeMenu(){
         if (isOpen){
             closeMenu();
-            return false;
-//            Log.i("Change2", "Click");
         }else{
             openMenu();
-            return true;
-//            Log.i("Change3", "Click");
         }
     }
 
@@ -109,7 +154,6 @@ public class SlidingUtil extends HorizontalScrollView{
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
-
         float scale = l * 1.0f / mMenuWidth; // 子类的隐藏效果
 //        ViewHelper.setTranslationX(mMenu, mMenuWidth * scale * 0.8f);
 

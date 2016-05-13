@@ -334,12 +334,8 @@ public class JieDangActivity extends Activity implements View.OnClickListener{
                 case R.id.personinfo://进入用户信息界面
 //                    intent = new Intent(this, MainActivity_main.class);
 //                    startActivity(intent);
-                    boolean result=slidingUtil.changeMenu();
-                    if ("false".equals(String.valueOf(result))){
+                   slidingUtil.changeMenu();
 
-                    }else{
-
-                    }
 //                    overridePendingTransition(R.anim.in_toright, R.anim.out_toleft);
                     break;
             }

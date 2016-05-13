@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -64,7 +65,7 @@ public class SlidingUtil extends HorizontalScrollView{
                 {
                     this.smoothScrollTo(mMenuWidth, 0);//显示菜单;smoothScrollTo很好的一个动画效果显示；
                     isOpen = false;
-                } else{
+                } else {
                     this.smoothScrollTo(0, 0);//否则隐藏；
                     isOpen = true;
                 }
@@ -91,12 +92,14 @@ public class SlidingUtil extends HorizontalScrollView{
     }
 
     //**************************切换菜单
-    public void changeMenu(){
+    public boolean changeMenu(){
         if (isOpen){
             closeMenu();
+            return false;
 //            Log.i("Change2", "Click");
         }else{
             openMenu();
+            return true;
 //            Log.i("Change3", "Click");
         }
     }
@@ -107,7 +110,7 @@ public class SlidingUtil extends HorizontalScrollView{
         super.onScrollChanged(l, t, oldl, oldt);
 
         float scale = l * 1.0f / mMenuWidth; // 子类的隐藏效果
-        ViewHelper.setTranslationX(mMenu, mMenuWidth * scale * 0.8f);
+//        ViewHelper.setTranslationX(mMenu, mMenuWidth * scale * 0.8f);
 
 //        float rightScale = 0.9f + 0.1f * scale;//父类内容区域的缩放效果；
         //设置缩放的中心点；

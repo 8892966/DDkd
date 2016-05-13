@@ -79,6 +79,7 @@ public class UserInfoUtils implements View.OnClickListener {
         userphone = (TextView) activity.findViewById(R.id.userphone);
         turnover = (TextView) activity.findViewById(R.id.turnover);
         moneysum = (TextView) activity.findViewById(R.id.moneysum);
+
         //*******实现点击页面的跳转*******
         ImageView exituserinfo = (ImageView) activity.findViewById(R.id.exituserinfo);
         exituserinfo.setOnClickListener(this);

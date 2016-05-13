@@ -93,8 +93,9 @@
         android:id="@+id/bottom"
         android:layout_width="match_parent"
         android:layout_height="5dip" />
-    <RelativeLayout
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_above="@id/bottom"
+        android:id="@+id/swipeRefreshLayout"
         android:layout_below="@id/title2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -111,5 +112,5 @@
             android:text="亲，您还没有记录喔"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </RelativeLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>

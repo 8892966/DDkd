@@ -14,6 +14,9 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.SystemClock;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -47,7 +50,7 @@ import static com.example.user.ddkd.ExitApplication.*;
 /**
  * Created by User on 2016-04-02.
  */
-public class JieDangActivity extends Activity implements View.OnClickListener {
+public class JieDangActivity extends Activity implements View.OnClickListener{
     private final static int GDSX=11;//挂单刷新
     private TextView textView;
     private ListView listView;
@@ -97,6 +100,9 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     private ImageView xx5;
     private GDOrderUtil gdOrderUtil;
     private SlidingUtil slidingUtil;
+    private UserInfoUtils userInfoUtils;
+    private GestureDetector detector;
+    private VelocityTracker vt;
 
     //当获取页面信息时token过时的处理
     private Handler handler1 = new Handler() {
@@ -184,7 +190,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
 
         //*****************************实现侧滑效果
         slidingUtil= (SlidingUtil) findViewById(R.id.it_menu);
-        UserInfoUtils userInfoUtils=new UserInfoUtils(slidingUtil,JieDangActivity.this);
+        userInfoUtils=new UserInfoUtils(slidingUtil,JieDangActivity.this);
 
         initSound();//初始化数据
 //        volley_MSG_GET();//获取页面信息
@@ -329,7 +335,12 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 case R.id.personinfo://进入用户信息界面
 //                    intent = new Intent(this, MainActivity_main.class);
 //                    startActivity(intent);
-                    slidingUtil.changeMenu();
+                    boolean result=slidingUtil.changeMenu();
+                    if ("false".equals(String.valueOf(result))){
+
+                    }else{
+
+                    }
 //                    overridePendingTransition(R.anim.in_toright, R.anim.out_toleft);
                     break;
             }
@@ -541,7 +552,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
                 listView.getEmptyView().setVisibility(View.GONE);
             }
             SharedPreferences sharedPreferences1=getSharedPreferences("config", MODE_PRIVATE);
-            sharedPreferences1.edit().putBoolean("isjieDangActivityrunn",true).commit();
+            sharedPreferences1.edit().putBoolean("isjieDangActivityrunn", true).commit();
             super.onResume();
         }catch (Exception e){
             Log.e("Exception", e.getMessage());

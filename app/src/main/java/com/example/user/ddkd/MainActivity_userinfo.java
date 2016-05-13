@@ -23,6 +23,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -129,10 +130,11 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
         SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         String url = sharedPreferences.getString("imageuri", "");
         Log.i("URL", url);
-        if (url.equals("")) {
+        if (!TextUtils.isEmpty(url)&&!"ERROR".equals(url)) {
+            Picasso.with(MainActivity_userinfo.this).load(url).into(userimage);
+        }else{
             volley_Get_Image();
         }
-        Picasso.with(MainActivity_userinfo.this).load(url).into(userimage);
     }
 
     public void onClick(View v) {
@@ -243,7 +245,7 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
                 String s = (String) o;
                 Log.i("Result", s);
                 Message message = new Message();
-                if (s.equals("SUCCESS")) {
+                if ("SUCCESS".equals(s)) {
                     message.what = MyApplication.GET_TOKEN_SUCCESS;
                     handler.sendMessage(message);
                 } else {
@@ -308,7 +310,7 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
                             number.setText(sharedPreferences1.getString("number", ""));
                             phone.setText(sharedPreferences1.getString("phone", ""));
                             shortphone.setText(sharedPreferences1.getString("shortphone", ""));
-                            String name = getLevel(sharedPreferences1.getString("shortphone", ""));
+                            String name = getLevel(sharedPreferences1.getString("level", ""));
                             level.setText(name);
                         }
                     } else {
@@ -345,12 +347,27 @@ public class MainActivity_userinfo extends Activity implements View.OnClickListe
     public void volley_Get_Image() {
         final SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/getLogo/token/" + sharedPreferences.getString("token", "");
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
-            public void onResponse(String s) {
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("imageuri", s);
-                editor.commit();
+            public void success(Object o) {
+                String s = (String) o;
+                if (!"ERROR".equals(s)){
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("imageuri", s);
+                    editor.commit();
+                }else{
+                    Toast.makeText(MainActivity_userinfo.this, "头像获取失败，请重新进去此页", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+            @Override
+            public void tokenouttime() {
+                AutologonUtil autologonUtil=new AutologonUtil(MainActivity_userinfo.this,null,null);
+                autologonUtil.volley_Get_TOKEN();
+            }
+            @Override
+            public void yidiensdfsdf() {
+                Toast.makeText(MainActivity_userinfo.this, "您的账户已在异地登录", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override

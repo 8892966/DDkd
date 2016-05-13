@@ -126,7 +126,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener{
                             getGDorder();
                         }
                     }catch (Exception e){
-                        Log.e("fdsfda","22222222222222222222");
+//                        Log.e("fdsfda","22222222222222222222");
                     }
                     break;
             }
@@ -241,7 +241,6 @@ public class JieDangActivity extends Activity implements View.OnClickListener{
         SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
         boolean bb=sharedPreferences.getBoolean("qiandan1",true);
         if(bb){
-
             jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
             startService(jieDanServiceIntent);
             listView.setVisibility(View.VISIBLE);
@@ -681,6 +680,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener{
                 Toast.makeText(JieDangActivity.this, "您的账号在其他地方被登陆，请在此登陆", Toast.LENGTH_SHORT).show();
                 Exit.exit(JieDangActivity.this);
             }
+
         }, new Response.ErrorListener(){
             @Override
             public void onErrorResponse(VolleyError volleyError) {

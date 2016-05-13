@@ -25,6 +25,7 @@ public class SlidingUtil extends HorizontalScrollView{
     private boolean once;
     private boolean isOpen;
     private int mMenuWidth;
+
     public SlidingUtil(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.setHorizontalScrollBarEnabled(false);

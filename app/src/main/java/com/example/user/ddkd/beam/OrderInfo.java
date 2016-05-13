@@ -47,25 +47,28 @@ public class OrderInfo {
         OrderTime = orderTime;
     }
 
-    //    @Override
-//    public String toString() {
-//        return "OrderInfo{" +
-//                "return_code='" + return_code + '\'' +
-//                ", return_msg='" + return_msg + '\'' +
-//                ", id='" + id + '\'' +
-//                ", Price='" + Price + '\'' +
-//                ", username='" + username + '\'' +
-//                ", phone='" + phone + '\'' +
-//                ", ExpressCompany='" + ExpressCompany + '\'' +
-//                ", weight='" + weight + '\'' +
-//                ", ReceivePlace='" + ReceivePlace + '\'' +
-//                ", Message='" + Message + '\'' +
-//                ", evaluate='" + evaluate + '\'' +
-//                ", time=" + time +
-//                ", addressee='" + addressee + '\'' +
-//                '}';
-//    }
-
+    @Override
+    public String toString() {
+        return "OrderInfo{" +
+                "return_code='" + return_code + '\'' +
+                ", return_msg='" + return_msg + '\'' +
+                ", id='" + id + '\'' +
+                ", Price='" + Price + '\'' +
+                ", username='" + username + '\'' +
+                ", phone='" + phone + '\'' +
+                ", ExpressCompany='" + ExpressCompany + '\'' +
+                ", weight='" + weight + '\'' +
+                ", ReceivePlace='" + ReceivePlace + '\'' +
+                ", Message='" + Message + '\'' +
+                ", evaluate='" + evaluate + '\'' +
+                ", time='" + time + '\'' +
+                ", OrderTime='" + OrderTime + '\'' +
+                ", addressee='" + addressee + '\'' +
+                ", Pid='" + Pid + '\'' +
+                ", reason='" + reason + '\'' +
+                ", tip='" + tip + '\'' +
+                '}';
+    }
 
     public String getTip() {
         return tip;

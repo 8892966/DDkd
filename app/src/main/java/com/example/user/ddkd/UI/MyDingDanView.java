@@ -70,7 +70,7 @@ public class MyDingDanView extends ViewGroup {
             case MotionEvent.ACTION_UP:
                 endTime = SystemClock.uptimeMillis();
                 float velocityX = ((float) startx - (float) firstx) / (endTime - startTime);
-                if (Math.abs(velocityX)>2){
+                if (Math.abs(velocityX)>1.5){
                     isFling = true;
 //                Log.e(TAG, velocityX + "");
                 if (velocityX > 0 && currId > 0) {

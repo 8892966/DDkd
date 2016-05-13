@@ -242,7 +242,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                     view.setTag(zhuanTai);
                 }
                 OrderInfo info = list.get(position);
-//            Log.e("MyBaseAdapter", info.toString());
+                Log.e("MyBaseAdapter", info.toString());
                 zhuanTai.iv_call_phone.setVisibility(View.VISIBLE);
                 zhuanTai.ll_xinxin.setVisibility(View.GONE);
                 if (xuanzhe == 1) {
@@ -418,7 +418,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                             break;
                     }
                 }catch (Exception e){
-                    Log.e("Exception", e.getMessage());
+                    Log.e("Exception", e.getMessage()+"");
                     Toast.makeText(DingDanActivity.this, "信息有误", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -463,7 +463,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
             public void success(Object o) {
                 String s = (String) o;
                 try {
-                    Log.e("volley_getOrder_GET", s);
+//                    Log.e("volley_getOrder_GET", s);
                     if (!"ERROR".equals(s)) {
                         Gson gson = new Gson();
                         list = gson.fromJson((String) o, new TypeToken<List<OrderInfo>>() {
@@ -482,7 +482,7 @@ public class DingDanActivity extends Activity implements View.OnClickListener {
                     listView.setVisibility(View.VISIBLE);//显示数据
                     rl_order_ProgressBar.setVisibility(View.GONE);//隐藏加载页面
                 } catch (Exception e) {
-                    Log.e("Exception", e.getMessage());
+                    Log.e("Exception", e.getMessage()+"");
                     Toast.makeText(DingDanActivity.this, "信息有误", Toast.LENGTH_SHORT).show();
                 }
             }

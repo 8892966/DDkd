@@ -236,7 +236,7 @@ public class DingDanNewActivity extends Activity implements View.OnClickListener
 
                 }
                 OrderInfo info = list.get(position);
-//            Log.e("MyBaseAdapter", info.toString());
+            Log.e("MyBaseAdapter", info.toString());
                 zhuanTai.iv_call_phone.setVisibility(View.VISIBLE);
                 zhuanTai.ll_xinxin.setVisibility(View.GONE);
                 if (xuanzhe == 1) {

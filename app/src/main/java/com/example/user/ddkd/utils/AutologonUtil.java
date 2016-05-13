@@ -37,7 +37,7 @@ public class AutologonUtil {
         if (!isRunning&&Static==0) {
             isRunning=true;
             MyApplication.getQueue().cancelAll("volley_Get_TOKEN");
-            Toast.makeText(context,"token过时",Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context,"token过时",Toast.LENGTH_SHORT).show();
             SharedPreferences sharedPreferences = context.getSharedPreferences("config", Context.MODE_PRIVATE);
             String userid = sharedPreferences.getString("phone", "");
             String password = sharedPreferences.getString("password", "");

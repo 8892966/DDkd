@@ -19,7 +19,7 @@ public class Exit {
     public static void exit(Activity activity) {
         SharedPreferences sharedPreferences=activity.getSharedPreferences("config", activity.MODE_PRIVATE);
         SharedPreferences.Editor editor=sharedPreferences.edit();
-        editor.putString("loginstatic","0");
+        editor.putString("loginstatic", "0");
         editor.putBoolean("qiandan1",true);
         MyApplication.state=0;
         editor.commit();
@@ -27,8 +27,7 @@ public class Exit {
         Intent intent=new Intent(activity,MainActivity_login.class);
         activity.startActivity(intent);
         XGPushManager.unregisterPush(activity);
+        activity.stopService(new Intent(activity, JieDanService.class));
         activity.finish();
-        Intent jieDanServiceIntent = new Intent(activity,JieDanService.class);
-        activity.stopService(jieDanServiceIntent);
     }
 }

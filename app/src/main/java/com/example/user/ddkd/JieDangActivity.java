@@ -306,7 +306,9 @@ public class JieDangActivity extends Activity implements View.OnClickListener{
                     startActivity(intent);
                     break;
                 case R.id.but_jiedang:
+//                    SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
                     if (!sreviceisrunning) {
+//                        sharedPreferences.edit().putBoolean(MyApplication.TD,true).commit();//听单
                         listView.getEmptyView().setVisibility(View.VISIBLE);
                         sreviceisrunning = true;
 //                  preferences=getSharedPreferences("config", MODE_PRIVATE);
@@ -319,6 +321,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener{
                         myBaseAdapter.notifyDataSetChanged();
                         getGDorder();
                     } else {
+//                        sharedPreferences.edit().putBoolean(MyApplication.TD,false).commit();//听单
                         MyApplication.getQueue().cancelAll("volley_GDMSG_GET_UTILS");
                         listView.getEmptyView().setVisibility(View.GONE);
                         sreviceisrunning = false;

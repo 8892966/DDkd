@@ -58,7 +58,7 @@ public class JieDanService extends Service {
                         break;
                 }
             }catch (Exception e){
-                Log.e("Exception", e.getMessage());
+                Log.e("Exception", e.getMessage()+"");
                 Toast.makeText(JieDanService.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
             }
         }
@@ -89,12 +89,13 @@ public class JieDanService extends Service {
                                 NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                                 Notification.Builder builder = new Notification.Builder(JieDanService.this);
                                 builder.setContentTitle("有快递单抢啦！");
+                                builder.setTicker("有快递单抢啦！");
                                 builder.setContentText("有" + o[o.length - 1].size() + "个快递单单可以抢！");
                                 Intent notificationIntent = new Intent(JieDanService.this, JieDangActivity.class);
 //                          notificationIntent.putExtra("msg","FROM_QT");//标志强推信息
                                 PendingIntent contentIntent = PendingIntent.getActivity(JieDanService.this, 0, notificationIntent, 0);
                                 builder.setContentIntent(contentIntent);
-                                builder.setSmallIcon(R.mipmap.ic_launcher);
+                                builder.setSmallIcon(R.mipmap.headimage);
                                 Notification notification = builder.getNotification();
                                 notification.flags = Notification.FLAG_AUTO_CANCEL;
                                 notification.defaults |= Notification.DEFAULT_SOUND;
@@ -116,7 +117,7 @@ public class JieDanService extends Service {
                         break;
                 }
             }catch (Exception e){
-                Log.e("Exception", e.getMessage());
+                Log.e("Exception", e.getMessage()+"");
                 Toast.makeText(JieDanService.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
             }
         }
@@ -132,6 +133,20 @@ public class JieDanService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        Notification.Builder builder = new Notification.Builder(this);
+        builder.setContentTitle("DD快递");
+        builder.setContentText("DD快递听单中...");
+        builder.setTicker("开始听单。");
+        Intent notificationIntent = new Intent(this, JieDangActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, (int) (Math.random() * 100000), notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(contentIntent);
+        builder.setSmallIcon(R.mipmap.headimage);
+        Notification notification = builder.getNotification();
+        notification.flags = Notification.FLAG_AUTO_CANCEL;
+        notification.defaults |= Notification.DEFAULT_SOUND;
+        startForeground(1, notification);
+
         flags = this.START_STICKY;
         return super.onStartCommand(intent, flags, startId);
     }
@@ -140,6 +155,7 @@ public class JieDanService extends Service {
     public void onCreate() {
         super.onCreate();
         o = new List[30];
+        b=true;
         MyApplication.setHandler(handler1);
         handler2.sendEmptyMessageDelayed(2,1000);
     }
@@ -147,6 +163,7 @@ public class JieDanService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        stopForeground(true);
 //        Log.e("JieDanService","JieDanServiceonDestroy");
         b = false;
     }
@@ -170,7 +187,7 @@ public class JieDanService extends Service {
                     }
                 }
             }catch (Exception e){
-                Log.e("Exception", e.getMessage());
+                Log.e("Exception", e.getMessage()+"");
                 Toast.makeText(JieDanService.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
             }
         }
@@ -184,7 +201,7 @@ public class JieDanService extends Service {
                 }
                 return s;
             }catch (Exception e){
-                Log.e("Exception", e.getMessage());
+                Log.e("Exception", e.getMessage()+"");
                 Toast.makeText(JieDanService.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
             }
             return null;
@@ -219,7 +236,7 @@ public class JieDanService extends Service {
                 }
             }).start();
         }catch (Exception e){
-            Log.e("Exception", e.getMessage());
+            Log.e("Exception", e.getMessage()+"");
             Toast.makeText(JieDanService.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
         }
     }

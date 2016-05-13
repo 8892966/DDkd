@@ -204,6 +204,11 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
             @Override
             public void onResponse(String s) {
                     Log.e("volley_getYZM_GET",s);
+                if("ERROR".equals(s)){
+                    Toast.makeText(MainActivity_forget.this, "获取验证码失败", Toast.LENGTH_SHORT).show();
+                }else if("phone no exists".equals(s)){
+
+                }
                 try {
                     InputStream is = new ByteArrayInputStream(s.getBytes("utf-8"));
                     XmlPullParser parser = Xml.newPullParser();

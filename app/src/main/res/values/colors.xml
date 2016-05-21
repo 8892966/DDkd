@@ -16,4 +16,8 @@
     <color name="text3">#ffffff</color>
     <color name="text4">#2f2f2f</color>
     <color name="text5">#515151</color>
+    <color name="progress1">#ff6633</color>
+    <color name="progress2">#ff9900</color>
+    <color name="progress3">#ff9933</color>
+    <color name="progress4">#ff6600</color>
 </resources>

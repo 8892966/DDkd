@@ -19,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.user.ddkd.Announce;
 import com.example.user.ddkd.DingDanActivity;
+import com.example.user.ddkd.DingDanNewActivity;
 import com.example.user.ddkd.ExitApplication;
 import com.example.user.ddkd.MainActivity_balance;
 import com.example.user.ddkd.MainActivity_setting;
@@ -79,6 +80,7 @@ public class UserInfoUtils implements View.OnClickListener {
         userphone = (TextView) activity.findViewById(R.id.userphone);
         turnover = (TextView) activity.findViewById(R.id.turnover);
         moneysum = (TextView) activity.findViewById(R.id.moneysum);
+
         //*******实现点击页面的跳转*******
         ImageView exituserinfo = (ImageView) activity.findViewById(R.id.exituserinfo);
         exituserinfo.setOnClickListener(this);
@@ -126,7 +128,7 @@ public class UserInfoUtils implements View.OnClickListener {
             case R.id.details:
                 //直接跳转到订单页面;
 //                intent = new Intent(MainActivity_main.this, details.class);
-                intent = new Intent(activity, DingDanActivity.class);
+                intent = new Intent(activity,DingDanNewActivity.class);
                 intent.putExtra("Static",3);
                 activity.startActivity(intent);
                 break;

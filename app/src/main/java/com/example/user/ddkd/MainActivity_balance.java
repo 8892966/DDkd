@@ -6,10 +6,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -46,11 +48,12 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
     private List<Payment> paymentlist = new ArrayList<Payment>();
     private TextView textView;
     private MyAdapter myAdapter = new MyAdapter();
-    private DecimalFormat decimalFormat=new DecimalFormat("0.00");
+    private DecimalFormat decimalFormat = new DecimalFormat("0.00");
     private TextView balance;
     private UserInfo userInfo;
     private TextView tongzhi;
     private ListView viewById;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private Handler handler1 = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -80,11 +83,29 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
             }
         }
     };
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    swipeRefreshLayout.setRefreshing(false);
+                    Toast.makeText(MainActivity_balance.this, "已为您加载到最新记录", Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    break;
+            }
+
+        }
+    };
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_balance);
         balance = (TextView) findViewById(R.id.balance);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+        changePragress();
+        Volley_Get(paymentlist);
         TextView exit = (TextView) findViewById(R.id.tv_head_fanghui);
         exit.setOnClickListener(this);
         tongzhi = (TextView) findViewById(R.id.tongzhi);
@@ -109,6 +130,28 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
                 break;
         }
     }
+
+    public void changePragress() {
+//        swipeRefreshLayout.setColorSchemeColors();
+        swipeRefreshLayout.setSize(swipeRefreshLayout.DEFAULT);
+        swipeRefreshLayout.setProgressViewEndTarget(true, 100);
+        swipeRefreshLayout.setProgressBackgroundColor(R.color.backgrod);
+        swipeRefreshLayout.setColorSchemeResources(R.color.progress1,R.color.progress2,R.color.progress3,R.color.progress4);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        Volley_Get(paymentlist);
+                        mHandler.sendEmptyMessage(1);
+                    }
+                }.start();
+            }
+        });
+
+    }
+
     public void Volley_Get(final List<Payment> paymentlist2) {
         SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = sharedPreferences.getString("token", null);
@@ -119,7 +162,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
         StringRequest request = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
-                try{
+                try {
                     String s = (String) o;
                     //**************测试用的JSON*********************
 //                    String s="[{\"id\":\"01\", \"money\":{\"2.00\",\"Tname\":\"刘嘉文\",\"time\":\"2016-05-04\", \"flag\":\"OUT\", \"status\":\"1\"， \"counter\":\"123456\"}," +
@@ -127,7 +170,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
 //                            "{\"id\":\"03\", \"money\":{\"4.00\",\"Tname\":\"黄颖\",\"time\":\"2016-05-04\", \"flag\":\"OUT\", \"status\":\"1\"， \"counter\":\"987654\"}]";
                     Log.i("Payment", s);
                     if (!"".equals(s)) {
-                        if (!s.equals("ERROR")) {
+                        if (!"ERROR".equals(s)) {
                             Type listv = new TypeToken<LinkedList<Payment>>() {
                             }.getType();
                             Gson gson = new Gson();
@@ -135,11 +178,12 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
                             if (paymentlist != null) {
                                 for (Payment payments2 : paymentlist) {
                                     payments2.setTime(TimeUtil.getStrTime(payments2.getTime()));
-                                    Log.i("TIME",payments2.getTime());
+                                    Log.i("TIME", payments2.getTime());
                                 }
                                 tongzhi.setVisibility(View.GONE);
                                 viewById.setAdapter(myAdapter);
                                 myAdapter.notifyDataSetChanged();
+
                             } else {
                                 Toast.makeText(MainActivity_balance.this, "暂时无收支明细", Toast.LENGTH_SHORT).show();
                             }
@@ -150,7 +194,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
                         Toast.makeText(MainActivity_balance.this, "暂时无收支明细", Toast.LENGTH_SHORT).show();
                         Log.i("Error_Payment", "Payment is null");
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     Log.e("Exception", e.getMessage());
                     Toast.makeText(MainActivity_balance.this, "信息有误", Toast.LENGTH_SHORT).show();
                 }
@@ -186,7 +230,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
         StringRequest balance_request = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
-                try{
+                try {
                     String s = (String) o;
                     if (!"ERROR".equals(s)) {
                         Gson gson = new Gson();
@@ -197,7 +241,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
                     } else {
                         Toast.makeText(MainActivity_balance.this, "网络连接异常", Toast.LENGTH_SHORT).show();
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     Log.e("Exception", e.getMessage());
                     Toast.makeText(MainActivity_balance.this, "信息有误", Toast.LENGTH_SHORT).show();
                 }
@@ -255,20 +299,24 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
             TextView counter = (TextView) view.findViewById(R.id.counter);
             TextView time = (TextView) view.findViewById(R.id.time1);
             Payment payment = paymentlist.get(position);
+
+//            Message message=new Message();
+//            message.arg1=position;
+//            mHandler.sendMessage(message);
+
             if (payment != null) {
                 Log.i("Falg", payment.getFlag());
                 //***********************提现***********************
                 if (payment.getFlag().equals("OUT")) {
-                    SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
                     if (payment.getStatus().equals("1")) {
                         outStatic.setText("审核中");
                     } else if (payment.getStatus().equals("2")) {
                         outStatic.setText("已通过");
-                        Map<String,String> map=new HashMap<String,String>();
+                        Map<String, String> map = new HashMap<String, String>();
                         map.put(payment.getId(), String.valueOf(payment.getMoney()));
                         Iterator<Map.Entry<String, String>> it = map.entrySet().iterator();
-                        Map.Entry<String, String> entry=it.next();
-                        Log.i("MAP",entry.getValue());
+                        Map.Entry<String, String> entry = it.next();
+                        Log.i("MAP", entry.getValue());
                     } else {
                         outStatic.setText("操作失败");
                     }
@@ -293,7 +341,7 @@ public class MainActivity_balance extends Activity implements View.OnClickListen
     protected void onResume() {
         super.onResume();
         StatService.onResume(this);
-        Volley_Get(paymentlist);
+//        Volley_Get(paymentlist);
     }
 
     @Override

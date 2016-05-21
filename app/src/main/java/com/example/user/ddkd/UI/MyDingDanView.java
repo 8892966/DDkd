@@ -156,7 +156,6 @@ public class MyDingDanView extends ViewGroup {
             case MotionEvent.ACTION_MOVE:
                 int disx= (int) Math.abs(ev.getX()-firstx);
                 int disy= (int) Math.abs(ev.getY()-firsty);
-
                 if(disx>disy && disx>10){
 
                     result=true;

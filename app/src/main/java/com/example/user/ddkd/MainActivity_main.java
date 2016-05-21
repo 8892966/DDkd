@@ -99,7 +99,7 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
         SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         String imageuri = sharedPreferences.getString("imageuri", "");
         Log.i("URL", imageuri);
-        if (!TextUtils.isEmpty(imageuri)) {
+        if (!TextUtils.isEmpty(imageuri)&&!"ERROR".equals(imageuri)) {
             Picasso.with(this).load(imageuri).into(userimage);
         } else {
             volley_Get_Image();
@@ -159,15 +159,19 @@ public class MainActivity_main extends Activity implements View.OnClickListener 
             public void success(Object o) {
                 try{
                     String s = (String) o;
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("imageuri", s);
-                    editor.commit();
-                    String imageurl = s;
-                    Message ms = new Message();
+                    if (!"ERROR".equals(s)){
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("imageuri", s);
+                        editor.commit();
+                        String imageurl = s;
+                        Message ms = new Message();
 //                ms.obj=imageurl;
-                    ms.obj = s;
-                    ms.what=MyApplication.GET_TOKEN_SUCCESS;
-                    handler_image.sendMessage(ms);
+                        ms.obj = s;
+                        ms.what=MyApplication.GET_TOKEN_SUCCESS;
+                        handler_image.sendMessage(ms);
+                    }else{
+                        Toast.makeText(MainActivity_main.this, "头像获取失败，请重新进入此界面", Toast.LENGTH_SHORT).show();
+                    }
                 }catch (Exception e){
                     Log.e("Exception", e.getMessage());
                     Toast.makeText(MainActivity_main.this, "信息有误", Toast.LENGTH_SHORT).show();

@@ -149,7 +149,6 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.zhuce4_activity);
-
         imageFactory=new ImageFactory();//初始化
 //        showProgressDialog(4);
 //       initFile();//初始化文件
@@ -216,7 +215,6 @@ public class ZhuCe4Activity extends Activity implements View.OnClickListener {
                     map.put("sex", signUpInfo.getSex());
                     map.put("shortphone", signUpInfo.getShortnumber());
                     map.put("username", signUpInfo.getUsername());
-
                     Static=0;
                     showProgressDialog(4);
                     handler.sendEmptyMessage(NEXT);

@@ -144,7 +144,6 @@ public class JieDanService extends Service {
         builder.setSmallIcon(R.mipmap.headimage);
         Notification notification = builder.getNotification();
         notification.flags = Notification.FLAG_AUTO_CANCEL;
-        notification.defaults |= Notification.DEFAULT_SOUND;
         startForeground(1, notification);
 
         flags = this.START_STICKY;

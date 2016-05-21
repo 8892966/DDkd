@@ -1,8 +1,11 @@
 package com.example.user.ddkd.UI;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.os.SystemClock;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +42,7 @@ public class MyDingDanView extends ViewGroup {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
+        Log.e("MyDingDanView","onMeasure");
         for(int i=0;i<getChildCount();i++){
             View v=getChildAt(i);
             v.measure(widthMeasureSpec,heightMeasureSpec);
@@ -48,6 +51,7 @@ public class MyDingDanView extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        Log.e("MyDingDanView","onLayout");
         for (int i = 0; i < getChildCount(); i++) {
             View view = getChildAt(i);
             view.layout(0 + i * getWidth(), 0, getWidth() + i * getWidth(), getHeight());
@@ -182,4 +186,51 @@ public class MyDingDanView extends ViewGroup {
         void moveToDest(int currid);
     }
 
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        Log.e("MyDingDanView","onSizeChanged");
+        super.onSizeChanged(w, h, oldw, oldh);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        Log.e("MyDingDanView","onDraw");
+        super.onDraw(canvas);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        Log.e("MyDingDanView","onDetachedFromWindow");
+        super.onDetachedFromWindow();
+    }
+
+    @Override
+    protected void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect) {
+        Log.e("MyDingDanView","onFocusChanged:"+gainFocus);
+        super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
+    }
+
+    @Override
+    public void dispatchWindowFocusChanged(boolean hasFocus) {
+        Log.e("MyDingDanView", "dispatchWindowFocusChanged:"+hasFocus);
+        super.dispatchWindowFocusChanged(hasFocus);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasWindowFocus) {
+        Log.e("MyDingDanView", "onWindowFocusChanged:" + hasWindowFocus+":"+currId);
+        super.onWindowFocusChanged(hasWindowFocus);
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        Log.e("MyDingDanView","onAttachedToWindow");
+        super.onAttachedToWindow();
+    }
+
+    @Override
+    protected void onWindowVisibilityChanged(int visibility) {
+        Log.e("MyDingDanView","onWindowVisibilityChanged:"+visibility);
+        super.onWindowVisibilityChanged(visibility);
+    }
 }

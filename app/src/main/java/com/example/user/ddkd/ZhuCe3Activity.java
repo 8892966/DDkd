@@ -133,7 +133,6 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
 
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();
         Intent intent = new Intent(ZhuCe3Activity.this, ZhuCe2Activity.class);
         intent.putExtra("SignUpInfo", getIntent().getSerializableExtra("SignUpInfo"));
         intent.putExtra("picture", getIntent().getSerializableExtra("picture"));
@@ -187,7 +186,6 @@ public class ZhuCe3Activity extends Activity implements View.OnClickListener {
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inSampleSize = 1;
                 Bitmap cameraBitmap = BitmapFactory.decodeFile(tempFile.getPath(), options);
-                
                 cameraBitmap=toRoundBitmap(cameraBitmap);
 //                Bitmap cameraBitmap = (Bitmap) data.getExtras().get("data");
                 if (cameraBitmap != null) {

@@ -73,6 +73,8 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dex-cache" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/23.2.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.1/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/design/23.1.1/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.1.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/23.2.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
@@ -106,6 +108,7 @@
     <orderEntry type="library" exported="" name="httpcore-4.3" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-SinaWeibo-2.7.2" level="project" />
     <orderEntry type="library" exported="" name="xUtils-2.6.11" level="project" />
+    <orderEntry type="library" exported="" name="recyclerview-v7-23.1.1" level="project" />
     <orderEntry type="library" exported="" name="commons-codec" level="project" />
     <orderEntry type="library" exported="" name="support-v4-23.2.1" level="project" />
     <orderEntry type="library" exported="" name="afinal_0.5_bin" level="project" />
@@ -123,6 +126,7 @@
     <orderEntry type="library" exported="" name="ShareSDK-Wechat-Moments-2.7.2" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-QQ-2.7.2" level="project" />
     <orderEntry type="library" exported="" name="jg_filter_sdk_1.1" level="project" />
+    <orderEntry type="library" exported="" name="design-23.1.1" level="project" />
     <orderEntry type="library" exported="" name="QuickIntegrater" level="project" />
     <orderEntry type="library" exported="" name="Baidu_Mtj_3.7.3.1" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Wechat-Favorite-2.7.2" level="project" />

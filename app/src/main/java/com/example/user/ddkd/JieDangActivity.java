@@ -247,16 +247,6 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
             getGDorder();
 
         }
-        //判断是否有开启信鸽和服务
-//        sreviceisrunning=ServiceUtils.isRunning(this,"com.example.user.ddkd.service.JieDanService");
-//        if(sreviceisrunning){
-//            listView.setVisibility(View.VISIBLE);
-//            but_jiedang.setText("休息");
-//            but_jiedang.setBackgroundResource(R.drawable.yuan_selected);
-//            //服务一开，绑定服务
-//            jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
-//            bindService(jieDanServiceIntent,sc,BIND_AUTO_CREATE);
-//        }
 
     }
 
@@ -729,7 +719,6 @@ public class JieDangActivity extends Activity implements View.OnClickListener {
     }
 
     long[] djtime = new long[2];
-
     @Override
     public void onBackPressed() {
         System.arraycopy(djtime, 1, djtime, 0, djtime.length - 1);

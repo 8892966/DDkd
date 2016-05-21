@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/backgrod">
-
+    android:background="#00000000">
     <LinearLayout
         android:background="#ffffff"
         android:id="@+id/ll"
@@ -12,25 +11,26 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageView
-            android:padding="1dp"
+            android:padding="3dp"
             android:id="@+id/iv_dingdan"
             android:layout_marginLeft="10dp"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/dingdan"
+            android:src="@drawable/dingdan"
             />
         <TextView
             android:id="@+id/tv_dingdang_id"
             style="@style/textstyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="订单   66" />
+            android:text="订单   66"
+            android:textSize="17sp"/>
         <ImageView
-            android:padding="1dp"
-            android:layout_marginLeft="40dp"
+            android:padding="3dp"
+            android:layout_marginLeft="20dp"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/qian"/>
+            android:src="@drawable/qian"/>
         <TextView
             android:layout_weight="1"
             android:id="@+id/tv_money"
@@ -39,9 +39,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2.5元"
+            android:textSize="17sp"
             />
         <ImageView
-            android:visibility="gone"
+            android:padding="1dp"
             android:clickable="true"
             android:focusable="true"
             android:id="@+id/iv_call_phone"
@@ -51,6 +52,7 @@
             android:src="@drawable/dianhua"
             />
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/ll_xinxin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -100,11 +102,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <ImageView
-        android:padding="4dp"
+        android:padding="5dp"
         android:layout_marginLeft="10dp"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:background="@drawable/dizhi" />
+        android:src="@drawable/dizhi" />
     <TextView
         style="@style/textstyle"
         android:layout_weight="1"
@@ -112,9 +114,8 @@
         android:layout_height="wrap_content"
         android:text="接快递地址" />
     <TextView
-        android:layout_marginRight="30dp"
         android:id="@+id/tv_kuaidi_dizhi"
-        style="@style/textstyle"
+        style="@style/textstyle2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="工楼" />
@@ -129,11 +130,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <ImageView
-        android:padding="4dp"
+        android:padding="5dp"
         android:layout_marginLeft="10dp"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:background="@drawable/ddang" />
+        android:src="@drawable/ddang" />
     <TextView
         style="@style/textstyle"
         android:layout_weight="1"
@@ -141,9 +142,8 @@
         android:layout_height="wrap_content"
         android:text="快递名称" />
     <TextView
-        android:layout_marginRight="30dp"
         android:id="@+id/tv_dingdang_kuaidi"
-        style="@style/textstyle"
+        style="@style/textstyle2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="顺风快递" />
@@ -158,11 +158,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
-            android:padding="4dp"
+            android:padding="5dp"
             android:layout_marginLeft="10dp"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:background="@drawable/lxr"/>
+            android:src="@drawable/lxr"/>
         <TextView
             style="@style/textstyle"
             android:layout_weight="1"
@@ -170,9 +170,8 @@
             android:layout_height="wrap_content"
             android:text="收货人/电话" />
         <TextView
-            android:layout_marginRight="30dp"
             android:id="@+id/lxr"
-            style="@style/textstyle"
+            style="@style/textstyle2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="大鹏/18813974653" />
@@ -187,11 +186,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
-            android:padding="4dp"
+            android:padding="5dp"
             android:layout_marginLeft="10dp"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:background="@drawable/dh"/>
+            android:src="@drawable/dh"/>
         <TextView
             style="@style/textstyle"
             android:layout_weight="1"
@@ -199,9 +198,8 @@
             android:layout_height="wrap_content"
             android:text="快递联系人" />
         <TextView
-            android:layout_marginRight="30dp"
             android:id="@+id/dh"
-            style="@style/textstyle"
+            style="@style/textstyle2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="谢易晓/18813974653" />
@@ -216,11 +214,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
-            android:padding="4dp"
+            android:padding="5dp"
             android:layout_marginLeft="10dp"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:background="@drawable/fahuodizhi"/>
+            android:src="@drawable/fahuodizhi"/>
         <TextView
             style="@style/textstyle"
             android:layout_width="wrap_content"
@@ -229,9 +227,8 @@
         <TextView
             android:layout_weight="1"
             android:gravity="right"
-            android:layout_marginRight="30dp"
             android:id="@+id/fahuodizhi"
-            style="@style/textstyle"
+            style="@style/textstyle2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="学生宿舍 南区 七栋 514 房" />
@@ -246,11 +243,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
-            android:padding="4dp"
+            android:padding="5dp"
             android:layout_marginLeft="10dp"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:background="@drawable/ly"/>
+            android:src="@drawable/ly"/>
         <TextView
             android:layout_marginRight="30dp"
             android:id="@+id/ly"
@@ -269,11 +266,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
-            android:padding="4dp"
+            android:padding="5dp"
             android:layout_marginLeft="10dp"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:background="@drawable/bijiben"/>
+            android:src="@drawable/bijiben"/>
         <TextView
             android:layout_marginRight="30dp"
             android:id="@+id/tuidan"
@@ -292,11 +289,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
-            android:padding="4dp"
+            android:padding="5dp"
             android:layout_marginLeft="10dp"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:background="@drawable/fukuanzhuangtai"/>
+            android:src="@drawable/fukuanzhuangtai"/>
         <TextView
             android:layout_weight="1"
             android:layout_marginRight="30dp"
@@ -305,9 +302,8 @@
             android:layout_height="wrap_content"
             android:text="付款状态：" />
         <TextView
-            android:layout_marginRight="30dp"
             android:id="@+id/zhuangtai"
-            style="@style/textstyle"
+            style="@style/textstyle2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="已付款" />
@@ -322,10 +318,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
+            android:padding="2dp"
             android:layout_marginLeft="10dp"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/shizhong"/>
+            android:src="@drawable/shizhong"/>
         <TextView
             android:layout_weight="1"
             android:id="@+id/tv_dingdang_shijain"
@@ -350,8 +347,8 @@
             />
     </LinearLayout>
     <View
-        android:layout_width="match_parent"
-        android:layout_height="10dip"
-        android:layout_below="@id/ll10"
-        android:background="@color/backgrod" />
+    android:layout_width="match_parent"
+    android:layout_height="10dip"
+    android:layout_below="@id/ll10"
+    android:background="#00000000" />
 </RelativeLayout>

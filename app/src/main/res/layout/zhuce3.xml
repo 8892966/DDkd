@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgrod">
+    <ImageView
+        android:id="@+id/ll_4text"
+        android:layout_width="match_parent"
+        android:layout_height="55dip"
+        android:layout_below="@id/rl_head"
+        android:layout_marginTop="10dip"
+        android:src="@drawable/zhuce3" />
+
+            <ImageView
+                android:layout_below="@id/ll_4text"
+                android:id="@+id/iv_touxiang"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_centerHorizontal="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/logotouxiang" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:layout_below="@id/iv_touxiang"
+                android:layout_marginTop="20dip" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/iv_touxiang"
+                android:layout_alignRight="@id/iv_touxiang"
+                android:layout_below="@id/iv_touxiang"
+                android:gravity="center"
+                android:text="点击上传头像"
+                android:textSize="15dp" />
+
+            <LinearLayout
+                android:id="@+id/ll_zhuce3_item1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/view"
+                android:background="#FFFFFF"
+                android:orientation="horizontal"
+                android:padding="10dp">
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                   >
+                <EditText
+                    android:id="@+id/et_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="20dip"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:hint="请输入您的姓名"
+                    android:singleLine="true"
+                    android:textSize="20dip" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view1"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@id/ll_zhuce3_item1" />
+
+            <LinearLayout
+                android:id="@+id/ll_zhuce3_sex"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/view1"
+                android:background="#FFFFFF"
+                android:orientation="horizontal"
+                android:padding="10dp">
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                   >
+                <EditText
+                    android:id="@+id/et_sex"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="20dip"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:hint="请输入您的性别"
+                    android:singleLine="true"
+                    android:textSize="20dip" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/ll_zhuce3_sex" />
+
+            <LinearLayout
+                android:id="@+id/ll_zhuce3_collage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/view2"
+                android:background="#ffffff"
+                android:orientation="horizontal"
+                android:padding="10dp">
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                <EditText
+                    android:id="@+id/et_xueyuan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="20dip"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:hint="请输入您的学院"
+                    android:singleLine="true"
+                    android:textSize="20sp" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view3"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@id/ll_zhuce3_collage" />
+
+            <LinearLayout
+                android:id="@+id/ll_zhuce3_classroom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/view3"
+                android:background="#ffffff"
+                android:orientation="horizontal"
+                android:padding="10dp">
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                  >
+                <EditText
+                    android:id="@+id/et_class"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="20dip"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:hint="请输入您的班级"
+                    android:singleLine="true"
+                    android:textSize="20sp" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view4"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@id/ll_zhuce3_classroom" />
+
+            <LinearLayout
+                android:id="@+id/ll_zhuce3_student"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/view4"
+                android:background="#ffffff"
+                android:orientation="horizontal"
+                android:padding="10dp">
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    >
+                <EditText
+                    android:id="@+id/et_xuehao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginRight="20dip"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:hint="请输入您的学号"
+                    android:phoneNumber="true"
+                    android:singleLine="true"
+                    android:textSize="20sp" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view5"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@id/ll_zhuce3_student" />
+
+            <LinearLayout
+                android:id="@+id/ll_zhuce3_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/view5"
+                android:background="#ffffff"
+                android:orientation="horizontal"
+                android:padding="10dp">
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    >
+                <EditText
+                    android:id="@+id/et_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dip"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:hint="请输入您的短号"
+                    android:inputType="phone"
+                    android:phoneNumber="true"
+                    android:singleLine="true"
+                    android:textSize="20sp" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+            <View
+                android:id="@+id/view6"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@id/ll_zhuce3_phone" />
+            <LinearLayout
+                android:id="@+id/ll_zhuce3_user"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/view6"
+                android:background="#ffffff"
+                android:orientation="horizontal"
+                android:padding="10dp">
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                <EditText
+                    android:id="@+id/et_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dip"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:hint="请输入您的身份证号"
+                    android:singleLine="true"
+                    android:textSize="20sp" />
+                />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+            <View
+                android:id="@+id/view7"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_below="@id/ll_zhuce3_user" />
+</RelativeLayout>

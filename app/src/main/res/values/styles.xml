@@ -18,6 +18,15 @@
         <item name="android:layout_marginLeft">5dp</item>
     </style>
 
+    <style name="textstyle2" parent="textstyle">
+        <item name="android:layout_marginRight">30dp</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_marginLeft">5dp</item>
+    </style>
+
     <style name="dingdang_item_buttonstyle" parent="Theme.AppCompat.Light">
         <item name="android:gravity">center</item>
         <item name="android:padding">5dp</item>

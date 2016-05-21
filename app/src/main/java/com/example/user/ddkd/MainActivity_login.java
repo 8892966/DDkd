@@ -250,7 +250,7 @@ public class MainActivity_login extends Activity implements View.OnClickListener
                 }
                 break;
             case R.id.insert:
-                intent = new Intent(this, ZhuCe1Activity.class);
+                intent = new Intent(this, ZhuCeActivity.class);
                 startActivity(intent);
                 break;
             case R.id.forget:

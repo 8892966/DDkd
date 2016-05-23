@@ -100,6 +100,7 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
             }
         });
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -124,6 +125,7 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
                 break;
         }
     }
+
     @Override
     protected void onResume(){
         super.onResume();
@@ -135,6 +137,7 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
         super.onPause();
         StatService.onPause(this);
     }
+
     private void countDown(){
 //      tv_bt_verify你要设置动画的view
         ValueAnimator valueAnimator=ValueAnimator.ofInt(0,60);//从0到30计时
@@ -260,6 +263,7 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
         MyApplication.getQueue().cancelAll("volley_getYZM_GET");
         MyApplication.getQueue().cancelAll("volley_XGMM_GET");
     }
+
     private void showProgressDialog() {
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(MainActivity_forget.this);
@@ -277,7 +281,6 @@ public class MainActivity_forget extends Activity implements View.OnClickListene
     //判断用户是否已注册
     private void volley_phoExist_GET(String phone) {
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/phoExist/phone/" + phone;
-//        参数一：方法 参数二：地址 参数三：成功回调 参数四：错误回调 。重写getParams 以post参数
         StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {

@@ -187,7 +187,6 @@ public class JieDangActivity extends Activity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.jiedang_activity);
-
         //*****************************实现侧滑效果
         slidingUtil= (SlidingUtil) findViewById(R.id.it_menu);
         userInfoUtils=new UserInfoUtils(slidingUtil,JieDangActivity.this);

@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import com.example.user.ddkd.Model.ZhuCeModelImpl;
+import com.example.user.ddkd.Model.ZhuCeAndForgetModelImpl;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
@@ -14,7 +14,7 @@ import com.lidroid.xutils.http.client.HttpRequest;
 
 public class UploadUtil1 {
 
-    public void uploadMethod(final RequestParams params, final String uploadHost, final ZhuCeModelImpl.SSubmitPicturesListener sSubmitPicturesListener) {
+    public void uploadMethod(final RequestParams params, final String uploadHost, final ZhuCeAndForgetModelImpl.SSubmitPicturesListener sSubmitPicturesListener) {
         try {
             HttpUtils http = new HttpUtils();
             http.send(HttpRequest.HttpMethod.POST, uploadHost, params, new RequestCallBack<String>() {

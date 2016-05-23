@@ -182,7 +182,6 @@ public class ZhuCe1Activity extends Activity implements View.OnClickListener {
         request_post.setTag("volley_phoExist_GET");
         MyApplication.getQueue().add(request_post);
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();

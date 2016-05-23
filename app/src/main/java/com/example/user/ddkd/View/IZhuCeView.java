@@ -11,7 +11,7 @@ public interface IZhuCeView {
     void Submit();
     void UploadSUCCESS();
     void PhoExisting();
-     void PhoExist();
-     void PhoisExist();
-     void PhoisNotExist();
+    void PhoExist();
+    void PhoisExist();
+    void PhoisNotExist();
 }

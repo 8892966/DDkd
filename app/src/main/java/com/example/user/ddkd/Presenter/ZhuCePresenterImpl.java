@@ -1,7 +1,7 @@
 package com.example.user.ddkd.Presenter;
 
-import com.example.user.ddkd.Model.IZhuCeModel;
-import com.example.user.ddkd.Model.ZhuCeModelImpl;
+import com.example.user.ddkd.Model.IZhuCeAndForgetModel;
+import com.example.user.ddkd.Model.ZhuCeAndForgetModelImpl;
 import com.example.user.ddkd.View.IZhuCeView;
 
 import java.io.File;
@@ -11,17 +11,17 @@ import java.util.Map;
 /**
  * Created by User on 2016-05-20.
  */
-public class ZhuCePresenterImpl implements IZhuCePresenter, ZhuCeModelImpl.SSubmitPicturesListener {
+public class ZhuCePresenterImpl implements IZhuCePresenter, ZhuCeAndForgetModelImpl.SSubmitPicturesListener {
     private static ZhuCePresenterImpl zhuCePresenter;
     private IZhuCeView iZhuCeView;
-    private IZhuCeModel iZhuCeModel;
+    private IZhuCeAndForgetModel iZhuCeModel;
     private int i=1;
     private ZhuCePresenterImpl(){
 
     }
     private ZhuCePresenterImpl(IZhuCeView iZhuCeView){
         this.iZhuCeView=iZhuCeView;
-        this.iZhuCeModel=new ZhuCeModelImpl();
+        this.iZhuCeModel=new ZhuCeAndForgetModelImpl();
     }
 
     public static ZhuCePresenterImpl getInstance(IZhuCeView iZhuCeView){

@@ -3,134 +3,142 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/backgrod">
-    <RelativeLayout
-        android:id="@+id/rl_head2"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@color/head"
-        >
-        <TextView
-            android:clickable="true"
-            android:focusable="true"
-            style="@style/head_button_back"
-            android:id="@+id/tv_head_fanghui"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-        <TextView
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="订单详情"
-            android:textSize="25sp"
-            android:textColor="@color/text3"
-            />
-    </RelativeLayout>
+    android:fitsSystemWindows="true"
+    android:background="@color/head">
     <LinearLayout
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tv_button_yijie"
-            style="@style/dingdang_buttonstyle"
-            android:layout_width="wrap_content"
-            android:layout_height="30dip"
-            android:layout_weight="1"
-            android:text="已接订单" />
-
-        <View
-            android:layout_width="0.2dip"
-            android:layout_height="20dip"
-            android:background="@color/biankuan" />
-
-        <TextView
-            android:id="@+id/tv_button_daisong"
-            style="@style/dingdang_buttonstyle"
-            android:layout_width="wrap_content"
-            android:layout_height="30dip"
-            android:layout_weight="1"
-            android:text="待送订单" />
-
-        <View
-            android:layout_width="0.2dip"
-            android:layout_height="20dip"
-            android:background="@color/biankuan" />
-
-        <TextView
-            android:id="@+id/tv_button_wangchen"
-            style="@style/dingdang_buttonstyle"
-            android:layout_width="wrap_content"
-            android:layout_height="30dip"
-            android:layout_weight="1"
-            android:text="完成订单" />
-
-        <View
-            android:layout_width="0.2dip"
-            android:layout_height="20dip"
-            android:background="@color/biankuan" />
-
-        <TextView
-            android:id="@+id/tv_button_quxiao"
-            style="@style/dingdang_buttonstyle"
-            android:layout_width="wrap_content"
-            android:layout_height="30dip"
-            android:layout_weight="1"
-            android:text="取消订单" />
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dip"
-        android:background="#d6d6d6" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="5dip"
-        />
-    <RelativeLayout
-        android:gravity="center"
-        android:padding="5dp"
-        android:id="@+id/rl_order_ProgressBar"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/progressBar"
-            android:layout_gravity="center_horizontal" />
-        <TextView
-            android:layout_below="@id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="正在加载中..."
-            />
-    </RelativeLayout>
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"
-    >
-    <ListView
-        android:padding="5dp"
-        android:id="@+id/lv_order_details"
+        android:background="@color/backgrod"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </ListView>
-    <TextView
-        android:id="@+id/tv_default"
-        android:gravity="center"
-        android:text="没有数据哦...亲！！！"
-        android:textSize="20sp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</FrameLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="5dip"
-        android:background="#ffffff"
-        />
+        <RelativeLayout
+            android:id="@+id/rl_head2"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/head"
+            >
+            <TextView
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/head_button_back"
+                android:id="@+id/tv_head_fanghui"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+            <TextView
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="订单详情"
+                android:textSize="25sp"
+                android:textColor="@color/text3"
+                />
+        </RelativeLayout>
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_button_yijie"
+                style="@style/dingdang_buttonstyle"
+                android:layout_width="wrap_content"
+                android:layout_height="30dip"
+                android:layout_weight="1"
+                android:text="已接订单" />
+
+            <View
+                android:layout_width="0.2dip"
+                android:layout_height="20dip"
+                android:background="@color/biankuan" />
+
+            <TextView
+                android:id="@+id/tv_button_daisong"
+                style="@style/dingdang_buttonstyle"
+                android:layout_width="wrap_content"
+                android:layout_height="30dip"
+                android:layout_weight="1"
+                android:text="待送订单" />
+
+            <View
+                android:layout_width="0.2dip"
+                android:layout_height="20dip"
+                android:background="@color/biankuan" />
+
+            <TextView
+                android:id="@+id/tv_button_wangchen"
+                style="@style/dingdang_buttonstyle"
+                android:layout_width="wrap_content"
+                android:layout_height="30dip"
+                android:layout_weight="1"
+                android:text="完成订单" />
+
+            <View
+                android:layout_width="0.2dip"
+                android:layout_height="20dip"
+                android:background="@color/biankuan" />
+
+            <TextView
+                android:id="@+id/tv_button_quxiao"
+                style="@style/dingdang_buttonstyle"
+                android:layout_width="wrap_content"
+                android:layout_height="30dip"
+                android:layout_weight="1"
+                android:text="取消订单" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="#d6d6d6" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dip"
+            />
+        <RelativeLayout
+            android:gravity="center"
+            android:padding="5dp"
+            android:id="@+id/rl_order_ProgressBar"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ProgressBar
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressBar"
+                android:layout_gravity="center_horizontal" />
+            <TextView
+                android:layout_below="@id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="正在加载中..."
+                />
+        </RelativeLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            >
+            <ListView
+                android:padding="5dp"
+                android:id="@+id/lv_order_details"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </ListView>
+            <TextView
+                android:id="@+id/tv_default"
+                android:gravity="center"
+                android:text="没有数据哦...亲！！！"
+                android:textSize="20sp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dip"
+            android:background="#ffffff"
+            />
+    </LinearLayout>
+
 </LinearLayout>

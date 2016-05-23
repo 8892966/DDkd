@@ -34,7 +34,7 @@ import java.util.Map;
 /**
  * Created by Administrator on 2016/4/2.
  */
-public class MainActivity_login extends Activity implements View.OnClickListener {
+public class MainActivity_login extends BaseActivity implements View.OnClickListener {
     private TextView button;
     private EditText userid1;
     private EditText password1;

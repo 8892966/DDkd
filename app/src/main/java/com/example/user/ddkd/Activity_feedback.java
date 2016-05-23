@@ -27,7 +27,7 @@ import java.net.URLEncoder;
 /**
  * Created by Administrator on 2016/4/24.
  */
-public class Activity_feedback extends Activity implements View.OnClickListener {
+public class Activity_feedback extends BaseActivity implements View.OnClickListener {
     private TextView Fcommit;
     private EditText messageedit;
     private ImageView exit;

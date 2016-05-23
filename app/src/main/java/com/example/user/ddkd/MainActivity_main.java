@@ -36,7 +36,7 @@ import java.text.DecimalFormat;
 /**
  * Created by Administrator on 2016/4/2.
  */
-public class MainActivity_main extends Activity implements View.OnClickListener {
+public class MainActivity_main extends BaseActivity implements View.OnClickListener {
     private ImageView announce;
     private RelativeLayout title;
     private ImageView userimage;

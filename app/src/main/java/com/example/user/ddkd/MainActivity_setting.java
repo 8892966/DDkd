@@ -35,7 +35,7 @@ import com.tencent.mm.sdk.openapi.WXAPIFactory;
 /**
  * Created by Administrator on 2016/4/4.
  */
-public class MainActivity_setting extends Activity implements View.OnClickListener {
+public class MainActivity_setting extends BaseActivity implements View.OnClickListener {
     private TextView exit;
     private RelativeLayout updatepwd;
     private RelativeLayout clime;

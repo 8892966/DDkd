@@ -2,93 +2,99 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgrod"
+    android:background="@color/head"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
-    <RelativeLayout
-        android:id="@+id/rl_head2"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@color/head"
-        >
-        <TextView
-            android:clickable="true"
-            android:focusable="true"
-            style="@style/head_button_back"
-            android:id="@+id/tv_head_fanghui"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-        <TextView
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="订单详情"
-            android:textSize="25sp"
-            android:textColor="#ffffff"
-            />
-    </RelativeLayout>
     <LinearLayout
-        android:gravity="center"
+        android:orientation="vertical"
+        android:background="@color/backgrod"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/rl_head2"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/head"
+            >
+            <TextView
+                android:clickable="true"
+                android:focusable="true"
+                style="@style/head_button_back"
+                android:id="@+id/tv_head_fanghui"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+            <TextView
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="订单详情"
+                android:textSize="25sp"
+                android:textColor="#ffffff"
+                />
+        </RelativeLayout>
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tv_button_yijie"
-            style="@style/dingdang_buttonstyle"
-            android:layout_width="wrap_content"
-            android:layout_height="30dip"
-            android:layout_weight="1"
-            android:text="已接订单" />
+            <TextView
+                android:id="@+id/tv_button_yijie"
+                style="@style/dingdang_buttonstyle"
+                android:layout_width="wrap_content"
+                android:layout_height="30dip"
+                android:layout_weight="1"
+                android:text="已接订单" />
 
+            <View
+                android:layout_width="0.2dip"
+                android:layout_height="20dip"
+                android:background="@color/biankuan" />
+
+            <TextView
+                android:id="@+id/tv_button_daisong"
+                style="@style/dingdang_buttonstyle"
+                android:layout_width="wrap_content"
+                android:layout_height="30dip"
+                android:layout_weight="1"
+                android:text="待送订单" />
+
+            <View
+                android:layout_width="0.2dip"
+                android:layout_height="20dip"
+                android:background="@color/biankuan" />
+
+            <TextView
+                android:id="@+id/tv_button_wangchen"
+                style="@style/dingdang_buttonstyle"
+                android:layout_width="wrap_content"
+                android:layout_height="30dip"
+                android:layout_weight="1"
+                android:text="完成订单" />
+
+            <View
+                android:layout_width="0.2dip"
+                android:layout_height="20dip"
+                android:background="@color/biankuan" />
+
+            <TextView
+                android:id="@+id/tv_button_quxiao"
+                style="@style/dingdang_buttonstyle"
+                android:layout_width="wrap_content"
+                android:layout_height="30dip"
+                android:layout_weight="1"
+                android:text="取消订单" />
+        </LinearLayout>
         <View
-            android:layout_width="0.2dip"
-            android:layout_height="20dip"
-            android:background="@color/biankuan" />
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="#d6d6d6" />
 
-        <TextView
-            android:id="@+id/tv_button_daisong"
-            style="@style/dingdang_buttonstyle"
-            android:layout_width="wrap_content"
-            android:layout_height="30dip"
-            android:layout_weight="1"
-            android:text="待送订单" />
-
-        <View
-            android:layout_width="0.2dip"
-            android:layout_height="20dip"
-            android:background="@color/biankuan" />
-
-        <TextView
-            android:id="@+id/tv_button_wangchen"
-            style="@style/dingdang_buttonstyle"
-            android:layout_width="wrap_content"
-            android:layout_height="30dip"
-            android:layout_weight="1"
-            android:text="完成订单" />
-
-        <View
-            android:layout_width="0.2dip"
-            android:layout_height="20dip"
-            android:background="@color/biankuan" />
-
-        <TextView
-            android:id="@+id/tv_button_quxiao"
-            style="@style/dingdang_buttonstyle"
-            android:layout_width="wrap_content"
-            android:layout_height="30dip"
-            android:layout_weight="1"
-            android:text="取消订单" />
+        <com.example.user.ddkd.UI.MyDingDanView
+            android:id="@+id/dingdanview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dip"
-        android:background="#d6d6d6" />
-
-<com.example.user.ddkd.UI.MyDingDanView
-    android:id="@+id/dingdanview"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" />
-
 </LinearLayout>

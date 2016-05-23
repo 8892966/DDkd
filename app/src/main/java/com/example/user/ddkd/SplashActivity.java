@@ -42,7 +42,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends BaseActivity {
     protected static final int ENTER_HOME = 0;
     protected static final int SHOW_UPDATE_DIALOG = 1;
     protected static final int URL_ERROR = 2;

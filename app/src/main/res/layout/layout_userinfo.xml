@@ -2,275 +2,282 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgrod"
+    android:background="@color/head"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
-
-    <RelativeLayout
+    <LinearLayout
+        android:background="@color/backgrod"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="45dip"
-        android:background="@color/head">
-
-        <ImageView
-            android:id="@+id/exituserinfo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dip"
-            android:src="@drawable/head_fanghui" />
-
-        <TextView
-            android:textColor="@color/text3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dip"
-            android:layout_centerInParent="true"
-            android:text="个人中心"
-            android:textSize="25sp" />
-
-        <ImageView
-            android:id="@+id/announce"
-            android:layout_width="35dip"
-            android:layout_height="30dip"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dip"
-            android:src="@drawable/announce" />
-    </RelativeLayout>
-    <!--账户详情-->
-    <RelativeLayout
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="250dip"
-        android:clickable="true"
-        android:focusable="true">
-        <View
-            android:layout_alignParentBottom="true"
-            android:id="@+id/bottom"
-            android:layout_width="match_parent"
-            android:layout_height="1dip"/>
-        <LinearLayout
-            android:layout_marginBottom="4dip"
-            android:id="@+id/yueandyingye"
-            android:layout_above="@id/bottom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dip"
-            android:orientation="horizontal">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="30dip"
-                android:layout_weight="1"
-                android:gravity="center">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="营 业 额 "
-                    android:textSize="16sp" />
-                <TextView
-                    android:layout_marginLeft="15dip"
-                    android:id="@+id/turnover"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="**"
-                    android:textSize="16sp" />
-                <TextView
-                    android:layout_marginLeft="5dip"
-                    android:text="元"
-                    android:textSize="12dip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="1dip"
-                android:layout_height="match_parent"
-                android:background="#cccccc" />
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="30dip"
-                android:layout_alignParentRight="true"
-                android:layout_weight="1"
-                android:gravity="center">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dip"
-                    android:text="余 额 "
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_marginLeft="15dip"
-                    android:id="@+id/moneysum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="**"
-                    android:textSize="16sp" />
-                <TextView
-                    android:layout_marginLeft="5dip"
-                    android:text="元"
-                    android:textSize="12dip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-        </LinearLayout>
-        <View
-            android:id="@+id/view01"
-            android:layout_width="match_parent"
-            android:layout_height="0.2sp"
-            android:layout_above="@id/yueandyingye"
-            android:background="#999999" />
+        android:layout_height="match_parent">
         <RelativeLayout
-            android:layout_marginBottom="15dip"
-            android:id="@+id/title01"
-            android:layout_above="@id/view01"
             android:layout_width="match_parent"
-            android:layout_height="200dip">
+            android:layout_height="45dip"
+            android:background="@color/head">
+
             <ImageView
-                android:layout_marginTop="12dip"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/userimage"
-                android:layout_width="120dip"
-                android:layout_height="120dip"
-                android:src="@drawable/userimage" />
-            <TextView
-                android:layout_marginTop="7dip"
-                android:text="**********"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/userphone"
+                android:id="@+id/exituserinfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/userimage"
-                android:textSize="22sp" />
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dip"
+                android:src="@drawable/head_fanghui" />
+
             <TextView
-                android:text="***"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/username"
-                android:textSize="16sp"
-                android:layout_below="@id/userphone"
+                android:textColor="@color/text3"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dip"
+                android:layout_centerInParent="true"
+                android:text="个人中心"
+                android:textSize="25sp" />
+
+            <ImageView
+                android:id="@+id/announce"
+                android:layout_width="35dip"
+                android:layout_height="30dip"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dip"
+                android:src="@drawable/announce" />
         </RelativeLayout>
-    </RelativeLayout>
-    <!--分隔符-->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10sp"
-        android:background="@color/spacing" />
-    <!--我的钱包-->
-    <RelativeLayout
-        android:id="@+id/balance"
-        android:layout_width="match_parent"
-        android:layout_height="50dip"
-        android:background="@drawable/clickview"
-        android:clickable="true"
-        android:focusable="true">
-        <ImageView
-            android:id="@+id/callet"
-            android:layout_centerVertical="true"
-            android:layout_width="25dip"
-            android:layout_height="25dip"
-            android:layout_gravity="center"
-            android:layout_marginLeft="15dip"
-            android:src="@drawable/callet" />
-        <TextView
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/callet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dip"
-            android:text="我的钱包"
-            android:textSize="18sp" />
-        <ImageView
-            android:layout_marginRight="10dip"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/toright"
-            android:layout_width="22dip"
-            android:layout_height="22dip" />
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.2sp"
-        android:background="#999999" />
-    <!--我的订单-->
-    <RelativeLayout
-        android:id="@+id/details"
-        android:layout_width="match_parent"
-        android:layout_height="50dip"
-        android:background="@drawable/clickview"
-        android:clickable="true"
-        android:focusable="true"
-        android:orientation="horizontal">
-        <ImageView
-            android:layout_centerVertical="true"
-            android:id="@+id/deta"
-            android:layout_width="27dip"
-            android:layout_height="27dip"
-            android:layout_gravity="center"
-            android:layout_marginLeft="15dip"
-            android:src="@drawable/detail1" />
-        <TextView
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/deta"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dip"
-            android:text="我的订单"
-            android:textSize="18sp" />
-        <ImageView
-            android:layout_marginRight="10dip"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/toright"
-            android:layout_width="22dip"
-            android:layout_height="22dip"/>
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.2sp"
-        android:background="#999999" />
-    <!--设置-->
-    <RelativeLayout
-        android:id="@+id/setting"
-        android:layout_width="match_parent"
-        android:layout_height="50dip"
-        android:background="@drawable/clickview"
-        android:clickable="true"
-        android:focusable="true"
-        android:orientation="horizontal">
+        <!--账户详情-->
+        <RelativeLayout
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="250dip"
+            android:clickable="true"
+            android:focusable="true">
+            <View
+                android:layout_alignParentBottom="true"
+                android:id="@+id/bottom"
+                android:layout_width="match_parent"
+                android:layout_height="1dip"/>
+            <LinearLayout
+                android:layout_marginBottom="4dip"
+                android:id="@+id/yueandyingye"
+                android:layout_above="@id/bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dip"
+                    android:layout_weight="1"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="营 业 额 "
+                        android:textSize="16sp" />
+                    <TextView
+                        android:layout_marginLeft="15dip"
+                        android:id="@+id/turnover"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="**"
+                        android:textSize="16sp" />
+                    <TextView
+                        android:layout_marginLeft="5dip"
+                        android:text="元"
+                        android:textSize="12dip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
 
-        <ImageView
-            android:layout_centerVertical="true"
-            android:id="@+id/set"
-            android:layout_width="27dip"
-            android:layout_height="27dip"
-            android:layout_gravity="center"
-            android:layout_marginLeft="15dip"
-            android:src="@drawable/setting1" />
+                <View
+                    android:layout_width="1dip"
+                    android:layout_height="match_parent"
+                    android:background="#cccccc" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dip"
+                    android:layout_alignParentRight="true"
+                    android:layout_weight="1"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dip"
+                        android:text="余 额 "
+                        android:textSize="16sp" />
 
-        <TextView
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/set"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dip"
-            android:text="设    置"
-            android:textSize="18sp" />
-        <ImageView
-            android:layout_marginRight="10dip"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/toright"
-            android:layout_width="22dip"
-            android:layout_height="22dip"/>
-    </RelativeLayout>
+                    <TextView
+                        android:layout_marginLeft="15dip"
+                        android:id="@+id/moneysum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="**"
+                        android:textSize="16sp" />
+                    <TextView
+                        android:layout_marginLeft="5dip"
+                        android:text="元"
+                        android:textSize="12dip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+            <View
+                android:id="@+id/view01"
+                android:layout_width="match_parent"
+                android:layout_height="0.2sp"
+                android:layout_above="@id/yueandyingye"
+                android:background="#999999" />
+            <RelativeLayout
+                android:layout_marginBottom="15dip"
+                android:id="@+id/title01"
+                android:layout_above="@id/view01"
+                android:layout_width="match_parent"
+                android:layout_height="200dip">
+                <ImageView
+                    android:layout_marginTop="12dip"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/userimage"
+                    android:layout_width="120dip"
+                    android:layout_height="120dip"
+                    android:src="@drawable/userimage" />
+                <TextView
+                    android:layout_marginTop="7dip"
+                    android:text="**********"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/userphone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/userimage"
+                    android:textSize="22sp" />
+                <TextView
+                    android:text="***"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/username"
+                    android:textSize="16sp"
+                    android:layout_below="@id/userphone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+        </RelativeLayout>
+        <!--分隔符-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10sp"
+            android:background="@color/spacing" />
+        <!--我的钱包-->
+        <RelativeLayout
+            android:id="@+id/balance"
+            android:layout_width="match_parent"
+            android:layout_height="50dip"
+            android:background="@drawable/clickview"
+            android:clickable="true"
+            android:focusable="true">
+            <ImageView
+                android:id="@+id/callet"
+                android:layout_centerVertical="true"
+                android:layout_width="25dip"
+                android:layout_height="25dip"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dip"
+                android:src="@drawable/callet" />
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/callet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dip"
+                android:text="我的钱包"
+                android:textSize="18sp" />
+            <ImageView
+                android:layout_marginRight="10dip"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/toright"
+                android:layout_width="22dip"
+                android:layout_height="22dip" />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.2sp"
+            android:background="#999999" />
+        <!--我的订单-->
+        <RelativeLayout
+            android:id="@+id/details"
+            android:layout_width="match_parent"
+            android:layout_height="50dip"
+            android:background="@drawable/clickview"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/deta"
+                android:layout_width="27dip"
+                android:layout_height="27dip"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dip"
+                android:src="@drawable/detail1" />
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/deta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dip"
+                android:text="我的订单"
+                android:textSize="18sp" />
+            <ImageView
+                android:layout_marginRight="10dip"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/toright"
+                android:layout_width="22dip"
+                android:layout_height="22dip"/>
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.2sp"
+            android:background="#999999" />
+        <!--设置-->
+        <RelativeLayout
+            android:id="@+id/setting"
+            android:layout_width="match_parent"
+            android:layout_height="50dip"
+            android:background="@drawable/clickview"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="horizontal">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.2sp"
-        android:background="#999999" />
+            <ImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/set"
+                android:layout_width="27dip"
+                android:layout_height="27dip"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dip"
+                android:src="@drawable/setting1" />
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/set"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dip"
+                android:text="设    置"
+                android:textSize="18sp" />
+            <ImageView
+                android:layout_marginRight="10dip"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/toright"
+                android:layout_width="22dip"
+                android:layout_height="22dip"/>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.2sp"
+            android:background="#999999" />
+    </LinearLayout>
+
 </LinearLayout>

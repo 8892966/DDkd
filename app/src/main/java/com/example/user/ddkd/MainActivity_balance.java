@@ -44,7 +44,7 @@ import java.util.Map;
 /**
  * Created by Administrator on 2016/4/5.
  */
-public class MainActivity_balance extends Activity implements View.OnClickListener {
+public class MainActivity_balance extends BaseActivity implements View.OnClickListener {
     private List<Payment> paymentlist = new ArrayList<Payment>();
     private TextView textView;
     private MyAdapter myAdapter = new MyAdapter();

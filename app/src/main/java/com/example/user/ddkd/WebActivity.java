@@ -18,7 +18,7 @@ import com.baidu.mobstat.StatService;
 /**
  * Created by User on 2016-04-02.
  */
-public class WebActivity extends Activity implements View.OnClickListener {
+public class WebActivity extends BaseActivity implements View.OnClickListener {
     //返回按钮
     private TextView tv_head_fanghui;
     private WebView wv_web;

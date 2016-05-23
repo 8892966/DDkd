@@ -41,7 +41,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DingDanActivity extends Activity implements View.OnClickListener {
+public class DingDanActivity extends BaseActivity implements View.OnClickListener {
     //放订单列表
     private ListView listView;
     private MyBaseAdapter baseAdapter;

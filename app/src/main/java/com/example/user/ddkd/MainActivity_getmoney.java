@@ -41,7 +41,7 @@ import java.text.DecimalFormat;
 /**
  * Created by Administrator on 2016/4/5.
  */
-public class MainActivity_getmoney extends Activity implements View.OnClickListener {
+public class MainActivity_getmoney extends BaseActivity implements View.OnClickListener {
     private TextView textView;
     private EditText getmoney;
     private TextView yue;

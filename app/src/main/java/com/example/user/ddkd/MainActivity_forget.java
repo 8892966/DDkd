@@ -46,7 +46,7 @@ import java.util.Map;
 /**
  * Created by Administrator on 2016/4/6.
  */
-public class MainActivity_forget extends Activity implements View.OnClickListener {
+public class MainActivity_forget extends BaseActivity implements View.OnClickListener {
     private TextView commit;
     private TextView tv_head_fanghui;
     private TextView tv_button_yanzhengma;

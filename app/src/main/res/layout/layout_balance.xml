@@ -2,115 +2,135 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgrod"
+    android:background="@color/head"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
-    <RelativeLayout
-        android:id="@+id/title"
-        android:background="@color/head"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="45dip">
-        <TextView
-            style="@style/head_button_back"
-            android:id="@+id/tv_head_fanghui"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:textColor="@color/text3"
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="账户余额"
-            android:textSize="25sp" />
-    </RelativeLayout>
+        android:layout_height="match_parent"
+        android:background="@color/backgrod"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="45dip"
+            android:background="@color/head">
 
-
-    <RelativeLayout
-        android:layout_marginTop="10dip"
-        android:id="@+id/title1"
-        android:layout_below="@id/title"
-        android:layout_width="match_parent"
-        android:layout_height="130dip"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_centerHorizontal="true"
-            android:id="@+id/getmoney"
-            android:layout_width="60dip"
-            android:layout_height="60dip"
-            android:layout_margin="10dip"
-            android:background="@drawable/radio"
-            android:gravity="center"
-            android:text="提现"
-            android:textColor="@color/text3"
-            android:textSize="20sp" />
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/getmoney"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:layout_marginLeft="20dip"
-                android:src="@drawable/moneysum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
             <TextView
-                android:layout_marginLeft="10dip"
-                android:text="**.**"
-                android:id="@+id/balance"
+                android:id="@+id/tv_head_fanghui"
+                style="@style/head_button_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="25sp" />
-            <TextView
-                android:text="元"
-                android:layout_marginLeft="5dip"
-                android:textSize="15dip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+                android:layout_centerVertical="true" />
 
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/title2"
-        android:layout_below="@id/title1"
-        android:padding="3dip"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <View
-            android:layout_centerVertical="true"
-            android:background="#666666"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="账户余额"
+                android:textColor="@color/text3"
+                android:textSize="25sp" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/title1"
             android:layout_width="match_parent"
-            android:layout_height="1dip" />
-        <TextView
-            android:background="@color/backgrod"
-            android:layout_width="wrap_content"
+            android:layout_height="130dip"
+            android:layout_below="@id/title"
+            android:layout_marginTop="10dip"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/getmoney"
+                android:layout_width="60dip"
+                android:layout_height="60dip"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="10dip"
+                android:background="@drawable/radio"
+                android:gravity="center"
+                android:text="提现"
+                android:textColor="@color/text3"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/getmoney"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dip"
+                    android:src="@drawable/moneysum" />
+
+                <TextView
+                    android:id="@+id/balance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:text="**.**"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dip"
+                    android:text="元"
+                    android:textSize="15dip" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/title2"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="收支明细" />
-    </RelativeLayout>
-    <TextView
-        android:layout_alignParentBottom="true"
-        android:id="@+id/bottom"
-        android:layout_width="match_parent"
-        android:layout_height="5dip" />
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:layout_above="@id/bottom"
-        android:id="@+id/swipeRefreshLayout"
-        android:layout_below="@id/title2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ListView
-            android:id="@+id/listviewbalance"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </ListView>
+            android:layout_below="@id/title1"
+            android:padding="3dip">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:layout_centerVertical="true"
+                android:background="#666666" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@color/backgrod"
+                android:text="收支明细" />
+        </RelativeLayout>
+
         <TextView
-            android:id="@+id/tongzhi"
-            android:textColor="#cccccc"
-            android:layout_centerInParent="true"
-            android:textSize="20dip"
-            android:text="亲，您还没有记录喔"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+            android:id="@+id/bottom"
+            android:layout_width="match_parent"
+            android:layout_height="5dip"
+            android:layout_alignParentBottom="true" />
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/bottom"
+            android:layout_below="@id/title2">
+
+            <ListView
+                android:id="@+id/listviewbalance"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></ListView>
+
+            <TextView
+                android:id="@+id/tongzhi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="亲，您还没有记录喔"
+                android:textColor="#cccccc"
+                android:textSize="20dip" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </LinearLayout>
 </RelativeLayout>

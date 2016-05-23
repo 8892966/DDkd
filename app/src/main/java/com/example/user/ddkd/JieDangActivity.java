@@ -15,7 +15,6 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +49,7 @@ import static com.example.user.ddkd.ExitApplication.*;
 /**
  * Created by User on 2016-04-02.
  */
-public class JieDangActivity extends Activity implements View.OnClickListener{
+public class JieDangActivity extends BaseActivity implements View.OnClickListener{
     private final static int GDSX=11;//挂单刷新
     private TextView textView;
     private ListView listView;
@@ -327,7 +326,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener{
                 case R.id.personinfo://进入用户信息界面
 //                    intent = new Intent(this, MainActivity_main.class);
 //                    startActivity(intent);
-                   slidingUtil.changeMenu();
+                    slidingUtil.changeMenu();
 
 //                    overridePendingTransition(R.anim.in_toright, R.anim.out_toleft);
                     break;
@@ -413,17 +412,17 @@ public class JieDangActivity extends Activity implements View.OnClickListener{
                 }
                 Log.e("getView",qOrderInfo.getBespeak()+"");
                 if(qOrderInfo.getBespeak()!=null){
-                if(!"0".equals(qOrderInfo.getBespeak())) {
-                    if (qOrderInfo.getOrderid() != null) {
-                        viewInfo.order_id.setText("(挂单)单号:" + qOrderInfo.getOrderid());
-                    }
-                    viewInfo.tv_qiangdan_button.setOnClickListener(new GDonClickListener(qOrderInfo, viewInfo.tv_qiangdan_button));
-                }else {
-                    if (qOrderInfo.getOrderid() != null) {
-                        viewInfo.order_id.setText("单号:" + qOrderInfo.getOrderid());
-                    }
-                    viewInfo.tv_qiangdan_button.setOnClickListener(new QDonClickListener(qOrderInfo, viewInfo.tv_qiangdan_button));
-                }}else {
+                    if(!"0".equals(qOrderInfo.getBespeak())) {
+                        if (qOrderInfo.getOrderid() != null) {
+                            viewInfo.order_id.setText("(挂单)单号:" + qOrderInfo.getOrderid());
+                        }
+                        viewInfo.tv_qiangdan_button.setOnClickListener(new GDonClickListener(qOrderInfo, viewInfo.tv_qiangdan_button));
+                    }else {
+                        if (qOrderInfo.getOrderid() != null) {
+                            viewInfo.order_id.setText("单号:" + qOrderInfo.getOrderid());
+                        }
+                        viewInfo.tv_qiangdan_button.setOnClickListener(new QDonClickListener(qOrderInfo, viewInfo.tv_qiangdan_button));
+                    }}else {
                     if (qOrderInfo.getOrderid() != null) {
                         viewInfo.order_id.setText("单号:" + qOrderInfo.getOrderid());
                     }

@@ -57,7 +57,7 @@ import static com.example.user.ddkd.ZhuCe4Activity.getRealFilePath;
 /**
  * Created by Administrator on 2016/4/5.
  */
-public class MainActivity_userinfo extends Activity implements View.OnClickListener {
+public class MainActivity_userinfo extends BaseActivity implements View.OnClickListener {
     public static final int REPLY = 10;
     private TextView textView;
     private TextView username;

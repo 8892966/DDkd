@@ -76,10 +76,10 @@ public class SlidingUtil extends HorizontalScrollView{
                 int move=endX-startX;
                 int speed= (int) (move/(endTime-startTime));
 
-                if (speed>1.5) {
+                if (speed>1) {
                     openMenu();
                     isSliding=true;
-                }else if(speed<(-1.5)){
+                }else if(speed<(-1)){
                     closeMenu();
                     isSliding=true;
                 }else{

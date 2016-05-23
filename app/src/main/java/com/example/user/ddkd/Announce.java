@@ -39,7 +39,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/4/14.
  */
-public class Announce extends Activity implements View.OnClickListener {
+public class Announce extends BaseActivity implements View.OnClickListener {
     private ListView announcelistview;
     private List<AnnounceInfo> announcelist = new ArrayList<AnnounceInfo>();
     private ImageView exitannounce;

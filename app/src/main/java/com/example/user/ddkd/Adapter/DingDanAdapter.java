@@ -166,7 +166,7 @@ public class DingDanAdapter extends BaseAdapter {
                 if (info.getTip().equals("0")) {
                     zhuanTai.tv_money.setText(info.getPrice() + "元");
                 } else {
-                    zhuanTai.tv_money.setText(info.getPrice() + "元" + "+小费" + info.getTip() + "元");
+                    zhuanTai.tv_money.setText((Float.valueOf(info.getPrice())+Float.valueOf(info.getTip())) + "元" + "(含小费" + info.getTip() + "元)");
                 }
             } else {
                 zhuanTai.tv_money.setText("0元");

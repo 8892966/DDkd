@@ -241,11 +241,11 @@ public class JieDangActivity extends Activity implements View.OnClickListener{
         SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
         boolean bb=sharedPreferences.getBoolean("qiandan1",true);
         if(bb){
-            jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
+            jieDanServiceIntent = new Intent(getApplicationContext(), JieDanService.class);
             startService(jieDanServiceIntent);
             listView.setVisibility(View.VISIBLE);
             but_jiedang.setBackgroundResource(R.drawable.kaiguanann);
-            jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
+            jieDanServiceIntent = new Intent(getApplicationContext(), JieDanService.class);
             bindService(jieDanServiceIntent, sc, BIND_AUTO_CREATE);
             SharedPreferences.Editor edit = sharedPreferences.edit();
             edit.putBoolean("qiandan1",false);
@@ -305,7 +305,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener{
                         listView.setVisibility(View.VISIBLE);
 //                    but_jiedang.setText("休息");
                         but_jiedang.setBackgroundResource(R.drawable.kaiguanann);
-                        jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
+                        jieDanServiceIntent = new Intent(getApplicationContext(), JieDanService.class);
                         startService(jieDanServiceIntent);
                         bindService(jieDanServiceIntent, sc, BIND_AUTO_CREATE);
                         myBaseAdapter.notifyDataSetChanged();
@@ -316,7 +316,7 @@ public class JieDangActivity extends Activity implements View.OnClickListener{
                         listView.getEmptyView().setVisibility(View.GONE);
                         sreviceisrunning = false;
                         unbindService(sc);
-                        jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
+                        jieDanServiceIntent = new Intent(getApplicationContext(), JieDanService.class);
                         stopService(jieDanServiceIntent);
 //                  preferences=getSharedPreferences("config", MODE_PRIVATE);
                         listView.setVisibility(View.GONE);

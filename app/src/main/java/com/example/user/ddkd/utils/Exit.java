@@ -27,7 +27,7 @@ public class Exit {
         Intent intent=new Intent(activity,MainActivity_login.class);
         activity.startActivity(intent);
         XGPushManager.unregisterPush(activity);
-        activity.stopService(new Intent(activity, JieDanService.class));
+        activity.stopService(new Intent(activity.getApplicationContext(), JieDanService.class));
         activity.finish();
     }
 }

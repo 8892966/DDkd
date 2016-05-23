@@ -96,45 +96,34 @@
 
                         <ImageView
                             android:id="@+id/xx1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:src="@drawable/comment_star_gray_icon" />
 
                         <ImageView
                             android:id="@+id/xx2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:src="@drawable/comment_star_gray_icon" />
 
                         <ImageView
                             android:id="@+id/xx3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:src="@drawable/comment_star_gray_icon" />
 
                         <ImageView
                             android:id="@+id/xx4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:src="@drawable/comment_star_gray_icon" />
 
                         <ImageView
                             android:id="@+id/xx5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:src="@drawable/comment_star_gray_icon" />
                     </LinearLayout>
-                    <!--<RatingBar-->
-                    <!--android:paddingBottom="4dp"-->
-                    <!--android:rating="0"-->
-                    <!--android:id="@+id/pb_star"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:numStars="5"-->
-                    <!--android:isIndicator="true"-->
-                    <!--style="@style/roomRatingBar"-->
-                    <!--android:layout_marginRight="20dp"-->
-                    <!--android:layout_marginLeft="10dp" />-->
                 </LinearLayout>
 
                 <LinearLayout
@@ -165,65 +154,6 @@
                         android:textColor="@color/text4"
                         android:textSize="14sp" />
                 </LinearLayout>
-                <!--<TextView-->
-                <!--android:layout_marginLeft="30dp"-->
-                <!--android:id="@+id/tv_xiuxi_huodong_now_number"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="接单总数   ？单"-->
-                <!--android:textColor="#000000"-->
-                <!--android:textSize="13sp" />-->
-
-                <!--<RatingBar-->
-                <!--android:rating="0"-->
-                <!--android:id="@+id/pb_star"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:numStars="5"-->
-                <!--android:isIndicator="true"-->
-                <!--style="?android:attr/ratingBarStyleSmall"-->
-                <!--android:layout_marginLeft="10dp"-->
-                <!--android:layout_toRightOf="@id/tv_xiuxi_huodong_now_number" />-->
-                <!--<TextView-->
-                <!--android:id="@+id/tv_star"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="15dp"-->
-                <!--android:layout_toRightOf="@id/pb_star"-->
-                <!--android:text="4.0"-->
-                <!--android:textColor="#000000" />-->
-
-                <!--<TextView-->
-                <!--android:id="@+id/tv_sum_number"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginRight="30dp"-->
-                <!--android:layout_alignParentRight="true"-->
-                <!--android:text=" ?单"-->
-                <!--android:textColor="#000000" />-->
-
-                <!--<TextView-->
-                <!--android:layout_marginLeft="30dp"-->
-                <!--android:id="@+id/tv_xiuxi_huodong_yesterday_number"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_below="@id/tv_xiuxi_huodong_now_number"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:text="昨天订单：?单"-->
-                <!--android:textColor="#000000"-->
-                <!--android:textSize="10sp" />-->
-
-                <!--<TextView-->
-                <!--android:id="@+id/tv_xiuxi_huodong_yesterday_money"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_below="@id/tv_xiuxi_huodong_now_number"-->
-                <!--android:layout_marginRight="30dp"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:layout_alignParentRight="true"-->
-                <!--android:text="昨天营业额：?元"-->
-                <!--android:textColor="#000000"-->
-                <!--android:textSize="10sp" />-->
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"

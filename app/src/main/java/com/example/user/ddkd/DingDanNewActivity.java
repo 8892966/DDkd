@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
@@ -105,6 +106,7 @@ public class DingDanNewActivity extends BaseActivity implements View.OnClickList
         myAdapter1 = new DingDanAdapter(this,list1,1,staticListener);
         addView1.setAdapter(myAdapter1);
         myDingDanView.addView(view1);
+//        myAdapter1.getDropDownView()
 
         View view2=View.inflate(this,R.layout.dingdan_activity,null);
         addView2 = (ListView) view2.findViewById(R.id.lv_order_details);
@@ -132,6 +134,15 @@ public class DingDanNewActivity extends BaseActivity implements View.OnClickList
         myAdapter4 = new DingDanAdapter(this,list4,4,staticListener);
         addView4.setAdapter(myAdapter4);
         myDingDanView.addView(view4);
+
+        TextView textView=new TextView(this);
+        textView.setGravity(Gravity.CENTER);
+        textView.setText("已经没有更多的数据了亲...!");
+
+        addView1.addFooterView(textView);
+        addView2.addFooterView(textView);
+        addView3.addFooterView(textView);
+        addView4.addFooterView(textView);
 
         myDingDanView.setMyDingDanChangeListener(new MyDingDanView.MyDingDanChangeListener() {
             @Override

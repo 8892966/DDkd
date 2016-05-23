@@ -295,14 +295,14 @@ public class MainActivity_setting extends BaseActivity implements View.OnClickLi
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        StatService.onResume(this);
-    }
-    @Override
-    protected void onPause() {
-        super.onPause();
-        StatService.onPause(this);
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        StatService.onResume(this);
+//    }
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        StatService.onPause(this);
+//    }
 }

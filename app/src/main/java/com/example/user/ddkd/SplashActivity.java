@@ -131,17 +131,17 @@ public class SplashActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        StatService.onResume(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-//        StatService.onPause(this);
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+////        StatService.onResume(this);
+//    }
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+////        StatService.onPause(this);
+//    }
 
     protected void showupdateDialog(){
         try {

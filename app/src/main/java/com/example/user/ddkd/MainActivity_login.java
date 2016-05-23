@@ -113,17 +113,17 @@ public class MainActivity_login extends BaseActivity implements View.OnClickList
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        StatService.onResume(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        StatService.onPause(this);
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        StatService.onResume(this);
+//    }
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        StatService.onPause(this);
+//    }
 
     public void volley_Get(final String userid, final String password) {
 //        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/login?phone=" + userid + "&password=" + password;

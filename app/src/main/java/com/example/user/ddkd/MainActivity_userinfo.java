@@ -447,17 +447,17 @@ public class MainActivity_userinfo extends BaseActivity implements View.OnClickL
     }
 
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        StatService.onResume(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        StatService.onPause(this);
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        StatService.onResume(this);
+//    }
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        StatService.onPause(this);
+//    }
     protected void onDestroy() {
         super.onDestroy();
         MyApplication.getQueue().cancelAll("Get_Setting_changImage");

@@ -337,22 +337,23 @@ public class MainActivity_balance extends BaseActivity implements View.OnClickLi
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        StatService.onResume(this);
-//        Volley_Get(paymentlist);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        StatService.onPause(this);
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        StatService.onResume(this);
+////        Volley_Get(paymentlist);
+//    }
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        StatService.onPause(this);
+//    }
 
     protected void onDestroy() {
         super.onDestroy();
         MyApplication.getQueue().cancelAll("get_main");
         MyApplication.getQueue().cancelAll("abcGet_balance");
     }
+
 }

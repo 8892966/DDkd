@@ -505,7 +505,7 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
     protected void onResume() {
         try {
             volley_MSG_GET();//获取信息
-            StatService.onResume(this);
+//            StatService.onResume(this);
             if(list!=null) {
                 list.clear();
                 if(list_GD!=null) {
@@ -567,7 +567,7 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
         super.onDestroy();
         try {
             sp.release();
-            StatService.onPause(this);
+//            StatService.onPause(this);
             MyApplication.getQueue().cancelAll("volley_GDMSG_GET_UTILS");
             MyApplication.getQueue().cancelAll("volley_MSG_GET");
             MyApplication.getQueue().cancelAll("volley_QD_GET");

@@ -122,15 +122,15 @@ public class Activity_feedback extends BaseActivity implements View.OnClickListe
         super.onDestroy();
         MyApplication.getQueue().cancelAll("Get_feedback");
     }
-    @Override
-    protected void onResume() {
-        super.onResume();
-        StatService.onResume(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        StatService.onPause(this);
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        StatService.onResume(this);
+//    }
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        StatService.onPause(this);
+//    }
 }

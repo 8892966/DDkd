@@ -272,16 +272,16 @@ public class MainActivity_main extends BaseActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        StatService.onResume(this);
+//        StatService.onResume(this);
         volley_Get_Image();
         volley_Get(userInfo);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        StatService.onPause(this);
-    }
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        StatService.onPause(this);
+//    }
 
     protected void onDestroy() {
         super.onDestroy();

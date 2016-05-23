@@ -126,17 +126,17 @@ public class MainActivity_forget extends BaseActivity implements View.OnClickLis
         }
     }
 
-    @Override
-    protected void onResume(){
-        super.onResume();
-        StatService.onResume(this);
-    }
-
-    @Override
-    protected void onPause(){
-        super.onPause();
-        StatService.onPause(this);
-    }
+//    @Override
+//    protected void onResume(){
+//        super.onResume();
+//        StatService.onResume(this);
+//    }
+//
+//    @Override
+//    protected void onPause(){
+//        super.onPause();
+//        StatService.onPause(this);
+//    }
 
     private void countDown(){
 //      tv_bt_verify你要设置动画的view

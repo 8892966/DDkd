@@ -59,6 +59,12 @@ public class MainActivity_setting extends BaseActivity implements View.OnClickLi
             }
         }
     };
+
+    @Override
+    protected boolean addStack() {
+        return true;
+    }
+
     //获取图片之后的中转文件;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,7 +105,7 @@ public class MainActivity_setting extends BaseActivity implements View.OnClickLi
 
 //        Log.i("Version", sharedPreferences.getString("version", ""));//回显版本号;
         version.setText(sharedPreferences.getString("version", getVersonName()));
-        ExitApplication.getInstance().addActivity(this);
+//        ExitApplication.getInstance().addActivity(this);
         //*****************分享DD*****************
         Share= (RelativeLayout) findViewById(R.id.Share);
         Share.setOnClickListener(this);

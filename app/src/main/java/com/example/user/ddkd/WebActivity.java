@@ -28,7 +28,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.web_activity);
-        ExitApplication.getInstance().addActivity(this);
+//        ExitApplication.getInstance().addActivity(this);
         tv_head_fanghui= (TextView)findViewById(R.id.tv_head_fanghui);
         progressBar= (ProgressBar) findViewById(R.id.ProgressBar1);
         tv_head_fanghui.setOnClickListener(this);

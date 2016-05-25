@@ -93,6 +93,11 @@ public class SplashActivity extends BaseActivity {
     };
     private Builder builder;
 
+//    @Override
+//    protected boolean addStack() {
+//        return false;
+//    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -102,7 +107,7 @@ public class SplashActivity extends BaseActivity {
             StatService.setSendLogStrategy(this, SendStrategyEnum.APP_START,
                     1, false);
             StatService.setSessionTimeOut(0);
-            ExitApplication.getInstance().addActivity(this);
+//            ExitApplication.getInstance().addActivity(this);
 
             if (MyApplication.state == 0) {
                 tv = (TextView) findViewById(R.id.tv_splash_verson);

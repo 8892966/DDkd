@@ -60,6 +60,11 @@ public class Announce extends BaseActivity implements View.OnClickListener {
         }
     };
 
+    @Override
+    protected boolean addStack() {
+        return false;
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_announce);
@@ -68,9 +73,7 @@ public class Announce extends BaseActivity implements View.OnClickListener {
         announcelistview = (ListView) findViewById(R.id.announcelistview);
         exitannounce = (ImageView) findViewById(R.id.exit);
         exitannounce.setOnClickListener(this);
-
-        ExitApplication.getInstance().addActivity(this);
-
+//        ExitApplication.getInstance().addActivity(this);
     }
 
     class ItemOnclickListener implements View.OnClickListener {

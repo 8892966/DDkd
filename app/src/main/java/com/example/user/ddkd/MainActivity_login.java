@@ -52,7 +52,7 @@ public class MainActivity_login extends BaseActivity implements View.OnClickList
     }
 
     public void onCreate(Bundle savedInstanceState) {
-        try {
+//        try {
 
             super.onCreate(savedInstanceState);
             setContentView(R.layout.layout_login);
@@ -106,10 +106,10 @@ public class MainActivity_login extends BaseActivity implements View.OnClickList
                 finish();
                 MyApplication.state = 1;
             }
-        }catch (Exception e){
-            Log.e("Exception", e.getMessage());
-            Toast.makeText(MainActivity_login.this,"信息有误",Toast.LENGTH_SHORT).show();
-        }
+//        }catch (Exception e){
+//            Log.e("Exception", e.getMessage());
+//            Toast.makeText(MainActivity_login.this,"信息有误",Toast.LENGTH_SHORT).show();
+//        }
 
     }
 

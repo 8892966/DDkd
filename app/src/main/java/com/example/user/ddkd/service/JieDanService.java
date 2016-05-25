@@ -152,6 +152,7 @@ public class JieDanService extends Service {
 
     @Override
     public void onCreate() {
+        Log.e("JieDanService",this.toString());
         super.onCreate();
         o = new List[30];
         b=true;
@@ -163,7 +164,7 @@ public class JieDanService extends Service {
     public void onDestroy() {
         super.onDestroy();
         stopForeground(true);
-//        Log.e("JieDanService","JieDanServiceonDestroy");
+        Log.e("JieDanService", this.toString());
         b = false;
     }
 

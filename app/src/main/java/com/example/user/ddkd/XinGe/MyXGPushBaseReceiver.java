@@ -5,27 +5,22 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
-import com.example.user.ddkd.DingDanActivity;
-import com.example.user.ddkd.JieDangActivity;
+
+import com.example.user.ddkd.DingDanNewActivity;
 import com.example.user.ddkd.MyApplication;
 import com.example.user.ddkd.R;
-import com.example.user.ddkd.beam.OrderInfo;
 import com.example.user.ddkd.beam.QOrderInfo;
 import com.example.user.ddkd.utils.ServiceUtils;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.tencent.android.tpush.XGPushBaseReceiver;
 import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushRegisterResult;
 import com.tencent.android.tpush.XGPushShowedResult;
 import com.tencent.android.tpush.XGPushTextMessage;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by User on 2016-04-09.
@@ -100,7 +95,7 @@ public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
                     builder.setContentText("您抢的单号为:" + robres.getOrderid() + "的单抢单不成功");
 
                 }
-                Intent notificationIntent = new Intent(context, DingDanActivity.class);
+                Intent notificationIntent = new Intent(context, DingDanNewActivity.class);
                 PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
                 builder.setContentIntent(contentIntent);
                 builder.setSmallIcon(R.mipmap.headimage);

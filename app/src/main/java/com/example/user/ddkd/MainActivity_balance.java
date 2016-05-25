@@ -113,7 +113,7 @@ public class MainActivity_balance extends BaseActivity implements View.OnClickLi
         textView.setOnClickListener(this);
         viewById = (ListView) findViewById(R.id.listviewbalance);
         volley_Get_Balance(userInfo);
-        ExitApplication.getInstance().addActivity(this);
+//        ExitApplication.getInstance().addActivity(this);
     }
 
     @Override

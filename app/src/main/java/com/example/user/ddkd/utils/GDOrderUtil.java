@@ -88,7 +88,7 @@ public abstract class GDOrderUtil {
                     }
                 }catch (Exception e){
                     Log.e("Exception", e.getMessage());
-                    Toast.makeText(activity, "信息有误!!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, "信息有误!!!3333", Toast.LENGTH_SHORT).show();
                 }
             }
             @Override

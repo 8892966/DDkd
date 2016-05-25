@@ -83,7 +83,6 @@ public class PostUtil {
             // 得到响应码
             int res = conn.getResponseCode();
             StringBuilder sb2 = new StringBuilder();
-            Log.e("ZhuCe4Activity", res + "");
             if (res == 200) {
                 in = conn.getInputStream();
                 int ch;
@@ -91,7 +90,6 @@ public class PostUtil {
                     sb2.append((char) ch);
                 }
             } else {
-                Log.e("ZhuCe4Activity", "访问出错");
             }
             outStream.close();
             conn.disconnect();

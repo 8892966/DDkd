@@ -224,15 +224,12 @@ public class MainActivity_forget extends BaseActivity implements View.OnClickLis
                                     eventType=parser.next();
                                     String code = parser.getText();
                                     if ("2".equals(code)) {
-                                        Log.i("ZhuCe1Activity", "请留意您的短信");
                                         Toast.makeText(MainActivity_forget.this, "请留意您的短信", Toast.LENGTH_SHORT).show();
                                     } else if("4085".equals(code)){
-                                        Log.i("ZhuCe1Activity", "同一手机号验证码短信发送超出5条");
                                         Toast.makeText(MainActivity_forget.this, "同一手机号验证码短信发送超出5条", Toast.LENGTH_SHORT).show();
                                     }else
                                     {
                                         Toast.makeText(MainActivity_forget.this, "获取验证码失败", Toast.LENGTH_SHORT).show();
-                                        Log.i("ZhuCe1Activity", "获取验证码失败");
                                     }
                                 }
                                 break;

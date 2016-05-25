@@ -2,7 +2,6 @@ package com.example.user.ddkd.utils;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Xml;
@@ -17,15 +16,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.user.ddkd.MyApplication;
-import com.example.user.ddkd.ZhuCe2Activity;
 
 import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,9 +59,7 @@ public class YanZhenMaUtil {
     public void sendYZM(Context context,EditText et_phone_number,TextView tv_button_yanzhengma){
         this.tv_button_yanzhengma=tv_button_yanzhengma;
         final int mobile_code = (int) ((Math.random() * 9 + 1) * 100000);
-        Log.i("ZhuCe1Activity", mobile_code + "");
         number = et_phone_number.getText().toString();
-        Log.i("ZhuCe1Activity", number);
         if (!TextUtils.isEmpty(number)) {
             yanzhengma = mobile_code+"";
             countDown();
@@ -101,15 +94,12 @@ public class YanZhenMaUtil {
                                     eventType=parser.next();
                                     String code = parser.getText();
                                     if ("2".equals(code)) {
-                                        Log.i("ZhuCe1Activity", "请留意您的短信");
                                         Toast.makeText(context, "请留意您的短信", Toast.LENGTH_SHORT).show();
                                     } else if("4085".equals(code)){
-                                        Log.i("ZhuCe1Activity", "同一手机号验证码短信发送超出5条");
                                         Toast.makeText(context, "同一手机号验证码短信发送超出5条", Toast.LENGTH_SHORT).show();
                                     }else
                                     {
                                         Toast.makeText(context, "获取验证码失败", Toast.LENGTH_SHORT).show();
-                                        Log.i("ZhuCe1Activity", "获取验证码失败");
                                     }
                                 }
                                 break;

@@ -21,22 +21,16 @@ public class UploadUtil1 {
 
                 @Override
                 public void onStart() {
-//                    Log.e("ZhuCe4Activity", "开始");
+//
                 }
 
                 @Override
                 public void onLoading(long total, long current, boolean isUploading) {
-                    if (isUploading) {
-                        Log.e("ZhuCe4Activity", "upload: " + current + "/" + total);
-                    } else {
-                        Log.e("ZhuCe4Activity", "upload: " + current + "/" + total);
-                    }
                     sSubmitPicturesListener.onLoading(total,current,isUploading);
                 }
 
                 @Override
                 public void onSuccess(ResponseInfo<String> responseInfo) {
-                    Log.e("ZhuCe4Activity", "reply: " + responseInfo.result);
                         if ("SUCCESS".equals(responseInfo.result)) {
                             sSubmitPicturesListener.SUCCESS();
                         } else if ("MAXSIZE OUT".equals(responseInfo.result)) {

@@ -18,7 +18,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.user.ddkd.Announce;
-import com.example.user.ddkd.DingDanActivity;
 import com.example.user.ddkd.DingDanNewActivity;
 import com.example.user.ddkd.ExitApplication;
 import com.example.user.ddkd.MainActivity_balance;

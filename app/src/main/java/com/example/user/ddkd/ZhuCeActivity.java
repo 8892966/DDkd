@@ -39,6 +39,12 @@ public class ZhuCeActivity extends BaseActivity implements View.OnClickListener,
     private boolean isUpload;
     private int Upload=0;
     private List<String> names=new ArrayList<>();
+
+    @Override
+    protected boolean addStack() {
+        return false;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

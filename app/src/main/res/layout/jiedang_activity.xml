@@ -9,6 +9,7 @@
         android:background="@color/backgrod"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <com.example.user.ddkd.utils.SlidingUtil
             android:id="@+id/it_menu"
             android:layout_width="match_parent"

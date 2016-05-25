@@ -111,16 +111,10 @@ public class ZhuCeAndForgetModelImpl implements IZhuCeAndForgetModel {
                                         String code = parser.getText();
                                         if ("2".equals(code)) {
                                             forgetListener.Success();
-//                                            Log.i("ZhuCe1Activity", "请留意您的短信");
-//                                            Toast.makeText(MainActivity_forget.this, "请留意您的短信", Toast.LENGTH_SHORT).show();
                                         } else if ("4085".equals(code)) {
                                             forgetListener.Out_Of_Range();
-//                                            Log.i("ZhuCe1Activity", "同一手机号验证码短信发送超出5条");
-//                                            Toast.makeText(MainActivity_forget.this, "同一手机号验证码短信发送超出5条", Toast.LENGTH_SHORT).show();
                                         } else {
                                             forgetListener.Failure();
-//                                            Toast.makeText(MainActivity_forget.this, "获取验证码失败", Toast.LENGTH_SHORT).show();
-//                                            Log.i("ZhuCe1Activity", "获取验证码失败");
                                         }
                                     }
                                     break;

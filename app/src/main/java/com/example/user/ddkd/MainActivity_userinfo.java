@@ -52,7 +52,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import static com.example.user.ddkd.ZhuCe4Activity.getRealFilePath;
+import static com.example.user.ddkd.ZhuCeActivity.getRealFilePath;
+
 
 /**
  * Created by Administrator on 2016/4/5.
@@ -126,7 +127,7 @@ public class MainActivity_userinfo extends BaseActivity implements View.OnClickL
         level = (TextView) findViewById(R.id.level);
         userimage = (ImageView) findViewById(R.id.userimage);
         Voley_Get(userInfo);
-        ExitApplication.getInstance().addActivity(this);
+//        ExitApplication.getInstance().addActivity(this);
         SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         String url = sharedPreferences.getString("imageuri", "");
         Log.i("URL", url);
@@ -157,7 +158,6 @@ public class MainActivity_userinfo extends BaseActivity implements View.OnClickL
     private void getImage() {
         Intent intent = new Intent(Intent.ACTION_PICK);// 打开相册
         intent.setDataAndType(MediaStore.Images.Media.INTERNAL_CONTENT_URI, "image/*");
-        Log.e("ZhuCe3Activity", Uri.fromFile(tempFile).toString());
         intent.putExtra("output", Uri.fromFile(tempFile));
         startActivityForResult(intent, 11);
     }

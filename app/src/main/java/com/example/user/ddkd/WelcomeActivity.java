@@ -33,6 +33,8 @@ public class WelcomeActivity extends Activity implements View.OnClickListener, V
 
     private TextView tv_tiaoguo;//跳过
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

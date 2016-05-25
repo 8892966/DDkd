@@ -64,6 +64,11 @@ public class DingDanNewActivity extends BaseActivity implements View.OnClickList
     private boolean isInitDefault=false;
 
     @Override
+    protected boolean addStack() {
+        return false;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ding_dan);
@@ -96,7 +101,10 @@ public class DingDanNewActivity extends BaseActivity implements View.OnClickList
                 iDingDinPresenter.ChangeDingDins(info, 2, pb_button, button, getToken());
             }
         };
-
+        //在list尾部使出现的一个textview
+        TextView textView=new TextView(this);
+        textView.setGravity(Gravity.CENTER);
+        textView.setText("已经没有更多的数据了亲...!");
 
         View view1=View.inflate(this,R.layout.dingdan_activity,null);
         addView1 = (ListView) view1.findViewById(R.id.lv_order_details);
@@ -104,6 +112,7 @@ public class DingDanNewActivity extends BaseActivity implements View.OnClickList
         relativeLayout1 = (RelativeLayout) view1.findViewById(R.id.rl_order_ProgressBar);
         addView1.setEmptyView(view1.findViewById(R.id.tv_default));
         myAdapter1 = new DingDanAdapter(this,list1,1,staticListener);
+        addView1.addFooterView(textView);
         addView1.setAdapter(myAdapter1);
         myDingDanView.addView(view1);
 //        myAdapter1.getDropDownView()
@@ -114,6 +123,7 @@ public class DingDanNewActivity extends BaseActivity implements View.OnClickList
         relativeLayout2 = (RelativeLayout) view2.findViewById(R.id.rl_order_ProgressBar);
         addView2.setEmptyView(view2.findViewById(R.id.tv_default));
         myAdapter2 = new DingDanAdapter(this,list2,2,staticListener);
+        addView2.addFooterView(textView);
         addView2.setAdapter(myAdapter2);
         myDingDanView.addView(view2);
 
@@ -123,6 +133,8 @@ public class DingDanNewActivity extends BaseActivity implements View.OnClickList
         relativeLayout3 = (RelativeLayout) view3.findViewById(R.id.rl_order_ProgressBar);
         addView3.setEmptyView(view3.findViewById(R.id.tv_default));
         myAdapter3 = new DingDanAdapter(this,list3,3,staticListener);
+        addView3.addFooterView(textView);
+//        addView3
         addView3.setAdapter(myAdapter3);
         myDingDanView.addView(view3);
 
@@ -132,17 +144,9 @@ public class DingDanNewActivity extends BaseActivity implements View.OnClickList
         relativeLayout4 = (RelativeLayout) view4.findViewById(R.id.rl_order_ProgressBar);
         addView4.setEmptyView(view4.findViewById(R.id.tv_default));
         myAdapter4 = new DingDanAdapter(this,list4,4,staticListener);
+        addView4.addFooterView(textView);
         addView4.setAdapter(myAdapter4);
         myDingDanView.addView(view4);
-
-        TextView textView=new TextView(this);
-        textView.setGravity(Gravity.CENTER);
-        textView.setText("已经没有更多的数据了亲...!");
-
-        addView1.addFooterView(textView);
-        addView2.addFooterView(textView);
-        addView3.addFooterView(textView);
-        addView4.addFooterView(textView);
 
         myDingDanView.setMyDingDanChangeListener(new MyDingDanView.MyDingDanChangeListener() {
             @Override
@@ -442,4 +446,9 @@ public class DingDanNewActivity extends BaseActivity implements View.OnClickList
         pb_button.setVisibility(View.GONE);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
+    }
 }

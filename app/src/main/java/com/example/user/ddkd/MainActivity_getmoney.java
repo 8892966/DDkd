@@ -109,7 +109,7 @@ public class MainActivity_getmoney extends BaseActivity implements View.OnClickL
         Tname = (EditText) findViewById(R.id.Tname);
         beizhu = (EditText) findViewById(R.id.beizhu);
         Volley_Get();
-        ExitApplication.getInstance().addActivity(this);
+//        ExitApplication.getInstance().addActivity(this);
 
     }
 

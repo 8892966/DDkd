@@ -11,11 +11,22 @@ import com.baidu.mobstat.StatService;
  * Created by User on 2016-05-18.
  */
 public class BaseActivity extends AppCompatActivity {
+
+    protected boolean addStack(){
+        return false;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ExitApplication.getInstance().addActivity(this);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        addStacks();
+    }
+
+    private void addStacks() {
+        if(addStack()) {
+            ExitApplication.getInstance().addActivity(this);
+        }
     }
 
     @Override

@@ -45,11 +45,16 @@ public class Activity_feedback extends BaseActivity implements View.OnClickListe
                     volley_Get(ms);
                     break;
                 case MyApplication.GET_TOKEN_ERROR:
-
                     break;
             }
         }
     };
+
+    @Override
+    protected boolean addStack() {
+        return false;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

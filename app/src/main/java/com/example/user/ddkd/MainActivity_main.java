@@ -71,6 +71,11 @@ public class MainActivity_main extends BaseActivity implements View.OnClickListe
         }
     };
 
+    @Override
+    protected boolean addStack() {
+        return true;
+    }
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_userinfo);
@@ -94,7 +99,7 @@ public class MainActivity_main extends BaseActivity implements View.OnClickListe
         detauils.setOnClickListener(this);
         RelativeLayout setting = (RelativeLayout) findViewById(R.id.setting);
         setting.setOnClickListener(this);
-        ExitApplication.getInstance().addActivity(this);
+//        ExitApplication.getInstance().addActivity(this);
 
         SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         String imageuri = sharedPreferences.getString("imageuri", "");

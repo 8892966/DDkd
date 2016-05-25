@@ -1,11 +1,8 @@
 package com.example.user.ddkd.utils;
 
 import android.content.Context;
-import android.content.Intent;
 import android.text.TextUtils;
 import android.widget.Toast;
-
-import com.example.user.ddkd.ZhuCe3Activity;
 
 /**
  * Created by User on 2016-04-09.

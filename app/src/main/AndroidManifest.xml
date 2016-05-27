@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.user.ddkd">
+
     <!--配置ShareSDK所需要的权限-->
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -53,6 +54,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <!--android:name=".Activity_problem"-->
+        android:name="com.example.user.ddkd.SplashActivity"
         <activity
             android:name="com.example.user.ddkd.SplashActivity"
             android:launchMode="singleTask"
@@ -190,5 +193,10 @@
         <activity
             android:name=".WelcomeActivity"
             android:launchMode="singleTask"></activity>
+
+        <!--AutoLayout：声明适配的标准版-->
+        <meta-data android:name="design_width" android:value="768"></meta-data>
+        <meta-data android:name="design_height" android:value="1280"></meta-data>
+
     </application>
 </manifest>

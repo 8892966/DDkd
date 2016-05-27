@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/backgrod"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dip"
+            android:background="@color/head">
+
+            <TextView
+                android:id="@+id/tv_head_fanghui"
+                style="@style/head_button_back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="DD指南"
+                android:textColor="@color/text3"
+                android:textSize="25sp" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="12dip"
+            android:background="@color/spacing" />
+        <RelativeLayout
+            android:layout_marginBottom="3dip"
+            android:background="@color/title"
+            android:layout_width="match_parent"
+            android:layout_height="22dip">
+            <View
+                android:id="@+id/biaozhi1"
+                android:layout_marginTop="2dip"
+                android:layout_marginBottom="2dip"
+                android:layout_marginLeft="10dip"
+                android:background="@color/head2"
+                android:layout_width="8dip"
+                android:layout_height="match_parent"/>
+            <TextView
+                android:layout_alignLeft="@id/biaozhi1"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dip"
+                android:text="问题专区"
+                android:textSize="13sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <!-- 最外层的LinearLayout-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:orientation="horizontal">
+
+            <LinearLayout style="@style/problem_item2">
+
+                <RelativeLayout
+                    android:id="@+id/zhuyi"
+                    style="@style/problem_item1">
+                    <ImageView
+                        style="@style/problem_image"
+                        android:id="@+id/image1"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/qiandao2" />
+                    <TextView
+                        style="@style/problem_text"
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@id/image1"
+                        android:text="注意事项" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/kefu"
+                    style="@style/problem_item1">
+
+                    <ImageView
+                        style="@style/problem_image"
+                        android:id="@+id/image4"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/kefu"/>
+
+                    <TextView
+                        style="@style/problem_text"
+                        android:layout_centerInParent="true"
+                        android:layout_below="@id/image4"
+                        android:text="客服咨询" />
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout style="@style/problem_item2">
+
+                <RelativeLayout
+                    android:id="@+id/huodong"
+                    style="@style/problem_item1">
+
+                    <ImageView
+                        style="@style/problem_image"
+                        android:id="@+id/image2"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/huodong" />
+
+                    <TextView
+                        style="@style/problem_text"
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@id/image2"
+                        android:text="活动专区" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    style="@style/problem_item1"
+                    android:background="#ffffff">
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout style="@style/problem_item2">
+
+                <RelativeLayout
+                    android:id="@+id/jiangli"
+                    style="@style/problem_item1">
+                    <ImageView
+                        style="@style/problem_image"
+                        android:id="@+id/image3"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/jiangli" />
+                    <TextView
+                        style="@style/problem_text"
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@id/image3"
+                        android:text="奖励政策" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    style="@style/problem_item1"
+                    android:background="#ffffff">
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dip"
+            android:background="@color/backgrod" />
+        <RelativeLayout
+            android:layout_marginBottom="3dip"
+            android:background="@color/title"
+            android:layout_width="match_parent"
+            android:layout_height="22dip">
+            <View
+                android:id="@+id/biaozhi"
+                android:layout_marginTop="2dip"
+                android:layout_marginBottom="2dip"
+                android:layout_marginLeft="10dip"
+                android:background="@color/head2"
+                android:layout_width="8dip"
+                android:layout_height="match_parent"/>
+            <TextView
+                android:layout_alignLeft="@id/biaozhi"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dip"
+                android:text="常见问题"
+                android:textSize="13sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <ListView
+            android:background="@color/white"
+            android:layout_margin="3dip"
+            android:id="@+id/problem_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </ListView>
+    </LinearLayout>
+</LinearLayout>

@@ -12,10 +12,12 @@
     <color name="logintext">#ff8903</color>
     <color name="backgrod">#ecebeb</color>
     <color name="edit">#ffffff</color>
+    <color name="title">#ffffff</color>
     <color name="text2">#565656</color>
     <color name="text3">#ffffff</color>
     <color name="text4">#2f2f2f</color>
     <color name="text5">#515151</color>
+    <color name="white">#ffffff</color>
     <color name="progress1">#ff6633</color>
     <color name="progress2">#ff9900</color>
     <color name="progress3">#ff9933</color>

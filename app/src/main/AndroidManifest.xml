@@ -15,6 +15,7 @@
     <!-- 蓝牙分享所需的权限 -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -23,11 +24,9 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <!-- 接收短信权限 -->
 
-
     <!--  百度可选的权限   -->
     <!-- <uses-permission -->
     <!-- android:name="android.permission.ACCESS_FINE_LOCATION"/> -->
-
 
     <!-- 【必须】 信鸽SDK所需权限 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -44,6 +43,7 @@
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.VIBRATE" />
+
     <!-- 【可选】 信鸽SDK所需权限 -->
     <!-- <uses-permission android:name="android.permission.BLUETOOTH" /> -->
     <!-- <uses-permission android:name="android.permission.BATTERY_STATS" /> -->
@@ -55,77 +55,61 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".SplashActivity"
-            android:label="@string/app_name"
+            android:name="com.example.user.ddkd.SplashActivity"
             android:launchMode="singleTask"
-            android:theme="@style/ImageTranslucentTheme" >
+            android:label="@string/app_name"
+            android:theme="@style/ImageTranslucentTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ZhuCeActivity"
+        <activity android:name="com.example.user.ddkd.ZhuCeActivity"
             android:label="@string/app_name"
-            android:theme="@style/ImageTranslucentTheme" />
-        <activity
-            android:name=".WebActivity"
+            android:theme="@style/ImageTranslucentTheme"/>
+        <activity android:name=".WebActivity"
             android:label="@string/app_name"
-            android:theme="@style/ImageTranslucentTheme" />
-        <activity
-            android:name=".MainActivity_main"
+            android:theme="@style/ImageTranslucentTheme"/>
+        <activity android:name=".MainActivity_main"
             android:label="@string/app_name"
-            android:theme="@style/ImageTranslucentTheme" />
+            android:theme="@style/ImageTranslucentTheme"/>
         <activity android:name=".details" />
-        <activity
-            android:name=".MainActivity_setting"
+        <activity android:name=".MainActivity_setting"
             android:label="@string/app_name"
-            android:theme="@style/ImageTranslucentTheme" />
-        <activity
-            android:name=".MainActivity_userinfo"
+            android:theme="@style/ImageTranslucentTheme"/>
+        <activity android:name=".MainActivity_userinfo"
             android:label="@string/app_name"
-            android:theme="@style/ImageTranslucentTheme" />
-        <activity
-            android:name=".MainActivity_getmoney"
+            android:theme="@style/ImageTranslucentTheme"/>
+        <activity android:name=".MainActivity_getmoney"
             android:label="@string/app_name"
-            android:theme="@style/ImageTranslucentTheme" />
-        <activity
-            android:name=".MainActivity_balance"
+            android:theme="@style/ImageTranslucentTheme"/>
+        <activity android:name=".MainActivity_balance"
             android:label="@string/app_name"
-            android:theme="@style/ImageTranslucentTheme" />
-        <activity
-            android:name=".JieDangActivity"
-            android:launchMode="singleTop"
+            android:theme="@style/ImageTranslucentTheme"/>
+        <activity android:name=".JieDangActivity"
             android:label="@string/app_name"
-            android:theme="@style/ImageTranslucentTheme" />
-        <activity
-            android:name=".MainActivity_forget"
+            android:theme="@style/ImageTranslucentTheme"/>
+        <activity android:name=".MainActivity_forget"
             android:label="@string/app_name"
-            android:theme="@style/ImageTranslucentTheme" />
-        <activity
-            android:name=".MainActivity_login"
+            android:theme="@style/ImageTranslucentTheme"/>
+        <activity android:name=".MainActivity_login"
             android:label="@string/app_name"
-            android:theme="@style/ImageTranslucentTheme" />
-        <activity
-            android:name=".Announce"
+            android:theme="@style/ImageTranslucentTheme"/>
+        <activity android:name=".Announce"
             android:label="@string/app_name"
-            android:theme="@style/ImageTranslucentTheme" />
-        <activity
-            android:name=".Activity_feedback"
+            android:theme="@style/ImageTranslucentTheme"/>
+        <activity android:name=".Activity_feedback"
             android:label="@string/app_name"
-            android:theme="@style/ImageTranslucentTheme" />
-        <activity
-            android:name=".DingDanNewActivity"
+            android:theme="@style/ImageTranslucentTheme"/>
+        <activity android:name="com.example.user.ddkd.DingDanNewActivity"
             android:label="@string/app_name"
-            android:theme="@style/ImageTranslucentTheme" />
+            android:theme="@style/ImageTranslucentTheme"/>
 
         <!-- 【必须】 信鸽receiver广播接收 -->
         <receiver
             android:name="com.tencent.android.tpush.XGPushReceiver"
-            android:process=":xg_service_v2" >
-            <intent-filter android:priority="0x7fffffff" >
-
+            android:process=":xg_service_v2">
+            <intent-filter android:priority="0x7fffffff">
                 <!-- 【必须】 信鸽SDK的内部广播 -->
                 <action android:name="com.tencent.android.tpush.action.SDK" />
                 <action android:name="com.tencent.android.tpush.action.INTERNAL_PUSH_MESSAGE" />
@@ -143,7 +127,7 @@
         <!-- 【注意】 如果被打开的activity是启动模式为SingleTop，SingleTask或SingleInstance，请根据通知的异常自查列表第8点处理 -->
         <activity
             android:name="com.tencent.android.tpush.XGPushActivity"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
 
                 <!-- 若使用AndroidStudio，请设置android:name="android.intent.action" -->
@@ -161,7 +145,7 @@
         <!-- 【必须】 通知service，此选项有助于提高抵达率 -->
         <service
             android:name="com.tencent.android.tpush.rpc.XGRemoteService"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.example.user.ddkd.PUSH_ACTION" />
             </intent-filter>
@@ -177,7 +161,7 @@
             android:value="AD3V1GY86X1M" />
         <!-- APP实现的Receiver，用于接收消息和结果反馈 -->
         <!-- com.tencent.android.xgpushdemo.CustomPushReceiver需要改为自己的Receiver -->
-        <receiver android:name=".XinGe.MyXGPushBaseReceiver" >
+        <receiver android:name=".XinGe.MyXGPushBaseReceiver">
             <intent-filter>
 
                 <!-- 接收消息透传 -->
@@ -200,17 +184,18 @@
         <meta-data
             android:name="BaiduMobAd_EXCEPTION_LOG"
             android:value="false" />
-
         <service
             android:name=".service.JieDanService"
             android:enabled="true"
-            android:exported="true" />
-
+            android:exported="true"></service>
         <activity
             android:name=".WelcomeActivity"
             android:launchMode="singleTask" />
         <activity android:name=".MainActivity_Newforget" >
         </activity>
-    </application>
+        <!--AutoLayout：声明适配的标准版-->
+        <meta-data android:name="design_width" android:value="768"></meta-data>
+        <meta-data android:name="design_height" android:value="1280"></meta-data>
 
+    </application>
 </manifest>

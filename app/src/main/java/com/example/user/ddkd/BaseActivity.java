@@ -1,16 +1,15 @@
 package com.example.user.ddkd;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
-
 import com.baidu.mobstat.StatService;
+import com.zhy.autolayout.AutoLayoutActivity;
 
 /**
  * Created by User on 2016-05-18.
  */
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends AutoLayoutActivity {
 
     protected boolean addStack(){
         return false;

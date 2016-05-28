@@ -78,6 +78,9 @@
     </style>
     <style name="head_button_back" parent="AppTheme">
         <item name="android:padding">20dp</item>
+        <item name="android:layout_width">30dip</item>
+        <item name="android:layout_height">30dip</item>
+        <item name="android:layout_marginLeft">5dip</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:background">@drawable/head_fanghui</item>
         <item name="android:clickable">true</item>
@@ -137,6 +140,36 @@
 
     <style name="Theme.ZhiHu" parent="AppTheme">
         <!--在Android 4.4之前的版本上运行，直接跟随系统主题-->
+    </style>
+    
+    <style name="problem_item1" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:layout_height">200px</item>
+        <item name="android:background">@drawable/problem_click</item>
+        <item name="android:layout_marginBottom">3px</item>
+        <item name="android:layout_marginRight">3px</item>
+    </style>
+    
+    <style name="problem_item2" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="problem_text" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">6px</item>
+        <item name="android:textSize">30px</item>
+    </style>
+    <style name="problem_image" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
+        <item name="android:layout_width">110px</item>
+        <item name="android:layout_height">110px</item>
+        <item name="android:layout_marginTop">4dip</item>
     </style>
 
     <!--<style name="Theme.ToolBar.ZhiHu" parent="Theme.AppCompat.Light.NoActionBar">-->

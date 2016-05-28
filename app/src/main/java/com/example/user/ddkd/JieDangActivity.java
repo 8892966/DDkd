@@ -63,16 +63,10 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
     private TextView but_jiedang;
     //今天的接单数
     private TextView tv_xiuxi_huodong_now_number;
-    //星星的评分
-//    private TextView tv_star;
     //接单的总单数
     private TextView tv_sum_number;
-    //昨天接单的总单数
-//    private TextView tv_xiuxi_huodong_yesterday_number;
     //昨天的营业额
     private TextView tv_xiuxi_huodong_yesterday_money;
-    //星星图型评分
-//    private RatingBar pb_star;
 
     private boolean sreviceisrunning;
 
@@ -182,7 +176,7 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected boolean addStack() {
-        return true;
+        return false;
     }
 
     @Override
@@ -193,7 +187,6 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
         slidingUtil= (SlidingUtil) findViewById(R.id.it_menu);
         userInfoUtils=new UserInfoUtils(slidingUtil,JieDangActivity.this);
         initSound();//初始化声音数据
-//        volley_MSG_GET();//获取页面信息
         list = new ArrayList<QOrderInfo>();
         list_GD=new ArrayList<QOrderInfo>();
         textView = (TextView) findViewById(R.id.personinfo);
@@ -204,10 +197,7 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
         tv_to_dingdang = (TextView) findViewById(R.id.tv_to_dingdang);
         but_jiedang = (TextView) findViewById(R.id.but_jiedang);
         tv_xiuxi_huodong_now_number = (TextView) findViewById(R.id.tv_xiuxi_huodong_now_number);
-//        pb_star = (RatingBar) findViewById(R.id.pb_star);
-//        tv_star = (TextView) findViewById(R.id.tv_star);
         tv_sum_number = (TextView) findViewById(R.id.tv_sum_number);
-//        tv_xiuxi_huodong_yesterday_number = (TextView) findViewById(R.id.tv_xiuxi_huodong_yesterday_number);
         tv_xiuxi_huodong_yesterday_money = (TextView) findViewById(R.id.tv_xiuxi_huodong_yesterday_money);
 
         ll_ddzhinang.setOnClickListener(this);
@@ -252,13 +242,10 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
             edit.commit();
             GDshuju=true;
         }
-
     }
 
     private void initSound() {
         sp = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
-        //第三个参数暂时无用
-        //加载声音至声音池
         soundid=sp.load(this, R.raw.ddkd, 1);
     }
     private void play(){//声音开始
@@ -295,14 +282,10 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
                     startActivity(intent);
                     break;
                 case R.id.but_jiedang:
-//                    SharedPreferences sharedPreferences=getSharedPreferences("config",MODE_PRIVATE);
                     if (!sreviceisrunning) {
-//                        sharedPreferences.edit().putBoolean(MyApplication.TD,true).commit();//听单
                         listView.getEmptyView().setVisibility(View.VISIBLE);
                         sreviceisrunning = true;
-//                  preferences=getSharedPreferences("config", MODE_PRIVATE);
                         listView.setVisibility(View.VISIBLE);
-//                    but_jiedang.setText("休息");
                         but_jiedang.setBackgroundResource(R.drawable.kaiguanann);
                         jieDanServiceIntent = new Intent(getApplicationContext(), JieDanService.class);
                         startService(jieDanServiceIntent);
@@ -310,24 +293,18 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
                         myBaseAdapter.notifyDataSetChanged();
                         getGDorder();
                     } else {
-//                        sharedPreferences.edit().putBoolean(MyApplication.TD,false).commit();//听单
                         MyApplication.getQueue().cancelAll("volley_GDMSG_GET_UTILS");
                         listView.getEmptyView().setVisibility(View.GONE);
                         sreviceisrunning = false;
                         unbindService(sc);
                         jieDanServiceIntent = new Intent(getApplicationContext(), JieDanService.class);
                         stopService(jieDanServiceIntent);
-//                  preferences=getSharedPreferences("config", MODE_PRIVATE);
                         listView.setVisibility(View.GONE);
-//                    but_jiedang.setText("听单");
                         but_jiedang.setBackgroundResource(R.drawable.kaiguan);
                     }
                     break;
                 case R.id.personinfo://进入用户信息界面
-//                    intent = new Intent(this, MainActivity_main.class);
-//                    startActivity(intent);
                     slidingUtil.changeMenu();
-//                    overridePendingTransition(R.anim.in_toright, R.anim.out_toleft);
                     break;
             }
         }catch (Exception e){
@@ -427,9 +404,6 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
                     }
                     viewInfo.tv_qiangdan_button.setOnClickListener(new QDonClickListener(qOrderInfo, viewInfo.tv_qiangdan_button));
                 }
-//                int e=times.get(position);
-//                TimeCountUtil timeCountUtil=new TimeCountUtil(20*1000,1000,viewInfo.tv_qiangdan_button);
-//                timeCountUtil.start();
                 return view;
             }catch (Exception e){
                 Log.e("Exception", e.getMessage());
@@ -482,7 +456,6 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
                     gdOrderUtil.volley_QDGD_GET(qOrderInfo.getOrderid(), JieDangActivity.this, handler3);
                     list.remove(qOrderInfo);
                     myBaseAdapter.notifyDataSetChanged();
-//                  volley_QD_GET(id, button, qOrderInfo);
                 }catch (Exception e){
                     Log.e("Exception", e.getMessage());
                     Toast.makeText(JieDangActivity.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
@@ -505,28 +478,17 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
     protected void onResume() {
         try {
             volley_MSG_GET();//获取信息
-//            StatService.onResume(this);
             if(list!=null) {
                 list.clear();
                 if(list_GD!=null) {
                     list.addAll(0, list_GD);
                 }
             }
-//            SharedPreferences sharedPreferences = getSharedPreferences("qtmsg", MODE_PRIVATE);
-
-//        Log.e("JieDangActivity", getIntent().getBooleanExtra("info", false) + "");
-
             if (getIntent().getBooleanExtra("info", false)) {
-//            Log.e("onResume","1111111111111111111111");
                 jieDanServiceIntent = new Intent(JieDangActivity.this, JieDanService.class);
                 startService(jieDanServiceIntent);
-//            bindService(jieDanServiceIntent,sc,BIND_AUTO_CREATE);
             }
             sreviceisrunning = ServiceUtils.isRunning(this, "com.example.user.ddkd.service.JieDanService");
-            Log.e("isRunning", sreviceisrunning + "");
-//            if (list != null) {
-////            list.clear();
-//            }
             if (sreviceisrunning) {
                 listView.setVisibility(View.VISIBLE);
                 but_jiedang.setBackgroundResource(R.drawable.kaiguanann);
@@ -535,13 +497,13 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
                 bindService(jieDanServiceIntent, sc, BIND_AUTO_CREATE);
                 getGDorder();
             } else {
+                listView.setVisibility(View.GONE);
                 listView.getEmptyView().setVisibility(View.GONE);
             }
             SharedPreferences sharedPreferences1=getSharedPreferences("config", MODE_PRIVATE);
             sharedPreferences1.edit().putBoolean("isjieDangActivityrunn", true).commit();
             super.onResume();
         }catch (Exception e){
-            Log.e("Exception", e.getMessage());
             Toast.makeText(JieDangActivity.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
         }
     }
@@ -550,14 +512,16 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
     protected void onPause() {
         super.onPause();
         try {
+            handler1.removeCallbacksAndMessages(null);
+            handler2.removeCallbacksAndMessages(null);
+            handler3.removeCallbacksAndMessages(null);
+            handler4.removeCallbacksAndMessages(null);
             SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
             sharedPreferences.edit().putBoolean("isjieDangActivityrunn",false).commit();
-//        Log.e("onPause","2222222222222222");
             if (sreviceisrunning) {
                 unbindService(sc);
             }
         }catch (Exception e){
-//            Log.e("Exception", e.getMessage());
             Toast.makeText(JieDangActivity.this,"信息有误",Toast.LENGTH_SHORT).show();
         }
     }
@@ -567,15 +531,14 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
         super.onDestroy();
         try {
             sp.release();
-//            StatService.onPause(this);
             MyApplication.getQueue().cancelAll("volley_GDMSG_GET_UTILS");
             MyApplication.getQueue().cancelAll("volley_MSG_GET");
             MyApplication.getQueue().cancelAll("volley_QD_GET");
         }catch (Exception e){
-//            Log.e("Exception", e.getMessage());
             Toast.makeText(JieDangActivity.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
         }
     }
+
     //绑定服务
     private ServiceConnection sc = new ServiceConnection() {
         @Override
@@ -583,13 +546,11 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
             try {
                 jdBinder = (JieDanService.JDBinder) service;
                 jdBinder.SendIJD(new JieDanService.IJD() {
-
                     @Override
                     public void Delete(List list) {
                         JieDangActivity.this.list.removeAll(list);
                         myBaseAdapter.notifyDataSetChanged();//刷新数据
                     }
-
                     @Override
                     public void Add(List list) {
                         JieDangActivity.this.list.addAll(0,list);
@@ -597,7 +558,6 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
                         play();
                     }
                 });
-
                 list = jdBinder.getMsg();
                 Gson gson = new Gson();
                 SharedPreferences sharedPreferences = getSharedPreferences("qtmsg", MODE_PRIVATE);
@@ -609,10 +569,8 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
                     list.addAll(0,QTli);
                     jdBinder.setMsg(QTli);
                 }
-
                 myBaseAdapter.notifyDataSetChanged();
             }catch (Exception e){
-//                Log.e("Exception", e.getMessage());
                 Toast.makeText(JieDangActivity.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
             }
         }
@@ -621,6 +579,7 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
 
         }
     };
+
     //网络申请获取主页面信息
     private void volley_MSG_GET(){
         preferences = getSharedPreferences("config", MODE_PRIVATE);
@@ -665,7 +624,7 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
 
             @Override
             public void yidiensdfsdf() {
-                Toast.makeText(JieDangActivity.this, "您的账号在其他地方被登陆，请在此登陆", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "您的账号在其他地方被登陆，请在此登陆", Toast.LENGTH_SHORT).show();
                 Exit.exit(JieDangActivity.this);
             }
 
@@ -684,7 +643,6 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
         preferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = preferences.getString("token", "");
         String XGtoken = preferences.getString("XGtoken", "");
-//        Log.e("volley_QD_GET", XGtoken);
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/RobOrder/orderId/" + id + "/token/" + token + "/deviceId/" + XGtoken;
         StringRequest request_post = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
@@ -703,7 +661,6 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
 
             @Override
             public void tokenouttime() {
-                Log.e("volley_QD_GET", "token过时了");
                 Object[] obj = {id, button, qOrderInfo};
                 AutologonUtil autologonUtil = new AutologonUtil(JieDangActivity.this, handler2, obj);
                 autologonUtil.volley_Get_TOKEN();
@@ -730,12 +687,8 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
         System.arraycopy(djtime, 1, djtime, 0, djtime.length - 1);
         djtime[djtime.length - 1] = SystemClock.uptimeMillis();
         if (djtime[0] >= (SystemClock.uptimeMillis() - 1000)){
-//                super.onBackPressed();
-//            Intent i= new Intent(Intent.ACTION_MAIN);
-//            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            i.addCategory(Intent.CATEGORY_HOME);
-//            startActivity();
             ExitApplication.getInstance().exit();
+            finish();
         } else {
             Toast.makeText(this, "再按一次返回键退出应用", Toast.LENGTH_SHORT).show();
         }
@@ -789,7 +742,6 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
                     break;
             }
         }catch (Exception e){
-            Log.e("Exception", e.getMessage()+"");
             Toast.makeText(JieDangActivity.this,"信息有误",Toast.LENGTH_SHORT).show();
         }
     }
@@ -800,7 +752,6 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
             gdOrderUtil.volley_GDMSG_GET_UTILS(this,handler4);
             handler1.sendEmptyMessageDelayed(GDSX,10*60*1000);
         }catch (Exception e){
-//            Log.e("Exception", e.getMessage());
             Toast.makeText(JieDangActivity.this,"信息有误",Toast.LENGTH_SHORT).show();
         }
     }

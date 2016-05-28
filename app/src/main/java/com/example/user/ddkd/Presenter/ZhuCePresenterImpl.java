@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Created by User on 2016-05-20.
  */
-public class ZhuCePresenterImpl implements IZhuCePresenter, ZhuCeAndForgetModelImpl.SSubmitPicturesListener {
+public class ZhuCePresenterImpl implements IZhuCePresenter, ZhuCeAndForgetModelImpl.SSubmitPicturesListener,ZhuCeAndForgetModelImpl.phoExistListener {
     private static ZhuCePresenterImpl zhuCePresenter;
     private IZhuCeView iZhuCeView;
     private IZhuCeAndForgetModel iZhuCeModel;

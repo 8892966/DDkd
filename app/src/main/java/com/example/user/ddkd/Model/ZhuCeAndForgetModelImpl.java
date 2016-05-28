@@ -2,7 +2,6 @@ package com.example.user.ddkd.Model;
 
 import android.util.Log;
 import android.util.Xml;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -10,7 +9,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.user.ddkd.MyApplication;
-import com.example.user.ddkd.utils.UploadUtil1;
+import com.example.user.ddkd.utils.UploadUtilNew;
 import com.lidroid.xutils.http.RequestParams;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -61,7 +60,7 @@ public class ZhuCeAndForgetModelImpl implements IZhuCeAndForgetModel {
     }
 
     @Override
-    public void phoExist(String phone, final SSubmitPicturesListener sSubmitPicturesListener) {
+    public void phoExist(String phone, final phoExistListener sSubmitPicturesListener) {
             String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/phoExist/phone/" + phone;
 //        参数一：方法 参数二：地址 参数三：成功回调 参数四：错误回调 。重写getParams 以post参数
             StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
@@ -86,7 +85,7 @@ public class ZhuCeAndForgetModelImpl implements IZhuCeAndForgetModel {
     }
 
     @Override
-    public void modifyPsw(final ForgetListener forgetListener,String phone) {
+    public void modifyPsw(String phone,final ForgetListener forgetListener) {
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/modifyPsw/phone/"+phone;
         final StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
@@ -142,12 +141,56 @@ public class ZhuCeAndForgetModelImpl implements IZhuCeAndForgetModel {
     }
 
     @Override
+    public void UpdatePsw(final String phone, final String password, final String verify, final ForgetListener forgetListener) {
+        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/UpdatePsw";
+        StringRequest request_post = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                Log.e("onResponse",s);
+                if(s.equals("SUCCESS")){
+                    forgetListener.UpdatePswSuccess();
+//                    closeProgressDialog();
+//                    Toast.makeText(MainActivity_forget.this, "密码修改成功，请重新登录", Toast.LENGTH_SHORT).show();
+//                    Exit.exit(MainActivity_forget.this);
+                }else if(s.equals("verify ERROR")){
+                    forgetListener.verify_ERROR();
+//                    closeProgressDialog();
+//                    Toast.makeText(MainActivity_forget.this,"密码修改失败，验证码错误",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    forgetListener.UpdatePswError();
+//                    closeProgressDialog();
+//                    Toast.makeText(MainActivity_forget.this,"密码修改失败，原密码与新密码相同",Toast.LENGTH_SHORT).show();
+                }
+            }
+        },new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                forgetListener.onErrorResponse();
+//                closeProgressDialog();
+//                Toast.makeText(MainActivity_forget.this,"网络连接中断",Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap<>();
+                map.put("phone",phone);
+                map.put("newpsw",password);
+                map.put("verify",verify);
+                return map;
+            }
+        };
+        request_post.setTag("volley_XGMM_GET");
+        MyApplication.getQueue().add(request_post);
+    }
+
+    @Override
     public void SubmitPictures(String name,String phone,File file,SSubmitPicturesListener sSubmitPicturesListener) {
         RequestParams requestParams = new RequestParams();
         requestParams.addBodyParameter("name", name);
         requestParams.addBodyParameter("phone", phone);
         requestParams.addBodyParameter("file", file);
-        new UploadUtil1().uploadMethod(requestParams, "http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage",sSubmitPicturesListener);
+        new UploadUtilNew().uploadMethod(requestParams, "http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage",sSubmitPicturesListener);
     }
 
 
@@ -176,6 +219,10 @@ public class ZhuCeAndForgetModelImpl implements IZhuCeAndForgetModel {
 
         void ErrorListener();
 
+
+    }
+    public interface phoExistListener{
+
         void phoExist();
 
         void phoisExist();
@@ -183,8 +230,8 @@ public class ZhuCeAndForgetModelImpl implements IZhuCeAndForgetModel {
         void phoNotExist();
 
         void phoExistonErrorResponse();
-
     }
+
     public interface ForgetListener{
         void Error();
         void Phone_No_Exists();
@@ -192,5 +239,8 @@ public class ZhuCeAndForgetModelImpl implements IZhuCeAndForgetModel {
         void Out_Of_Range();
         void Failure();
         void onErrorResponse();
+        void UpdatePswSuccess();
+        void verify_ERROR();
+        void UpdatePswError();
     }
 }

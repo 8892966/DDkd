@@ -124,6 +124,16 @@ public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
                     message.what = MyApplication.XG_TEXT_USERCANCEL;
                     handler.sendMessage(message);
                 } else {
+//                    if(xgPushTextMessage.getTitle().equals("GD")){
+//                        String s = xgPushTextMessage.getContent();
+//                        Gson gson = new Gson();
+//                        QOrderInfo info = gson.fromJson(s, QOrderInfo.class);
+//                        Handler handler = MyApplication.getHandler();
+//                        Message message = new Message();
+//                        message.obj = info;
+//                        message.what = MyApplication.XG_TEXT_GD;
+//                        handler.sendMessage(message);
+//                    }
                     String s = xgPushTextMessage.getContent();
                     Gson gson = new Gson();
                     QOrderInfo info = gson.fromJson(s, QOrderInfo.class);

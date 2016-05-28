@@ -9,6 +9,7 @@ import java.util.Map;
 public interface IZhuCeAndForgetModel {
     void SubmitPictures(String name, String phone, File file, ZhuCeAndForgetModelImpl.SSubmitPicturesListener sSubmitPicturesListener);
     void SubmitData(Map<String, String> map, ZhuCeAndForgetModelImpl.SSubmitPicturesListener sSubmitPicturesListener);
-    void phoExist(String phone,ZhuCeAndForgetModelImpl.SSubmitPicturesListener sSubmitPicturesListener);//判断用户是否已注册
-    void modifyPsw(final ZhuCeAndForgetModelImpl.ForgetListener forgetListener,String phone);//获取验证码
+    void phoExist(String phone,ZhuCeAndForgetModelImpl.phoExistListener sSubmitPicturesListener);//判断用户是否已注册
+    void modifyPsw(String phone,ZhuCeAndForgetModelImpl.ForgetListener forgetListener);//获取验证码
+    void UpdatePsw(String phone,String password,String verify,ZhuCeAndForgetModelImpl.ForgetListener forgetListener);
 }

@@ -43,6 +43,15 @@ public class JieDanService extends Service {
             super.handleMessage(msg);
             try {
                 switch (msg.what) {
+                    case MyApplication.XG_TEXT_GD:
+                        am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+                        List<ActivityManager.RunningTaskInfo> infos = am.getRunningTasks(100);
+                        if ("com.example.user.ddkd.JieDangActivity".equals(infos.get(0).topActivity.getClassName())) {
+                            List l=new ArrayList();
+                            l.add(msg.obj);
+                            ijd.Add(l);
+                        }
+                        break;
                     case MyApplication.XG_TEXT_USERCANCEL:
                         USERCANCEL(msg.arg1);
                         break;
@@ -92,7 +101,7 @@ public class JieDanService extends Service {
                                 builder.setTicker("有快递单抢啦！");
                                 builder.setContentText("有" + o[o.length - 1].size() + "个快递单单可以抢！");
                                 Intent notificationIntent = new Intent(JieDanService.this, JieDangActivity.class);
-//                          notificationIntent.putExtra("msg","FROM_QT");//标志强推信息
+//                              notificationIntent.putExtra("msg","FROM_QT");//标志强推信息
                                 PendingIntent contentIntent = PendingIntent.getActivity(JieDanService.this, 0, notificationIntent, 0);
                                 builder.setContentIntent(contentIntent);
                                 builder.setSmallIcon(R.mipmap.headimage);
@@ -155,7 +164,7 @@ public class JieDanService extends Service {
         Log.e("JieDanService",this.toString());
         super.onCreate();
         o = new List[30];
-        b=true;
+        b = true;
         MyApplication.setHandler(handler1);
         handler2.sendEmptyMessageDelayed(2,1000);
     }
@@ -175,11 +184,9 @@ public class JieDanService extends Service {
         public void setMsg(List<QOrderInfo> msg){
             try {
                 for (QOrderInfo q : msg) {
-//                    Log.e("setMsg", q.getOrderTime() + "");
                     long time = System.currentTimeMillis() - Long.valueOf(q.getOrderTime());
                     int t = (int) ((30 * 1000 - time)) / 1000;
                     if (t > 0) {
-//                        Log.e("setMsg", t + "");
                         if (o[t] == null) {
                             o[t] = new ArrayList<>();
                         }

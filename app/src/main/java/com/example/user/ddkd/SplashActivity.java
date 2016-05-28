@@ -93,23 +93,16 @@ public class SplashActivity extends BaseActivity {
     };
     private Builder builder;
 
-//    @Override
-//    protected boolean addStack() {
-//        return false;
-//    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
         try {
-            setContentView(R.layout.activity_splash);
-            StatService.setLogSenderDelayed(10);
-            StatService.setSendLogStrategy(this, SendStrategyEnum.APP_START,
-                    1, false);
-            StatService.setSessionTimeOut(0);
-//            ExitApplication.getInstance().addActivity(this);
-
             if (MyApplication.state == 0) {
+                setContentView(R.layout.activity_splash);
+                StatService.setLogSenderDelayed(10);
+                StatService.setSendLogStrategy(this, SendStrategyEnum.APP_START,
+                        1, false);
+                StatService.setSessionTimeOut(0);
                 tv = (TextView) findViewById(R.id.tv_splash_verson);
                 tv.setText("版本号:" + getVersonName());
                 preferences = getSharedPreferences("config", MODE_PRIVATE);

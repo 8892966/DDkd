@@ -52,8 +52,7 @@ public class MainActivity_login extends BaseActivity implements View.OnClickList
     }
 
     public void onCreate(Bundle savedInstanceState) {
-//        try {
-
+        try {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.layout_login);
             button = (TextView) findViewById(R.id.login);
@@ -62,7 +61,6 @@ public class MainActivity_login extends BaseActivity implements View.OnClickList
             insert = (TextView) findViewById(R.id.insert);
             forget = (TextView) findViewById(R.id.forget);
             rembpwd = (CheckBox) findViewById(R.id.rembpwd);
-
             SharedPreferences preferences01 = getSharedPreferences("config", MODE_PRIVATE);
             int i=preferences01.getInt("checkstatic",0);
             if(i==1){
@@ -73,67 +71,28 @@ public class MainActivity_login extends BaseActivity implements View.OnClickList
             insert.setOnClickListener(this);
             forget.setOnClickListener(this);
             ExitApplication.getInstance().addActivity(this);
-
             //**********点击图标判断当前是否为登录状态**********
             SharedPreferences loginstatic = getSharedPreferences("config", MODE_PRIVATE);
             String nowLoginstatic = loginstatic.getString("loginstatic", "");
             if (nowLoginstatic.equals("1")) {
-                // 开启logcat输出，方便debug，发布时请关闭
-//            XGPushConfig.enableDebug(MainActivity_login.this, true);
-                // 如果需要知道注册是否成功，请使用registerPush(getApplicationContxt(), XGIOperateCallback)带callback版本
-                // 如果需要绑定账号，请使用registerPush(getApplicationContext(),account)版本
-                // 具体可参考详细的开发指南
-                // 传递的参数为ApplicationContext
-//            Context context = getApplicationContext();
-                XGPushManager.registerPush(MainActivity_login.this, new XGIOperateCallback() {
-                    @Override
-                    public void onSuccess(Object data, int flag) {
-                        Log.d("TPush", "注册成功，设备token为：" + data);
-//                      Toast.makeText(MainActivity_login.this,"信鸽注册成功",Toast.LENGTH_SHORT).show();
-                        SharedPreferences preferences = getSharedPreferences("config", MODE_PRIVATE);
-                        SharedPreferences.Editor edit = preferences.edit();
-                        edit.putString("XGtoken", (String) data);
-                        edit.commit();
-                    }
-                    @Override
-                    public void onFail(Object data, int errCode, String msg) {
-//                    Toast.makeText(MainActivity_login.this,"信鸽注册失败",Toast.LENGTH_SHORT).show();
-                        Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
-                    }
-                });
                 Intent intent = new Intent(MainActivity_login.this, JieDangActivity.class);
                 startActivity(intent);
                 finish();
                 MyApplication.state = 1;
             }
-//        }catch (Exception e){
-//            Log.e("Exception", e.getMessage());
-//            Toast.makeText(MainActivity_login.this,"信息有误",Toast.LENGTH_SHORT).show();
-//        }
-
+        }catch (Exception e){
+            Log.e("Exception", e.getMessage());
+            Toast.makeText(MainActivity_login.this,"信息有误",Toast.LENGTH_SHORT).show();
+        }
     }
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        StatService.onResume(this);
-//    }
-//
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        StatService.onPause(this);
-//    }
-
     public void volley_Get(final String userid, final String password) {
 //        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/login?phone=" + userid + "&password=" + password;
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/login";
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("Get_login", s);
+//                Log.e("Get_login", s);
                 try {
-//                closeProgressDialog();//*****关闭加载提示框*****
                     if ("WAIT PASS".equals(s)) {
                         closeProgressDialog();
                         Toast.makeText(MainActivity_login.this, "正在审核中，请耐心等候...", Toast.LENGTH_SHORT).show();
@@ -144,16 +103,7 @@ public class MainActivity_login extends BaseActivity implements View.OnClickList
                         SharedPreferences.Editor edit = sharedPreferences.edit();
                         edit.putString("token", s);
                         //****************保存登录状态，0为离线状态，1为在线状态************************
-//                    edit.putString("loginstatic", "1");
-//                    MyApplication.state = 1;
                         edit.commit();
-                        // 开启logcat输出，方便debug，发布时请关闭
-                        //XGPushConfig.enableDebug(MainActivity_login.this, true);
-                        // 如果需要知道注册是否成功，请使用registerPush(getApplicationContxt(), XGIOperateCallback)带callback版本
-                        // 如果需要绑定账号，请使用registerPush(getApplicationContext(),account)版本
-                        // 具体可参考详细的开发指南
-                        // 传递的参数为ApplicationContext
-//                    Context context = getApplicationContext();
                         XGPushManager.registerPush(MainActivity_login.this, new XGIOperateCallback() {
                             @Override
                             public void onSuccess(Object data, int flag) {
@@ -164,11 +114,9 @@ public class MainActivity_login extends BaseActivity implements View.OnClickList
                                 edit.putString("XGtoken", (String) data);
                                 edit.putString("loginstatic", "1");
                                 MyApplication.state = 1;
-//                                Log.e("MainActivity_login",MyApplication.state+"");
                                 edit.commit();
                                 Intent intent = new Intent(MainActivity_login.this, JieDangActivity.class);
                                 startActivity(intent);
-
                                 finish();
                                 closeProgressDialog();
                             }
@@ -180,16 +128,11 @@ public class MainActivity_login extends BaseActivity implements View.OnClickList
                         });
                         volley_Get_Image();
                         volley_Get_userInfo();
-//                    closeProgressDialog();
-//                    Intent intent = new Intent(MainActivity_login.this, JieDangActivity.class);
-//                    startActivity(intent);
-//                    finish();
                     } else {
                         closeProgressDialog();
                         Toast.makeText(MainActivity_login.this, "您的信息有误", Toast.LENGTH_SHORT).show();
                     }
                 }catch (Exception e){
-                    Log.e("Exception", e.getMessage());
                     Toast.makeText(MainActivity_login.this,"信息有误",Toast.LENGTH_SHORT).show();
                 }
             }
@@ -198,7 +141,6 @@ public class MainActivity_login extends BaseActivity implements View.OnClickList
             public void onErrorResponse(VolleyError volleyError) {
                 closeProgressDialog();
                 Toast.makeText(MainActivity_login.this, "网络连接中断", Toast.LENGTH_SHORT).show();
-                Log.e("onErrorResponse", "onErrorResponse");
             }
         }){
             @Override
@@ -232,7 +174,6 @@ public class MainActivity_login extends BaseActivity implements View.OnClickList
                     editor.putInt("checkstatic",1);
                     editor.putString("phone1",phone);
                     editor.putString("password1", password);
-//                    Log.i("save","保存成功");
                 }else{
                     editor.putInt("checkstatic",0);
                 }
@@ -268,7 +209,6 @@ public class MainActivity_login extends BaseActivity implements View.OnClickList
         }
         progressDialog.show();
     }
-
     private void closeProgressDialog() {
         if (progressDialog != null) {
             progressDialog.dismiss();
@@ -305,7 +245,6 @@ public class MainActivity_login extends BaseActivity implements View.OnClickList
         request_post.setTag("volley_phoExist_GET");
         MyApplication.getQueue().add(request_post);
     }
-
     //**********获得用户头像的路径***********
     public void volley_Get_Image() {
         try {
@@ -375,5 +314,13 @@ public class MainActivity_login extends BaseActivity implements View.OnClickList
             Log.e("Exception", e.getMessage());
             Toast.makeText(MainActivity_login.this,"信息有误",Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MyApplication.getQueue().cancelAll("volley_Get_userInfo");
+        MyApplication.getQueue().cancelAll("volley_Get_Image_login");
+        MyApplication.getQueue().cancelAll("volley_phoExist_GET");
     }
 }

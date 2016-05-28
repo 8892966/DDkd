@@ -1,10 +1,7 @@
 package com.example.user.ddkd;
 
 import android.app.ProgressDialog;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -22,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.user.ddkd.utils.ImageFactory;
-import com.example.user.ddkd.utils.UploadUtil1;
+import com.example.user.ddkd.utils.UploadUtilNew;
 
 import java.io.File;
 
@@ -135,7 +132,7 @@ public class ZhuCe4Fragment extends Fragment implements View.OnClickListener {
                 final Uri data1 = data.getData();
                 String path = getRealFilePath(getActivity(), data1);
                 BitmapFactory.Options options = new BitmapFactory.Options();
-                Bitmap cameraBitmap = UploadUtil1.getBitmap(path, options, iv_zhuce4_zhaopian1.getHeight(), iv_zhuce4_zhaopian1.getWidth());
+                Bitmap cameraBitmap = UploadUtilNew.getBitmap(path, options, iv_zhuce4_zhaopian1.getHeight(), iv_zhuce4_zhaopian1.getWidth());
                 if (cameraBitmap != null) {
                     iv_zhuce4_zhaopian1.setImageBitmap(cameraBitmap);
                     showProgressDialog1();
@@ -163,7 +160,7 @@ public class ZhuCe4Fragment extends Fragment implements View.OnClickListener {
 //                Log.e("onActivityResult", data1.getPath() + "...." + getRealFilePath(this, data1));
                 String path = getRealFilePath(getContext(), data1);
                 BitmapFactory.Options options = new BitmapFactory.Options();
-                Bitmap cameraBitmap = UploadUtil1.getBitmap(path, options, iv_zhuce4_zhaopian2.getHeight(), iv_zhuce4_zhaopian2.getWidth());
+                Bitmap cameraBitmap = UploadUtilNew.getBitmap(path, options, iv_zhuce4_zhaopian2.getHeight(), iv_zhuce4_zhaopian2.getWidth());
                 if (cameraBitmap != null) {
                     iv_zhuce4_zhaopian2.setImageBitmap(cameraBitmap);
                     showProgressDialog1();
@@ -191,7 +188,7 @@ public class ZhuCe4Fragment extends Fragment implements View.OnClickListener {
 //                Log.e("onActivityResult", data1.getPath() + "...." + getRealFilePath(this, data1));
                 String path = getRealFilePath(getContext(), data1);
                 BitmapFactory.Options options = new BitmapFactory.Options();
-                Bitmap cameraBitmap = UploadUtil1.getBitmap(path, options, iv_zhuce4_zhaopian3.getHeight(), iv_zhuce4_zhaopian3.getWidth());
+                Bitmap cameraBitmap = UploadUtilNew.getBitmap(path, options, iv_zhuce4_zhaopian3.getHeight(), iv_zhuce4_zhaopian3.getWidth());
                 if (cameraBitmap != null) {
                     iv_zhuce4_zhaopian3.setImageBitmap(cameraBitmap);
                     showProgressDialog1();

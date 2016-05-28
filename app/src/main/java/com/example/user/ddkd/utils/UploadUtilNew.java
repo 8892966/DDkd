@@ -12,7 +12,7 @@ import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 
-public class UploadUtil1 {
+public class UploadUtilNew {
 
     public void uploadMethod(final RequestParams params, final String uploadHost, final ZhuCeAndForgetModelImpl.SSubmitPicturesListener sSubmitPicturesListener) {
         try {
@@ -21,7 +21,6 @@ public class UploadUtil1 {
 
                 @Override
                 public void onStart() {
-//
                 }
 
                 @Override

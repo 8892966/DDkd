@@ -30,7 +30,7 @@ public abstract class GDOrderUtil {
         String token = preferences.getString("token", "");
         String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/RobBespeakOrder/orderId/"+id+"/token/" + token;
 //        Log.e("volley_OrderState_GET", url);
-        final StringRequest request_post = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
+        StringRequest request_post = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
                 try {

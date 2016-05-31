@@ -40,16 +40,18 @@ public class ExitApplication{
 
     // 遍历所有Activity并finish
     public void exit() {
-        int siz = activityList.size();
-        Activity[] activities= activityList.toArray(new Activity[siz]);
-        for(Activity a:activities){
-            if (a != null) {
-                Log.e("Activity:", a.toString());
-                a.finish();
+        if(activityList!=null) {
+            int siz = activityList.size();
+            Activity[] activities = activityList.toArray(new Activity[siz]);
+            for (Activity a : activities) {
+                if (a != null) {
+                    Log.e("Activity:", a.toString());
+                    a.finish();
+                }
             }
+            activityList.clear();
+            activityList = null;
         }
-        activityList.clear();
-        activityList=null;
 //        for (int i = 0; i < siz; i++) {
 //            if (activityList != null) {
 //                Log.e("Activity:", activityList.get(i).toString());

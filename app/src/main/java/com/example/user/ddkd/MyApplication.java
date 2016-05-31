@@ -16,14 +16,14 @@ public class MyApplication extends Application {
     public static final int GET_TOKEN_SUCCESS=2;
     public static final int GET_TOKEN_ERROR=3;
     public static final int XG_TEXT_USERCANCEL=4;
-    public static final int XG_TEXT_GD=5;
     public static int state = 0;//0为非登录状态，1为登录状态
+    public static final String url="http://www.louxiago.com/wc/ddkdtest/admin.php/";
 
     @Override
     public void onCreate() {
         super.onCreate();
         //腾讯统计分析
-        //StatService.registerActivityLifecycleCallbacks(this);
+//        StatService.registerActivityLifecycleCallbacks(this);
         requestQueue = Volley.newRequestQueue(this);
     }
     public static RequestQueue getQueue(){

@@ -115,7 +115,6 @@ public class DingDanNewActivity extends BaseActivity implements View.OnClickList
         addView1.addFooterView(textView);
         addView1.setAdapter(myAdapter1);
         myDingDanView.addView(view1);
-//        myAdapter1.getDropDownView()
 
         View view2=View.inflate(this,R.layout.dingdan_activity,null);
         addView2 = (ListView) view2.findViewById(R.id.lv_order_details);
@@ -134,7 +133,6 @@ public class DingDanNewActivity extends BaseActivity implements View.OnClickList
         addView3.setEmptyView(view3.findViewById(R.id.tv_default));
         myAdapter3 = new DingDanAdapter(this,list3,3,staticListener);
         addView3.addFooterView(textView);
-//        addView3
         addView3.setAdapter(myAdapter3);
         myDingDanView.addView(view3);
 
@@ -158,7 +156,6 @@ public class DingDanNewActivity extends BaseActivity implements View.OnClickList
                 }
             }
         });
-//        Log.e("DingDanNewActivity",myDingDanView.isFocusable()+"");
         AbsListView.OnScrollListener onScrollListener=new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -385,7 +382,7 @@ public class DingDanNewActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onChangeFailure(Exception e){
-    Log.e("Exception", e.getMessage()+"");
+//            Log.e("Exception", e.getMessage()+"");
     Toast.makeText(DingDanNewActivity.this, "信息有误", Toast.LENGTH_SHORT).show();
     }
 
@@ -449,6 +446,7 @@ public class DingDanNewActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        iDingDinPresenter=null;
         finish();
     }
 }

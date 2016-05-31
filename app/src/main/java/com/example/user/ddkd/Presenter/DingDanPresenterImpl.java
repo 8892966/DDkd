@@ -1,5 +1,6 @@
 package com.example.user.ddkd.Presenter;
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.widget.BaseAdapter;
 import android.widget.ProgressBar;
@@ -26,7 +27,7 @@ public class DingDanPresenterImpl extends BasePresenter implements IDingDanPrese
     private Map<String,OrderInfo> info;
     private Map<String,Integer> xuanzhe;
     public DingDanPresenterImpl(IDingDanView iDingDanView){
-        super(iDingDanView);
+        super((Activity) iDingDanView);
         iDingDinModel=new DingDanModelImpl();
         this.iDingDanView=iDingDanView;
         pb_button=new HashMap<>();

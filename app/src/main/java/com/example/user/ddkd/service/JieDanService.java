@@ -43,20 +43,10 @@ public class JieDanService extends Service {
             super.handleMessage(msg);
             try {
                 switch (msg.what) {
-                    case MyApplication.XG_TEXT_GD:
-                        am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-                        List<ActivityManager.RunningTaskInfo> infos = am.getRunningTasks(100);
-                        if ("com.example.user.ddkd.JieDangActivity".equals(infos.get(0).topActivity.getClassName())) {
-                            List l=new ArrayList();
-                            l.add(msg.obj);
-                            ijd.Add(l);
-                        }
-                        break;
                     case MyApplication.XG_TEXT_USERCANCEL:
                         USERCANCEL(msg.arg1);
                         break;
                     case MyApplication.XG_TEXT_MESSAGE:
-//                        Log.e("JieDanService", "添加数据");
                         if (o[o.length - 1] == null) {
                             o[o.length - 1] = new ArrayList<>();
                         }
@@ -110,13 +100,9 @@ public class JieDanService extends Service {
                                 notification.defaults |= Notification.DEFAULT_SOUND;
                                 nm.notify(R.mipmap.ic_launcher, notification);
                             }
-//                        int i = 0;
-//                        for (QOrderInfo xgp : o[o.length - 1]) {
-//                            Log.e("JieDanService", xgp.toString() + o.length + (i++));
-//                        }
-//                        Log.e("JieDanService", "显示了数据");
+
                         } else {
-//                        Log.e("JieDanService", "没有信鸽信息");
+
                         }
                         System.arraycopy(o, 1, o, 0, o.length - 1);
                         o[o.length - 1] = null;
@@ -136,7 +122,7 @@ public class JieDanService extends Service {
     }
     @Override
     public IBinder onBind(Intent intent) {
-//        throw new UnsupportedOperationException("Not yet implemented");
+
         return new JDBinder();
     }
 
@@ -194,7 +180,6 @@ public class JieDanService extends Service {
                     }
                 }
             }catch (Exception e){
-                Log.e("Exception", e.getMessage()+"");
                 Toast.makeText(JieDanService.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
             }
         }
@@ -208,7 +193,6 @@ public class JieDanService extends Service {
                 }
                 return s;
             }catch (Exception e){
-                Log.e("Exception", e.getMessage()+"");
                 Toast.makeText(JieDanService.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
             }
             return null;

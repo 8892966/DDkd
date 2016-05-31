@@ -105,6 +105,7 @@ public class DingDanModelImpl implements IDingDanModel {
         void onloadSuccess(List<OrderInfo> list, String url);
         void onloadFailure(String msg, Exception e, String url);
         void onloadErrorResponse(VolleyError volleyError, String url);
+
     }
 
     public interface OnChangeDingDinsListListener extends ITokenManage{
@@ -113,4 +114,5 @@ public class DingDanModelImpl implements IDingDanModel {
         void onChangeFailure(String msg, Exception e,String url);
         void onChangeErrorResponse(VolleyError volleyError, String url);
     }
+
 }

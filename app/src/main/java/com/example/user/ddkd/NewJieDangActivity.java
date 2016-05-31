@@ -7,14 +7,13 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.IBinder;
-import android.os.Message;
-import android.os.SystemClock;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -30,19 +29,22 @@ import com.example.user.ddkd.Presenter.JieDanPresenterImpl;
 import com.example.user.ddkd.View.IJieDanView;
 import com.example.user.ddkd.beam.MainMsgInfo;
 import com.example.user.ddkd.beam.QOrderInfo;
-import com.example.user.ddkd.service.XGReceiverService;
+import com.example.user.ddkd.service.JieDanService;
+import com.example.user.ddkd.utils.GDOrderUtil;
+import com.example.user.ddkd.utils.ServiceUtils;
 import com.example.user.ddkd.utils.SlidingUtil;
 import com.example.user.ddkd.utils.UserInfoUtils;
-import com.example.user.ddkd.utils.XGPushUtils;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
-public class JieDangActivity extends BaseActivity implements View.OnClickListener, IJieDanView {
+import static com.example.user.ddkd.ExitApplication.getInstance;
+
+public class NewJieDangActivity extends BaseActivity implements View.OnClickListener, IJieDanView {
+    private final static int GDSX = 11;//挂单刷新
     private TextView textView;
     private ListView listView;
     //DD指南的按钮
@@ -55,10 +57,13 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
     private TextView but_jiedang;
     //今天的接单数
     private TextView tv_xiuxi_huodong_now_number;
+
     //接单的总单数
     private TextView tv_sum_number;
     //昨天的营业额
     private TextView tv_xiuxi_huodong_yesterday_money;
+
+    private boolean sreviceisrunning;
 
     private List<QOrderInfo> list;//总数据
 
@@ -66,10 +71,10 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
     //接单的服务
     private Intent jieDanServiceIntent;
     //接单服务的中间人
-    private XGReceiverService.JDBinder jdBinder;
+    private JieDanService.JDBinder jdBinder;
     //适配器
     private MyBaseAdapter myBaseAdapter;
-
+    //获取后台token
     private SharedPreferences preferences;
     //播放短暂声音
     private SoundPool sp;
@@ -81,114 +86,62 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
     private ImageView xx3;
     private ImageView xx4;
     private ImageView xx5;
+    private GDOrderUtil gdOrderUtil;
     private SlidingUtil slidingUtil;
-    public boolean isTD = false;
-    private IJieDanPresenter iJieDanPresenter;
-    private QOrderDao qOrderDao;
     private UserInfoUtils userInfoUtils;
-
-    private Timer timer;
-    private TimerTask task;
-
-    private final static int Rob_SUCCESS=2;
-    private final static int Rob_ERROR=0;
-    private final static int ERROR=3;
-    private final static int SUCCESS=1;
-
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
-            //要做的事情
-            super.handleMessage(msg);
-            if(!isTD){
-                //结束循环计时
-                Log.e("JieDangActivity","结束循环计时");
-                Clean();
-            }else{
-                Log.e("JieDangActivity","访问了一次");
-                iJieDanPresenter.getBespeakOrder(getToken());
-            }
-        }
-    };
-
-    private void Clean() {
-        if(timer!=null) {
-            timer.cancel();
-            timer = null;
-        }
-        if(task!=null) {
-            task = null;
-        }
-    }
-
+    private GestureDetector detector;
+    private VelocityTracker vt;
+    public boolean GDshuju = false;
+    private IJieDanPresenter iJieDanPresenter;
     //绑定服务
     private ServiceConnection sc = new ServiceConnection() {
-
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             try {
-                jdBinder = (XGReceiverService.JDBinder) service;
-                jdBinder.SendIJD(new XGReceiverService.IJD() {
-
+                jdBinder = (JieDanService.JDBinder) service;
+                jdBinder.SendIJD(new JieDanService.IJD() {
                     @Override
-                    public void Delete(final QOrderInfo qOrderInfo) {
-                        //有可能不能删除
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                JieDangActivity.this.list.remove(qOrderInfo);
-                                myBaseAdapter.notifyDataSetChanged();//刷新数据
-                            }
-                        });
+                    public void Delete(List list) {
+                        NewJieDangActivity.this.list.removeAll(list);
+                        myBaseAdapter.notifyDataSetChanged();//刷新数据
                     }
-
                     @Override
-                    public void Add(final QOrderInfo qOrderInfo) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                JieDangActivity.this.list.add(qOrderInfo);
-                                myBaseAdapter.notifyDataSetChanged();//刷新数据
-                                play();
-                            }
-                        });
+                    public void Add(List list) {
+                        NewJieDangActivity.this.list.addAll(0, list);
+                        myBaseAdapter.notifyDataSetChanged();//刷新数据
+                        play();
                     }
-
-                    @Override
-                    public void showtoast(final String s) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getApplicationContext(),s, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-
                 });
+                list = jdBinder.getMsg();
+                QOrderDao qOrderDao=new QOrderDao(getApplicationContext());
+                List<String> ss=qOrderDao.query((System.currentTimeMillis() - 30 * 1000) + "");
+                if(ss!=null&&ss.size()!=0) {
+                    Gson gson = new Gson();
+                    List<QOrderInfo> QTli = new ArrayList<>();
+                    for (String s : ss) {
+                        QTli.add(gson.fromJson(s, QOrderInfo.class));
+                    }
+                    if (QTli != null) {
+                        list.addAll(QTli);
+                        jdBinder.setMsg(QTli);
+                    }
+                }
+                myBaseAdapter.notifyDataSetChanged();
             } catch (Exception e) {
-                Toast.makeText(JieDangActivity.this,"信息有误!!!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(NewJieDangActivity.this, "信息有误!!!", Toast.LENGTH_SHORT).show();
             }
         }
         @Override
         public void onServiceDisconnected(ComponentName name) {
         }
     };
-
-    @Override
-    protected boolean addStack() {
-        return true;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.jiedang_activity);
         iJieDanPresenter = new JieDanPresenterImpl(this);
-        qOrderDao = new QOrderDao(getApplicationContext());
         slidingUtil = (SlidingUtil) findViewById(R.id.it_menu);
-        userInfoUtils=new UserInfoUtils(slidingUtil,JieDangActivity.this);
-
+        userInfoUtils = new UserInfoUtils(slidingUtil, NewJieDangActivity.this);
         initSound();//初始化声音数据
         list = new ArrayList<QOrderInfo>();
         list_GD = new ArrayList<QOrderInfo>();
@@ -212,6 +165,7 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
         myBaseAdapter = new MyBaseAdapter();
         listView.setAdapter(myBaseAdapter);
         listView.setEmptyView(findViewById(R.id.tv_jiedang));
+        getInstance().addActivity(this);
 
         xx1 = (ImageView) findViewById(R.id.xx1);
         xx2 = (ImageView) findViewById(R.id.xx2);
@@ -219,17 +173,27 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
         xx4 = (ImageView) findViewById(R.id.xx4);
         xx5 = (ImageView) findViewById(R.id.xx5);
 
+        gdOrderUtil = new GDOrderUtil() {
+            @Override
+            public void getOrder(Object o) {
+                list.removeAll(list_GD);
+                list_GD = (List<QOrderInfo>) o;
+                list.addAll(list_GD);
+                myBaseAdapter.notifyDataSetChanged();
+            }
+        };
         //登陆初始化开始听单
-        preferences = getSharedPreferences("config", MODE_PRIVATE);
-        boolean bb = preferences.getBoolean("qiandan1", true);
-        boolean init = preferences.getBoolean("init", false);
-        if (bb||init) {
-            StartListen();//开始听单;
-            SharedPreferences.Editor edit = preferences.edit();
+        SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
+        boolean bb = sharedPreferences.getBoolean("qiandan1", true);
+        if (bb) {
+            jieDanServiceIntent = new Intent(getApplicationContext(), JieDanService.class);
+            startService(jieDanServiceIntent);
+            listView.setVisibility(View.VISIBLE);
+            but_jiedang.setBackgroundResource(R.drawable.kaiguanann);
+            SharedPreferences.Editor edit = sharedPreferences.edit();
             edit.putBoolean("qiandan1", false);
             edit.commit();
-        }else{
-            StopListen();
+            GDshuju = true;
         }
     }
 
@@ -240,13 +204,14 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
 
     private void play() {//声音开始
         try {
-            preferences = getSharedPreferences("config", MODE_PRIVATE);
-            boolean b = preferences.getBoolean("voice", true);
+            SharedPreferences spf = getSharedPreferences("config", MODE_PRIVATE);
+            boolean b = spf.getBoolean("voice", true);
             if (b) {
                 sp.play(soundid, 1.0f, 0.3f, 0, 0, 1);
             }
         } catch (Exception e) {
-            Toast.makeText(JieDangActivity.this, "信息有误!!!", Toast.LENGTH_SHORT).show();
+            Log.e("Exception", e.getMessage());
+            Toast.makeText(NewJieDangActivity.this, "信息有误!!!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -272,12 +237,26 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
                     startActivity(intent);
                     break;
                 case R.id.but_jiedang:
-                    if (!isTD) {
-                        StartListen();
-//                        iJieDanPresenter.getBespeakOrder(getToken());
+                    if (!sreviceisrunning) {
+                        listView.getEmptyView().setVisibility(View.VISIBLE);
+                        sreviceisrunning = true;
+                        listView.setVisibility(View.VISIBLE);
+                        but_jiedang.setBackgroundResource(R.drawable.kaiguanann);
+                        jieDanServiceIntent = new Intent(getApplicationContext(), JieDanService.class);
+                        startService(jieDanServiceIntent);
+                        bindService(jieDanServiceIntent, sc, BIND_AUTO_CREATE);
+                        myBaseAdapter.notifyDataSetChanged();
+                        iJieDanPresenter.getBespeakOrder(getToken());
+
                     } else {
                         MyApplication.getQueue().cancelAll("volley_GDMSG_GET_UTILS");
-                        StopListen();
+                        listView.getEmptyView().setVisibility(View.GONE);
+                        sreviceisrunning = false;
+                        unbindService(sc);
+                        jieDanServiceIntent = new Intent(getApplicationContext(), JieDanService.class);
+                        stopService(jieDanServiceIntent);
+                        listView.setVisibility(View.GONE);
+                        but_jiedang.setBackgroundResource(R.drawable.kaiguan);
                     }
                     break;
                 case R.id.personinfo://进入用户信息界面
@@ -285,15 +264,14 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
                     break;
             }
         } catch (Exception e) {
-            Toast.makeText(JieDangActivity.this, "信息有误!!!", Toast.LENGTH_SHORT).show();
+            Log.e("Exception", e.getMessage());
+            Toast.makeText(NewJieDangActivity.this, "信息有误!!!", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     protected void onResume() {
-        super.onResume();
         try {
-            bindXGService();//绑定信鸽广播服务
             iJieDanPresenter.CountOrder(getToken());
             if (list != null) {
                 list.clear();
@@ -301,22 +279,26 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
                     list.addAll(0, list_GD);
                 }
             }
-            preferences = getSharedPreferences("config", MODE_PRIVATE);
-            preferences.edit().putBoolean("isjieDangActivityrunn", true).commit();
+            if (getIntent().getBooleanExtra("info", false)) {
+                jieDanServiceIntent = new Intent(NewJieDangActivity.this, JieDanService.class);
+                startService(jieDanServiceIntent);
+            }
+            sreviceisrunning = ServiceUtils.isRunning(this, "com.example.user.ddkd.service.JieDanService");
+            if (sreviceisrunning) {
+                listView.setVisibility(View.VISIBLE);
+                but_jiedang.setBackgroundResource(R.drawable.kaiguanann);
+                //服务一开，绑定服务
+                jieDanServiceIntent = new Intent(NewJieDangActivity.this, JieDanService.class);
+                bindService(jieDanServiceIntent, sc, BIND_AUTO_CREATE);
+            } else {
+                listView.getEmptyView().setVisibility(View.GONE);
+            }
+            SharedPreferences sharedPreferences1 = getSharedPreferences("config", MODE_PRIVATE);
+            sharedPreferences1.edit().putBoolean("isjieDangActivityrunn", true).commit();
+            super.onResume();
         } catch (Exception e) {
-            Toast.makeText(JieDangActivity.this, "信息有误!!!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(NewJieDangActivity.this, "信息有误!!!", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Clean();
-        MyApplication.getQueue().cancelAll("volley_QDGD_GET");
-        MyApplication.getQueue().cancelAll("volley_GDMSG_GET_UTILS");
-        MyApplication.getQueue().cancelAll("volley_QD_GET");
-        MyApplication.getQueue().cancelAll("volley_MSG_GET");
-        iJieDanPresenter.RemoveView();
     }
 
     @NonNull
@@ -335,12 +317,13 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
     protected void onPause() {
         super.onPause();
         try {
-            preferences = getSharedPreferences("config", MODE_PRIVATE);
-            preferences.edit().putBoolean("isjieDangActivityrunn", false).commit();
-            jdBinder.DelIJD();
-            unbindService(sc);//解除绑定
+            SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
+            sharedPreferences.edit().putBoolean("isjieDangActivityrunn", false).commit();
+            if (sreviceisrunning) {
+                unbindService(sc);
+            }
         } catch (Exception e) {
-            Toast.makeText(JieDangActivity.this, "信息有误", Toast.LENGTH_SHORT).show();
+            Toast.makeText(NewJieDangActivity.this, "信息有误", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -393,13 +376,13 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
             }
         } catch (Exception e) {
             Log.e("Exception", e.getMessage() + "");
-            Toast.makeText(JieDangActivity.this, "信息有误", Toast.LENGTH_SHORT).show();
+            Toast.makeText(NewJieDangActivity.this, "信息有误", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void showToast(String content) {
-        Toast.makeText(JieDangActivity.this, content, Toast.LENGTH_SHORT).show();
+        Toast.makeText(NewJieDangActivity.this, content, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -426,7 +409,6 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void setGDListInfo(List<QOrderInfo> list) {
-        Log.e("JieDangActivity","d得到数据一次");
         this.list.removeAll(list_GD);
         list_GD = list;
         this.list.addAll(list_GD);
@@ -435,53 +417,42 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void setEndListAndItemViewState(int state,int position) {
-        switch (state){
-            case SUCCESS:
-                list.remove(position);
-                showToast("抢单成功");
-                break;
-            case ERROR:
-                list.remove(position);
-                showToast("抢单不成功");
-                break;
-            case Rob_ERROR:
-                if (list.size() > position) {
-                    list.get(position).setZhuantai(0);
-                }
-                if (listView != null) {
-                    int First = listView.getFirstVisiblePosition();
-                    int Last = listView.getLastVisiblePosition();
-                    if (position <= First && position >= Last) {
-                        View view = listView.getChildAt(position - First);
-                        if (view != null) {
-                            MyBaseAdapter.ViewInfo viewInfo = (MyBaseAdapter.ViewInfo) view.getTag();
-                            viewInfo.tv_qiangdan_button.setEnabled(true);
-                            viewInfo.tv_qiangdan_button.setTextColor(Color.BLACK);
-                            viewInfo.tv_qiangdan_button.setText("抢单");
-                        }
+        if(state==2) {
+            if (list.size() > position) {
+                list.get(position).setZhuantai(2);
+            }
+            if (listView != null) {
+                int First = listView.getFirstVisiblePosition();
+                int Last = listView.getLastVisiblePosition();
+                if (position <= First && position >= Last) {
+                    View view = listView.getChildAt(position - First);
+                    if (view != null) {
+                        MyBaseAdapter.ViewInfo viewInfo = (MyBaseAdapter.ViewInfo) view.getTag();
+                        viewInfo.tv_qiangdan_button.setEnabled(false);
+                        viewInfo.tv_qiangdan_button.setTextColor(Color.BLACK);
+                        viewInfo.tv_qiangdan_button.setText("已抢");
                     }
                 }
-                showToast("抢单不成功");
-                break;
-            case Rob_SUCCESS:
-                if (list.size() > position) {
-                    list.get(position).setZhuantai(2);
-                }
-                if (listView != null) {
-                    int First = listView.getFirstVisiblePosition();
-                    int Last = listView.getLastVisiblePosition();
-                    if (position <= First && position >= Last) {
-                        View view = listView.getChildAt(position - First);
-                        if (view != null) {
-                            MyBaseAdapter.ViewInfo viewInfo = (MyBaseAdapter.ViewInfo) view.getTag();
-                            viewInfo.tv_qiangdan_button.setEnabled(false);
-                            viewInfo.tv_qiangdan_button.setTextColor(Color.BLACK);
-                            viewInfo.tv_qiangdan_button.setText("已抢");
-                        }
+            }
+            showToast("请等待抢单信息");
+        }else{
+            if (list.size() > position) {
+                list.get(position).setZhuantai(0);
+            }
+            if (listView != null) {
+                int First = listView.getFirstVisiblePosition();
+                int Last = listView.getLastVisiblePosition();
+                if (position <= First && position >= Last) {
+                    View view = listView.getChildAt(position - First);
+                    if (view != null) {
+                        MyBaseAdapter.ViewInfo viewInfo = (MyBaseAdapter.ViewInfo) view.getTag();
+                        viewInfo.tv_qiangdan_button.setEnabled(true);
+                        viewInfo.tv_qiangdan_button.setTextColor(Color.BLACK);
+                        viewInfo.tv_qiangdan_button.setText("抢单");
                     }
                 }
-                showToast("请等待抢单信息");
-                break;
+            }
+            showToast("网络异常");
         }
     }
 
@@ -531,7 +502,7 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
                     viewInfo = (ViewInfo) convertView.getTag();
                 } else {
                     viewInfo = new ViewInfo();
-                    view = View.inflate(JieDangActivity.this, R.layout.dialog_view, null);
+                    view = View.inflate(NewJieDangActivity.this, R.layout.dialog_view, null);
                     viewInfo.tv_item_jianli = (TextView) view.findViewById(R.id.tv_item_jianli);
                     viewInfo.tv_addr = (TextView) view.findViewById(R.id.tv_addr);
                     viewInfo.tv_class = (TextView) view.findViewById(R.id.tv_class);
@@ -570,13 +541,27 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
                     viewInfo.tv_qiangdan_button.setEnabled(true);
                     viewInfo.tv_qiangdan_button.setText("抢单");
                 }
+                if (qOrderInfo.getBespeak() != null) {
+                    if (!"0".equals(qOrderInfo.getBespeak())) {
+                        if (qOrderInfo.getOrderid() != null) {
+                            viewInfo.order_id.setText("(挂单)单号:" + qOrderInfo.getOrderid());
+                        }
+                        viewInfo.tv_qiangdan_button.setOnClickListener(new GDonClickListener(position, qOrderInfo, viewInfo.tv_qiangdan_button));
+                    } else {
+                        if (qOrderInfo.getOrderid() != null) {
+                            viewInfo.order_id.setText("单号:" + qOrderInfo.getOrderid());
+                        }
+                        viewInfo.tv_qiangdan_button.setOnClickListener(new QDonClickListener(position, qOrderInfo));
+                    }
+                } else {
                     if (qOrderInfo.getOrderid() != null) {
                         viewInfo.order_id.setText("单号:" + qOrderInfo.getOrderid());
                     }
                     viewInfo.tv_qiangdan_button.setOnClickListener(new QDonClickListener(position, qOrderInfo));
+                }
                 return view;
             } catch (Exception e) {
-                Toast.makeText(JieDangActivity.this, "信息有误!!!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(NewJieDangActivity.this, "信息有误!!!", Toast.LENGTH_SHORT).show();
             }
             return null;
         }
@@ -597,7 +582,7 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
                 try {
                     iJieDanPresenter.RobOrder(position,getXGtoken(),getToken(),id);
                 } catch (Exception e) {
-                    Toast.makeText(JieDangActivity.this, "信息有误!!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NewJieDangActivity.this, "信息有误!!!", Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -624,7 +609,7 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
                     list.remove(qOrderInfo);
                     myBaseAdapter.notifyDataSetChanged();
                 } catch (Exception e) {
-                    Toast.makeText(JieDangActivity.this, "信息有误!!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NewJieDangActivity.this, "信息有误!!!", Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -640,114 +625,4 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-    long[] djtime = new long[2];
-    @Override
-    public void onBackPressed() {
-        System.arraycopy(djtime, 1, djtime, 0, djtime.length - 1);
-        djtime[djtime.length - 1] = SystemClock.uptimeMillis();
-        if (djtime[0] >= (SystemClock.uptimeMillis() - 1000)){
-            ExitApplication.getInstance().exit();
-            finish();
-        } else {
-            Toast.makeText(this, "再按一次返回键退出应用", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void StartListen(){//开始听单修改ui和状态
-        try {
-            preferences = getSharedPreferences("config", MODE_PRIVATE);
-            SharedPreferences.Editor edit = preferences.edit();
-            edit.putBoolean("init", true);
-            edit.commit();//设置听单状态为正在听单
-
-            listView.setVisibility(View.VISIBLE);//听单列表设置为可以看
-            listView.getEmptyView().setVisibility(View.VISIBLE);
-            but_jiedang.setBackgroundResource(R.drawable.kaiguanann);//设置停单图标为听单状态的图标
-
-            isTD = true;//是否继续10分钟拿数据
-            StartXGPush();
-
-            //初始化计时器任务
-            task = new TimerTask() {
-                @Override
-                public void run() {
-                    // TODO Auto-generated method stub
-                    Message message = new Message();
-                    message.what = 1;
-                    handler.sendMessage(message);
-                }
-            };
-
-            //开始循环计时
-            timer=new Timer();
-            Log.e("JieDangActivity", "开始循环计时");
-            timer.schedule(task, 0, 5 * 60 * 1000);//从现在开始循环计时
-        }catch (Exception e){
-
-        }
-    }
-
-    private void StopListen(){//暂停停单
-        try {
-            preferences = getSharedPreferences("config", MODE_PRIVATE);
-            SharedPreferences.Editor edit = preferences.edit();
-            edit.putBoolean("init", false);
-            edit.commit();//设置停单状态为停止听单
-
-            if(list!=null) {
-                list.clear();
-            }
-
-            if(list_GD!=null) {
-                list_GD.clear();
-            }
-
-            listView.setVisibility(View.GONE);//听单列表设置为可以看
-            listView.getEmptyView().setVisibility(View.GONE);
-            but_jiedang.setBackgroundResource(R.drawable.kaiguan);//设置停单图标为听单状态的图标
-
-            isTD = false;//是否继续10分钟拿数据
-            StopXGPush();
-        }catch (Exception e){
-
-        }
-    }
-
-    private void bindXGService() {
-//        jieDanServiceIntent = new Intent(getApplicationContext(), XGReceiverService.class);
-//        startService(jieDanServiceIntent);//开始服务(以后可以看一下是否可以去掉)
-        jieDanServiceIntent = new Intent(getApplicationContext(), XGReceiverService.class);
-        bindService(jieDanServiceIntent, sc, BIND_AUTO_CREATE);//绑定服务
-    }
-
-    private void getAllDate() {//获取数据库的订单信息(现在没用，因为每次都是访问后台拿数据)
-        QOrderDao qOrderDao=new QOrderDao(getApplicationContext());
-        List<String> ss=qOrderDao.query(0 + "");
-        if(ss!=null&&ss.size()!=0) {
-            Gson gson = new Gson();
-            List<QOrderInfo> QTli = new ArrayList<>();
-            for (String s : ss) {
-                QTli.add(gson.fromJson(s, QOrderInfo.class));
-            }
-            if (QTli != null) {
-                list.addAll(QTli);
-            }
-        }
-        myBaseAdapter.notifyDataSetChanged();
-    }
-    private void StopXGPush(){
-        XGPushUtils.StopXGPush(getApplicationContext());
-    }
-    private void StartXGPush(){
-        XGPushUtils.StartXGPush(getApplicationContext(), new XGPushUtils.XGPushListener() {
-            @Override
-            public void onSuccess() {
-            }
-            @Override
-            public void onFail() {
-                StopListen();
-                Toast.makeText(JieDangActivity.this,"听单失败，请重新听单",Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 }

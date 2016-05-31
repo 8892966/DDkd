@@ -18,8 +18,8 @@ import java.lang.reflect.Method;
 public abstract class BasePresenter implements ITokenManage{
 
     private Activity activity;
-    public BasePresenter(IDingDanView iDingDanView){
-        activity= (Activity) iDingDanView;
+    public BasePresenter(Activity iDingDanView){
+        activity= iDingDanView;
     }
 
 //    interface void
@@ -27,7 +27,6 @@ public abstract class BasePresenter implements ITokenManage{
     @Override
     public void tokenouttime(final String ClassName, final String method,String url, final String ListenerS, final ITokenManage Listener) {
         NewAutologonUtil.getToken(activity, new NewAutologonUtil.OnLogoListent() {
-
             @Override
             public void Success() {
                 try {

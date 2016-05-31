@@ -20,16 +20,14 @@ public class Exit {
         SharedPreferences sharedPreferences=activity.getSharedPreferences("config", activity.MODE_PRIVATE);
         SharedPreferences.Editor editor=sharedPreferences.edit();
         editor.putString("loginstatic", "0");
-        editor.putBoolean("qiandan1", true);
+        editor.putBoolean("qiandan1",true);
         MyApplication.state=0;
         editor.commit();
         ExitApplication.getInstance().exit();
         Intent intent=new Intent(activity,MainActivity_login.class);
         activity.startActivity(intent);
-        XGPushManager.unregisterPush(activity);
+        XGPushUtils.StopXGPush(activity.getApplicationContext());
         activity.stopService(new Intent(activity.getApplicationContext(), JieDanService.class));
         activity.finish();
-//        int pid = android.os.Process.myPid();
-//        android.os.Process.killProcess(pid);
     }
 }

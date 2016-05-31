@@ -29,7 +29,7 @@ import java.util.Map;
 public class ZhuCeAndForgetModelImpl implements IZhuCeAndForgetModel {
     @Override
     public void SubmitData(final Map<String, String> map, final SSubmitPicturesListener sSubmitPicturesListener) {
-            String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/register";
+            String url = MyApplication.url+"User/register";
             StringRequest request_post = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String s) {
@@ -61,7 +61,7 @@ public class ZhuCeAndForgetModelImpl implements IZhuCeAndForgetModel {
 
     @Override
     public void phoExist(String phone, final phoExistListener sSubmitPicturesListener) {
-            String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/phoExist/phone/" + phone;
+            String url = MyApplication.url+"User/phoExist/phone/" + phone;
 //        参数一：方法 参数二：地址 参数三：成功回调 参数四：错误回调 。重写getParams 以post参数
             StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                 @Override
@@ -86,7 +86,7 @@ public class ZhuCeAndForgetModelImpl implements IZhuCeAndForgetModel {
 
     @Override
     public void modifyPsw(String phone,final ForgetListener forgetListener) {
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/modifyPsw/phone/"+phone;
+        String url = MyApplication.url+"User/modifyPsw/phone/"+phone;
         final StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
@@ -142,7 +142,7 @@ public class ZhuCeAndForgetModelImpl implements IZhuCeAndForgetModel {
 
     @Override
     public void UpdatePsw(final String phone, final String password, final String verify, final ForgetListener forgetListener) {
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/UpdatePsw";
+        String url = MyApplication.url+"User/UpdatePsw";
         StringRequest request_post = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
@@ -190,7 +190,7 @@ public class ZhuCeAndForgetModelImpl implements IZhuCeAndForgetModel {
         requestParams.addBodyParameter("name", name);
         requestParams.addBodyParameter("phone", phone);
         requestParams.addBodyParameter("file", file);
-        new UploadUtilNew().uploadMethod(requestParams, "http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage",sSubmitPicturesListener);
+        new UploadUtilNew().uploadMethod(requestParams, MyApplication.url+"User/uploadimage",sSubmitPicturesListener);
     }
 
 

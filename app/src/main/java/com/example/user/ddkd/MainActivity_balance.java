@@ -155,7 +155,7 @@ public class MainActivity_balance extends BaseActivity implements View.OnClickLi
     public void Volley_Get(final List<Payment> paymentlist2) {
         SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = sharedPreferences.getString("token", null);
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/takeoutrecord/token/" + token;
+        String url = MyApplication.url+"Turnover/takeoutrecord/token/" + token;
 //        String url="";
         Log.i("Payment_url", url);
         //**********从后台返回一个参数来说明数据的获取状况**********
@@ -225,7 +225,7 @@ public class MainActivity_balance extends BaseActivity implements View.OnClickLi
     public void volley_Get_Balance(final UserInfo userInfo1) {
         final SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = sharedPreferences.getString("token", null);
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/center/token/" + token;
+        String url = MyApplication.url+"Turnover/center/token/" + token;
         Log.i("Balance_url", url);
         StringRequest balance_request = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override

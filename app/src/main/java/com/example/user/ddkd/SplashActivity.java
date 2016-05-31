@@ -178,7 +178,7 @@ public class SplashActivity extends BaseActivity {
             public void run() {
                 Message message=Message.obtain();
                 try {
-                    URL url=new URL("http://www.louxiago.com/wc/ddkd/admin.php/User/update");
+                    URL url=new URL(MyApplication.url+"User/update");
                     HttpURLConnection connection=(HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("GET");
                     connection.setConnectTimeout(3000);

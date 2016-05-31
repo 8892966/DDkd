@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.example.user.ddkd.Model.DingDanModelImpl;
 import com.example.user.ddkd.Model.IDingDanModel;
+import com.example.user.ddkd.MyApplication;
 import com.example.user.ddkd.View.IDingDanView;
 import com.example.user.ddkd.beam.OrderInfo;
 
@@ -57,12 +58,12 @@ public class DingDanPresenterImpl extends BasePresenter implements IDingDanPrese
     }
 
     private String getChangeURL(String id,int State,String token) {
-        return "http://www.louxiago.com/wc/ddkd/admin.php/Order/setOrderState/id/" + id + "/state/" + State + "/token/"+ token;
+        return MyApplication.url+"Order/setOrderState/id/" + id + "/state/" + State + "/token/"+ token;
     }
 
     @NonNull
     private String getloadURL(int xuanzhe,String token) {
-        return "http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/state/" + xuanzhe + "/token/"+token ;
+        return MyApplication.url+"Order/getOrder/state/" + xuanzhe + "/token/"+token ;
     }
 
     @Override

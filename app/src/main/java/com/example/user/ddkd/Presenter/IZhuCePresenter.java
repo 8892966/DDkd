@@ -9,9 +9,9 @@ import java.util.Map;
  */
 public interface IZhuCePresenter {
     Map<String,String> map=new HashMap<>();
-    void addmap(Map<String, String> map);
+    void addmap(Map<String, String> map);//把信息添加到map
     String getmap(String key);
-    void SubmitPictures(int count, String name, String phone, File file);
-    void SubmitData();
-    void PhoExist(String s);
+    void SubmitPictures(int count, String name, String phone, File file);//提交图片
+    void SubmitData();//提交数据
+    void PhoExist(String s);//坚持账户是否已注册
 }

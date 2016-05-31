@@ -210,10 +210,12 @@ public class ZhuCeActivity extends BaseActivity implements View.OnClickListener,
     public void PhoExist() {
         zhuCe1Fragment.yanzhengsettext("验证码");
     }
+
     @Override
     public void PhoisExist(){
         zhuCe1Fragment.yanzhengsetEnabled(false);
     }
+
     @Override
     public void PhoisNotExist() {
         zhuCe1Fragment.yanzhengsetEnabled(false);

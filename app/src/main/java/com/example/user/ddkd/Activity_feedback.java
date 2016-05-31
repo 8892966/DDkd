@@ -90,7 +90,7 @@ public class Activity_feedback extends BaseActivity implements View.OnClickListe
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        String url="http://www.louxiago.com/wc/ddkd/admin.php/YiJian/index/YiJian/"+ms+"/did/1/token/"+token;
+        String url=MyApplication.url+"YiJian/index/YiJian/"+ms+"/did/1/token/"+token;
         Log.i("Feedback",url);
         StringRequest request=new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override

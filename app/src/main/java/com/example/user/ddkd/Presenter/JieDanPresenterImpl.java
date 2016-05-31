@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.example.user.ddkd.Model.IJieDanModel;
 import com.example.user.ddkd.Model.JieDanModelImpl;
+import com.example.user.ddkd.MyApplication;
 import com.example.user.ddkd.View.IJieDanView;
 import com.example.user.ddkd.beam.MainMsgInfo;
 import com.example.user.ddkd.beam.QOrderInfo;
@@ -30,7 +31,7 @@ public class JieDanPresenterImpl extends BasePresenter implements IJieDanPresent
 
     @Override
     public void CountOrder(String token) {
-        String url = "http://www.louxiago.com/wc/ddkdtest/admin.php/Order/CountOrder/token/" + token;
+        String url = MyApplication.url+"Order/CountOrder/token/" + token;
         iJieDanModel.CountOrder(url,this);
     }
 
@@ -39,20 +40,20 @@ public class JieDanPresenterImpl extends BasePresenter implements IJieDanPresent
         if(iJieDanView!=null) {
             iJieDanView.setStartListAndItemViewState(position);
         }
-        String url = "http://www.louxiago.com/wc/ddkdtest/admin.php/Order/RobOrder/orderId/" + id + "/token/" + token + "/deviceId/" + XGtoken;
+        String url = MyApplication.url+"Order/RobOrder/orderId/" + id + "/token/" + token + "/deviceId/" + XGtoken;
         iJieDanModel.RobOrder(url,this);
         map.put(url, position);
     }
 
     @Override
     public void getBespeakOrder(String token) {
-        String url = "http://www.louxiago.com/wc/ddkdtest/admin.php/Order/getBespeakOrder/token/" + token;
+        String url = MyApplication.url+"Order/getBespeakOrder/token/" + token;
         iJieDanModel.getBespeakOrder(url, this);
     }
 
     @Override
     public void RobBespeakOrder(int position,String token,String id) {
-        String url = "http://www.louxiago.com/wc/ddkdtest/admin.php/Order/RobBespeakOrder/orderId/"+id+"/token/" + token;
+        String url = MyApplication.url+"Order/RobBespeakOrder/orderId/"+id+"/token/" + token;
         iJieDanModel.RobBespeakOrder(url, this);
     }
 

@@ -143,7 +143,7 @@ public class MainActivity_setting extends BaseActivity implements View.OnClickLi
             case R.id.aboutDD:
                 intent = new Intent(MainActivity_setting.this, WebActivity.class);
                 intent.putExtra("title", "关于DD快递");
-                intent.putExtra("url", "http://www.louxiago.com/wc/ddkd/index.php/AboutDD/index.html");
+                intent.putExtra("url", MyApplication.url+"AboutDD/index.html");
                 startActivity(intent);
                 break;
             //*****************分享DD*****************
@@ -227,7 +227,7 @@ public class MainActivity_setting extends BaseActivity implements View.OnClickLi
     };
 
     public void volley_Get(){
-        String url="http://www.louxiago.com/wc/ddkd/admin.php/User/update";
+        String url=MyApplication.url+"User/update";
         StringRequest request=new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {

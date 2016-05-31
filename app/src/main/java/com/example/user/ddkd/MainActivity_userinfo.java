@@ -189,7 +189,7 @@ public class MainActivity_userinfo extends BaseActivity implements View.OnClickL
                     requestParams.addBodyParameter("name", "touxiang");
                     requestParams.addBodyParameter("phone", sharedPreferences.getString("phone",""));
                     requestParams.addBodyParameter("file", new File(getRealFilePath(MainActivity_userinfo.this, uri)));
-                    new UploadUtil().uploadMethod(requestParams, "http://www.louxiago.com/wc/ddkd/admin.php/User/uploadimage", null, null, MainActivity_userinfo.this, handler);
+                    new UploadUtil().uploadMethod(requestParams, MyApplication.url+"User/uploadimage", null, null, MainActivity_userinfo.this, handler);
                     showProgressDialog();
                 } else {
                     Toast.makeText(MainActivity_userinfo.this, "获取图片出错，请再次获取", Toast.LENGTH_SHORT).show();
@@ -238,7 +238,7 @@ public class MainActivity_userinfo extends BaseActivity implements View.OnClickL
 
     //************************根据后台的返回结果来判断图片上传是否成功********************
     public void volley_change_Get(String phone, String token) {
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/updateLogo/phone/" + phone + "/token/" + token;
+        String url = MyApplication.url+"User/updateLogo/phone/" + phone + "/token/" + token;
         StringRequest request = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
@@ -280,7 +280,7 @@ public class MainActivity_userinfo extends BaseActivity implements View.OnClickL
     public void Voley_Get(final UserInfo userInfo) {
         final SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = sharedPreferences.getString("token", null);
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/center/token/" + token;
+        String url = MyApplication.url+"Turnover/center/token/" + token;
         StringRequest request = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
@@ -346,7 +346,7 @@ public class MainActivity_userinfo extends BaseActivity implements View.OnClickL
     //********************保存图片路径*******************
     public void volley_Get_Image() {
         final SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/getLogo/token/" + sharedPreferences.getString("token", "");
+        String url = MyApplication.url+"User/getLogo/token/" + sharedPreferences.getString("token", "");
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {

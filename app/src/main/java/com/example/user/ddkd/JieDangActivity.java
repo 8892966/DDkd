@@ -103,10 +103,10 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
             super.handleMessage(msg);
             if(!isTD){
                 //结束循环计时
-                Log.e("JieDangActivity","结束循环计时");
+//                Log.e("JieDangActivity","结束循环计时");
                 Clean();
             }else{
-                Log.e("JieDangActivity","访问了一次");
+//                Log.e("JieDangActivity","访问了一次");
                 iJieDanPresenter.getBespeakOrder(getToken());
             }
         }
@@ -148,7 +148,7 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                JieDangActivity.this.list.add(qOrderInfo);
+                                JieDangActivity.this.list.add(0,qOrderInfo);
                                 myBaseAdapter.notifyDataSetChanged();//刷新数据
                                 play();
                             }
@@ -426,8 +426,7 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void setGDListInfo(List<QOrderInfo> list) {
-        Log.e("JieDangActivity","d得到数据一次");
-        this.list.removeAll(list_GD);
+        ClearLists();
         list_GD = list;
         this.list.addAll(list_GD);
         myBaseAdapter.notifyDataSetChanged();
@@ -439,10 +438,12 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
             case SUCCESS:
                 list.remove(position);
                 showToast("抢单成功");
+                myBaseAdapter.notifyDataSetChanged();
                 break;
             case ERROR:
                 list.remove(position);
                 showToast("抢单不成功");
+                myBaseAdapter.notifyDataSetChanged();
                 break;
             case Rob_ERROR:
                 if (list.size() > position) {
@@ -680,7 +681,7 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
 
             //开始循环计时
             timer=new Timer();
-            Log.e("JieDangActivity", "开始循环计时");
+//            Log.e("JieDangActivity", "开始循环计时");
             timer.schedule(task, 0, 5 * 60 * 1000);//从现在开始循环计时
         }catch (Exception e){
 
@@ -694,13 +695,7 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
             edit.putBoolean("init", false);
             edit.commit();//设置停单状态为停止听单
 
-            if(list!=null) {
-                list.clear();
-            }
-
-            if(list_GD!=null) {
-                list_GD.clear();
-            }
+            ClearLists();
 
             listView.setVisibility(View.GONE);//听单列表设置为可以看
             listView.getEmptyView().setVisibility(View.GONE);
@@ -713,9 +708,17 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
+    private void ClearLists() {//清理所有数据
+        if(list!=null) {
+            list.clear();
+        }
+
+        if(list_GD!=null) {
+            list_GD.clear();
+        }
+    }
+
     private void bindXGService() {
-//        jieDanServiceIntent = new Intent(getApplicationContext(), XGReceiverService.class);
-//        startService(jieDanServiceIntent);//开始服务(以后可以看一下是否可以去掉)
         jieDanServiceIntent = new Intent(getApplicationContext(), XGReceiverService.class);
         bindService(jieDanServiceIntent, sc, BIND_AUTO_CREATE);//绑定服务
     }
@@ -739,9 +742,11 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
         XGPushUtils.StopXGPush(getApplicationContext());
     }
     private void StartXGPush(){
+        Log.e("JieDangActivity","听单");
         XGPushUtils.StartXGPush(getApplicationContext(), new XGPushUtils.XGPushListener() {
             @Override
             public void onSuccess() {
+                Log.e("JieDangActivity","成功");
             }
             @Override
             public void onFail() {

@@ -53,7 +53,7 @@ public class XGReceiverService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-
+        Log.e("XGReceiverService","onHandleIntent");
         String Content = intent.getExtras().getString("Content");
         String Title = intent.getExtras().getString("Title");
         preferences=getSharedPreferences("config", Context.MODE_PRIVATE);

@@ -74,8 +74,10 @@ public class SlidingUtil extends HorizontalScrollView{
                 endX= (int) ev.getX();
                 endTime=SystemClock.uptimeMillis();
                 int move=endX-startX;
-                int speed= (int) (move/(endTime-startTime));
-
+                int speed=0;
+                if((endTime-startTime)!=0){
+                    speed= (int) (move/(endTime-startTime));
+                }
                 if (speed>1) {
                     openMenu();
                     isSliding=true;

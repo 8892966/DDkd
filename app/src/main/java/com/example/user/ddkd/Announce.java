@@ -150,7 +150,7 @@ public class Announce extends BaseActivity implements View.OnClickListener {
 
     public void voll_Get() {
 
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/PassGongGao/index";
+        String url = MyApplication.url+"PassGongGao/index";
         StringRequest request = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
@@ -198,7 +198,7 @@ public class Announce extends BaseActivity implements View.OnClickListener {
     }
 
     public void volley_Get_Id(String id) {
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/GongGao/ShowNotice/id/" + id;
+        String url = MyApplication.url+"GongGao/ShowNotice/id/" + id;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {

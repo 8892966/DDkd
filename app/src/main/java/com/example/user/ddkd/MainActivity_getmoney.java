@@ -197,7 +197,7 @@ public class MainActivity_getmoney extends BaseActivity implements View.OnClickL
          tname2 = URLEncoder.encode(tname, "utf-8");
          username2 = URLEncoder.encode(username, "utf-8");
             beizhu2 = URLEncoder.encode(beizhu, "utf-8");
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/withdrawCash?money=" + getmoney + "&Tname=" + tname2 + "&counter=" + counter + "&name=" + username2 + "&extra=" + beizhu2 + "&token=" + token;
+        String url = MyApplication.url+"Turnover/withdrawCash?money=" + getmoney + "&Tname=" + tname2 + "&counter=" + counter + "&name=" + username2 + "&extra=" + beizhu2 + "&token=" + token;
         Log.i("URL", url);
         //******************将用户的提现信息提交给服务器
         StringRequest request = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
@@ -256,7 +256,7 @@ public class MainActivity_getmoney extends BaseActivity implements View.OnClickL
     public void Volley_Get() {
         final SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = sharedPreferences.getString("token", null);
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/center/token/" + token;
+        String url = MyApplication.url+"Turnover/center/token/" + token;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {

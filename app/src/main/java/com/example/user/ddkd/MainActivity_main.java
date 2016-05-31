@@ -158,7 +158,7 @@ public class MainActivity_main extends BaseActivity implements View.OnClickListe
     //**********缓存并加载网络图片***********
     public void volley_Get_Image() {
         final SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/User/getLogo/token/" + sharedPreferences.getString("token", "");
+        String url = MyApplication.url+"User/getLogo/token/" + sharedPreferences.getString("token", "");
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {
@@ -208,7 +208,7 @@ public class MainActivity_main extends BaseActivity implements View.OnClickListe
     public void volley_Get(final UserInfo userInfo) {
         SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = sharedPreferences.getString("token", null);
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Turnover/center/token/" + token;
+        String url = MyApplication.url+"Turnover/center/token/" + token;
         StringRequest request = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override
             public void success(Object o) {

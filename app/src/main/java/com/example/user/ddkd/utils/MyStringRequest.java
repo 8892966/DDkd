@@ -13,13 +13,13 @@ public abstract class MyStringRequest implements Response.Listener {
     public void onResponse(Object o) {
         String s = o.toString();
         if (s.endsWith("token outtime")) {
-            Log.e("volley_getOrder_GET", "token过时了");
+//            Log.e("volley_getOrder_GET", "token过时了");
             tokenouttime();
         }else if(s.equals("yididenglu")){
-            Log.e("volley_getOrder_GET", "yide");
+//            Log.e("volley_getOrder_GET", "yide");
             yidiensdfsdf();
         }else{
-            Log.e("volley_getOrder_GET", "ok");
+//            Log.e("volley_getOrder_GET", "ok");
             success(s);
         }
     }

@@ -151,7 +151,7 @@ public class details extends Activity implements View.OnClickListener {
         SharedPreferences preferences = getSharedPreferences("config", MODE_PRIVATE);
         String token = preferences.getString("token", null);
         //Log.i("Get_details_token",token);
-        String url = "http://www.louxiago.com/wc/ddkd/admin.php/Order/getOrder/state/" + Static + "/token/" + token;
+        String url = MyApplication.url+"Order/getOrder/state/" + Static + "/token/" + token;
         Log.i("Details", url);
         StringRequest request=new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override

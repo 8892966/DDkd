@@ -22,8 +22,6 @@ public abstract class BasePresenter implements ITokenManage{
         activity= iDingDanView;
     }
 
-//    interface void
-
     @Override
     public void tokenouttime(final String ClassName, final String method,String url, final String ListenerS, final ITokenManage Listener) {
         NewAutologonUtil.getToken(activity, new NewAutologonUtil.OnLogoListent() {

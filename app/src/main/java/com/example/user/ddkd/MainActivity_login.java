@@ -84,7 +84,7 @@ public class MainActivity_login extends BaseActivity implements View.OnClickList
     }
 
     public void volley_Get(final String userid, final String password) {
-            String url = "http://www.louxiago.com/wc/ddkdtest/admin.php/User/login";
+            String url = MyApplication.url+"User/login";
             StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
@@ -198,7 +198,7 @@ public class MainActivity_login extends BaseActivity implements View.OnClickList
 
     //判断用户是否已注册
     private void volley_phoExist_GET(final String phone, final String password) {
-        String url = "http://www.louxiago.com/wc/ddkdtest/admin.php/User/phoExist/phone/" + phone;
+        String url = MyApplication.url+"User/phoExist/phone/" + phone;
 //        参数一：方法 参数二：地址 参数三：成功回调 参数四：错误回调 。重写getParams 以post参数
         StringRequest request_post = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override

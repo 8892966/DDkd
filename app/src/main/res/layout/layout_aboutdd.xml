@@ -10,9 +10,7 @@
         <ImageView
             android:id="@+id/setExit"
             android:layout_centerVertical="true"
-            style="@style/head_button_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            style="@style/head_button_back" />
         <TextView
             android:textColor="@color/text3"
             android:layout_centerInParent="true"

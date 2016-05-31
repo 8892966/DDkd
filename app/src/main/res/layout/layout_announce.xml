@@ -18,9 +18,7 @@
             <ImageView
                 style="@style/head_button_back"
                 android:id="@+id/exit"
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_centerVertical="true" />
             <TextView
                 android:textColor="@color/text3"
                 android:text="公告栏"

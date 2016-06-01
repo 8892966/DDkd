@@ -16,12 +16,12 @@ public interface IDingDanView {
     void resetDindDan(List<OrderInfo> newsList, int xuanzhe);//刷新数据
     void hideProgress(int xuanzhe);//隐藏Progress
     void showLoadFailMsg();
-    void showChangeProgress(ProgressBar pb_button, TextView button);//显示修改订单的Progress
-    void removeDindDan(OrderInfo info, int xuanzhe);//删除数据
-    void hideChangeProgress(ProgressBar pb_button, TextView button);//隐藏改变数据
+    void showChangeProgress(int xuanzhe,int position);//显示修改订单的Progress
+    void removeDindDan(String id,int position, int xuanzhe);//删除数据
+    void hideChangeProgress(int xuanzhe,int position);//隐藏改变数据
     void showErrorToast();//显示出错时的toast
     void onChangeFailure(Exception e);
-    void onChangeErrorResponse(int xuanzhe,ProgressBar pb_button,TextView button);
+    void onChangeErrorResponse(int xuanzhe,int position);
     void onloadErrorResponse(int xuanzhe);
     void ClearData();
 }

@@ -23,18 +23,17 @@ import java.util.Map;
 public class DingDanPresenterImpl extends BasePresenter implements IDingDanPresenter,DingDanModelImpl.OnloadDingDinsListListener,DingDanModelImpl.OnChangeDingDinsListListener {
     private IDingDanModel iDingDinModel;
     private IDingDanView iDingDanView;
-    private Map<String,ProgressBar> pb_button;
-    private Map<String,TextView> button;
-    private Map<String,OrderInfo> info;
     private Map<String,Integer> xuanzhe;
+    private Map<String,Integer> position;
+    private Map<String,String> id;
+
     public DingDanPresenterImpl(IDingDanView iDingDanView){
         super((Activity) iDingDanView);
         iDingDinModel=new DingDanModelImpl();
         this.iDingDanView=iDingDanView;
-        pb_button=new HashMap<>();
-        button=new HashMap<>();
-        info=new HashMap<>();
         xuanzhe=new HashMap<>();
+        position=new HashMap<>();
+        id=new HashMap<>();
     }
 
     @Override
@@ -47,14 +46,13 @@ public class DingDanPresenterImpl extends BasePresenter implements IDingDanPrese
     }
 
     @Override
-    public void ChangeDingDins(OrderInfo info,int xuanzhe,ProgressBar pb_button, TextView button,String token) {
+    public void ChangeDingDins(OrderInfo info,String id, int xuanzhe,int position,String token) {
         String url = getChangeURL(info.getId(),xuanzhe,token);
-        iDingDinModel.ChangeDingDins(url,this);
-        iDingDanView.showChangeProgress(pb_button,button);
-        this.xuanzhe.put(url,xuanzhe);
-        this.info.put(url,info);
-        this.pb_button.put(url,pb_button);
-        this.button.put(url,button);
+        iDingDinModel.ChangeDingDins(url, this);
+        iDingDanView.showChangeProgress(xuanzhe, position);
+        this.xuanzhe.put(url, xuanzhe);
+        this.position.put(url,position);
+        this.id.put(url,id);
     }
 
     private String getChangeURL(String id,int State,String token) {
@@ -68,32 +66,47 @@ public class DingDanPresenterImpl extends BasePresenter implements IDingDanPrese
 
     @Override
     public void onChangeSuccess(String url) {
-        iDingDanView.hideChangeProgress(this.pb_button.get(url), this.button.get(url));
-        iDingDanView.removeDindDan(this.info.get(url),this.xuanzhe.get(url));
+        iDingDanView.hideChangeProgress(xuanzhe.get(url), position.get(url));
+        iDingDanView.removeDindDan(id.get(url), position.get(url), this.xuanzhe.get(url));
+        this.xuanzhe.remove(url);
+        this.position.remove(url);
+        this.id.remove(url);
     }
 
     @Override
     public void onChangeError(String url) {
-        iDingDanView.hideChangeProgress(this.pb_button.get(url), this.button.get(url));
+        iDingDanView.hideChangeProgress(xuanzhe.get(url),position.get(url));
         iDingDanView.showErrorToast();
+        this.xuanzhe.remove(url);
+        this.position.remove(url);
+        this.id.remove(url);
     }
 
     @Override
     public void onChangeFailure(String msg, Exception e,String url) {
-        iDingDanView.hideChangeProgress(this.pb_button.get(url), this.button.get(url));
+        iDingDanView.hideChangeProgress(xuanzhe.get(url),position.get(url));
         iDingDanView.onChangeFailure(e);
+        this.xuanzhe.remove(url);
+        this.position.remove(url);
+        this.id.remove(url);
     }
 
     @Override
     public void onChangeErrorResponse(VolleyError volleyError,String url) {
-        iDingDanView.hideChangeProgress(this.pb_button.get(url), this.button.get(url));
-        iDingDanView.onChangeErrorResponse(xuanzhe.get(url), pb_button.get(url), button.get(url));
+        iDingDanView.hideChangeProgress(xuanzhe.get(url),position.get(url));
+        iDingDanView.onChangeErrorResponse(xuanzhe.get(url), position.get(url));
+        this.xuanzhe.remove(url);
+        this.position.remove(url);
+        this.id.remove(url);
     }
 
     @Override
     public void onloadSuccess(List<OrderInfo> list,String url) {
         iDingDanView.hideProgress(this.xuanzhe.get(url));
-        iDingDanView.resetDindDan(list,this.xuanzhe.get(url));
+        iDingDanView.resetDindDan(list, this.xuanzhe.get(url));
+        this.xuanzhe.remove(url);
+        this.position.remove(url);
+        this.id.remove(url);
     }
 
     @Override
@@ -101,12 +114,18 @@ public class DingDanPresenterImpl extends BasePresenter implements IDingDanPrese
         iDingDanView.hideProgress(this.xuanzhe.get(url));
         iDingDanView.onloadErrorResponse(this.xuanzhe.get(url));
         iDingDanView.onChangeFailure(e);
+        this.xuanzhe.remove(url);
+        this.position.remove(url);
+        this.id.remove(url);
     }
 
     @Override
     public void onloadErrorResponse(VolleyError volleyError,String url) {
         iDingDanView.hideProgress(this.xuanzhe.get(url));
         iDingDanView.onloadErrorResponse(this.xuanzhe.get(url));
+        this.xuanzhe.remove(url);
+        this.position.remove(url);
+        this.id.remove(url);
     }
 
 }

@@ -92,13 +92,13 @@ public class DingDanNewActivity extends BaseActivity implements View.OnClickList
 
         staticListener=new DingDanAdapter.StaticListener() {
             @Override
-            public void xuanzhe2Change3(OrderInfo info, ProgressBar pb_button, TextView button) {
-                iDingDinPresenter.ChangeDingDins(info,3,pb_button,button,getToken());
+            public void xuanzhe2Change3(OrderInfo info,int position,String id) {
+                iDingDinPresenter.ChangeDingDins(info,id,3, position,getToken());
             }
 
             @Override
-            public void xuanzhe1Change2(OrderInfo info, ProgressBar pb_button, TextView button) {
-                iDingDinPresenter.ChangeDingDins(info, 2, pb_button, button, getToken());
+            public void xuanzhe1Change2(OrderInfo info,int position,String id) {
+                iDingDinPresenter.ChangeDingDins(info, id, 2,position,getToken());
             }
         };
         //在list尾部使出现的一个textview
@@ -152,42 +152,15 @@ public class DingDanNewActivity extends BaseActivity implements View.OnClickList
                 if (xuanzhe != currid) {
                     setEnableds(currid);
                     xuanzhe = currid;
+                    MyApplication.getQueue().cancelAll("volley_getOrder_GET");
+                    MyApplication.getQueue().cancelAll("volley_OrderState_GET");
                     iDingDinPresenter.loadDingDins(currid, getToken());
                 }
             }
         });
-        AbsListView.OnScrollListener onScrollListener=new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                switch (xuanzhe){
-                    case 1:
-                        myAdapter1.dismissPopuWindow();
-                        break;
-                    case 2:
-                        myAdapter2.dismissPopuWindow();
-                        break;
-                    case 3:
-                        myAdapter3.dismissPopuWindow();
-                        break;
-                    case 4:
-                        myAdapter4.dismissPopuWindow();
-                        break;
-                }
-            }
-        };
-
-        addView1.setOnScrollListener(onScrollListener);
-        addView2.setOnScrollListener(onScrollListener);
-        addView3.setOnScrollListener(onScrollListener);
-        addView4.setOnScrollListener(onScrollListener);
     }
 
-    private String getToken() {
+    private String getToken(){
         preferences = getSharedPreferences("config", MODE_PRIVATE);
         return preferences.getString("token", "");
     }
@@ -357,24 +330,62 @@ public class DingDanNewActivity extends BaseActivity implements View.OnClickList
     }
 
     @Override
-    public void showChangeProgress(ProgressBar pb_button, TextView button) {
-        button.setEnabled(false);
-        pb_button.setVisibility(View.VISIBLE);
+    public void showChangeProgress(int xuanzhe,int position) {
+        switch (xuanzhe){
+            case 3:
+                if(addView1!=null){
+                    int First=addView1.getFirstVisiblePosition();
+                    int Last=addView1.getLastVisiblePosition();
+                    if(position<=First&&position>=Last){
+                        View view=addView1.getChildAt(position-First);
+                        if(view!=null){
+                            DingDanAdapter.ZhuanTai zhuanTai = (DingDanAdapter.ZhuanTai) view.getTag();
+                            zhuanTai.button.setEnabled(false);
+                            zhuanTai.pb_button.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+                break;
+            case 2:
+                if(addView2!=null){
+                    int First=addView2.getFirstVisiblePosition();
+                    int Last=addView2.getLastVisiblePosition();
+                    if(position<=First&&position>=Last){
+                        View view=addView2.getChildAt(position-First);
+                        if(view!=null){
+                            DingDanAdapter.ZhuanTai zhuanTai = (DingDanAdapter.ZhuanTai) view.getTag();
+                            zhuanTai.button.setEnabled(false);
+                            zhuanTai.pb_button.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+                break;
+        }
     }
 
     @Override
-    public void removeDindDan(OrderInfo info, int xuanzhe) {
+    public void removeDindDan(String id,int position, int xuanzhe) {
         switch (xuanzhe){
             case 3:
-                list2.remove(info);
+                delDate(list2,id, position);
                 myAdapter2.notifyDataSetChanged();
                 break;
             case 2:
-                list1.remove(info);
+                delDate(list1, id, position);
                 myAdapter1.notifyDataSetChanged();
                 break;
         }
     }
+
+    private void delDate(List<OrderInfo> l,String id, int position) {
+        OrderInfo info = l.get(position);
+        if(info.getId().equals(id)){
+            l.remove(position);
+        }else {
+            delDate(l,id,position-1);
+        }
+    }
+
     @Override
     public void showErrorToast(){
         Toast.makeText(DingDanNewActivity.this, "网络连接错...", Toast.LENGTH_SHORT).show();
@@ -382,40 +393,69 @@ public class DingDanNewActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onChangeFailure(Exception e){
-//            Log.e("Exception", e.getMessage()+"");
-    Toast.makeText(DingDanNewActivity.this, "信息有误", Toast.LENGTH_SHORT).show();
+
+        Toast.makeText(DingDanNewActivity.this, "信息有误", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onChangeErrorResponse(int xuanzhe,ProgressBar pb_button,TextView button) {
-        button.setEnabled(true);
-        pb_button.setVisibility(View.GONE);
-        switch (xuanzhe){
-            case 1:
-                TextView textView1 = (TextView) addView1.getEmptyView();
-                textView1.setText("网络连接中断...");
-                list1.clear();
-                myAdapter1.notifyDataSetChanged();
-                break;
-            case 2:
-                TextView textView2 = (TextView) addView2.getEmptyView();
-                textView2.setText("网络连接中断...");
-                list2.clear();
-                myAdapter2.notifyDataSetChanged();
-                break;
-            case 3:
-                TextView textView3 = (TextView) addView3.getEmptyView();
-                textView3.setText("网络连接中断...");
-                list3.clear();
-                myAdapter3.notifyDataSetChanged();
-                break;
-            case 4:
-                TextView textView4 = (TextView) addView4.getEmptyView();
-                textView4.setText("网络连接中断...");
-                list4.clear();
-                myAdapter4.notifyDataSetChanged();
-                break;
-        }
+    public void onChangeErrorResponse(int xuanzhe,int position) {
+//        switch (xuanzhe){
+//            case 3:
+//                if(addView1!=null){
+//                    int First=addView1.getFirstVisiblePosition();
+//                    int Last=addView1.getLastVisiblePosition();
+//                    if(position<=First&&position>=Last){
+//                        View view=addView1.getChildAt(position-First);
+//                        if(view!=null){
+//                            DingDanAdapter.ZhuanTai zhuanTai = (DingDanAdapter.ZhuanTai) view.getTag();
+//                            zhuanTai.button.setEnabled(true);
+//                            zhuanTai.pb_button.setVisibility(View.GONE);
+//                        }
+//                    }
+//                }
+//                break;
+//            case 2:
+//                if(addView2!=null){
+//                    int First=addView2.getFirstVisiblePosition();
+//                    int Last=addView2.getLastVisiblePosition();
+//                    if(position<=First&&position>=Last){
+//                        View view=addView2.getChildAt(position-First);
+//                        if(view!=null){
+//                            DingDanAdapter.ZhuanTai zhuanTai = (DingDanAdapter.ZhuanTai) view.getTag();
+//                            zhuanTai.button.setEnabled(true);
+//                            zhuanTai.pb_button.setVisibility(View.GONE);
+//                        }
+//                    }
+//                }
+//                break;
+//        }
+        Toast.makeText(this,"网络连接中断...",Toast.LENGTH_SHORT).show();
+//        switch (xuanzhe){
+//            case 1:
+//                TextView textView1 = (TextView) addView1.getEmptyView();
+//                textView1.setText("网络连接中断...");
+//                list1.clear();
+//                myAdapter1.notifyDataSetChanged();
+//                break;
+//            case 2:
+//                TextView textView2 = (TextView) addView2.getEmptyView();
+//                textView2.setText("网络连接中断...");
+//                list2.clear();
+//                myAdapter2.notifyDataSetChanged();
+//                break;
+//            case 3:
+//                TextView textView3 = (TextView) addView3.getEmptyView();
+//                textView3.setText("网络连接中断...");
+//                list3.clear();
+//                myAdapter3.notifyDataSetChanged();
+//                break;
+//            case 4:
+//                TextView textView4 = (TextView) addView4.getEmptyView();
+//                textView4.setText("网络连接中断...");
+//                list4.clear();
+//                myAdapter4.notifyDataSetChanged();
+//                break;
+//        }
     }
 
     @Override
@@ -438,9 +478,37 @@ public class DingDanNewActivity extends BaseActivity implements View.OnClickList
     }
 
     @Override
-    public void hideChangeProgress(ProgressBar pb_button, TextView button) {
-        button.setEnabled(true);
-        pb_button.setVisibility(View.GONE);
+    public void hideChangeProgress(int xuanzhe,int position) {
+        switch (xuanzhe){
+            case 3:
+                if(addView1!=null){
+                    int First=addView1.getFirstVisiblePosition();
+                    int Last=addView1.getLastVisiblePosition();
+                    if(position<=First&&position>=Last){
+                        View view=addView1.getChildAt(position-First);
+                        if(view!=null){
+                            DingDanAdapter.ZhuanTai zhuanTai = (DingDanAdapter.ZhuanTai) view.getTag();
+                            zhuanTai.button.setEnabled(true);
+                            zhuanTai.pb_button.setVisibility(View.GONE);
+                        }
+                    }
+                }
+                break;
+            case 2:
+                if(addView2!=null){
+                    int First=addView2.getFirstVisiblePosition();
+                    int Last=addView2.getLastVisiblePosition();
+                    if(position<=First&&position>=Last){
+                        View view=addView2.getChildAt(position-First);
+                        if(view!=null){
+                            DingDanAdapter.ZhuanTai zhuanTai = (DingDanAdapter.ZhuanTai) view.getTag();
+                            zhuanTai.button.setEnabled(true);
+                            zhuanTai.pb_button.setVisibility(View.GONE);
+                        }
+                    }
+                }
+                break;
+        }
     }
 
     @Override

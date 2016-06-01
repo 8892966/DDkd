@@ -137,8 +137,17 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                JieDangActivity.this.list.remove(qOrderInfo);
-                                myBaseAdapter.notifyDataSetChanged();//刷新数据
+                                QOrderInfo Q=null;
+                                for (QOrderInfo info:JieDangActivity.this.list){
+                                    if(info.getOrderid().equals(qOrderInfo.getOrderid())){
+                                        Q=info;
+                                        break;
+                                    }
+                                }
+                                if(Q!=null) {
+                                    JieDangActivity.this.list.remove(Q);
+                                    myBaseAdapter.notifyDataSetChanged();//刷新数据
+                                }
                             }
                         });
                     }
@@ -274,7 +283,6 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
                 case R.id.but_jiedang:
                     if (!isTD) {
                         StartListen();
-//                        iJieDanPresenter.getBespeakOrder(getToken());
                     } else {
                         MyApplication.getQueue().cancelAll("volley_GDMSG_GET_UTILS");
                         StopListen();
@@ -297,9 +305,9 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
             iJieDanPresenter.CountOrder(getToken());
             if (list != null) {
                 list.clear();
-                if (list_GD != null) {
-                    list.addAll(0, list_GD);
-                }
+//                if (list_GD != null) {
+//                    list.addAll(0, list_GD);
+//                }
             }
             preferences = getSharedPreferences("config", MODE_PRIVATE);
             preferences.edit().putBoolean("isjieDangActivityrunn", true).commit();
@@ -392,7 +400,6 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
                     break;
             }
         } catch (Exception e) {
-            Log.e("Exception", e.getMessage() + "");
             Toast.makeText(JieDangActivity.this, "信息有误", Toast.LENGTH_SHORT).show();
         }
     }
@@ -427,8 +434,7 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void setGDListInfo(List<QOrderInfo> list) {
         ClearLists();
-        list_GD = list;
-        this.list.addAll(list_GD);
+        this.list.addAll(list);
         myBaseAdapter.notifyDataSetChanged();
     }
 
@@ -482,6 +488,9 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
                     }
                 }
                 showToast("请等待抢单信息");
+                if(list_GD!=null){
+//                    list_GD.add(list.)
+                }
                 break;
         }
     }
@@ -507,6 +516,7 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
     }
 
     class MyBaseAdapter extends BaseAdapter {
+
         @Override
         public int getCount() {
             return list.size();
@@ -656,6 +666,7 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
 
     private void StartListen(){//开始听单修改ui和状态
         try {
+
             preferences = getSharedPreferences("config", MODE_PRIVATE);
             SharedPreferences.Editor edit = preferences.edit();
             edit.putBoolean("init", true);
@@ -709,13 +720,15 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void ClearLists() {//清理所有数据
+
         if(list!=null) {
             list.clear();
         }
 
-        if(list_GD!=null) {
-            list_GD.clear();
-        }
+//        if(list_GD!=null) {
+//            list_GD.clear();
+//        }
+
     }
 
     private void bindXGService() {
@@ -738,16 +751,20 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
         }
         myBaseAdapter.notifyDataSetChanged();
     }
+
     private void StopXGPush(){
         XGPushUtils.StopXGPush(getApplicationContext());
     }
+
     private void StartXGPush(){
         Log.e("JieDangActivity","听单");
         XGPushUtils.StartXGPush(getApplicationContext(), new XGPushUtils.XGPushListener() {
+
             @Override
             public void onSuccess() {
                 Log.e("JieDangActivity","成功");
             }
+
             @Override
             public void onFail() {
                 StopListen();

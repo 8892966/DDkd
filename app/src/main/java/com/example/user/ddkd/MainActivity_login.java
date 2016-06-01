@@ -103,11 +103,11 @@ public class MainActivity_login extends BaseActivity implements View.OnClickList
                         MyApplication.state = 1;
                         edit.commit();
                         //****************保存登录状态，0为离线状态，1为在线状态************************
+                        volley_Get_Image();
+                        volley_Get_userInfo();
                         Intent intent = new Intent(MainActivity_login.this, JieDangActivity.class);
                         startActivity(intent);
                         finish();
-                        volley_Get_Image();
-                        volley_Get_userInfo();
                     } else {
                         Toast.makeText(MainActivity_login.this, "您的信息有误", Toast.LENGTH_SHORT).show();
                     }

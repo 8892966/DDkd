@@ -29,16 +29,6 @@ public class DingDanAdapter extends BaseAdapter {
     private int xuanzhe;
     private StaticListener staticListener;
 
-    public PopupWindow getPopupWindow() {
-        return popupWindow;
-    }
-
-    public void setPopupWindow(PopupWindow popupWindow) {
-        this.popupWindow = popupWindow;
-    }
-
-    private PopupWindow popupWindow;
-
     public DingDanAdapter(Activity activity, List<OrderInfo> list, int xuanzhe, StaticListener staticListener){
         this.activity=activity;
         this.list=list;
@@ -183,8 +173,8 @@ public class DingDanAdapter extends BaseAdapter {
             zhuanTai.ly.setText("留言:" + info.getMessage());
             zhuanTai.tuidan.setText("退单理由:" + info.getReason());
             zhuanTai.tv_dingdang_shijain.setText(info.getOrderTime() + "");
-            zhuanTai.iv_call_phone.setOnClickListener(new MyOnClickListener(info, null, null));
-            zhuanTai.button.setOnClickListener(new MyOnClickListener(info, zhuanTai.pb_button, zhuanTai.button));
+            zhuanTai.iv_call_phone.setOnClickListener(new MyOnClickListener(info,position,info.getId()));
+            zhuanTai.button.setOnClickListener(new MyOnClickListener(info,position,info.getId()));
             return view;
         } catch (Exception e) {
             Log.e("Exception", e.getMessage()+"");
@@ -196,14 +186,14 @@ public class DingDanAdapter extends BaseAdapter {
     //按钮的监听
     class MyOnClickListener implements View.OnClickListener {
         OrderInfo info;
-        ProgressBar pb_button;
-        TextView button;
         AlertDialog alertDialog;
+        int position;
+        String id;
 
-        public MyOnClickListener(OrderInfo info, ProgressBar pb_button, TextView button) {
+        public MyOnClickListener(OrderInfo info,int position,String id) {
             this.info = info;
-            this.pb_button = pb_button;
-            this.button = button;
+            this.position=position;
+            this.id=id;
         }
 
         @Override
@@ -211,7 +201,6 @@ public class DingDanAdapter extends BaseAdapter {
             try {
                 switch (v.getId()) {
                     case R.id.iv_call_phone://打电话
-//                        dismissPopuWindow();
                         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                         View inflate = View.inflate(activity, R.layout.call_phone_dialog, null);
                         TextView shouhuo_call_short_phone = (TextView) inflate.findViewById(R.id.shouhuo_call_short_phone);
@@ -258,7 +247,6 @@ public class DingDanAdapter extends BaseAdapter {
                                 public void onClick(View v) {
                                     Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + info.getPhone()));
                                     activity.startActivity(intent);
-//                                    dismissPopuWindow();
                                     alertDialog.dismiss();
                                 }
                             });
@@ -268,7 +256,6 @@ public class DingDanAdapter extends BaseAdapter {
                         qixiao.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-//                                dismissPopuWindow();
                                 alertDialog.dismiss();
                             }
                         });
@@ -276,16 +263,13 @@ public class DingDanAdapter extends BaseAdapter {
                         builder.setNegativeButton("取消", null);
                         alertDialog = builder.create();
                         alertDialog.show();
-//                        popupWindow=new PopupWindow(inflate,-2,-2);
-//                        popupWindow.showAtLocation(v, Gravity.CENTER,0,0);
                         break;
                     case R.id.tv_dingdang_tuidang://已拿件按钮事件
                         if (xuanzhe == 2) {
-                            staticListener.xuanzhe2Change3(info, pb_button, button);
+                            staticListener.xuanzhe2Change3(info,position,id);
                         }
                         if (xuanzhe == 1) {
-
-                            staticListener.xuanzhe1Change2(info, pb_button, button);
+                            staticListener.xuanzhe1Change2(info,position,id);
                         }
                         break;
                 }
@@ -296,37 +280,30 @@ public class DingDanAdapter extends BaseAdapter {
         }
     }
 
-    public void dismissPopuWindow() {
-        if(popupWindow!=null&&popupWindow.isShowing()){
-            popupWindow.dismiss();;
-            popupWindow=null;
-        }
-    }
-
-    class ZhuanTai {
-        TextView tv_dingdang_id;//订单号
-        TextView tv_money;//钱
-        ImageView iv_call_phone;//打电话
-        TextView tv_kuaidi_dizhi;//拿快递地址
-        TextView tv_dingdang_kuaidi;//快递公司
-        TextView lxr;//接收人和电话号码
-        TextView dh;//快递联系人和电话
-        TextView ly;//留言
-        TextView tv_dingdang_shijain;//时间
-        TextView button;//按钮
-        ProgressBar pb_button;//等待
-        TextView tuidan;//退单理由
-        TextView zhuangtai;//付款状态
-        TextView fahuodizhi;//目的地址
-        LinearLayout ll9;//状态栏
-        LinearLayout ll8;//退单栏
+    public class ZhuanTai {
+        public TextView tv_dingdang_id;//订单号
+        public TextView tv_money;//钱
+        public ImageView iv_call_phone;//打电话
+        public TextView tv_kuaidi_dizhi;//拿快递地址
+        public TextView tv_dingdang_kuaidi;//快递公司
+        public TextView lxr;//接收人和电话号码
+        public TextView dh;//快递联系人和电话
+        public TextView ly;//留言
+        public TextView tv_dingdang_shijain;//时间
+        public TextView button;//按钮
+        public ProgressBar pb_button;//等待
+        public TextView tuidan;//退单理由
+        public TextView zhuangtai;//付款状态
+        public TextView fahuodizhi;//目的地址
+        public LinearLayout ll9;//状态栏
+        public LinearLayout ll8;//退单栏
         //星星
-        LinearLayout ll_xinxin;
-        ImageView xx1;
-        ImageView xx2;
-        ImageView xx3;
-        ImageView xx4;
-        ImageView xx5;
+        public LinearLayout ll_xinxin;
+        public ImageView xx1;
+        public ImageView xx2;
+        public ImageView xx3;
+        public ImageView xx4;
+        public ImageView xx5;
     }
 
     private void xingxing(float i,ImageView xx1,
@@ -386,7 +363,7 @@ public class DingDanAdapter extends BaseAdapter {
         }
     }
     public interface StaticListener{
-        void xuanzhe2Change3(OrderInfo info, ProgressBar pb_button, TextView button);
-        void xuanzhe1Change2(OrderInfo info, ProgressBar pb_button, TextView button);
+        void xuanzhe2Change3(OrderInfo info,int position,String id);
+        void xuanzhe1Change2(OrderInfo info,int position,String id);
     }
 }

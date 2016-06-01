@@ -142,4 +142,20 @@ public class QOrderInfo implements Serializable {
     public void setMessage(String message) {
         Message = message;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        QOrderInfo that = (QOrderInfo) o;
+
+        return orderid.equals(that.orderid);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return orderid.hashCode();
+    }
 }

@@ -16,6 +16,7 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.text.method.DigitsKeyListener;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -338,6 +339,8 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
                 case R.id.become:
                     if(become.isChecked()){
                         number=new EditText(JieDangActivity.this);
+                        DigitsKeyListener onlynumber=new DigitsKeyListener(false,true);
+                        number.setKeyListener(onlynumber);
                         AlertDialog become2 = new AlertDialog.Builder(this).create();
                         // 设置对话框标题
                         become2.setTitle("请输入您今日可以接收的最大单量");
@@ -374,6 +377,7 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
                     }
                     break;
                 case AlertDialog.BUTTON_NEGATIVE:// "取消"第二个按钮取消对话框
+                    become.setChecked(false);
                     break;
                 default:
                     break;

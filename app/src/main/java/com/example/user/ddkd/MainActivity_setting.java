@@ -42,6 +42,8 @@ public class MainActivity_setting extends BaseActivity implements View.OnClickLi
     private TextView version;
     private RelativeLayout updateapp;
     private RelativeLayout aboutDD;
+    private RelativeLayout changemax;
+    private TextView maxnum;
     private ImageView imageView;
     private Switch Static;
     //*****************分享DD*****************
@@ -82,6 +84,12 @@ public class MainActivity_setting extends BaseActivity implements View.OnClickLi
         updateapp.setOnClickListener(this);
         aboutDD = (RelativeLayout) findViewById(R.id.aboutDD);
         aboutDD.setOnClickListener(this);
+
+        //*********************添加今日最大接单项的修改*************
+        changemax= (RelativeLayout) findViewById(R.id.ChangeMax);
+        changemax.setOnClickListener(this);
+        maxnum= (TextView) findViewById(R.id.Maxnum);
+
         //***********************添加状态监听***********************
         SharedPreferences sharedPreferences=getSharedPreferences("config", MODE_PRIVATE);
         final SharedPreferences.Editor editor=sharedPreferences.edit();
@@ -146,6 +154,11 @@ public class MainActivity_setting extends BaseActivity implements View.OnClickLi
                 intent.putExtra("url", MyApplication.url+"AboutDD/index.html");
                 startActivity(intent);
                 break;
+            case R.id.ChangeMax:
+                intent=new Intent(MainActivity_setting.this,Activity_ChangeMax.class);
+                startActivity(intent);
+                break;
+
             //*****************分享DD*****************
             case R.id.Share://分享DD
                 //***************************微信分享功能**************************

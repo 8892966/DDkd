@@ -97,6 +97,9 @@ public class JieDanPresenterImpl extends BasePresenter implements IJieDanPresent
 
     @Override
     public void GD_MSG_NODATA() {
+        if(iJieDanView!=null) {
+            iJieDanView.setGDListInfo(null);
+        }
     }
 
     @Override

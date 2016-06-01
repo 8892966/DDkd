@@ -562,7 +562,16 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void setGDListInfo(List<QOrderInfo> list) {
         ClearLists();
-        this.list.addAll(list);
+        if(list!=null&&list.size()!=0) {
+            for (QOrderInfo info : list) {
+                for (QOrderInfo info1 : list_GD) {
+                    if (info.equals(info1)) {
+                        info.setZhuantai(2);
+                    }
+                }
+            }
+            this.list.addAll(list);
+        }
         myBaseAdapter.notifyDataSetChanged();
     }
 
@@ -586,7 +595,7 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
                 if (listView != null) {
                     int First = listView.getFirstVisiblePosition();
                     int Last = listView.getLastVisiblePosition();
-                    if (position <= First && position >= Last) {
+                    if (position >= First && position <= Last) {
                         View view = listView.getChildAt(position - First);
                         if (view != null) {
                             MyBaseAdapter.ViewInfo viewInfo = (MyBaseAdapter.ViewInfo) view.getTag();
@@ -605,7 +614,7 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
                 if (listView != null) {
                     int First = listView.getFirstVisiblePosition();
                     int Last = listView.getLastVisiblePosition();
-                    if (position <= First && position >= Last) {
+                    if (position >= First && position <= Last) {
                         View view = listView.getChildAt(position - First);
                         if (view != null) {
                             MyBaseAdapter.ViewInfo viewInfo = (MyBaseAdapter.ViewInfo) view.getTag();
@@ -617,7 +626,7 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
                 }
                 showToast("请等待抢单信息");
                 if(list_GD!=null){
-//                    list_GD.add(list.)
+                    list_GD.add(list.get(position));
                 }
                 break;
         }
@@ -741,32 +750,32 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
             }
         }
 
-        class GDonClickListener implements View.OnClickListener {
-            private TextView button;
-            private QOrderInfo qOrderInfo;
-            private int position;
-
-            public GDonClickListener(int position, QOrderInfo qOrderInfo, TextView button) {
-                this.button = button;
-                this.qOrderInfo = qOrderInfo;
-                this.position = position;
-            }
-
-            @Override
-            public void onClick(View v) {
-                try {
-                    button.setEnabled(false);
-                    button.setTextColor(Color.BLACK);
-                    button.setText("等待");
-                    qOrderInfo.setZhuantai(1);
-                    iJieDanPresenter.RobBespeakOrder(position, getToken(), qOrderInfo.getOrderid());
-                    list.remove(qOrderInfo);
-                    myBaseAdapter.notifyDataSetChanged();
-                } catch (Exception e) {
-                    Toast.makeText(JieDangActivity.this, "信息有误!!!", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
+//        class GDonClickListener implements View.OnClickListener {
+//            private TextView button;
+//            private QOrderInfo qOrderInfo;
+//            private int position;
+//
+//            public GDonClickListener(int position, QOrderInfo qOrderInfo, TextView button) {
+//                this.button = button;
+//                this.qOrderInfo = qOrderInfo;
+//                this.position = position;
+//            }
+//
+//            @Override
+//            public void onClick(View v) {
+//                try {
+//                    button.setEnabled(false);
+//                    button.setTextColor(Color.BLACK);
+//                    button.setText("等待");
+//                    qOrderInfo.setZhuantai(1);
+//                    iJieDanPresenter.RobBespeakOrder(position, getToken(), qOrderInfo.getOrderid());
+//                    list.remove(qOrderInfo);
+//                    myBaseAdapter.notifyDataSetChanged();
+//                } catch (Exception e) {
+//                    Toast.makeText(JieDangActivity.this, "信息有误!!!", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        }
 
         protected class ViewInfo {
             TextView tv_item_title;
@@ -820,8 +829,7 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
 
             //开始循环计时
             timer=new Timer();
-//            Log.e("JieDangActivity", "开始循环计时");
-            timer.schedule(task, 0, 5 * 60 * 1000);//从现在开始循环计时
+            timer.schedule(task, 0, 30 * 1000);//从现在开始循环计时
         }catch (Exception e){
 
         }
@@ -848,15 +856,9 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void ClearLists() {//清理所有数据
-
         if(list!=null) {
             list.clear();
         }
-
-//        if(list_GD!=null) {
-//            list_GD.clear();
-//        }
-
     }
 
     private void bindXGService() {

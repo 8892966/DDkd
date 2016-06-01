@@ -336,7 +336,7 @@ public class DingDanNewActivity extends BaseActivity implements View.OnClickList
                 if(addView1!=null){
                     int First=addView1.getFirstVisiblePosition();
                     int Last=addView1.getLastVisiblePosition();
-                    if(position<=First&&position>=Last){
+                    if(position>=First&&position<=Last){
                         View view=addView1.getChildAt(position-First);
                         if(view!=null){
                             DingDanAdapter.ZhuanTai zhuanTai = (DingDanAdapter.ZhuanTai) view.getTag();
@@ -350,7 +350,7 @@ public class DingDanNewActivity extends BaseActivity implements View.OnClickList
                 if(addView2!=null){
                     int First=addView2.getFirstVisiblePosition();
                     int Last=addView2.getLastVisiblePosition();
-                    if(position<=First&&position>=Last){
+                    if(position>=First&&position<=Last){
                         View view=addView2.getChildAt(position-First);
                         if(view!=null){
                             DingDanAdapter.ZhuanTai zhuanTai = (DingDanAdapter.ZhuanTai) view.getTag();
@@ -399,63 +399,7 @@ public class DingDanNewActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onChangeErrorResponse(int xuanzhe,int position) {
-//        switch (xuanzhe){
-//            case 3:
-//                if(addView1!=null){
-//                    int First=addView1.getFirstVisiblePosition();
-//                    int Last=addView1.getLastVisiblePosition();
-//                    if(position<=First&&position>=Last){
-//                        View view=addView1.getChildAt(position-First);
-//                        if(view!=null){
-//                            DingDanAdapter.ZhuanTai zhuanTai = (DingDanAdapter.ZhuanTai) view.getTag();
-//                            zhuanTai.button.setEnabled(true);
-//                            zhuanTai.pb_button.setVisibility(View.GONE);
-//                        }
-//                    }
-//                }
-//                break;
-//            case 2:
-//                if(addView2!=null){
-//                    int First=addView2.getFirstVisiblePosition();
-//                    int Last=addView2.getLastVisiblePosition();
-//                    if(position<=First&&position>=Last){
-//                        View view=addView2.getChildAt(position-First);
-//                        if(view!=null){
-//                            DingDanAdapter.ZhuanTai zhuanTai = (DingDanAdapter.ZhuanTai) view.getTag();
-//                            zhuanTai.button.setEnabled(true);
-//                            zhuanTai.pb_button.setVisibility(View.GONE);
-//                        }
-//                    }
-//                }
-//                break;
-//        }
         Toast.makeText(this,"网络连接中断...",Toast.LENGTH_SHORT).show();
-//        switch (xuanzhe){
-//            case 1:
-//                TextView textView1 = (TextView) addView1.getEmptyView();
-//                textView1.setText("网络连接中断...");
-//                list1.clear();
-//                myAdapter1.notifyDataSetChanged();
-//                break;
-//            case 2:
-//                TextView textView2 = (TextView) addView2.getEmptyView();
-//                textView2.setText("网络连接中断...");
-//                list2.clear();
-//                myAdapter2.notifyDataSetChanged();
-//                break;
-//            case 3:
-//                TextView textView3 = (TextView) addView3.getEmptyView();
-//                textView3.setText("网络连接中断...");
-//                list3.clear();
-//                myAdapter3.notifyDataSetChanged();
-//                break;
-//            case 4:
-//                TextView textView4 = (TextView) addView4.getEmptyView();
-//                textView4.setText("网络连接中断...");
-//                list4.clear();
-//                myAdapter4.notifyDataSetChanged();
-//                break;
-//        }
     }
 
     @Override
@@ -484,7 +428,7 @@ public class DingDanNewActivity extends BaseActivity implements View.OnClickList
                 if(addView1!=null){
                     int First=addView1.getFirstVisiblePosition();
                     int Last=addView1.getLastVisiblePosition();
-                    if(position<=First&&position>=Last){
+                    if(position>=First&&position<=Last){
                         View view=addView1.getChildAt(position-First);
                         if(view!=null){
                             DingDanAdapter.ZhuanTai zhuanTai = (DingDanAdapter.ZhuanTai) view.getTag();
@@ -498,7 +442,7 @@ public class DingDanNewActivity extends BaseActivity implements View.OnClickList
                 if(addView2!=null){
                     int First=addView2.getFirstVisiblePosition();
                     int Last=addView2.getLastVisiblePosition();
-                    if(position<=First&&position>=Last){
+                    if(position>=First&&position<=Last){
                         View view=addView2.getChildAt(position-First);
                         if(view!=null){
                             DingDanAdapter.ZhuanTai zhuanTai = (DingDanAdapter.ZhuanTai) view.getTag();

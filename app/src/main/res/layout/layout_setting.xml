@@ -124,6 +124,43 @@
             android:layout_height="1dip"/>
         <RelativeLayout
             android:background="@drawable/clickview"
+            android:id="@+id/ChangeMax"
+            android:layout_marginLeft="10dip"
+            android:padding="5dip"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_width="match_parent"
+            android:layout_height="40dip">
+            <TextView
+                android:layout_centerVertical="true"
+                android:textSize="20sp"
+                android:text="今日最大接单量"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/toright_c"
+                android:layout_marginRight="10dip"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/toright"
+                android:layout_width="25dip"
+                android:layout_height="25dip" />
+            <TextView
+                android:layout_toLeftOf="@id/toright_c"
+                android:layout_centerVertical="true"
+                android:id="@+id/Maxnum"
+                android:text="0"
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+        <View
+            android:background="#cccccc"
+            android:layout_width="match_parent"
+            android:layout_height="1dip"/>
+        <RelativeLayout
+            android:background="@drawable/clickview"
             android:layout_marginLeft="10dip"
             android:padding="5dip"
             android:clickable="true"

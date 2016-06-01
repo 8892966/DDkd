@@ -66,6 +66,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Activity_ChangeMax"/>
+        <activity
+            android:name=".JieDangActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:theme="@style/ImageTranslucentTheme" />
         <activity
             android:name=".ZhuCeActivity"
             android:label="@string/app_name"
@@ -95,11 +101,7 @@
             android:name=".MainActivity_balance"
             android:label="@string/app_name"
             android:theme="@style/ImageTranslucentTheme" />
-        <activity
-            android:name=".JieDangActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleTask"
-            android:theme="@style/ImageTranslucentTheme" />
+
         <activity
             android:name=".MainActivity_forget"
             android:label="@string/app_name"

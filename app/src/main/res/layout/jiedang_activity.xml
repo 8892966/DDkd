@@ -10,17 +10,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.example.user.ddkd.utils.SlidingUtil
-            android:id="@+id/it_menu"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <!--<com.example.user.ddkd.utils.SlidingUtil-->
+            <!--android:id="@+id/it_menu"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <include layout="@layout/layout_userinfo"/>
+                <!--<include layout="@layout/layout_userinfo"/>-->
                 <RelativeLayout
                     android:background="@color/backgrod"
                     android:layout_width="match_parent"
@@ -232,23 +232,39 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/but_jiedang"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
+                    <RelativeLayout
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="35dp"
-                        android:background="@drawable/kaiguan"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:gravity="center" />
+                        android:id="@+id/status"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/but_jiedang"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:background="@drawable/kaiguan"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:layout_centerInParent="true" />
+                        <CheckBox
+                            android:layout_marginLeft="20dip"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@+id/but_jiedang"
+                            android:id="@+id/become"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:button="@drawable/ddkd_btn_check"
+                            android:text="指定镖师？"
+                            android:textColor="#ff8903"
+                            android:textSize="15sp" />
+                    </RelativeLayout>
 
                     <ListView
                         android:id="@+id/lv_jiedang"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_above="@id/but_jiedang"
+                        android:layout_above="@id/status"
                         android:layout_below="@id/ll_jiedang"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
@@ -259,7 +275,7 @@
                         android:id="@+id/tv_jiedang"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_above="@id/but_jiedang"
+                        android:layout_above="@id/status"
                         android:layout_below="@id/ll_jiedang"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
@@ -268,6 +284,6 @@
                         android:text="听单中，请耐心等候"></TextView>
                 </RelativeLayout>
             </LinearLayout>
-        </com.example.user.ddkd.utils.SlidingUtil>
+        <!--</com.example.user.ddkd.utils.SlidingUtil>-->
     </LinearLayout>
 </RelativeLayout>

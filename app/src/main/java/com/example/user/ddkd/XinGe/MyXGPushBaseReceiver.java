@@ -14,6 +14,10 @@ import com.tencent.android.tpush.XGPushTextMessage;
 /**
  * Created by User on 2016-04-09.
  */
+
+/**
+ * XGPushBaseReceiver提供透传消息的接收和操作结果的反馈
+ */
 public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
 
     @Override
@@ -37,6 +41,11 @@ public class MyXGPushBaseReceiver extends XGPushBaseReceiver {
 //删除标签结果
     }
 
+    /**
+     * 获取信鸽推送过来的消息
+     * @param context
+     * @param xgPushTextMessage
+     */
     @Override
     public void onTextMessage(Context context, XGPushTextMessage xgPushTextMessage) {
         Intent intent=new Intent(context, XGReceiverService.class);

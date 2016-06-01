@@ -11,6 +11,9 @@ import com.tencent.android.tpush.XGPushManager;
  */
 public class XGPushUtils {
     public static void StartXGPush( final Context context, final XGPushListener xgPushListener) {
+        /**
+         * 启动并注册APP，这里拿到的XGtoken是唯一的
+         */
         XGPushManager.registerPush(context, new XGIOperateCallback() {
             @Override
             public void onSuccess(Object data, int flag) {
@@ -28,6 +31,9 @@ public class XGPushUtils {
         });
     }
     public static void StopXGPush(Context context){
+        /**
+         * 反注册信鸽，不再接收来自信鸽推送的内容
+         */
         XGPushManager.unregisterPush(context);
         SharedPreferences preferences = context.getSharedPreferences("config", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = preferences.edit();

@@ -884,6 +884,9 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
         XGPushUtils.StopXGPush(getApplicationContext());
     }
 
+    /**
+     * 开始听单，接收来自信鸽发送过来的内容；
+     */
     private void StartXGPush(){
         Log.e("JieDangActivity","听单");
         XGPushUtils.StartXGPush(getApplicationContext(), new XGPushUtils.XGPushListener() {

@@ -58,10 +58,13 @@ public class XGReceiverService extends IntentService {
         String Title = intent.getExtras().getString("Title");
         preferences=getSharedPreferences("config", Context.MODE_PRIVATE);
         if(Content!=null&&Title!=null) {
-//            try {
+            try {
                 QOrderDao qOrderDao = new QOrderDao(getApplicationContext());
                 gson = new Gson();
                 QOrderInfo info = gson.fromJson(Content, QOrderInfo.class);
+                /**
+                 * ROBRES为抢单的结果
+                 */
                 if (Title.equals("ROBRES")) {
                     gson = new Gson();
                     Robres robres = gson.fromJson(Content, Robres.class);
@@ -96,16 +99,22 @@ public class XGReceiverService extends IntentService {
                     }
                     qOrderDao.delete(robres.getOrderid());
                 } else if (Title.equals("USERCANCEL")) {
+                    /**
+                     * USERCANCEL为用户取消的订单
+                     */
                     int i = Content.indexOf("[");
                     int ii = Content.indexOf("]");
                     String id = Content.substring(i + 1, ii);
                     if (preferences.getBoolean("isjieDangActivityrunn", false)) {
                         if(ijd!=null) {
-                            ijd.Delete(info);
+                            ijd.Delete(info);//info为订单的信息
                         }
                     }
                     qOrderDao.delete(id);
                 } else {
+                    /**
+                     * 除了抢单结果和用户取消的订单，剩下的就是可强订单的信息
+                     */
                     preferences = getSharedPreferences("config", Context.MODE_PRIVATE);
                     if (preferences.getBoolean("isjieDangActivityrunn", false)) {
                         if(ijd!=null) {
@@ -128,9 +137,9 @@ public class XGReceiverService extends IntentService {
                     }
                     qOrderDao.insert(info.getOrderid(), System.currentTimeMillis() + "", Content);
                 }
-//            } catch (Exception e) {
-//                Toast.makeText(getApplicationContext(), "信息有误!!!", Toast.LENGTH_SHORT).show();
-//            }
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(), "信息有误!!!", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

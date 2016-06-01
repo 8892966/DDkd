@@ -255,7 +255,7 @@ public class MainActivity_getmoney extends BaseActivity implements View.OnClickL
     //*****************************获取用户的当前余额****************************
     public void Volley_Get() {
         final SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
-        String token = sharedPreferences.getString("token", null);
+        String token = sharedPreferences.getString("token", "");
         String url = MyApplication.url+"Turnover/center/token/" + token;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new MyStringRequest() {
             @Override

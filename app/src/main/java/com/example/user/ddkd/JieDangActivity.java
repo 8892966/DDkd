@@ -1,6 +1,8 @@
 package com.example.user.ddkd;
 
+import android.app.AlertDialog;
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
@@ -18,12 +20,18 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.example.user.ddkd.Dao.QOrderDao;
 import com.example.user.ddkd.Presenter.IJieDanPresenter;
 import com.example.user.ddkd.Presenter.JieDanPresenterImpl;
@@ -31,8 +39,12 @@ import com.example.user.ddkd.View.IJieDanView;
 import com.example.user.ddkd.beam.MainMsgInfo;
 import com.example.user.ddkd.beam.QOrderInfo;
 import com.example.user.ddkd.service.XGReceiverService;
+import com.example.user.ddkd.utils.AutologonUtil;
+import com.example.user.ddkd.utils.Exit;
+import com.example.user.ddkd.utils.MyStringRequest;
 import com.example.user.ddkd.utils.SlidingUtil;
 import com.example.user.ddkd.utils.UserInfoUtils;
+import com.example.user.ddkd.utils.WiteUtils;
 import com.example.user.ddkd.utils.XGPushUtils;
 import com.google.gson.Gson;
 
@@ -45,6 +57,9 @@ import java.util.TimerTask;
 public class JieDangActivity extends BaseActivity implements View.OnClickListener, IJieDanView {
     private TextView textView;
     private ListView listView;
+    private CheckBox become;
+    private EditText number;
+    private WiteUtils witeUtils;
     //DD指南的按钮
     private LinearLayout ll_ddzhinang;
     //奖励活动的按钮
@@ -108,6 +123,24 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
             }else{
 //                Log.e("JieDangActivity","访问了一次");
                 iJieDanPresenter.getBespeakOrder(getToken());
+            }
+        }
+    };
+    Handler handle_Max=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case MyApplication.GET_TOKEN_SUCCESS:
+                    int numb= (int) msg.obj;
+                    Log.i("numb_Max",String.valueOf(numb));
+                    Volley_Max_Get(numb);
+                    break;
+                case MyApplication.GET_TOKEN_ERROR:
+
+                    break;
+                default:
+                    break;
             }
         }
     };
@@ -186,8 +219,19 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
         setContentView(R.layout.jiedang_activity);
         iJieDanPresenter = new JieDanPresenterImpl(this);
         qOrderDao = new QOrderDao(getApplicationContext());
-        slidingUtil = (SlidingUtil) findViewById(R.id.it_menu);
-        userInfoUtils=new UserInfoUtils(slidingUtil,JieDangActivity.this);
+
+        /**
+         *实现个人主页的侧滑
+         */
+//        slidingUtil = (SlidingUtil) findViewById(R.id.it_menu);
+//        userInfoUtils=new UserInfoUtils(slidingUtil,JieDangActivity.this);
+
+        /**
+         * 是否成为指定镖师
+         */
+        become= (CheckBox) findViewById(R.id.become);
+        become.setOnClickListener(this);
+        witeUtils=new WiteUtils(JieDangActivity.this);
 
         initSound();//初始化声音数据
         list = new ArrayList<QOrderInfo>();
@@ -283,10 +327,89 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
                 case R.id.personinfo://进入用户信息界面
                     slidingUtil.changeMenu();
                     break;
+                case R.id.become:
+                    if(become.isChecked()){
+                        number=new EditText(JieDangActivity.this);
+                        AlertDialog become2 = new AlertDialog.Builder(this).create();
+                        // 设置对话框标题
+                        become2.setTitle("请输入您今日可以接收的最大单量");
+                        // 设置对话框消息
+                        become2.setView(number);
+                        // 添加选择按钮并注册监听
+                        become2.setButton("确定", listener);
+                        become2.setButton2("取消", listener);
+                        become2.setCancelable(false);
+                        // 显示对话框
+                        become2.show();
+                    }
+                    break;
+                default:
+                    break;
+
             }
         } catch (Exception e) {
             Toast.makeText(JieDangActivity.this, "信息有误!!!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which) {
+                case AlertDialog.BUTTON_POSITIVE:// "确认"按钮退出程序
+                    String sum=number.getText().toString();
+                    if (!"".equals(sum)&&Integer.valueOf(sum)>0){
+                            Volley_Max_Get(Integer.valueOf(sum));
+                            Toast.makeText(JieDangActivity.this, "你输入了" + sum, Toast.LENGTH_SHORT).show();
+                            witeUtils.showProgressDialog();
+                    }else{
+                        Toast.makeText(JieDangActivity.this, "您输入的单量有误", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case AlertDialog.BUTTON_NEGATIVE:// "取消"第二个按钮取消对话框
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
+    private void Volley_Max_Get(final int amount){
+        preferences=getSharedPreferences("config",MODE_PRIVATE);
+        String token=preferences.getString("token","");
+        String url="http://www.louxiago.com/wc/ddkdtest/admin.php/Order/setOrderAmount/amount/"+amount+"/token/"+token;
+        StringRequest stringRequest=new StringRequest(Request.Method.GET, url, new MyStringRequest() {
+            @Override
+            public void success(Object o) {
+                String s= (String) o;
+                if ("SUCCESS".equals(s)){
+                    witeUtils.closeProgressDialog();
+                    new AlertDialog.Builder(JieDangActivity.this).setTitle("提交成功").setMessage("你已成为指定镖师").show();
+                }else{
+                    witeUtils.closeProgressDialog();
+                    Toast.makeText(JieDangActivity.this, "提交失败，请重试", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void tokenouttime() {
+                Log.i("token outtime","Volley_Max_Get");
+                AutologonUtil autologonUtil=new AutologonUtil(JieDangActivity.this,handle_Max,amount);
+                autologonUtil.volley_Get_TOKEN();
+            }
+
+            @Override
+            public void yidiensdfsdf() {
+                Exit.exit(JieDangActivity.this);
+                Toast.makeText(JieDangActivity.this, "您的账户已在异地登录", Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(JieDangActivity.this, "网络连接中断", Toast.LENGTH_SHORT).show();
+            }
+        });
+        stringRequest.setTag("Volley_Max_Get");
+        MyApplication.getQueue().add(stringRequest);
     }
 
     @Override
@@ -312,6 +435,7 @@ public class JieDangActivity extends BaseActivity implements View.OnClickListene
     protected void onDestroy() {
         super.onDestroy();
         Clean();
+        MyApplication.getQueue().cancelAll("Volley_Max_Get");
         MyApplication.getQueue().cancelAll("volley_QDGD_GET");
         MyApplication.getQueue().cancelAll("volley_GDMSG_GET_UTILS");
         MyApplication.getQueue().cancelAll("volley_QD_GET");

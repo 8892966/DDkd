@@ -140,8 +140,8 @@ public class NewJieDangActivity extends BaseActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.jiedang_activity);
         iJieDanPresenter = new JieDanPresenterImpl(this);
-        slidingUtil = (SlidingUtil) findViewById(R.id.it_menu);
-        userInfoUtils = new UserInfoUtils(slidingUtil, NewJieDangActivity.this);
+//        slidingUtil = (SlidingUtil) findViewById(R.id.it_menu);
+//        userInfoUtils = new UserInfoUtils(slidingUtil, NewJieDangActivity.this);
         initSound();//初始化声音数据
         list = new ArrayList<QOrderInfo>();
         list_GD = new ArrayList<QOrderInfo>();

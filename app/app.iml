@@ -65,12 +65,10 @@
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/jni" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/rs" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/assets" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/bundles" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/classes" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/coverage-instrumented-classes" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/debug" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dependency-cache" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dex" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dex-cache" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/23.2.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/design/23.1.1/jars" />
@@ -78,61 +76,56 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/23.2.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jacoco" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/javaResources" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/libs" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/lint" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/manifests" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/ndk" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/pre-dexed" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/proguard" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/res" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/rs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="gson-2.2.4" level="project" />
-    <orderEntry type="library" exported="" name="MobCommons-2016.0426.1819" level="project" />
-    <orderEntry type="library" exported="" name="ShareSDK-Wechat-2.7.2" level="project" />
-    <orderEntry type="library" exported="" name="commons-beanutils-1.8.3" level="project" />
-    <orderEntry type="library" exported="" name="mta-android-stat-sdk-2.1.0_20160111" level="project" />
-    <orderEntry type="library" exported="" name="picasso-2.5.2" level="project" />
-    <orderEntry type="library" exported="" name="nineoldandroids-2.4.0" level="project" />
+    <orderEntry type="library" exported="" name="support-v4-23.2.1" level="project" />
     <orderEntry type="library" exported="" name="android-support-v4" level="project" />
-    <orderEntry type="library" exported="" name="volley" level="project" />
-    <orderEntry type="library" exported="" name="MobTools-2016.0426.1819" level="project" />
-    <orderEntry type="library" exported="" name="libammsdk" level="project" />
+    <orderEntry type="library" exported="" name="ShareSDK-QZone-2.7.2" level="project" />
+    <orderEntry type="library" exported="" name="design-23.1.1" level="project" />
+    <orderEntry type="library" exported="" name="ShareSDK-Wechat-Favorite-2.7.2" level="project" />
+    <orderEntry type="library" exported="" name="httpclient-cache-4.3.1" level="project" />
+    <orderEntry type="library" exported="" name="nineoldandroids-2.4.0" level="project" />
+    <orderEntry type="library" exported="" name="picasso-2.5.2" level="project" />
+    <orderEntry type="library" exported="" name="jg_filter_sdk_1.1" level="project" />
+    <orderEntry type="library" exported="" name="animated-vector-drawable-23.2.1" level="project" />
+    <orderEntry type="library" exported="" name="wup-1.0.0.E-SNAPSHOT" level="project" />
+    <orderEntry type="library" exported="" name="httpclient-4.3.1" level="project" />
+    <orderEntry type="library" exported="" name="ShareSDK-Core-2.7.2" level="project" />
+    <orderEntry type="library" exported="" name="afinal_0.5_bin" level="project" />
+    <orderEntry type="library" exported="" name="support-annotations-23.2.1" level="project" />
+    <orderEntry type="library" exported="" name="mta-android-stat-sdk-2.1.0_20160111" level="project" />
+    <orderEntry type="library" exported="" name="support-vector-drawable-23.2.1" level="project" />
+    <orderEntry type="library" exported="" name="appcompat-v7-23.2.1" level="project" />
+    <orderEntry type="library" exported="" name="ShareSDK-QQ-2.7.2" level="project" />
+    <orderEntry type="library" exported="" name="gson-2.2.4" level="project" />
+    <orderEntry type="library" exported="" name="commons-beanutils-1.8.3" level="project" />
     <orderEntry type="library" exported="" name="httpcore-4.3" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-SinaWeibo-2.7.2" level="project" />
-    <orderEntry type="library" exported="" name="xUtils-2.6.11" level="project" />
-    <orderEntry type="library" exported="" name="recyclerview-v7-23.1.1" level="project" />
-    <orderEntry type="library" exported="" name="commons-codec" level="project" />
-    <orderEntry type="library" exported="" name="support-v4-23.2.1" level="project" />
-    <orderEntry type="library" exported="" name="afinal_0.5_bin" level="project" />
-    <orderEntry type="library" exported="" name="ShareSDK-Wechat-Core-2.7.2" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-TencentWeibo-2.7.2" level="project" />
-    <orderEntry type="library" exported="" name="httpclient-4.3.1" level="project" />
-    <orderEntry type="library" exported="" name="wup-1.0.0.E-SNAPSHOT" level="project" />
-    <orderEntry type="library" exported="" name="support-annotations-23.2.1" level="project" />
-    <orderEntry type="library" exported="" name="animated-vector-drawable-23.2.1" level="project" />
-    <orderEntry type="library" exported="" name="support-vector-drawable-23.2.1" level="project" />
-    <orderEntry type="library" exported="" name="httpclient-cache-4.3.1" level="project" />
-    <orderEntry type="library" exported="" name="ShareSDK-QZone-2.7.2" level="project" />
-    <orderEntry type="library" exported="" name="appcompat-v7-23.2.1" level="project" />
-    <orderEntry type="library" exported="" name="httpmime-4.3.1" level="project" />
-    <orderEntry type="library" exported="" name="ShareSDK-Wechat-Moments-2.7.2" level="project" />
-    <orderEntry type="library" exported="" name="ShareSDK-QQ-2.7.2" level="project" />
-    <orderEntry type="library" exported="" name="jg_filter_sdk_1.1" level="project" />
-    <orderEntry type="library" exported="" name="design-23.1.1" level="project" />
+    <orderEntry type="library" exported="" name="recyclerview-v7-23.1.1" level="project" />
     <orderEntry type="library" exported="" name="QuickIntegrater" level="project" />
-    <orderEntry type="library" exported="" name="Baidu_Mtj_3.7.3.1" level="project" />
-    <orderEntry type="library" exported="" name="ShareSDK-Wechat-Favorite-2.7.2" level="project" />
-    <orderEntry type="library" exported="" name="Xg_sdk_v2.43_20160308_1031" level="project" />
-    <orderEntry type="library" exported="" name="ShareSDK-Core-2.7.2" level="project" />
+    <orderEntry type="library" exported="" name="MobTools-2016.0426.1819" level="project" />
+    <orderEntry type="library" exported="" name="ShareSDK-Wechat-Core-2.7.2" level="project" />
+    <orderEntry type="library" exported="" name="libammsdk" level="project" />
     <orderEntry type="library" exported="" name="mid-mid-sdk-2.3" level="project" />
+    <orderEntry type="library" exported="" name="httpmime-4.3.1" level="project" />
+    <orderEntry type="library" exported="" name="Baidu_Mtj_3.7.3.1" level="project" />
+    <orderEntry type="library" exported="" name="MobCommons-2016.0426.1819" level="project" />
+    <orderEntry type="library" exported="" name="commons-codec" level="project" />
+    <orderEntry type="library" exported="" name="xUtils-2.6.11" level="project" />
+    <orderEntry type="library" exported="" name="volley" level="project" />
+    <orderEntry type="library" exported="" name="ShareSDK-Wechat-2.7.2" level="project" />
+    <orderEntry type="library" exported="" name="Xg_sdk_v2.43_20160308_1031" level="project" />
+    <orderEntry type="library" exported="" name="ShareSDK-Wechat-Moments-2.7.2" level="project" />
     <orderEntry type="module" module-name="autolayout" exported="" />
   </component>
 </module>
